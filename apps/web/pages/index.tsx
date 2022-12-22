@@ -1,10 +1,10 @@
-import { Button } from "@proficient/react-sdk";
+import { InteractionView } from "@proficient/react-sdk";
 
 export default function Web() {
   return (
     <div>
       <h1>Web</h1>
-      <Button />
+      <InteractionView apiKey="abc" userId="user123" />
     </div>
   );
 }
