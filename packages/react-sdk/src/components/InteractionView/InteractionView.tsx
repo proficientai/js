@@ -5,8 +5,9 @@ import type { InteractionViewProps } from "./types";
 
 type Message = {
   id: string;
-  content: string;
   createdAt: Date;
+  fromAgent?: boolean;
+  content: string;
 };
 
 export function InteractionView({
@@ -32,26 +33,39 @@ export function InteractionView({
       return clone;
     });
     textAreaRef.current.value = "";
+
+    setTimeout(() => {
+      setMessages((prev) => {
+        const clone = [...prev];
+        clone.unshift({
+          id: Date.now().toString(),
+          createdAt: new Date(),
+          fromAgent: true,
+          content: "I am a very smart AI assistant.",
+        });
+        return clone;
+      });
+    }, 1_000);
   }, []);
 
   useKeyboardEnterEvent(handleSendMessage);
 
   return (
     <div style={{ border: "1px solid gray" }}>
-      <div style={{ overflow: "scroll", maxHeight: 400, padding: 20, backgroundColor: 'pink' }}>
+      <div style={{ overflow: "scroll", maxHeight: 400, padding: 20 }}>
         {messages
           .map((message) => {
             return (
               <div
                 key={message.id}
                 style={{
-                  marginLeft: 'auto',
+                  marginLeft: message.fromAgent ? 0 : "auto",
                   padding: 10,
                   border: "1px solid rgb(235, 235, 235)",
                   backgroundColor: "rgb(250, 250, 250)",
                   borderRadius: 10,
                   marginBottom: 10,
-                  width: 'fit-content',
+                  width: "fit-content",
                   maxWidth: "75ch",
                 }}
               >
