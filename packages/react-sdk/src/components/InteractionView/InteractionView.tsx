@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useKeyboardEnterEvent } from "../../hooks";
 
 import type { InteractionViewProps } from "./types";
 
@@ -14,12 +15,12 @@ export function InteractionView({
   inputPlaceholder = "Type something...",
   contentMaxLength = 500,
 }: InteractionViewProps) {
-  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
   const [messages, setMessages] = React.useState<Message[]>([]);
 
-  const handleSendMessage = React.useCallback(() => {
-    if (!inputRef.current) return;
-    const content = inputRef.current.value;
+  const handleSendMessage = React.useCallback(async () => {
+    if (!textAreaRef.current) return;
+    const content = textAreaRef.current.value;
     if (!content) return;
     setMessages((prev) => {
       const clone = [...prev];
@@ -30,24 +31,28 @@ export function InteractionView({
       });
       return clone;
     });
-    inputRef.current.value = "";
+    textAreaRef.current.value = "";
   }, []);
+
+  useKeyboardEnterEvent(handleSendMessage);
 
   return (
     <div style={{ border: "1px solid gray" }}>
-      <div style={{ overflow: "scroll", maxHeight: 400, padding: 20 }}>
+      <div style={{ overflow: "scroll", maxHeight: 400, padding: 20, backgroundColor: 'pink' }}>
         {messages
           .map((message) => {
             return (
               <div
                 key={message.id}
                 style={{
+                  marginLeft: 'auto',
                   padding: 10,
                   border: "1px solid rgb(235, 235, 235)",
                   backgroundColor: "rgb(250, 250, 250)",
                   borderRadius: 10,
                   marginBottom: 10,
-                  maxWidth: "fit-content",
+                  width: 'fit-content',
+                  maxWidth: "75ch",
                 }}
               >
                 {message.content}
@@ -66,9 +71,8 @@ export function InteractionView({
           backgroundColor: "transparent",
         }}
       >
-        <input
-          ref={inputRef}
-          type="text"
+        <textarea
+          ref={textAreaRef}
           placeholder={inputPlaceholder}
           maxLength={contentMaxLength}
           style={{ width: "100%" }}
