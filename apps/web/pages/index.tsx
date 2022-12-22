@@ -1,4 +1,4 @@
-import { Button } from "ui";
+import { Button } from "@proficient/react-sdk";
 
 export default function Web() {
   return (
