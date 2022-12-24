@@ -25,6 +25,7 @@
     "@proficient/util": "^0.2.2",
     "lorem-ipsum": "^2.0.8",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-textarea-autosize": "^8.4.0",
     "uuid": "^9.0.0"
   }
 }

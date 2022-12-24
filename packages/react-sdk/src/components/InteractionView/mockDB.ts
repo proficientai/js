@@ -45,6 +45,7 @@ class MockDB {
   public async getMessages(count: number, startAfter?: string) {
     const history = await this.historyPromise;
     let startingMessageIndex = history.length - 1;
+
     if (startAfter) {
       const idx = history.findIndex((m) => m.id === startAfter);
       if (idx === -1) {
@@ -54,12 +55,15 @@ class MockDB {
     }
     const messages: Message[] = [];
 
-    for (let i = startingMessageIndex; i >= 0 && messages.length < count; i--) {
+    let i = startingMessageIndex;
+    for (; i >= 0 && messages.length < count; i--) {
       const message = history[i]!;
       messages.push(message);
     }
 
-    return messages;
+    await sleep(3_000);
+
+    return { messages, hasMore: i > 0 };
   }
 
   public async sendMessage(content: string) {
