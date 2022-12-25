@@ -1,4 +1,4 @@
-import { InteractionView } from "@proficient/react-sdk";
+import { InteractionView } from '@proficient/react-sdk';
 
 export default function Docs() {
   return (

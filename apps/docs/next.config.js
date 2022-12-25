@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
   experimental: {
-    transpilePackages: ["@proficient/react-sdk"],
+    transpilePackages: ['@proficient/react-sdk'],
   },
 };

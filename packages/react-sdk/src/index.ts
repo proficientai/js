@@ -1,1 +1,1 @@
-export { InteractionView } from "./components/InteractionView";
+export { InteractionView } from './components/InteractionView';

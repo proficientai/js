@@ -1,27 +1,25 @@
-import * as React from "react";
-import { useKeyboardEnterEvent } from "../../hooks";
-import InfiniteScroll from "react-infinite-scroll-component";
-import TextareaAutosize from "react-textarea-autosize";
-import type { Message } from "../../types";
-import { db } from "./mockDB";
-import type { InteractionViewProps } from "./types";
+import * as React from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import TextareaAutosize from 'react-textarea-autosize';
+
+import { useKeyboardEnterEvent } from '../../hooks';
+import type { Message } from '../../types';
+import { db } from './mockDB';
+import type { InteractionViewProps } from './types';
 
 export function InteractionView({
   apiKey,
   userId,
-  inputPlaceholder = "Type something...",
+  inputPlaceholder = 'Type something...',
   contentMaxLength = 500,
 }: InteractionViewProps) {
   const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
   const oldestMessageId = React.useRef<string | undefined>(undefined);
-  const [messageMap, setMessageMap] = React.useState<Record<string, Message>>(
-    {}
-  );
+  const [messageMap, setMessageMap] = React.useState<Record<string, Message>>({});
   const [hasMore, setHasMore] = React.useState(true);
 
   const loadNextBatch = React.useCallback(async () => {
-    const { messages: receivedMessages, hasMore: hasMoreNext } =
-      await db.getMessages(20, oldestMessageId.current);
+    const { messages: receivedMessages, hasMore: hasMoreNext } = await db.getMessages(20, oldestMessageId.current);
     setMessageMap((prev) => {
       const next = { ...prev };
       receivedMessages.forEach((m) => {
@@ -33,10 +31,7 @@ export function InteractionView({
       return next;
     });
     setHasMore(hasMoreNext);
-    const oldestMessage =
-      receivedMessages.length > 0
-        ? receivedMessages[receivedMessages.length - 1]
-        : undefined;
+    const oldestMessage = receivedMessages.length > 0 ? receivedMessages[receivedMessages.length - 1] : undefined;
     oldestMessageId.current = oldestMessage?.id;
   }, []);
 
@@ -50,7 +45,7 @@ export function InteractionView({
     if (!content) return;
     const { sentMessage, replyPromise } = await db.sendMessage(content);
     setMessageMap((prev) => ({ ...prev, [sentMessage.id]: sentMessage }));
-    textAreaRef.current.value = "";
+    textAreaRef.current.value = '';
     const reply = await replyPromise;
     setMessageMap((prev) => ({ ...prev, [reply.id]: reply }));
   }, []);
@@ -68,45 +63,37 @@ export function InteractionView({
   })();
 
   return (
-    <div style={{ border: "1px solid gray" }}>
+    <div style={{ border: '1px solid gray' }}>
       <InfiniteScroll
         dataLength={messages.length}
         next={loadNextBatch}
         style={{
-          display: "flex",
-          flexDirection: "column-reverse",
+          display: 'flex',
+          flexDirection: 'column-reverse',
           paddingLeft: 20,
           paddingRight: 20,
         }}
         inverse
         hasMore={hasMore}
         height={400}
-        loader={<p style={{ textAlign: "center" }}>Loading...</p>}
-        endMessage={
-          <p style={{ textAlign: "center" }}>
-            This marks the beginning of the interaction.
-          </p>
-        }
-      >
+        loader={<p style={{ textAlign: 'center' }}>Loading...</p>}
+        endMessage={<p style={{ textAlign: 'center' }}>This marks the beginning of the interaction.</p>}>
         {messages.map((message) => {
           return (
             <div
               key={message.id}
               style={{
-                marginLeft: message.fromAgent ? 0 : "auto",
+                marginLeft: message.fromAgent ? 0 : 'auto',
                 padding: 10,
-                border: "1px solid rgb(235, 235, 235)",
-                backgroundColor: message.fromAgent
-                  ? "rgb(250, 250, 250)"
-                  : "rgb(41, 87, 255)",
-                color: message.fromAgent ? "black" : "white",
+                border: '1px solid rgb(235, 235, 235)',
+                backgroundColor: message.fromAgent ? 'rgb(250, 250, 250)' : 'rgb(41, 87, 255)',
+                color: message.fromAgent ? 'black' : 'white',
                 borderRadius: 10,
                 marginBottom: 10,
-                width: "fit-content",
-                maxWidth: "75ch",
-                whiteSpace: "pre-wrap",
-              }}
-            >
+                width: 'fit-content',
+                maxWidth: '75ch',
+                whiteSpace: 'pre-wrap',
+              }}>
               {message.content}
             </div>
           );
@@ -115,23 +102,22 @@ export function InteractionView({
 
       <div
         style={{
-          display: "flex",
-          alignItems: "center",
+          display: 'flex',
+          alignItems: 'center',
           paddingLeft: 20,
           paddingRight: 20,
           paddingTop: 10,
           paddingBottom: 10,
-          backgroundColor: "hsl(220, 30%, 80%)",
-        }}
-      >
+          backgroundColor: 'hsl(220, 30%, 80%)',
+        }}>
         <TextareaAutosize
           ref={textAreaRef}
           maxLength={contentMaxLength}
           placeholder={inputPlaceholder}
           style={{
-            width: "100%",
-            overflowY: "hidden",
-            resize: "none",
+            width: '100%',
+            overflowY: 'hidden',
+            resize: 'none',
             marginBottom: 0,
           }}
           minRows={3}

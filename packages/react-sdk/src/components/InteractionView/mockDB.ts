@@ -1,7 +1,8 @@
-import type { Message } from "../../types";
-import { LoremIpsum } from "lorem-ipsum";
-import { v4 as uuid } from "uuid";
-import { sleep } from "@proficient/util";
+import { sleep } from '@proficient/util';
+import { LoremIpsum } from 'lorem-ipsum';
+import { v4 as uuid } from 'uuid';
+
+import type { Message } from '../../types';
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -29,7 +30,7 @@ class MockDB {
     for (let i = 0; i < count; i++) {
       history[i] = {
         id: uuid(),
-        content: (i + 1).toString() + ": " + lorem.generateSentences(2),
+        content: (i + 1).toString() + ': ' + lorem.generateSentences(2),
         fromAgent: i % 2 === 0,
         createdAt: new Date(),
       };

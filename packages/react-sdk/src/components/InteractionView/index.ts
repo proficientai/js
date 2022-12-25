@@ -1,1 +1,1 @@
-export { InteractionView } from "./InteractionView";
+export { InteractionView } from './InteractionView';
