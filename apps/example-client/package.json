@@ -1,12 +1,13 @@
 {
-  "name": "docs",
+  "name": "example-client",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3001",
     "build": "next build",
-    "start": "next start",
-    "lint": "TIMING=1 eslint \"src/**/*.ts*\""
+    "clean": "rm -rf .turbo && rm -rf .next && rm -rf node_modules",
+    "dev": "next dev --port 3000",
+    "lint": "TIMING=1 eslint \"src/**/*.ts*\"",
+    "start": "next start"
   },
   "dependencies": {
     "@proficient/react-sdk": "*",
