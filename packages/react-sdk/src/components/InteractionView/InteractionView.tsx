@@ -1,3 +1,4 @@
+import type { Agent } from '@proficient/api';
 import axios from 'axios';
 import * as React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -34,18 +35,6 @@ export function InteractionView({
   React.useEffect(() => {
     (async () => {
       console.log(`Fetching Agent: ${agentId}`);
-      // TODO: Should import from api package
-      interface Agent {
-        [key: string]: any;
-
-        id: string;
-        object: 'agent';
-        active: boolean;
-        name: string | null;
-        description: string;
-        created_at: number;
-        updated_at: number;
-      }
       try {
         const { data: agent } = await axiosInstance.get<Agent>(`/agents/${agentId}`);
         console.log('SUCCESS:', agent);
