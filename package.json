@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "turbo run build",
+    "compile:example-client": "turbo run compile --filter=example-client",
     "dev": "turbo run dev --parallel",
     "dev:example-client": "turbo run dev --filter=example-client",
     "lint": "turbo run lint",

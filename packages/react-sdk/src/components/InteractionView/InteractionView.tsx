@@ -1,3 +1,4 @@
+import axios from 'axios';
 import * as React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -9,7 +10,9 @@ import type { InteractionViewProps } from './types';
 
 export function InteractionView({
   apiKey,
-  userId,
+  agentId,
+  userExternalId,
+  userHmac,
   inputPlaceholder = 'Type something...',
   contentMaxLength = 500,
 }: InteractionViewProps) {
@@ -17,6 +20,40 @@ export function InteractionView({
   const oldestMessageId = React.useRef<string | undefined>(undefined);
   const [messageMap, setMessageMap] = React.useState<Record<string, Message>>({});
   const [hasMore, setHasMore] = React.useState(true);
+
+  const axiosInstance = axios.create({
+    baseURL: 'http://localhost:8080/client', // TODO: Update
+    headers: {
+      'Content-Type': 'application/json',
+      'X-PROFICIENT-API-KEY': apiKey,
+      'X-PROFICIENT-USER-EXTERNAL-ID': userExternalId,
+      'X-PROFICIENT-USER-HMAC': userHmac,
+    },
+  });
+
+  React.useEffect(() => {
+    (async () => {
+      console.log(`Fetching Agent: ${agentId}`);
+      // TODO: Should import from api package
+      interface Agent {
+        [key: string]: any;
+
+        id: string;
+        object: 'agent';
+        active: boolean;
+        name: string | null;
+        description: string;
+        created_at: number;
+        updated_at: number;
+      }
+      try {
+        const { data: agent } = await axiosInstance.get<Agent>(`/agents/${agentId}`);
+        console.log('SUCCESS:', agent);
+      } catch (err: any) {
+        console.log('ERROR:', err?.response?.data);
+      }
+    })();
+  }, [axiosInstance, agentId]);
 
   const loadNextBatch = React.useCallback(async () => {
     const { messages: receivedMessages, hasMore: hasMoreNext } = await db.getMessages(20, oldestMessageId.current);

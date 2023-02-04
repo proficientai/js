@@ -5,6 +5,7 @@
   "scripts": {
     "build": "next build",
     "clean": "rm -rf .turbo && rm -rf .next && rm -rf node_modules",
+    "compile": "tsc -b",
     "dev": "next dev --port 3000",
     "lint": "TIMING=1 eslint \"src/**/*.ts*\"",
     "start": "next start"

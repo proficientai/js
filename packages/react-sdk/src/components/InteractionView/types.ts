@@ -1,6 +1,8 @@
 export interface InteractionViewProps {
   apiKey: string;
-  userId: string;
+  agentId: string;
+  userExternalId: string;
+  userHmac?: string;
   inputPlaceholder?: string;
   contentMaxLength?: number;
 }
