@@ -23,6 +23,8 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@changesets/cli": "^2.26.0"
+  },
   "packageManager": "npm@8.19.2"
 }
