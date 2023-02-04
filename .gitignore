@@ -33,3 +33,5 @@ yarn-error.log*
 .turbo
 
 tsconfig.tsbuildinfo
+
+dist
