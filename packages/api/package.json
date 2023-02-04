@@ -1,6 +1,6 @@
 {
   "name": "@proficient/api",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "main": "./dist/index.js",
   "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
