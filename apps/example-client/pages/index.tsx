@@ -4,8 +4,8 @@ import { useCallback, useEffect } from 'react';
 
 import type { ResponseBody } from './api/hmac';
 
-const proficientApiKey = 'pk_USjnILHKBxXeJtiJ5WtAquoRb4IXjQTz1ScvRWTV6XduKxQ4at0YYxRpY28Ce0Qug6fkhm5R';
-const agentId = 'ag_T2SW501k1RGk8ZUv2Kaz11Kh';
+const proficientApiKey = 'pk_XxB15Vucudjk72Z3EVqX8D6bj08WkWbHHQk7u1x4tibRdzFmWdkrdlDQTmAgXlOrisV4R1Vq';
+const agentId = 'ag_IweXPEZsmL2tK1Z1WiIfmZoF';
 const userExternalId = 'user123';
 
 const axiosInstance = axios.create({
