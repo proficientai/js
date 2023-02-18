@@ -5,7 +5,7 @@ import type { ResponseBody } from './api/hmac';
 
 const proficientApiKey = 'pk_7WLSTtyhR2owYkV1h9cbjEnINRBm5E3zGMtD3fJrZvC12mmOZlWnmN79I6OTx3QvNqiHKAfo';
 const agentId = 'ag_z9bj5zBhycdUUbXuHLwTQJjt';
-const userExternalId = 'user123';
+const userExternalId = 'gtLIK8ELsHTr0Fajg28Ud9eFpJJ3';
 
 const axiosInstance = axios.create({
   baseURL: '/api',
@@ -24,7 +24,6 @@ export default function ExampleClient() {
         userExternalId={userExternalId}
         userHmac={async () => {
           const { data: resBody } = await axiosInstance.post<ResponseBody>('/hmac', { userId: userExternalId });
-          console.log('Called hmac', Date.now());
           if (!resBody.success) throw new Error(resBody.error.message);
           return resBody.data.hmac;
         }}
