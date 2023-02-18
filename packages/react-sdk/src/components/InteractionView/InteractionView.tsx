@@ -21,30 +21,35 @@ export function InteractionView({
   const oldestMessageId = React.useRef<string | undefined>(undefined);
   const [messageMap, setMessageMap] = React.useState<Record<string, Message>>({});
   const [hasMore, setHasMore] = React.useState(true);
+  const cachedHmacRef = React.useRef<undefined | string>(undefined);
 
-  const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8080/client', // TODO: Update
-    headers: {
-      'Content-Type': 'application/json',
-      'X-PROFICIENT-API-KEY': apiKey,
-      'X-PROFICIENT-USER-EXTERNAL-ID': userExternalId,
-      'X-PROFICIENT-USER-HMAC': userHmac,
+  const getCachedHmac = React.useCallback(async () => {
+    if (!cachedHmacRef.current) {
+      cachedHmacRef.current = typeof userHmac === 'function' ? await userHmac() : userHmac;
+    }
+    return cachedHmacRef.current;
+  }, [userHmac]);
+
+  const getAxiosInstance = React.useCallback(
+    (hmac: string | undefined) => {
+      return axios.create({
+        baseURL: 'http://localhost:8080/client', // TODO: Update
+        headers: {
+          'Content-Type': 'application/json',
+          'X-PROFICIENT-API-KEY': apiKey,
+          'X-PROFICIENT-USER-EXTERNAL-ID': userExternalId,
+          'X-PROFICIENT-USER-HMAC': hmac,
+        },
+      });
     },
-  });
-
-  React.useEffect(() => {
-    (async () => {
-      console.log(`Fetching Agent: ${agentId}`);
-      try {
-        const { data: agent } = await axiosInstance.get<Agent>(`/agents/${agentId}`);
-        console.log('SUCCESS:', agent);
-      } catch (err: any) {
-        console.log('ERROR:', err?.response?.data);
-      }
-    })();
-  }, [axiosInstance, agentId]);
+    [apiKey, userExternalId]
+  );
 
   const loadNextBatch = React.useCallback(async () => {
+    const cachedHmac = await getCachedHmac();
+    const axiosInstance = getAxiosInstance(cachedHmac);
+    const { data: agent } = await axiosInstance.get<Agent>(`/agents/${agentId}`);
+    console.log('AGENT:', agent);
     const { messages: receivedMessages, hasMore: hasMoreNext } = await db.getMessages(20, oldestMessageId.current);
     setMessageMap((prev) => {
       const next = { ...prev };
@@ -59,7 +64,7 @@ export function InteractionView({
     setHasMore(hasMoreNext);
     const oldestMessage = receivedMessages.length > 0 ? receivedMessages[receivedMessages.length - 1] : undefined;
     oldestMessageId.current = oldestMessage?.id;
-  }, []);
+  }, [agentId, getAxiosInstance, getCachedHmac]);
 
   React.useEffect(() => {
     loadNextBatch();
