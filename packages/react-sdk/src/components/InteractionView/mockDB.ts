@@ -1,8 +1,7 @@
+import type { Message } from '@proficient/api';
 import { sleep } from '@proficient/util';
 import { LoremIpsum } from 'lorem-ipsum';
 import { v4 as uuid } from 'uuid';
-
-import type { Message } from '../../types';
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -30,9 +29,11 @@ class MockDB {
     for (let i = 0; i < count; i++) {
       history[i] = {
         id: uuid(),
+        object: 'message',
+        interaction_id: 'int_123',
+        created_at: Date.now(),
         content: (i + 1).toString() + ': ' + lorem.generateSentences(2),
-        fromAgent: i % 2 === 0,
-        createdAt: new Date(),
+        sent_by: i % 2 === 0 ? 'agent' : 'user',
       };
       await sleep(1);
     }
@@ -70,8 +71,11 @@ class MockDB {
   public async sendMessage(content: string) {
     const sentMessage: Message = {
       id: uuid(),
+      object: 'message',
+      interaction_id: 'int_123',
+      created_at: Date.now(),
       content,
-      createdAt: new Date(),
+      sent_by: 'user',
     };
     const history = await this.historyPromise;
     history.push(sentMessage);
@@ -85,9 +89,11 @@ class MockDB {
       await sleep(2_000);
       const m: Message = {
         id: uuid(),
+        object: 'message',
+        interaction_id: 'int_123',
+        created_at: Date.now(),
         content: lorem.generateSentences(3),
-        fromAgent: true,
-        createdAt: new Date(),
+        sent_by: 'agent',
       };
       await sentMessagePromise;
       const history = await this.historyPromise;

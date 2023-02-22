@@ -1,11 +1,10 @@
-import type { Agent } from '@proficient/api';
+import type { Agent, ClientApi, Message } from '@proficient/api';
 import axios from 'axios';
 import * as React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { useKeyboardEnterEvent } from '../../hooks';
-import type { Message } from '../../types';
 import { db } from './mockDB';
 import type { InteractionViewProps } from './types';
 
@@ -46,24 +45,34 @@ export function InteractionView({
   );
 
   const loadNextBatch = React.useCallback(async () => {
-    const cachedHmac = await getCachedHmac();
-    const axiosInstance = getAxiosInstance(cachedHmac);
-    const { data: agent } = await axiosInstance.get<Agent>(`/agents/${agentId}`);
-    console.log('AGENT:', agent);
-    const { messages: receivedMessages, hasMore: hasMoreNext } = await db.getMessages(20, oldestMessageId.current);
-    setMessageMap((prev) => {
-      const next = { ...prev };
-      receivedMessages.forEach((m) => {
-        const message = next[m.id];
-        if (!message) {
-          next[m.id] = m;
-        }
+    try {
+      const cachedHmac = await getCachedHmac();
+      const axiosInstance = getAxiosInstance(cachedHmac);
+      const { data: agent } = await axiosInstance.get<Agent>(`/agents/${agentId}`);
+      const {
+        data: { data: interactions },
+      } = await axiosInstance.get<ClientApi.ResponseBody<'GetAgentsAgentInteractions'>>(
+        `/agents/${agentId}/interactions`
+      );
+      console.log('AGENT:', agent);
+      console.log('INTERACTIONS:', interactions);
+      const { messages: receivedMessages, hasMore: hasMoreNext } = await db.getMessages(20, oldestMessageId.current);
+      setMessageMap((prev) => {
+        const next = { ...prev };
+        receivedMessages.forEach((m) => {
+          const message = next[m.id];
+          if (!message) {
+            next[m.id] = m;
+          }
+        });
+        return next;
       });
-      return next;
-    });
-    setHasMore(hasMoreNext);
-    const oldestMessage = receivedMessages.length > 0 ? receivedMessages[receivedMessages.length - 1] : undefined;
-    oldestMessageId.current = oldestMessage?.id;
+      setHasMore(hasMoreNext);
+      const oldestMessage = receivedMessages.length > 0 ? receivedMessages[receivedMessages.length - 1] : undefined;
+      oldestMessageId.current = oldestMessage?.id;
+    } catch (e: any) {
+      console.log('Unexpected Error in Load Batch:', e.message);
+    }
   }, [agentId, getAxiosInstance, getCachedHmac]);
 
   React.useEffect(() => {
@@ -74,12 +83,19 @@ export function InteractionView({
     if (!textAreaRef.current) return;
     const content = textAreaRef.current.value;
     if (!content) return;
-    const { sentMessage, replyPromise } = await db.sendMessage(content);
+    const cachedHmac = await getCachedHmac();
+    const axiosInstance = getAxiosInstance(cachedHmac);
+    const body: ClientApi.RequestBody<'PostAgentsAgentInteractionsMessage'> = {
+      content,
+    };
+    const { data: sentMessage } = await axiosInstance.post<
+      ClientApi.ResponseBody<'PostAgentsAgentInteractionsMessage'>
+    >(`/agents/${agentId}/interactions/message`, body);
     setMessageMap((prev) => ({ ...prev, [sentMessage.id]: sentMessage }));
     textAreaRef.current.value = '';
-    const reply = await replyPromise;
-    setMessageMap((prev) => ({ ...prev, [reply.id]: reply }));
-  }, []);
+    // const reply = await replyPromise;
+    // setMessageMap((prev) => ({ ...prev, [reply.id]: reply }));
+  }, [getAxiosInstance, getCachedHmac, agentId]);
 
   useKeyboardEnterEvent(handleSendMessage);
 
@@ -89,7 +105,7 @@ export function InteractionView({
       const message = messageMap[id];
       arr.push(message);
     });
-    arr.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    arr.sort((a, b) => b.created_at - a.created_at);
     return arr;
   })();
 
@@ -114,11 +130,11 @@ export function InteractionView({
             <div
               key={message.id}
               style={{
-                marginLeft: message.fromAgent ? 0 : 'auto',
+                marginLeft: message.sent_by === 'agent' ? 0 : 'auto',
                 padding: 10,
                 border: '1px solid rgb(235, 235, 235)',
-                backgroundColor: message.fromAgent ? 'rgb(250, 250, 250)' : 'rgb(41, 87, 255)',
-                color: message.fromAgent ? 'black' : 'white',
+                backgroundColor: message.sent_by === 'agent' ? 'rgb(250, 250, 250)' : 'rgb(41, 87, 255)',
+                color: message.sent_by === 'agent' ? 'black' : 'white',
                 borderRadius: 10,
                 marginBottom: 10,
                 width: 'fit-content',
