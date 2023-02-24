@@ -52,6 +52,40 @@ export namespace ClientApi {
       requestBody: undefined;
       responseBody: Interaction;
     };
+    GetInteractionsInteractionMessages: {
+      pathParams: {
+        interaction_id: string;
+      };
+      requestBody: undefined;
+      responseBody: {
+        // TODO: Should be an object of a known type
+        data: Message[];
+        has_more: boolean;
+      };
+    };
+    GetInteractions: {
+      pathParams: {};
+      requestBody: undefined;
+      responseBody: {
+        // TODO: Should be an object of a known type
+        data: Interaction[];
+        has_more: boolean;
+      };
+    };
+    GetMessagesMessage: {
+      pathParams: {
+        message_id: string;
+      };
+      requestBody: undefined;
+      responseBody: Message;
+    };
+    PostMessagesMessageReply: {
+      pathParams: {
+        message_id: string;
+      };
+      requestBody: MessageCreateParams;
+      responseBody: Message;
+    };
   };
 
   export type OperationId = keyof Operations;
