@@ -6,6 +6,7 @@ export namespace ClientApi {
   export type Operations = {
     GetAgents: {
       pathParams: {};
+      queryParams: {};
       requestBody: undefined;
       responseBody: {
         // TODO: Should be an object of a known type
@@ -17,6 +18,7 @@ export namespace ClientApi {
       pathParams: {
         agent_id: string;
       };
+      queryParams: {};
       requestBody: undefined;
       responseBody: Agent;
     };
@@ -24,6 +26,7 @@ export namespace ClientApi {
       pathParams: {
         agent_id: string;
       };
+      queryParams: {};
       requestBody: undefined;
       responseBody: {
         // TODO: Should be an object of a known type
@@ -35,6 +38,7 @@ export namespace ClientApi {
       pathParams: {
         agent_id: string;
       };
+      queryParams: {};
       requestBody: MessageCreateParams;
       responseBody: Message;
     };
@@ -42,6 +46,7 @@ export namespace ClientApi {
       pathParams: {
         interaction_id: string;
       };
+      queryParams: {};
       requestBody: undefined;
       responseBody: Interaction;
     };
@@ -49,12 +54,17 @@ export namespace ClientApi {
       pathParams: {
         interaction_id: string;
       };
+      queryParams: {};
       requestBody: undefined;
       responseBody: Interaction;
     };
     GetInteractionsInteractionMessages: {
       pathParams: {
         interaction_id: string;
+      };
+      queryParams: {
+        limit?: number;
+        starting_after?: string;
       };
       requestBody: undefined;
       responseBody: {
@@ -65,6 +75,7 @@ export namespace ClientApi {
     };
     GetInteractions: {
       pathParams: {};
+      queryParams: {};
       requestBody: undefined;
       responseBody: {
         // TODO: Should be an object of a known type
@@ -76,6 +87,7 @@ export namespace ClientApi {
       pathParams: {
         message_id: string;
       };
+      queryParams: {};
       requestBody: undefined;
       responseBody: Message;
     };
@@ -83,6 +95,7 @@ export namespace ClientApi {
       pathParams: {
         message_id: string;
       };
+      queryParams: {};
       requestBody: MessageCreateParams;
       responseBody: Message;
     };
@@ -90,6 +103,7 @@ export namespace ClientApi {
 
   export type OperationId = keyof Operations;
   export type PathParams<T extends OperationId> = Operations[T]['pathParams'];
+  export type QueryParams<T extends OperationId> = Operations[T]['queryParams'];
   export type RequestBody<T extends OperationId> = Operations[T]['requestBody'];
   export type ResponseBody<T extends OperationId> = Operations[T]['responseBody'];
 }
