@@ -1,12 +1,13 @@
-import type { Agent, ClientApi, Message } from '@proficient/api';
+import type { ClientApi, Message } from '@proficient/api';
 import axios from 'axios';
 import * as React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { useKeyboardEnterEvent } from '../../hooks';
-import { db } from './mockDB';
 import type { InteractionViewProps } from './types';
+
+const interactionId = 'int_WWEIc43nFNdQ5V1C6IaXKucoA7UNgKaqyig9'; // TODO: Make dynamic
 
 export function InteractionView({
   apiKey,
@@ -18,7 +19,8 @@ export function InteractionView({
 }: InteractionViewProps) {
   const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
   const oldestMessageId = React.useRef<string | undefined>(undefined);
-  const [messageMap, setMessageMap] = React.useState<Record<string, Message>>({});
+  const lastAttemptedBatchId = React.useRef<null | undefined | string>(null);
+  const [messages, setMessages] = React.useState<Message[]>([]);
   const [hasMore, setHasMore] = React.useState(true);
   const cachedHmacRef = React.useRef<undefined | string>(undefined);
 
@@ -48,32 +50,24 @@ export function InteractionView({
     try {
       const cachedHmac = await getCachedHmac();
       const axiosInstance = getAxiosInstance(cachedHmac);
-      const { data: agent } = await axiosInstance.get<Agent>(`/agents/${agentId}`);
+      if (lastAttemptedBatchId.current === oldestMessageId.current) return;
+      lastAttemptedBatchId.current = oldestMessageId.current;
       const {
-        data: { data: interactions },
-      } = await axiosInstance.get<ClientApi.ResponseBody<'GetAgentsAgentInteractions'>>(
-        `/agents/${agentId}/interactions`
+        data: { data: receivedMessages, has_more: hasMore },
+      } = await axiosInstance.get<ClientApi.ResponseBody<'GetInteractionsInteractionMessages'>>(
+        `interactions/${interactionId}/messages?limit=20${
+          oldestMessageId.current ? `&starting_after=${oldestMessageId.current}` : ''
+        }`
       );
-      console.log('AGENT:', agent);
-      console.log('INTERACTIONS:', interactions);
-      const { messages: receivedMessages, hasMore: hasMoreNext } = await db.getMessages(20, oldestMessageId.current);
-      setMessageMap((prev) => {
-        const next = { ...prev };
-        receivedMessages.forEach((m) => {
-          const message = next[m.id];
-          if (!message) {
-            next[m.id] = m;
-          }
-        });
-        return next;
-      });
-      setHasMore(hasMoreNext);
+      console.log('RECEIVED MESSAGES', receivedMessages);
+      setMessages((prev) => [...prev, ...receivedMessages]);
+      setHasMore(hasMore);
       const oldestMessage = receivedMessages.length > 0 ? receivedMessages[receivedMessages.length - 1] : undefined;
       oldestMessageId.current = oldestMessage?.id;
     } catch (e: any) {
       console.log('Unexpected Error in Load Batch:', e.message);
     }
-  }, [agentId, getAxiosInstance, getCachedHmac]);
+  }, [getAxiosInstance, getCachedHmac]);
 
   React.useEffect(() => {
     loadNextBatch();
@@ -91,23 +85,12 @@ export function InteractionView({
     const { data: sentMessage } = await axiosInstance.post<
       ClientApi.ResponseBody<'PostAgentsAgentInteractionsMessage'>
     >(`/agents/${agentId}/interactions/message`, body);
-    setMessageMap((prev) => ({ ...prev, [sentMessage.id]: sentMessage }));
     textAreaRef.current.value = '';
     // const reply = await replyPromise;
     // setMessageMap((prev) => ({ ...prev, [reply.id]: reply }));
   }, [getAxiosInstance, getCachedHmac, agentId]);
 
   useKeyboardEnterEvent(handleSendMessage);
-
-  const messages = (() => {
-    const arr: Array<Message> = [];
-    Object.keys(messageMap).forEach((id) => {
-      const message = messageMap[id];
-      arr.push(message);
-    });
-    arr.sort((a, b) => b.created_at - a.created_at);
-    return arr;
-  })();
 
   return (
     <div style={{ border: '1px solid gray' }}>
