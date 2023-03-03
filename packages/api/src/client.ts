@@ -1,6 +1,6 @@
 import type { Agent } from './resources/Agent';
-import type { Interaction } from './resources/Interaction';
-import type { Message, MessageCreateParams } from './resources/Message';
+import type { Interaction, InteractionCreateParams } from './resources/Interaction';
+import type { Message, MessageCreateParams, MessageResendParams, MessageSendResponse } from './resources/Message';
 
 export namespace ClientApi {
   export type Operations = {
@@ -9,9 +9,7 @@ export namespace ClientApi {
       queryParams: {};
       requestBody: undefined;
       responseBody: {
-        // TODO: Should be an object of a known type
         data: Agent[];
-        has_more: boolean;
       };
     };
     GetAgentsAgent: {
@@ -22,25 +20,24 @@ export namespace ClientApi {
       requestBody: undefined;
       responseBody: Agent;
     };
-    GetAgentsAgentInteractions: {
-      pathParams: {
-        agent_id: string;
+    GetInteractions: {
+      pathParams: {};
+      queryParams: {
+        agent_id?: string;
+        limit?: number;
+        starting_after?: string;
       };
-      queryParams: {};
       requestBody: undefined;
       responseBody: {
-        // TODO: Should be an object of a known type
         data: Interaction[];
         has_more: boolean;
       };
     };
-    PostAgentsAgentInteractionsMessage: {
-      pathParams: {
-        agent_id: string;
-      };
+    PostInteractions: {
+      pathParams: {};
       queryParams: {};
-      requestBody: MessageCreateParams;
-      responseBody: Message;
+      requestBody: InteractionCreateParams;
+      responseBody: Interaction;
     };
     GetInteractionsInteraction: {
       pathParams: {
@@ -58,30 +55,24 @@ export namespace ClientApi {
       requestBody: undefined;
       responseBody: Interaction;
     };
-    GetInteractionsInteractionMessages: {
-      pathParams: {
-        interaction_id: string;
-      };
+    GetMessages: {
+      pathParams: {};
       queryParams: {
+        interaction_id: string;
         limit?: number;
         starting_after?: string;
       };
       requestBody: undefined;
       responseBody: {
-        // TODO: Should be an object of a known type
         data: Message[];
         has_more: boolean;
       };
     };
-    GetInteractions: {
+    PostMessages: {
       pathParams: {};
       queryParams: {};
-      requestBody: undefined;
-      responseBody: {
-        // TODO: Should be an object of a known type
-        data: Interaction[];
-        has_more: boolean;
-      };
+      requestBody: MessageCreateParams;
+      responseBody: MessageSendResponse;
     };
     GetMessagesMessage: {
       pathParams: {
@@ -91,13 +82,13 @@ export namespace ClientApi {
       requestBody: undefined;
       responseBody: Message;
     };
-    PostMessagesMessageReply: {
+    PostMessagesMessage: {
       pathParams: {
         message_id: string;
       };
       queryParams: {};
-      requestBody: MessageCreateParams;
-      responseBody: Message;
+      requestBody: MessageResendParams;
+      responseBody: MessageSendResponse;
     };
   };
 

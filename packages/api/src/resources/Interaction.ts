@@ -9,3 +9,9 @@ export interface Interaction {
   updated_at: number;
   message_count: number;
 }
+
+export interface InteractionCreateParams {
+  [key: string]: any;
+
+  agent_id: string;
+}

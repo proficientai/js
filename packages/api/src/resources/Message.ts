@@ -12,5 +12,20 @@ export interface Message {
 export interface MessageCreateParams {
   [key: string]: any;
 
+  interaction_id: string;
   content: string;
+  reply_to: string;
+}
+
+export interface MessageResendParams {
+  [key: string]: any;
+
+  content: string;
+}
+
+export interface MessageSendResponse {
+  [key: string]: any;
+
+  sent: Message;
+  received: Message;
 }
