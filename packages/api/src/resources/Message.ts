@@ -1,3 +1,5 @@
+import type { InteractionParticipant } from '../types';
+
 export interface Message {
   [key: string]: any;
 
@@ -6,7 +8,7 @@ export interface Message {
   interaction_id: string;
   created_at: number;
   content: string;
-  sent_by: 'user' | 'agent';
+  sent_by: InteractionParticipant;
 }
 
 export interface MessageCreateParams {
@@ -14,7 +16,10 @@ export interface MessageCreateParams {
 
   interaction_id: string;
   content: string;
-  reply_to: string;
+  /**
+   * Must be set to the ID of the last message by the agent in the interaction.
+   */
+  parent_id: string;
 }
 
 export interface MessageResendParams {

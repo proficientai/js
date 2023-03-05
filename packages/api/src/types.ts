@@ -3,4 +3,8 @@ import type { AgentConfig } from './resources/AgentConfig';
 import type { Interaction } from './resources/Interaction';
 import type { Message } from './resources/Message';
 
+export type ProviderId = 'openai';
+
+export type InteractionParticipant = 'user' | 'agent';
+
 export type ResourceType = (Agent | AgentConfig | Interaction | Message)['object'];

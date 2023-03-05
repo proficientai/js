@@ -1,10 +1,12 @@
+import type { InteractionParticipant, ProviderId } from '../types';
+
 export interface Agent {
   [key: string]: any;
 
   id: string;
   object: 'agent';
   active: boolean;
-  name: string | null;
+  name: string;
   description: string;
   created_at: number;
   updated_at: number;
@@ -13,14 +15,17 @@ export interface Agent {
 export interface AgentCreateParams {
   [key: string]: any;
 
-  name: string | null;
+  name: string;
   description: string;
-  provider: 'openai';
+  provider: ProviderId;
+  system_prompt?: string;
+  initial_turn?: InteractionParticipant;
+  greeting?: string;
 }
 
 export interface AgentUpdateParams {
   [key: string]: any;
 
-  name?: string | null | undefined;
-  description?: string | undefined;
+  name?: string;
+  description?: string;
 }
