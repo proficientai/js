@@ -19,7 +19,7 @@ export interface MessageCreateParams {
   /**
    * Must be set to the ID of the last message by the agent in the interaction.
    */
-  parent_id: string;
+  parent_id: string | null;
 }
 
 export interface MessageResendParams {
