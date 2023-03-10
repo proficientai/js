@@ -1,8 +1,6 @@
 import type { InteractionParticipant } from '../types';
 
 export interface Interaction {
-  [key: string]: any;
-
   id: string;
   object: 'interaction';
   agent_id: string;
@@ -15,7 +13,5 @@ export interface Interaction {
 }
 
 export interface InteractionCreateParams {
-  [key: string]: any;
-
   agent_id: string;
 }

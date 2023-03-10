@@ -1,8 +1,6 @@
 import type { InteractionParticipant } from '../types';
 
 export interface Message {
-  [key: string]: any;
-
   id: string;
   object: 'message';
   interaction_id: string;
@@ -12,8 +10,6 @@ export interface Message {
 }
 
 export interface MessageCreateParams {
-  [key: string]: any;
-
   interaction_id: string;
   content: string;
   /**
@@ -23,14 +19,10 @@ export interface MessageCreateParams {
 }
 
 export interface MessageResendParams {
-  [key: string]: any;
-
   content: string;
 }
 
 export interface MessageSendResponse {
-  [key: string]: any;
-
   sent: Message;
   received: Message;
 }

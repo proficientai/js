@@ -1,8 +1,6 @@
 import type { InteractionParticipant, ProviderId } from '../types';
 
 export interface Agent {
-  [key: string]: any;
-
   id: string;
   object: 'agent';
   active: boolean;
@@ -13,8 +11,6 @@ export interface Agent {
 }
 
 export interface AgentCreateParams {
-  [key: string]: any;
-
   name: string;
   description: string;
   provider: ProviderId;
@@ -24,8 +20,6 @@ export interface AgentCreateParams {
 }
 
 export interface AgentUpdateParams {
-  [key: string]: any;
-
   name?: string;
   description?: string;
 }
