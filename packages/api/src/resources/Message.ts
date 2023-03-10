@@ -3,6 +3,7 @@ import type { InteractionParticipant } from '../types';
 export interface Message {
   id: string;
   object: 'message';
+  index: number;
   interaction_id: string;
   created_at: number;
   content: string;
