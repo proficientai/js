@@ -7,11 +7,11 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { useKeyboardEnterEvent } from '../../hooks';
 import type { InteractionViewProps } from './types';
 
-const interactionId = 'int_WWEIc43nFNdQ5V1C6IaXKucoA7UNgKaqyig9'; // TODO: Make dynamic
 const paginationLimit = 20; // TODO: Make dynamic
 
 export function InteractionView({
   apiKey,
+  interactionId,
   userExternalId,
   userHmac,
   inputPlaceholder = 'Type something...',
@@ -68,7 +68,7 @@ export function InteractionView({
       console.log('Unexpected Error in Load Batch:', e.message);
       console.log(e.response.data);
     }
-  }, [getAxiosInstance, getCachedHmac]);
+  }, [getAxiosInstance, getCachedHmac, interactionId]);
 
   React.useEffect(() => {
     loadNextBatch();
@@ -114,7 +114,7 @@ export function InteractionView({
       next.unshift(received);
       return next;
     });
-  }, [messages, getAxiosInstance, getCachedHmac]);
+  }, [messages, getAxiosInstance, getCachedHmac, interactionId]);
 
   useKeyboardEnterEvent(handleSendMessage);
 

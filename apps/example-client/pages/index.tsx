@@ -5,6 +5,7 @@ import type { ResponseBody } from './api/hmac';
 
 const proficientApiKey = 'pk_7WLSTtyhR2owYkV1h9cbjEnINRBm5E3zGMtD3fJrZvC12mmOZlWnmN79I6OTx3QvNqiHKAfo';
 const agentId = 'ag_z9bj5zBhycdUUbXuHLwTQJjt';
+const interactionId = 'int_WWEIc43nFNdQ5V1C6IaXKucoA7UNgKaqyig9';
 const userExternalId = 'gtLIK8ELsHTr0Fajg28Ud9eFpJJ3';
 
 const axiosInstance = axios.create({
@@ -21,6 +22,7 @@ export default function ExampleClient() {
       <InteractionView
         apiKey={proficientApiKey}
         agentId={agentId}
+        interactionId={interactionId}
         userExternalId={userExternalId}
         userHmac={async () => {
           const { data: resBody } = await axiosInstance.post<ResponseBody>('/hmac', { userId: userExternalId });
