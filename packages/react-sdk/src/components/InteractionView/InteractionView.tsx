@@ -3,8 +3,7 @@ import * as React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import TextareaAutosize from 'react-textarea-autosize';
 
-import { ClientApi } from '../../api';
-import { useKeyboardEnterEvent } from '../../hooks';
+import { useApi, useKeyboardEnterEvent } from '../../hooks';
 import type { InteractionViewProps } from './types';
 
 const paginationLimit = 20; // TODO: Make dynamic
@@ -17,23 +16,17 @@ export function InteractionView({
   inputPlaceholder = 'Type something...',
   contentMaxLength = 500,
 }: InteractionViewProps) {
+  const { getApi } = useApi({ apiKey, userExternalId, userHmac });
+
   const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
   const oldestMessageId = React.useRef<string | undefined>(undefined);
   const lastAttemptedBatchId = React.useRef<null | undefined | string>(null);
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [hasMore, setHasMore] = React.useState(true);
-  const cachedHmacRef = React.useRef<undefined | string>(undefined);
-
-  const getClientApi = React.useCallback(async () => {
-    if (!cachedHmacRef.current) {
-      cachedHmacRef.current = typeof userHmac === 'function' ? await userHmac() : userHmac;
-    }
-    return new ClientApi({ apiKey, userExternalId, userHmac: cachedHmacRef.current });
-  }, [apiKey, userExternalId, userHmac]);
 
   const loadNextBatch = React.useCallback(async () => {
     try {
-      const api = await getClientApi();
+      const api = await getApi();
       if (lastAttemptedBatchId.current === oldestMessageId.current) return;
       lastAttemptedBatchId.current = oldestMessageId.current;
       const { data: receivedMessages, has_more: hasMore } = await api.getMessages({
@@ -50,7 +43,7 @@ export function InteractionView({
       console.log('Unexpected Error in Load Batch:', e.message);
       console.log(e.response.data);
     }
-  }, [getClientApi, interactionId]);
+  }, [getApi, interactionId]);
 
   React.useEffect(() => {
     loadNextBatch();
@@ -75,7 +68,7 @@ export function InteractionView({
     ]);
     textAreaRef.current.value = '';
 
-    const api = await getClientApi();
+    const api = await getApi();
     const [firstMessage] = messages;
     const parentId = firstMessage?.id ?? null;
     const { received, sent } = await api.createMessage({
@@ -92,7 +85,7 @@ export function InteractionView({
       next.unshift(received);
       return next;
     });
-  }, [getClientApi, interactionId, messages]);
+  }, [getApi, interactionId, messages]);
 
   useKeyboardEnterEvent(handleSendMessage);
 
