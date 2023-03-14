@@ -12,7 +12,6 @@ const paginationLimit = 20; // TODO: Make dynamic
 
 export function InteractionView({
   apiKey,
-  agentId,
   userExternalId,
   userHmac,
   inputPlaceholder = 'Type something...',
@@ -81,8 +80,9 @@ export function InteractionView({
     if (!content) return;
     const cachedHmac = await getCachedHmac();
     const axiosInstance = getAxiosInstance(cachedHmac);
+    const [firstMessage] = messages;
 
-    const parentId = messages.length === 0 ? null : messages[0].id;
+    const parentId = firstMessage?.id ?? null;
     const body: ClientApi.RequestBody<'PostMessages'> = {
       interaction_id: interactionId,
       parent_id: parentId,

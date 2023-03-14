@@ -30,6 +30,7 @@ class MockDB {
       history[i] = {
         id: uuid(),
         object: 'message',
+        index: i,
         interaction_id: 'int_123',
         created_at: Date.now(),
         content: (i + 1).toString() + ': ' + lorem.generateSentences(2),
@@ -69,15 +70,20 @@ class MockDB {
   }
 
   public async sendMessage(content: string) {
+    const history = await this.historyPromise;
+
+    const sentMessageIndex = history.length;
+    const replyIndex = sentMessageIndex + 1;
+
     const sentMessage: Message = {
       id: uuid(),
       object: 'message',
+      index: sentMessageIndex,
       interaction_id: 'int_123',
       created_at: Date.now(),
       content,
       sent_by: 'user',
     };
-    const history = await this.historyPromise;
     history.push(sentMessage);
 
     const sentMessagePromise = (async () => {
@@ -90,6 +96,7 @@ class MockDB {
       const m: Message = {
         id: uuid(),
         object: 'message',
+        index: replyIndex,
         interaction_id: 'int_123',
         created_at: Date.now(),
         content: lorem.generateSentences(3),
