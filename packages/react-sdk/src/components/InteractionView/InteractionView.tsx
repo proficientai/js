@@ -8,6 +8,7 @@ import { useKeyboardEnterEvent } from '../../hooks';
 import type { InteractionViewProps } from './types';
 
 const interactionId = 'int_WWEIc43nFNdQ5V1C6IaXKucoA7UNgKaqyig9'; // TODO: Make dynamic
+const paginationLimit = 20; // TODO: Make dynamic
 
 export function InteractionView({
   apiKey,
@@ -54,18 +55,19 @@ export function InteractionView({
       lastAttemptedBatchId.current = oldestMessageId.current;
       const {
         data: { data: receivedMessages, has_more: hasMore },
-      } = await axiosInstance.get<ClientApi.ResponseBody<'GetInteractionsInteractionMessages'>>(
-        `interactions/${interactionId}/messages?limit=20${
+      } = await axiosInstance.get<ClientApi.ResponseBody<'GetMessages'>>(
+        `/messages?interaction_id=${interactionId}&limit=${paginationLimit}${
           oldestMessageId.current ? `&starting_after=${oldestMessageId.current}` : ''
         }`
       );
-      console.log('RECEIVED MESSAGES', receivedMessages);
       setMessages((prev) => [...prev, ...receivedMessages]);
       setHasMore(hasMore);
       const oldestMessage = receivedMessages.length > 0 ? receivedMessages[receivedMessages.length - 1] : undefined;
       oldestMessageId.current = oldestMessage?.id;
     } catch (e: any) {
+      // TODO: Handle properly
       console.log('Unexpected Error in Load Batch:', e.message);
+      console.log(e.response.data);
     }
   }, [getAxiosInstance, getCachedHmac]);
 
@@ -79,18 +81,44 @@ export function InteractionView({
     if (!content) return;
     const cachedHmac = await getCachedHmac();
     const axiosInstance = getAxiosInstance(cachedHmac);
-    const body: ClientApi.RequestBody<'PostAgentsAgentInteractionsMessage'> = {
+
+    const parentId = messages.length === 0 ? null : messages[0].id;
+    const body: ClientApi.RequestBody<'PostMessages'> = {
+      interaction_id: interactionId,
+      parent_id: parentId,
       content,
     };
-    const { data: sentMessage } = await axiosInstance.post<
-      ClientApi.ResponseBody<'PostAgentsAgentInteractionsMessage'>
-    >(`/agents/${agentId}/interactions/message`, body);
+
+    setMessages((prev) => [
+      {
+        id: 'provisional',
+        index: -1,
+        content,
+        created_at: Date.now(),
+        interaction_id: interactionId,
+        object: 'message',
+        sent_by: 'user',
+      },
+      ...prev,
+    ]);
     textAreaRef.current.value = '';
-    // const reply = await replyPromise;
-    // setMessageMap((prev) => ({ ...prev, [reply.id]: reply }));
-  }, [getAxiosInstance, getCachedHmac, agentId]);
+    const {
+      data: { received, sent },
+    } = await axiosInstance.post<ClientApi.ResponseBody<'PostMessages'>>(`/messages`, body);
+    setMessages((prev) => {
+      const next = [...prev];
+      const provisionalMessageIndex = prev.findIndex((m) => m.id === 'provisional');
+      if (provisionalMessageIndex !== -1) {
+        next[provisionalMessageIndex] = sent;
+      }
+      next.unshift(received);
+      return next;
+    });
+  }, [messages, getAxiosInstance, getCachedHmac]);
 
   useKeyboardEnterEvent(handleSendMessage);
+
+  console.log('Messages:', messages);
 
   return (
     <div style={{ border: '1px solid gray' }}>
