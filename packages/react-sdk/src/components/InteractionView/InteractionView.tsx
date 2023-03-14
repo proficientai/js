@@ -1,9 +1,9 @@
-import type { ClientApi, Message } from '@proficient/api';
-import axios from 'axios';
+import type { Message } from '@proficient/api';
 import * as React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import TextareaAutosize from 'react-textarea-autosize';
 
+import { ClientApi } from '../../api';
 import { useKeyboardEnterEvent } from '../../hooks';
 import type { InteractionViewProps } from './types';
 
@@ -24,41 +24,23 @@ export function InteractionView({
   const [hasMore, setHasMore] = React.useState(true);
   const cachedHmacRef = React.useRef<undefined | string>(undefined);
 
-  const getCachedHmac = React.useCallback(async () => {
+  const getClientApi = React.useCallback(async () => {
     if (!cachedHmacRef.current) {
       cachedHmacRef.current = typeof userHmac === 'function' ? await userHmac() : userHmac;
     }
-    return cachedHmacRef.current;
-  }, [userHmac]);
-
-  const getAxiosInstance = React.useCallback(
-    (hmac: string | undefined) => {
-      return axios.create({
-        baseURL: 'http://localhost:8080/client', // TODO: Update
-        headers: {
-          'Content-Type': 'application/json',
-          'X-PROFICIENT-API-KEY': apiKey,
-          'X-PROFICIENT-USER-EXTERNAL-ID': userExternalId,
-          'X-PROFICIENT-USER-HMAC': hmac,
-        },
-      });
-    },
-    [apiKey, userExternalId]
-  );
+    return new ClientApi({ apiKey, userExternalId, userHmac: cachedHmacRef.current });
+  }, [apiKey, userExternalId, userHmac]);
 
   const loadNextBatch = React.useCallback(async () => {
     try {
-      const cachedHmac = await getCachedHmac();
-      const axiosInstance = getAxiosInstance(cachedHmac);
+      const api = await getClientApi();
       if (lastAttemptedBatchId.current === oldestMessageId.current) return;
       lastAttemptedBatchId.current = oldestMessageId.current;
-      const {
-        data: { data: receivedMessages, has_more: hasMore },
-      } = await axiosInstance.get<ClientApi.ResponseBody<'GetMessages'>>(
-        `/messages?interaction_id=${interactionId}&limit=${paginationLimit}${
-          oldestMessageId.current ? `&starting_after=${oldestMessageId.current}` : ''
-        }`
-      );
+      const { data: receivedMessages, has_more: hasMore } = await api.getMessages({
+        interaction_id: interactionId,
+        limit: paginationLimit,
+        starting_after: oldestMessageId.current,
+      });
       setMessages((prev) => [...prev, ...receivedMessages]);
       setHasMore(hasMore);
       const oldestMessage = receivedMessages.length > 0 ? receivedMessages[receivedMessages.length - 1] : undefined;
@@ -68,7 +50,7 @@ export function InteractionView({
       console.log('Unexpected Error in Load Batch:', e.message);
       console.log(e.response.data);
     }
-  }, [getAxiosInstance, getCachedHmac, interactionId]);
+  }, [getClientApi, interactionId]);
 
   React.useEffect(() => {
     loadNextBatch();
@@ -78,16 +60,6 @@ export function InteractionView({
     if (!textAreaRef.current) return;
     const content = textAreaRef.current.value;
     if (!content) return;
-    const cachedHmac = await getCachedHmac();
-    const axiosInstance = getAxiosInstance(cachedHmac);
-    const [firstMessage] = messages;
-
-    const parentId = firstMessage?.id ?? null;
-    const body: ClientApi.RequestBody<'PostMessages'> = {
-      interaction_id: interactionId,
-      parent_id: parentId,
-      content,
-    };
 
     setMessages((prev) => [
       {
@@ -102,9 +74,15 @@ export function InteractionView({
       ...prev,
     ]);
     textAreaRef.current.value = '';
-    const {
-      data: { received, sent },
-    } = await axiosInstance.post<ClientApi.ResponseBody<'PostMessages'>>(`/messages`, body);
+
+    const api = await getClientApi();
+    const [firstMessage] = messages;
+    const parentId = firstMessage?.id ?? null;
+    const { received, sent } = await api.createMessage({
+      content,
+      interaction_id: interactionId,
+      parent_id: parentId,
+    });
     setMessages((prev) => {
       const next = [...prev];
       const provisionalMessageIndex = prev.findIndex((m) => m.id === 'provisional');
@@ -114,7 +92,7 @@ export function InteractionView({
       next.unshift(received);
       return next;
     });
-  }, [messages, getAxiosInstance, getCachedHmac, interactionId]);
+  }, [getClientApi, interactionId, messages]);
 
   useKeyboardEnterEvent(handleSendMessage);
 
