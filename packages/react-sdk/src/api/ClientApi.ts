@@ -30,8 +30,11 @@ export class ClientApiService extends APIService {
     return resource;
   }
 
-  public async getInteractions() {
-    const response = await this.get<ClientApi.ResponseBody<'GetInteractions'>>(`/interactions`);
+  public async getInteractions(params: ClientApi.QueryParams<'GetInteractions'>) {
+    const response = await this.get<
+      ClientApi.ResponseBody<'GetInteractions'>,
+      ClientApi.QueryParams<'GetInteractions'>
+    >(`/interactions`, params);
     return response;
   }
 

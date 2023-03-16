@@ -1,4 +1,4 @@
-import { InteractionView } from '@proficient/react-sdk';
+import { AgentView, InteractionView } from '@proficient/react-sdk';
 import axios from 'axios';
 
 import type { ResponseBody } from './api/hmac';
@@ -19,7 +19,17 @@ export default function ExampleClient() {
   return (
     <div>
       <h1>Example Client</h1>
-      <InteractionView
+      <AgentView
+        apiKey={proficientApiKey}
+        agentId={agentId}
+        userExternalId={userExternalId}
+        userHmac={async () => {
+          const { data: resBody } = await axiosInstance.post<ResponseBody>('/hmac', { userId: userExternalId });
+          if (!resBody.success) throw new Error(resBody.error.message);
+          return resBody.data.hmac;
+        }}
+      />
+      {/* <InteractionView
         apiKey={proficientApiKey}
         agentId={agentId}
         interactionId={interactionId}
@@ -29,7 +39,7 @@ export default function ExampleClient() {
           if (!resBody.success) throw new Error(resBody.error.message);
           return resBody.data.hmac;
         }}
-      />
+      /> */}
     </div>
   );
 }
