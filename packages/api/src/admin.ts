@@ -7,11 +7,13 @@ export namespace AdminApi {
       pathParams: {
         agent_id: string;
       };
+      queryParams: {};
       requestBody: undefined;
       responseBody: Agent;
     };
     GetAgents: {
       pathParams: {};
+      queryParams: {};
       requestBody: undefined;
       responseBody: {
         // TODO: Should be an object of a known type
@@ -23,6 +25,7 @@ export namespace AdminApi {
       pathParams: {
         agent_id: string;
       };
+      queryParams: {};
       requestBody: undefined;
       responseBody: Agent;
     };
@@ -30,11 +33,13 @@ export namespace AdminApi {
       pathParams: {
         agent_id: string;
       };
+      queryParams: {};
       requestBody: undefined;
       responseBody: AgentConfig;
     };
     PostAgents: {
       pathParams: {};
+      queryParams: {};
       requestBody: AgentCreateParams;
       responseBody: Agent;
     };
@@ -42,6 +47,7 @@ export namespace AdminApi {
       pathParams: {
         agent_id: string;
       };
+      queryParams: {};
       requestBody: AgentUpdateParams;
       responseBody: Agent;
     };
@@ -49,6 +55,7 @@ export namespace AdminApi {
       pathParams: {
         agent_id: string;
       };
+      queryParams: {};
       requestBody: undefined;
       responseBody: Agent;
     };
@@ -56,6 +63,7 @@ export namespace AdminApi {
       pathParams: {
         agent_id: string;
       };
+      queryParams: {};
       requestBody: AgentConfigUpdateParams;
       responseBody: AgentConfig;
     };
@@ -63,6 +71,7 @@ export namespace AdminApi {
       pathParams: {
         agent_id: string;
       };
+      queryParams: {};
       requestBody: undefined;
       responseBody: Agent;
     };
@@ -70,6 +79,7 @@ export namespace AdminApi {
 
   export type OperationId = keyof Operations;
   export type PathParams<T extends OperationId> = Operations[T]['pathParams'];
+  export type QueryParams<T extends OperationId> = Operations[T]['queryParams'];
   export type RequestBody<T extends OperationId> = Operations[T]['requestBody'];
   export type ResponseBody<T extends OperationId> = Operations[T]['responseBody'];
 }
