@@ -87,7 +87,6 @@ export function AgentView({
     (i1, i2) => i2.interaction.updated_at - i1.interaction.updated_at
   );
   const interactionState = interactionId ? interactionStatesById[interactionId] ?? null : null;
-  const interaction = interactionState?.interaction ?? null;
 
   const loadNextInteractionsBatch = useCallback(async () => {
     try {
@@ -237,6 +236,10 @@ export function AgentView({
       parent_id: parentId,
     });
 
+    if (sent.index === 0) {
+      paginationMap.current.setOldestItemFor(interactionId, sent.id);
+    }
+
     setInteractionStatesById((prev) => {
       const next = cloneDeep(prev);
       const intState = next[interactionId];
@@ -260,6 +263,7 @@ export function AgentView({
   const handleCreateNewInteraction = useCallback(async () => {
     const api = await getApi();
     const newInteraction = await api.createInteraction({ agent_id: agentId });
+    // TODO: If initialTurn == 'Agent' then probably want to set oldest message id here
     setInteractionStatesById((prev) => {
       const next = cloneDeep(prev);
       next[newInteraction.id] = {
