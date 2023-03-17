@@ -83,6 +83,9 @@ export function AgentView({
   const lastAttemptedInteractionsBatchId = useRef<null | string>(null);
   const [interactionId, setInteractionId] = useState<string | null>(null);
 
+  const interactionStates = Object.values(interactionStatesById).sort(
+    (i1, i2) => i2.interaction.updated_at - i1.interaction.updated_at
+  );
   const interactionState = interactionId ? interactionStatesById[interactionId] ?? null : null;
   const interaction = interactionState?.interaction ?? null;
 
@@ -101,7 +104,7 @@ export function AgentView({
         limit: 20,
       });
       setInteractionStatesById((prev) => {
-        const next = { ...prev };
+        const next = cloneDeep(prev);
         receivedInteractions.forEach((i) => {
           let intState = next[i.id];
           if (!intState) {
@@ -204,7 +207,7 @@ export function AgentView({
     } = interactionState;
     const { input: content } = interactionState;
     setInteractionStatesById((prev) => {
-      const next = { ...prev };
+      const next = cloneDeep(prev);
       const intState = next[interactionId];
       if (!intState) {
         console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
@@ -235,7 +238,7 @@ export function AgentView({
     });
 
     setInteractionStatesById((prev) => {
-      const next = { ...prev };
+      const next = cloneDeep(prev);
       const intState = next[interactionId];
       if (!intState) {
         console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
@@ -254,15 +257,40 @@ export function AgentView({
 
   useKeyboardEnterEvent(handleSendMessage);
 
+  const handleCreateNewInteraction = useCallback(async () => {
+    const api = await getApi();
+    const newInteraction = await api.createInteraction({ agent_id: agentId });
+    setInteractionStatesById((prev) => {
+      const next = cloneDeep(prev);
+      next[newInteraction.id] = {
+        hasMore: true,
+        input: '',
+        interaction: newInteraction,
+        messages: [],
+      };
+      return next;
+    });
+  }, [getApi, agentId]);
+
   return (
-    <div style={{ display: 'flex', border: '1px solid gray', backgroundColor: 'lightblue' }}>
+    <div style={{ display: 'flex', border: '1px solid gray' }}>
       <div>
         <div>Search</div>
-        <div>Interactions</div>
-        {/* TODO: */}
-        <div>Will appear here</div>
+        <button onClick={handleCreateNewInteraction} style={{ marginBottom: 20, marginTop: 10 }}>
+          Create new interaction
+        </button>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {interactionStates.map((interactionState) => {
+            const { interaction } = interactionState;
+            return (
+              <button key={interaction.id} onClick={() => setInteractionId(interaction.id)}>
+                {interaction.id}
+              </button>
+            );
+          })}
+        </div>
       </div>
-      <div style={{ backgroundColor: 'yellow', width: '100%' }}>
+      <div style={{ width: '100%' }}>
         <div style={{ backgroundColor: 'yellowgreen' }}>Header</div>
         {(() => {
           if (!interactionState) {
@@ -331,7 +359,7 @@ export function AgentView({
                   value={input}
                   onChange={(e) => {
                     setInteractionStatesById((prev) => {
-                      const next = { ...prev };
+                      const next = cloneDeep(prev);
                       const intState = next[interaction.id];
                       if (!intState) {
                         console.warn(
