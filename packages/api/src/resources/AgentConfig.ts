@@ -10,7 +10,6 @@ export interface AgentConfig {
 }
 
 export interface AgentConfigUpdateParams {
-  provider?: ProviderId;
   system_prompt?: string;
   initial_turn?: InteractionParticipant;
   greeting?: string;
