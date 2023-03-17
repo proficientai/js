@@ -3,7 +3,7 @@ import type { AgentConfig } from './resources/AgentConfig';
 import type { Interaction } from './resources/Interaction';
 import type { Message } from './resources/Message';
 
-export type ProviderId = 'openai';
+export type ProviderId = 'openai.gpt-4' | 'openai.gpt-3.5-turbo';
 
 export type InteractionParticipant = 'user' | 'agent';
 
