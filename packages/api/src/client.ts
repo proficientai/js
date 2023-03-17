@@ -5,9 +5,6 @@ import type { Message, MessageCreateParams, MessageResendParams, MessageSendResp
 export namespace ClientApi {
   export type Operations = {
     GetAgents: {
-      pathParams: {};
-      queryParams: {};
-      requestBody: undefined;
       responseBody: {
         data: Agent[];
       };
@@ -16,26 +13,20 @@ export namespace ClientApi {
       pathParams: {
         agent_id: string;
       };
-      queryParams: {};
-      requestBody: undefined;
       responseBody: Agent;
     };
     GetInteractions: {
-      pathParams: {};
       queryParams: {
         agent_id?: string;
         limit?: number;
         starting_after?: string;
       };
-      requestBody: undefined;
       responseBody: {
         data: Interaction[];
         has_more: boolean;
       };
     };
     PostInteractions: {
-      pathParams: {};
-      queryParams: {};
       requestBody: InteractionCreateParams;
       responseBody: Interaction;
     };
@@ -43,34 +34,26 @@ export namespace ClientApi {
       pathParams: {
         interaction_id: string;
       };
-      queryParams: {};
-      requestBody: undefined;
       responseBody: Interaction;
     };
     DeleteInteractionsInteraction: {
       pathParams: {
         interaction_id: string;
       };
-      queryParams: {};
-      requestBody: undefined;
       responseBody: Interaction;
     };
     GetMessages: {
-      pathParams: {};
       queryParams: {
         interaction_id: string;
         limit?: number;
         starting_after?: string;
       };
-      requestBody: undefined;
       responseBody: {
         data: Message[];
         has_more: boolean;
       };
     };
     PostMessages: {
-      pathParams: {};
-      queryParams: {};
       requestBody: MessageCreateParams;
       responseBody: MessageSendResponse;
     };
@@ -78,23 +61,34 @@ export namespace ClientApi {
       pathParams: {
         message_id: string;
       };
-      queryParams: {};
-      requestBody: undefined;
       responseBody: Message;
     };
     PostMessagesMessage: {
       pathParams: {
         message_id: string;
       };
-      queryParams: {};
       requestBody: MessageResendParams;
       responseBody: MessageSendResponse;
     };
   };
 
   export type OperationId = keyof Operations;
-  export type PathParams<T extends OperationId> = Operations[T]['pathParams'];
-  export type QueryParams<T extends OperationId> = Operations[T]['queryParams'];
-  export type RequestBody<T extends OperationId> = Operations[T]['requestBody'];
+
+  export type PathParams<T extends OperationId> = 'pathParams' extends keyof Operations[T]
+    ? Operations[T]['pathParams'] extends Record<string, string>
+      ? Operations[T]['pathParams']
+      : Record<string, string>
+    : Record<string, string>;
+
+  export type QueryParams<T extends OperationId> = 'queryParams' extends keyof Operations[T]
+    ? Operations[T]['queryParams'] extends Record<string, string | number>
+      ? Operations[T]['queryParams']
+      : Record<string, string | number>
+    : Record<string, string | number>;
+
+  export type RequestBody<T extends OperationId> = 'requestBody' extends keyof Operations[T]
+    ? Operations[T]['requestBody']
+    : undefined;
+
   export type ResponseBody<T extends OperationId> = Operations[T]['responseBody'];
 }

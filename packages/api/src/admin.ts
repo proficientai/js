@@ -7,14 +7,9 @@ export namespace AdminApi {
       pathParams: {
         agent_id: string;
       };
-      queryParams: {};
-      requestBody: undefined;
       responseBody: Agent;
     };
     GetAgents: {
-      pathParams: {};
-      queryParams: {};
-      requestBody: undefined;
       responseBody: {
         // TODO: Should be an object of a known type
         data: Agent[];
@@ -25,21 +20,15 @@ export namespace AdminApi {
       pathParams: {
         agent_id: string;
       };
-      queryParams: {};
-      requestBody: undefined;
       responseBody: Agent;
     };
     GetAgentsAgentConfig: {
       pathParams: {
         agent_id: string;
       };
-      queryParams: {};
-      requestBody: undefined;
       responseBody: AgentConfig;
     };
     PostAgents: {
-      pathParams: {};
-      queryParams: {};
       requestBody: AgentCreateParams;
       responseBody: Agent;
     };
@@ -47,7 +36,6 @@ export namespace AdminApi {
       pathParams: {
         agent_id: string;
       };
-      queryParams: {};
       requestBody: AgentUpdateParams;
       responseBody: Agent;
     };
@@ -55,15 +43,12 @@ export namespace AdminApi {
       pathParams: {
         agent_id: string;
       };
-      queryParams: {};
-      requestBody: undefined;
       responseBody: Agent;
     };
     PostAgentsAgentConfig: {
       pathParams: {
         agent_id: string;
       };
-      queryParams: {};
       requestBody: AgentConfigUpdateParams;
       responseBody: AgentConfig;
     };
@@ -71,15 +56,27 @@ export namespace AdminApi {
       pathParams: {
         agent_id: string;
       };
-      queryParams: {};
-      requestBody: undefined;
       responseBody: Agent;
     };
   };
 
   export type OperationId = keyof Operations;
-  export type PathParams<T extends OperationId> = Operations[T]['pathParams'];
-  export type QueryParams<T extends OperationId> = Operations[T]['queryParams'];
-  export type RequestBody<T extends OperationId> = Operations[T]['requestBody'];
+
+  export type PathParams<T extends OperationId> = 'pathParams' extends keyof Operations[T]
+    ? Operations[T]['pathParams'] extends Record<string, string>
+      ? Operations[T]['pathParams']
+      : Record<string, string>
+    : Record<string, string>;
+
+  export type QueryParams<T extends OperationId> = 'queryParams' extends keyof Operations[T]
+    ? Operations[T]['queryParams'] extends Record<string, string | number>
+      ? Operations[T]['queryParams']
+      : Record<string, string | number>
+    : Record<string, string | number>;
+
+  export type RequestBody<T extends OperationId> = 'requestBody' extends keyof Operations[T]
+    ? Operations[T]['requestBody']
+    : undefined;
+
   export type ResponseBody<T extends OperationId> = Operations[T]['responseBody'];
 }
