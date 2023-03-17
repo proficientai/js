@@ -272,6 +272,24 @@ export function AgentView({
     });
   }, [getApi, agentId]);
 
+  const handleDeleteInteraction = useCallback(
+    async (interactionId: string) => {
+      const api = await getApi();
+      try {
+        await api.deleteInteraction(interactionId);
+      } catch (e: any) {
+        console.log('ERROR:', e?.response?.data);
+        alert(e?.response?.data?.message ?? 'Cannot delete interaction.');
+        return;
+      }
+      setInteractionStatesById((prev) => {
+        const { [interactionId]: _, ...next } = prev;
+        return next;
+      });
+    },
+    [getApi]
+  );
+
   return (
     <div style={{ display: 'flex', border: '1px solid gray' }}>
       <div>
@@ -290,97 +308,104 @@ export function AgentView({
           })}
         </div>
       </div>
-      <div style={{ width: '100%' }}>
-        <div style={{ backgroundColor: 'yellowgreen' }}>Header</div>
-        {(() => {
-          if (!interactionState) {
-            return <div>SELECT AN INTERACTION!</div>;
-          }
+      {(() => {
+        if (!interactionState) {
+          return <div>No selected interaction...</div>;
+        }
 
-          const { messages, interaction, input, hasMore } = interactionState;
+        const { messages, interaction, input, hasMore } = interactionState;
 
-          return (
-            <>
-              <InfiniteScroll
-                dataLength={messages.length}
-                next={() => loadNextMessagesBatch(interaction.id)}
+        return (
+          <div style={{ width: '100%' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                backgroundColor: 'yellowgreen',
+              }}>
+              <div>{interaction.id}</div>
+              <button onClick={() => handleDeleteInteraction(interaction.id)}>Delete interaction</button>
+            </div>
+            <InfiniteScroll
+              dataLength={messages.length}
+              next={() => loadNextMessagesBatch(interaction.id)}
+              style={{
+                display: 'flex',
+                flexDirection: 'column-reverse',
+                paddingLeft: 20,
+                paddingRight: 20,
+              }}
+              inverse
+              hasMore={hasMore}
+              height={400}
+              loader={<p style={{ textAlign: 'center' }}>Loading...</p>}
+              endMessage={<p style={{ textAlign: 'center' }}>This marks the beginning of the interaction.</p>}>
+              {messages.map((message) => {
+                return (
+                  <div
+                    key={message.id}
+                    style={{
+                      marginLeft: message.sent_by === 'agent' ? 0 : 'auto',
+                      padding: 10,
+                      border: '1px solid rgb(235, 235, 235)',
+                      backgroundColor: message.sent_by === 'agent' ? 'rgb(250, 250, 250)' : 'rgb(41, 87, 255)',
+                      color: message.sent_by === 'agent' ? 'black' : 'white',
+                      borderRadius: 10,
+                      marginBottom: 10,
+                      width: 'fit-content',
+                      maxWidth: '75ch',
+                      whiteSpace: 'pre-wrap',
+                    }}>
+                    {message.content}
+                  </div>
+                );
+              })}
+            </InfiniteScroll>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                paddingLeft: 20,
+                paddingRight: 20,
+                paddingTop: 10,
+                paddingBottom: 10,
+                backgroundColor: 'hsl(220, 30%, 80%)',
+              }}>
+              <TextareaAutosize
+                maxLength={contentMaxLength}
+                placeholder={inputPlaceholder}
                 style={{
-                  display: 'flex',
-                  flexDirection: 'column-reverse',
-                  paddingLeft: 20,
-                  paddingRight: 20,
+                  width: '100%',
+                  overflowY: 'hidden',
+                  resize: 'none',
+                  marginBottom: 0,
                 }}
-                inverse
-                hasMore={hasMore}
-                height={400}
-                loader={<p style={{ textAlign: 'center' }}>Loading...</p>}
-                endMessage={<p style={{ textAlign: 'center' }}>This marks the beginning of the interaction.</p>}>
-                {messages.map((message) => {
-                  return (
-                    <div
-                      key={message.id}
-                      style={{
-                        marginLeft: message.sent_by === 'agent' ? 0 : 'auto',
-                        padding: 10,
-                        border: '1px solid rgb(235, 235, 235)',
-                        backgroundColor: message.sent_by === 'agent' ? 'rgb(250, 250, 250)' : 'rgb(41, 87, 255)',
-                        color: message.sent_by === 'agent' ? 'black' : 'white',
-                        borderRadius: 10,
-                        marginBottom: 10,
-                        width: 'fit-content',
-                        maxWidth: '75ch',
-                        whiteSpace: 'pre-wrap',
-                      }}>
-                      {message.content}
-                    </div>
-                  );
-                })}
-              </InfiniteScroll>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  paddingLeft: 20,
-                  paddingRight: 20,
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  backgroundColor: 'hsl(220, 30%, 80%)',
-                }}>
-                <TextareaAutosize
-                  maxLength={contentMaxLength}
-                  placeholder={inputPlaceholder}
-                  style={{
-                    width: '100%',
-                    overflowY: 'hidden',
-                    resize: 'none',
-                    marginBottom: 0,
-                  }}
-                  minRows={3}
-                  value={input}
-                  onChange={(e) => {
-                    setInteractionStatesById((prev) => {
-                      const next = cloneDeep(prev);
-                      const intState = next[interaction.id];
-                      if (!intState) {
-                        console.warn(
-                          'Could not find interaction state. This indicates an unexpected behavior in application flow:',
-                          {
-                            interactionId,
-                          }
-                        );
-                        return next;
-                      }
-                      intState.input = e.target.value;
+                minRows={3}
+                value={input}
+                onChange={(e) => {
+                  setInteractionStatesById((prev) => {
+                    const next = cloneDeep(prev);
+                    const intState = next[interaction.id];
+                    if (!intState) {
+                      console.warn(
+                        'Could not find interaction state. This indicates an unexpected behavior in application flow:',
+                        {
+                          interactionId,
+                        }
+                      );
                       return next;
-                    });
-                  }}
-                />
-                <button onClick={handleSendMessage}>Send</button>
-              </div>
-            </>
-          );
-        })()}
-      </div>
+                    }
+                    intState.input = e.target.value;
+                    return next;
+                  });
+                }}
+              />
+              <button onClick={handleSendMessage}>Send</button>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
