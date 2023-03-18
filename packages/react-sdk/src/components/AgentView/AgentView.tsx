@@ -274,6 +274,7 @@ export function AgentView({
       };
       return next;
     });
+    setInteractionId(newInteraction.id);
   }, [getApi, agentId]);
 
   const handleDeleteInteraction = useCallback(
