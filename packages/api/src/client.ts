@@ -28,7 +28,13 @@ export namespace ClientApi {
     };
     PostInteractions: {
       requestBody: InteractionCreateParams;
-      responseBody: Interaction;
+      responseBody: {
+        interaction: Interaction;
+        /**
+         * Initial messages.
+         */
+        messages: Message[];
+      };
     };
     GetInteractionsInteraction: {
       pathParams: {
