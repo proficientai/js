@@ -46,8 +46,7 @@ export class ClientApiService extends APIService {
   }
 
   public async createInteraction(params: InteractionCreateParams) {
-    const resource = await this.post<ClientApi.ResponseBody<'PostInteractions'>>(`/interactions`, params);
-    return resource;
+    return await this.post<ClientApi.ResponseBody<'PostInteractions'>>(`/interactions`, params);
   }
 
   public async deleteInteraction(interactionId: string) {

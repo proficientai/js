@@ -262,15 +262,18 @@ export function AgentView({
 
   const handleCreateNewInteraction = useCallback(async () => {
     const api = await getApi();
-    const newInteraction = await api.createInteraction({ agent_id: agentId });
-    // TODO: If initialTurn == 'Agent' then probably want to set oldest message id here
+    const { interaction: newInteraction, messages } = await api.createInteraction({ agent_id: agentId });
+    const oldestMessage = messages[messages.length - 1];
+    if (oldestMessage) {
+      paginationMap.current.setOldestItemFor(newInteraction.id, oldestMessage.id);
+    }
     setInteractionStatesById((prev) => {
       const next = cloneDeep(prev);
       next[newInteraction.id] = {
         hasMore: true,
         input: '',
         interaction: newInteraction,
-        messages: [],
+        messages,
       };
       return next;
     });
