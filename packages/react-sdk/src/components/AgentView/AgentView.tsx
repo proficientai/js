@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import type { Interaction, Message } from '@proficient/api';
 import { cloneDeep } from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -298,7 +300,14 @@ export function AgentView({
   );
 
   return (
-    <div style={{ display: 'flex', border: '1px solid gray' }}>
+    <div
+      css={css`
+        display: flex;
+        border: 1px solid gray;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 4px;
+      `}>
       <div>
         <div>Search</div>
         <button onClick={handleCreateNewInteraction} style={{ marginBottom: 20, marginTop: 10 }}>

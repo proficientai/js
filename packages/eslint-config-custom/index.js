@@ -41,6 +41,7 @@ module.exports = {
     'no-empty-pattern': 0,
     'react/display-name': 0,
     'react/jsx-key': 'off',
+    'react/no-unknown-property': ['error', { ignore: ['css'] }],
     'react/react-in-jsx-scope': 0, // Next.js handles this
     'turbo/no-undeclared-env-vars': 0,
   },

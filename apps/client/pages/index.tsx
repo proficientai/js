@@ -17,18 +17,15 @@ const axiosInstance = axios.create({
 
 export default function ExampleClient() {
   return (
-    <div>
-      <h1>Example Client</h1>
-      <AgentView
-        apiKey={proficientApiKey}
-        agentId={agentId}
-        userExternalId={userExternalId}
-        userHmac={async () => {
-          const { data: resBody } = await axiosInstance.post<ResponseBody>('/hmac', { userId: userExternalId });
-          if (!resBody.success) throw new Error(resBody.error.message);
-          return resBody.data.hmac;
-        }}
-      />
-    </div>
+    <AgentView
+      apiKey={proficientApiKey}
+      agentId={agentId}
+      userExternalId={userExternalId}
+      userHmac={async () => {
+        const { data: resBody } = await axiosInstance.post<ResponseBody>('/hmac', { userId: userExternalId });
+        if (!resBody.success) throw new Error(resBody.error.message);
+        return resBody.data.hmac;
+      }}
+    />
   );
 }
