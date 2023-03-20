@@ -1,4 +1,4 @@
-import { AgentView } from '@proficient/react-sdk';
+import { AgentView } from '@proficient/react';
 import axios from 'axios';
 
 import type { ResponseBody } from './api/hmac';

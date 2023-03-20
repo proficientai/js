@@ -1,5 +1,5 @@
 {
-  "name": "@proficient/react-sdk",
+  "name": "@proficient/react",
   "version": "0.0.0",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
