@@ -304,16 +304,27 @@ export function AgentView({
       css={css`
         display: flex;
         border: 1px solid gray;
-        padding: 12px;
         font-size: 16px;
         border-radius: 4px;
       `}>
-      <div>
-        <div>Search</div>
-        <button onClick={handleCreateNewInteraction} style={{ marginBottom: 20, marginTop: 10 }}>
-          Create new interaction
+      {/* Interactions Sidebar */}
+      <div
+        css={css`
+          border-right: 1px solid gray;
+          padding: 12px;
+        `}>
+        <button
+          css={css`
+            margin-bottom: 20px;
+          `}
+          onClick={handleCreateNewInteraction}>
+          + Create new interaction
         </button>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+          `}>
           {interactionStates.map((interactionState) => {
             const { interaction } = interactionState;
             return (
@@ -324,6 +335,9 @@ export function AgentView({
           })}
         </div>
       </div>
+
+      {/* Interaction View */}
+
       {(() => {
         if (!interactionState) {
           return <div>No selected interaction...</div>;
@@ -332,70 +346,94 @@ export function AgentView({
         const { messages, interaction, input, hasMore } = interactionState;
 
         return (
-          <div style={{ width: '100%' }}>
+          <div
+            css={css`
+              width: 100%;
+            `}>
             <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                backgroundColor: 'yellowgreen',
-              }}>
+              css={css`
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 12px;
+                border-bottom: 1px solid gray;
+              `}>
               <div>{interaction.id}</div>
               <button onClick={() => handleDeleteInteraction(interaction.id)}>Delete interaction</button>
             </div>
             <InfiniteScroll
               dataLength={messages.length}
               next={() => loadNextMessagesBatch(interaction.id)}
-              style={{
-                display: 'flex',
-                flexDirection: 'column-reverse',
-                paddingLeft: 20,
-                paddingRight: 20,
-              }}
+              css={css`
+                display: flex;
+                flex-direction: column-reverse;
+                padding-left: 20px;
+                padding-right: 20px;
+              `}
               inverse
               hasMore={hasMore}
               height={400}
-              loader={<p style={{ textAlign: 'center' }}>Loading...</p>}
-              endMessage={<p style={{ textAlign: 'center' }}>This marks the beginning of the interaction.</p>}>
+              loader={
+                <div
+                  css={css`
+                    text-align: center;
+                  `}>
+                  Loading...
+                </div>
+              }
+              endMessage={
+                <div
+                  css={css`
+                    text-align: center;
+                    padding: 10px;
+                    margin-bottom: 10px;
+                    margin-top: 10px;
+                    color: #444;
+                    font-size: 14px;
+                  `}>
+                  This marks the beginning of the interaction.
+                </div>
+              }>
               {messages.map((message) => {
                 return (
                   <div
                     key={message.id}
-                    style={{
-                      marginLeft: message.sent_by === 'agent' ? 0 : 'auto',
-                      padding: 10,
-                      border: '1px solid rgb(235, 235, 235)',
-                      backgroundColor: message.sent_by === 'agent' ? 'rgb(250, 250, 250)' : 'rgb(41, 87, 255)',
-                      color: message.sent_by === 'agent' ? 'black' : 'white',
-                      borderRadius: 10,
-                      marginBottom: 10,
-                      width: 'fit-content',
-                      maxWidth: '75ch',
-                      whiteSpace: 'pre-wrap',
-                    }}>
+                    css={css`
+                      padding: 10px;
+                      border-radius: 10px;
+                      margin-bottom: 10px;
+                      margin-left: ${message.sent_by === 'agent' ? 0 : 'auto'};
+                      width: fit-content;
+                      max-width: 75ch;
+                      white-space: pre-wrap;
+                      border: 1px solid rgb(235, 235, 235);
+                      background-color: ${message.sent_by === 'agent' ? 'rgb(250, 250, 250)' : 'rgb(41, 87, 255)'};
+                      color: ${message.sent_by === 'agent' ? 'black' : 'white'};
+                    `}>
                     {message.content}
                   </div>
                 );
               })}
             </InfiniteScroll>
+
             <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                paddingLeft: 20,
-                paddingRight: 20,
-                paddingTop: 10,
-                paddingBottom: 10,
-                backgroundColor: 'hsl(220, 30%, 80%)',
-              }}>
+              css={css`
+                display: flex;
+                align-items: center;
+                border-top: 1px solid gray;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-top: 12px;
+                padding-bottom: 12px;
+              `}>
               <TextareaAutosize
                 placeholder={inputPlaceholder}
-                style={{
-                  width: '100%',
-                  overflowY: 'hidden',
-                  resize: 'none',
-                  marginBottom: 0,
-                }}
+                css={css`
+                  width: 100%;
+                  overflow-y: hidden;
+                  resize: none;
+                  margin-bottom: 0;
+                `}
                 minRows={3}
                 value={input}
                 onChange={(e) => {
@@ -416,7 +454,13 @@ export function AgentView({
                   });
                 }}
               />
-              <button onClick={handleSendMessage}>Send</button>
+              <button
+                onClick={handleSendMessage}
+                css={css`
+                  margin-left: 12px;
+                `}>
+                Send
+              </button>
             </div>
           </div>
         );
