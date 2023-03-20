@@ -72,7 +72,6 @@ export function AgentView({
   userExternalId,
   userHmac,
   inputPlaceholder = 'Type something...',
-  contentMaxLength = 500,
 }: InteractionViewProps) {
   const { getApi } = useApi({ apiKey, userExternalId, userHmac });
 
@@ -381,7 +380,6 @@ export function AgentView({
                 backgroundColor: 'hsl(220, 30%, 80%)',
               }}>
               <TextareaAutosize
-                maxLength={contentMaxLength}
                 placeholder={inputPlaceholder}
                 style={{
                   width: '100%',

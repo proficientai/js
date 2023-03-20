@@ -4,5 +4,4 @@ export interface InteractionViewProps {
   userExternalId: string;
   userHmac?: string | (() => Promise<string>);
   inputPlaceholder?: string;
-  contentMaxLength?: number;
 }
