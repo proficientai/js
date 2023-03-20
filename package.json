@@ -9,6 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "build:api": "turbo run build --filter=api",
+    "build:client": "turbo run build --filter=client",
     "build:react": "turbo run build --filter=react",
     "compile:web": "turbo run compile --filter=web",
     "dev": "turbo run dev --parallel",
