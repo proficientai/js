@@ -1,5 +1,5 @@
-export type Credentials = {
+export interface ApiCredentials {
   apiKey: string;
   userExternalId: string;
   userHmac?: string;
-};
+}

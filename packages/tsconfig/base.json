@@ -15,7 +15,8 @@
     "noUnusedParameters": false,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "target": "es5"
   },
   "exclude": ["node_modules"]
 }

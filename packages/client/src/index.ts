@@ -1,5 +1,5 @@
-export { ClientApiService as ClientApi } from './ClientApi';
-export { type Credentials } from './types';
+export { Proficient } from './Proficient';
+export type { ApiCredentials } from './types';
 export type {
   Agent,
   Interaction,

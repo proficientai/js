@@ -99,7 +99,7 @@ export function AgentView({
         return;
       }
       lastAttemptedInteractionsBatchId.current = oldestInteractionId.current;
-      const { data: receivedInteractions, has_more: hasMore } = await api.getInteractions({
+      const { data: receivedInteractions, has_more: hasMore } = await api.interactions.list({
         agent_id: agentId,
         limit: 20,
       });
@@ -155,7 +155,7 @@ export function AgentView({
           paginationMap.current.setLastAttemptFor(interactionId, oldestMessageId);
         }
 
-        const { data: receivedMessages, has_more: hasMore } = await api.getMessages({
+        const { data: receivedMessages, has_more: hasMore } = await api.messages.list({
           interaction_id: interactionId,
           limit: paginationLimit,
           starting_after: oldestMessageId ?? undefined,
@@ -231,7 +231,7 @@ export function AgentView({
     const api = await getApi();
     const [firstMessage] = messages;
     const parentId = firstMessage?.id ?? null;
-    const { received, sent } = await api.createMessage({
+    const { received, sent } = await api.messages.create({
       content,
       interaction_id: interactionId,
       parent_id: parentId,
@@ -263,7 +263,7 @@ export function AgentView({
 
   const handleCreateNewInteraction = useCallback(async () => {
     const api = await getApi();
-    const { interaction: newInteraction, messages } = await api.createInteraction({ agent_id: agentId });
+    const { interaction: newInteraction, messages } = await api.interactions.create({ agent_id: agentId });
     const oldestMessage = messages[messages.length - 1];
     if (oldestMessage) {
       paginationMap.current.setOldestItemFor(newInteraction.id, oldestMessage.id);
@@ -285,7 +285,7 @@ export function AgentView({
     async (interactionId: string) => {
       const api = await getApi();
       try {
-        await api.deleteInteraction(interactionId);
+        await api.interactions.delete(interactionId);
       } catch (e: any) {
         console.log('ERROR:', e?.response?.data);
         alert(e?.response?.data?.message ?? 'Cannot delete interaction.');
