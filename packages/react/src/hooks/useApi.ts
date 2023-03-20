@@ -1,6 +1,5 @@
+import { ClientApi } from '@proficient/client';
 import { useCallback, useRef } from 'react';
-
-import { ClientApi } from '../api';
 
 type Params = {
   apiKey: string;

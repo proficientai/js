@@ -1,4 +1,4 @@
-import type { Message } from '@proficient/api';
+import type { Message } from '@proficient/client';
 import { sleep } from '@proficient/util';
 import { LoremIpsum } from 'lorem-ipsum';
 import { v4 as uuid } from 'uuid';
