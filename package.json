@@ -10,9 +10,9 @@
     "build": "turbo run build",
     "build:api": "turbo run build --filter=api",
     "build:react": "turbo run build --filter=react",
-    "compile:client": "turbo run compile --filter=client",
+    "compile:web": "turbo run compile --filter=web",
     "dev": "turbo run dev --parallel",
-    "dev:client": "turbo run dev --filter=client",
+    "dev:web": "turbo run dev --filter=web",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\""
   },
