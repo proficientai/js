@@ -12,7 +12,6 @@ import type { InteractionViewProps } from './types';
 const paginationLimit = 20; // TODO: Make dynamic
 
 type InteractionState = {
-  input: string;
   interaction: Interaction;
   messages: Message[];
   hasMore: boolean;
@@ -97,6 +96,7 @@ export function AgentView({
   const [interactionStatesById, setInteractionStatesById] = useState<Record<string, InteractionState>>({});
   const [hasMoreInteractions, setHasMoreInteractions] = useState(true);
   const paginationMap = useRef(new MultiSectionPaginationMap());
+  const textInputMap = useRef(new Map<string, string>());
   const oldestInteractionId = useRef<string | null>(null);
   const lastAttemptedInteractionsBatchId = useRef<null | string>(null);
   const [interactionId, setInteractionId] = useState<string | null>(null);
@@ -128,7 +128,6 @@ export function AgentView({
           if (!intState) {
             intState = {
               hasMore: true,
-              input: '',
               interaction: i,
               messages: [],
             };
@@ -153,6 +152,21 @@ export function AgentView({
       console.log(e.response.data);
     }
   }, [getApi, agentId, interactionId]);
+
+  const setTextAreaValue = useCallback((val: string) => {
+    if (textAreaRef.current) {
+      textAreaRef.current.value = val;
+    }
+  }, []);
+
+  const selectInteraction = useCallback(
+    (id: string) => {
+      setInteractionId(id);
+      const val = textInputMap.current.get(id) ?? '';
+      setTextAreaValue(val);
+    },
+    [setTextAreaValue]
+  );
 
   useEffect(() => {
     (async () => {
@@ -237,7 +251,13 @@ export function AgentView({
       interaction: { id: interactionId },
       messages,
     } = interactionState;
-    const { input: content } = interactionState;
+    const content = textInputMap.current.get(interactionId);
+    if (!content) {
+      alert('No message');
+      return;
+    }
+    textInputMap.current.delete(interactionId);
+    setTextAreaValue('');
     setInteractionStatesById((prev) => {
       const next = cloneDeep(prev);
       const intState = next[interactionId];
@@ -247,7 +267,6 @@ export function AgentView({
         });
         return next;
       }
-      intState.input = '';
       intState.messages.unshift({
         id: 'provisional',
         index: -1,
@@ -289,7 +308,7 @@ export function AgentView({
       intState.messages.unshift(received);
       return next;
     });
-  }, [getApi, interactionState]);
+  }, [getApi, setTextAreaValue, interactionState]);
 
   useKeyboardEnterEvent(handleSendMessage);
 
@@ -304,7 +323,6 @@ export function AgentView({
       const next = cloneDeep(prev);
       next[newInteraction.id] = {
         hasMore: true,
-        input: '',
         interaction: newInteraction,
         messages,
       };
@@ -389,7 +407,7 @@ export function AgentView({
                     background-color: ${interactionId === i.id ? 'lightblue' : 'rgb(240, 240, 240)'};
                   }
                 `}
-                onClick={() => setInteractionId(i.id)}>
+                onClick={() => selectInteraction(i.id)}>
                 {i.id}
               </div>
             );
@@ -404,7 +422,7 @@ export function AgentView({
           return <div>No selected interaction...</div>;
         }
 
-        const { messages, interaction, input, hasMore } = interactionState;
+        const { messages, interaction, hasMore } = interactionState;
 
         return (
           <div
@@ -513,23 +531,13 @@ export function AgentView({
                     outline-offset: 2px;
                   `}
                   minRows={4}
-                  value={input}
                   onChange={(e) => {
-                    setInteractionStatesById((prev) => {
-                      const next = cloneDeep(prev);
-                      const intState = next[interaction.id];
-                      if (!intState) {
-                        console.warn(
-                          'Could not find interaction state. This indicates an unexpected behavior in application flow:',
-                          {
-                            interactionId,
-                          }
-                        );
-                        return next;
-                      }
-                      intState.input = e.target.value;
-                      return next;
-                    });
+                    const text = e.target.value;
+                    if (text) {
+                      textInputMap.current.set(interaction.id, text);
+                    } else {
+                      textInputMap.current.delete(interaction.id);
+                    }
                   }}
                 />
                 <div
