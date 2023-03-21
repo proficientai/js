@@ -19,5 +19,8 @@
     "eslint-config-custom": "*",
     "tsconfig": "*",
     "typescript": "4.9.5"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
