@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import type { Interaction, Message } from '@proficient/client';
+import type { Agent, Interaction, Message } from '@proficient/client';
 import { cloneDeep } from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -68,6 +68,22 @@ class MultiSectionPaginationMap {
   }
 }
 
+type AgentState =
+  | {
+      status: 'nil';
+    }
+  | {
+      status: 'loading';
+    }
+  | {
+      status: 'error';
+      code: 'not-found' | 'unknown';
+    }
+  | {
+      status: 'success';
+      agent: Agent;
+    };
+
 export function AgentView({
   apiKey,
   agentId,
@@ -77,6 +93,7 @@ export function AgentView({
 }: InteractionViewProps) {
   const { getApi } = useApi({ apiKey, userExternalId, userHmac });
 
+  const [agentState, setAgentState] = useState<AgentState>({ status: 'nil' });
   const [interactionStatesById, setInteractionStatesById] = useState<Record<string, InteractionState>>({});
   const [hasMoreInteractions, setHasMoreInteractions] = useState(true);
   const paginationMap = useRef(new MultiSectionPaginationMap());
@@ -135,6 +152,20 @@ export function AgentView({
       console.log(e.response.data);
     }
   }, [getApi, agentId, interactionId]);
+
+  useEffect(() => {
+    (async () => {
+      setAgentState({ status: 'loading' });
+      const api = await getApi();
+      try {
+        const agent = await api.agents.get(agentId);
+        setAgentState({ status: 'success', agent });
+      } catch (e) {
+        // TODO: Check error code
+        setAgentState({ status: 'error', code: 'unknown' });
+      }
+    })();
+  }, [agentId, getApi]);
 
   useEffect(() => {
     loadNextInteractionsBatch();
@@ -299,6 +330,17 @@ export function AgentView({
     [getApi]
   );
 
+  if (agentState.status === 'nil' || agentState.status === 'loading') {
+    return <div>Loading agent...</div>;
+  }
+
+  if (agentState.status === 'error') {
+    // TODO: Show which error
+    return <div>Error loading agent: {agentState.code}</div>;
+  }
+
+  const { agent } = agentState;
+
   return (
     <div
       css={css`
@@ -313,8 +355,11 @@ export function AgentView({
           border-right: 1px solid gray;
           padding: 12px;
         `}>
+        <div>{agent.name}</div>
+
         <button
           css={css`
+            margin-top: 20px;
             margin-bottom: 20px;
           `}
           onClick={handleCreateNewInteraction}>
