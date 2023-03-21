@@ -1,11 +1,16 @@
 {
   "name": "@proficient/react",
   "version": "0.2.0",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "source": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "/dist",
+    "/src"
+  ],
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "tsup src/index.ts --format cjs --dts",
     "lint": "TIMING=1 eslint \"**/*.ts*\""
   },
   "devDependencies": {
@@ -33,6 +38,7 @@
     "lorem-ipsum": "^2.0.8",
     "react-infinite-scroll-component": "^6.1.0",
     "react-textarea-autosize": "^8.4.0",
+    "tsup": "^6.7.0",
     "uuid": "^9.0.0"
   },
   "publishConfig": {
