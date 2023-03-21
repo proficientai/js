@@ -372,11 +372,26 @@ export function AgentView({
             flex-direction: column;
           `}>
           {interactionStates.map((interactionState) => {
-            const { interaction } = interactionState;
+            const { interaction: i } = interactionState;
             return (
-              <button key={interaction.id} onClick={() => setInteractionId(interaction.id)}>
-                {interaction.id}
-              </button>
+              <div
+                key={i.id}
+                css={css`
+                  border-bottom: 1px solid gray;
+                  padding-top: 12px;
+                  padding-bottom: 12px;
+                  padding-left: 12px;
+                  padding-right: 12px;
+                  cursor: pointer;
+                  background-color: ${interactionId === i.id ? 'lightblue' : 'transparent'};
+
+                  &:hover {
+                    background-color: ${interactionId === i.id ? 'lightblue' : 'rgb(240, 240, 240)'};
+                  }
+                `}
+                onClick={() => setInteractionId(i.id)}>
+                {i.id}
+              </div>
             );
           })}
         </div>
