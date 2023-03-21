@@ -100,6 +100,7 @@ export function AgentView({
   const oldestInteractionId = useRef<string | null>(null);
   const lastAttemptedInteractionsBatchId = useRef<null | string>(null);
   const [interactionId, setInteractionId] = useState<string | null>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const interactionStates = Object.values(interactionStatesById).sort(
     (i1, i2) => i2.interaction.updated_at - i1.interaction.updated_at
@@ -464,48 +465,74 @@ export function AgentView({
             <div
               css={css`
                 display: flex;
-                align-items: center;
+                flex-direction: column;
                 border-top: 1px solid gray;
                 padding-left: 20px;
                 padding-right: 20px;
                 padding-top: 12px;
                 padding-bottom: 12px;
               `}>
-              <TextareaAutosize
-                placeholder={inputPlaceholder}
+              <div
                 css={css`
-                  width: 100%;
-                  overflow-y: hidden;
-                  resize: none;
-                  margin-bottom: 0;
-                `}
-                minRows={3}
-                value={input}
-                onChange={(e) => {
-                  setInteractionStatesById((prev) => {
-                    const next = cloneDeep(prev);
-                    const intState = next[interaction.id];
-                    if (!intState) {
-                      console.warn(
-                        'Could not find interaction state. This indicates an unexpected behavior in application flow:',
-                        {
-                          interactionId,
-                        }
-                      );
-                      return next;
-                    }
-                    intState.input = e.target.value;
-                    return next;
-                  });
-                }}
-              />
-              <button
-                onClick={handleSendMessage}
-                css={css`
-                  margin-left: 12px;
+                  display: flex;
+                  flex-direction: column;
+                  border: 1px solid gray;
+                  border-radius: 6px;
+                  overflow: hidden;
+
+                  &:focus-within {
+                    border-color: blue;
+                  }
                 `}>
-                Send
-              </button>
+                <TextareaAutosize
+                  ref={textAreaRef}
+                  placeholder={inputPlaceholder}
+                  css={css`
+                    resize: none;
+                    border: none;
+                    padding-top: 8px;
+                    padding-bottom: 8px;
+                    padding-left: 12px;
+                    padding-right: 12px;
+                    outline: 2px solid transparent;
+                    outline-offset: 2px;
+                  `}
+                  minRows={4}
+                  value={input}
+                  onChange={(e) => {
+                    setInteractionStatesById((prev) => {
+                      const next = cloneDeep(prev);
+                      const intState = next[interaction.id];
+                      if (!intState) {
+                        console.warn(
+                          'Could not find interaction state. This indicates an unexpected behavior in application flow:',
+                          {
+                            interactionId,
+                          }
+                        );
+                        return next;
+                      }
+                      intState.input = e.target.value;
+                      return next;
+                    });
+                  }}
+                />
+                <div
+                  css={css`
+                    display: flex;
+                    justify-content: end;
+                    padding-top: 8px;
+                    padding-bottom: 8px;
+                    padding-left: 12px;
+                    padding-right: 12px;
+                    cursor: text;
+                  `}
+                  onClick={() => {
+                    textAreaRef.current?.focus();
+                  }}>
+                  <button onClick={handleSendMessage}>{'> Send'}</button>
+                </div>
+              </div>
             </div>
           </div>
         );
