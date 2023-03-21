@@ -14,8 +14,8 @@
     "compile:web": "turbo run compile --filter=web",
     "dev": "turbo run dev --parallel",
     "dev:web": "turbo run dev --filter=web",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\"",
+    "lint": "turbo run lint"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
