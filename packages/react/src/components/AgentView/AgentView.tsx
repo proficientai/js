@@ -8,6 +8,7 @@ import { useApi, useKeyboardEnterEvent } from '../../hooks';
 import { ChatSection } from './ChatSection';
 import { HeaderSection } from './HeaderSection';
 import { InputSection } from './InputSection';
+import { SidebarSection } from './SidebarSection';
 import type { AgentViewProps } from './types';
 
 const paginationLimit = 20; // TODO: Make dynamic
@@ -103,9 +104,6 @@ export function AgentView({
   const [interactionId, setInteractionId] = useState<string | null>(null);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const interactionStates = Object.values(interactionStatesById).sort(
-    (i1, i2) => i2.interaction.updated_at - i1.interaction.updated_at
-  );
   const interactionState = interactionId ? interactionStatesById[interactionId] ?? null : null;
 
   const loadNextInteractionsBatch = useCallback(async () => {
@@ -360,6 +358,9 @@ export function AgentView({
   }
 
   const { agent } = agentState;
+  const sortedInteractions = Object.values(interactionStatesById)
+    .map((s) => s.interaction)
+    .sort((i1, i2) => i2.updated_at - i1.updated_at);
 
   return (
     <div
@@ -369,54 +370,15 @@ export function AgentView({
         font-size: 16px;
         border-radius: 4px;
       `}>
-      {/* Interactions Sidebar */}
-      <div
-        css={css`
-          border-right: 1px solid gray;
-          padding: 12px;
-        `}>
-        <div>{agent.name}</div>
-
-        <button
-          css={css`
-            margin-top: 20px;
-            margin-bottom: 20px;
-          `}
-          onClick={handleCreateNewInteraction}>
-          + Create new interaction
-        </button>
-        <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-          `}>
-          {interactionStates.map((interactionState) => {
-            const { interaction: i } = interactionState;
-            return (
-              <div
-                key={i.id}
-                css={css`
-                  border-bottom: 1px solid gray;
-                  padding-top: 12px;
-                  padding-bottom: 12px;
-                  padding-left: 12px;
-                  padding-right: 12px;
-                  cursor: pointer;
-                  background-color: ${interactionId === i.id ? 'lightblue' : 'transparent'};
-
-                  &:hover {
-                    background-color: ${interactionId === i.id ? 'lightblue' : 'rgb(240, 240, 240)'};
-                  }
-                `}
-                onClick={() => selectInteraction(i.id)}>
-                {i.id}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Interaction View */}
+      <SidebarSection
+        header={agent.name}
+        interactions={sortedInteractions}
+        isSelectedInteraction={(i) => i.id === interactionId}
+        onClickInteraction={(i) => {
+          selectInteraction(i.id);
+        }}
+        onClickNewInteraction={handleCreateNewInteraction}
+      />
 
       {(() => {
         if (!interactionState) {
