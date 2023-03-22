@@ -47,7 +47,6 @@ export function AgentView({
 
   const [agentState, setAgentState] = useState<AgentState>({ status: 'nil' });
   const [interactionStatesById, setInteractionStatesById] = useState<Record<string, InteractionState>>({});
-  const [hasMoreInteractions, setHasMoreInteractions] = useState(true);
   const {
     markAttempt: markAttemptToLoadInteractionsBatch,
     lastAttemptId: lastAttemptedInteractionsBatchId,
@@ -107,9 +106,8 @@ export function AgentView({
       if (firstInteraction && interactionId === null) {
         selectInteraction(firstInteraction.id);
       }
-      setHasMoreInteractions(hasMore);
       const oldestInteraction = receivedInteractions[receivedInteractions.length - 1];
-      updateOldestInteraction(oldestInteraction?.id ?? null);
+      updateOldestInteraction(oldestInteraction?.id ?? null, hasMore);
     } catch (e: any) {
       // TODO: Handle properly
       console.log('Unexpected Error in Load Interactions Batch:', e.message);
