@@ -11,6 +11,7 @@ import { InputSection } from './InputSection';
 import { SidebarSection } from './SidebarSection';
 import type { AgentViewProps } from './types';
 import { useMultiSectionPagination } from './useMultiSectionPagination';
+import { usePagination } from './usePagination';
 import { useTextInputMap } from './useTextInputMap';
 
 type InteractionState = {
@@ -47,25 +48,39 @@ export function AgentView({
   const [agentState, setAgentState] = useState<AgentState>({ status: 'nil' });
   const [interactionStatesById, setInteractionStatesById] = useState<Record<string, InteractionState>>({});
   const [hasMoreInteractions, setHasMoreInteractions] = useState(true);
+  const {
+    markAttempt: markAttemptToLoadInteractionsBatch,
+    lastAttemptId: lastAttemptedInteractionsBatchId,
+    oldestItemId: oldestInteractionId,
+    updateOldestItem: updateOldestInteraction,
+  } = usePagination();
   const paginationMap = useMultiSectionPagination();
-  const oldestInteractionId = useRef<string | null>(null);
-  const lastAttemptedInteractionsBatchId = useRef<null | string>(null);
   const [interactionId, setInteractionId] = useState<string | null>(null);
   const inputTextAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const { get: getInteractionInput, set: setInteractionInput } = useTextInputMap();
 
   const interactionState = interactionId ? interactionStatesById[interactionId] ?? null : null;
 
+  const setTextAreaValue = useCallback((val: string) => {
+    if (inputTextAreaRef.current) {
+      inputTextAreaRef.current.value = val;
+    }
+  }, []);
+
+  const selectInteraction = useCallback(
+    (id: string) => {
+      setInteractionId(id);
+      const val = getInteractionInput(id);
+      setTextAreaValue(val);
+    },
+    [getInteractionInput, setTextAreaValue]
+  );
+
   const loadNextInteractionsBatch = useCallback(async () => {
     try {
       const api = await getApi();
-      if (
-        lastAttemptedInteractionsBatchId.current !== null &&
-        lastAttemptedInteractionsBatchId.current === oldestInteractionId.current
-      ) {
-        return;
-      }
-      lastAttemptedInteractionsBatchId.current = oldestInteractionId.current;
+      if (lastAttemptedInteractionsBatchId !== null && lastAttemptedInteractionsBatchId === oldestInteractionId) return;
+      markAttemptToLoadInteractionsBatch();
       const { data: receivedInteractions, has_more: hasMore } = await api.interactions.list({
         agent_id: agentId,
         limit: 20,
@@ -90,32 +105,26 @@ export function AgentView({
       });
       const [firstInteraction] = receivedInteractions;
       if (firstInteraction && interactionId === null) {
-        setInteractionId(firstInteraction.id);
+        selectInteraction(firstInteraction.id);
       }
       setHasMoreInteractions(hasMore);
       const oldestInteraction = receivedInteractions[receivedInteractions.length - 1];
-      oldestInteractionId.current = oldestInteraction?.id ?? null;
+      updateOldestInteraction(oldestInteraction?.id ?? null);
     } catch (e: any) {
       // TODO: Handle properly
       console.log('Unexpected Error in Load Interactions Batch:', e.message);
       console.log(e.response.data);
     }
-  }, [getApi, agentId, interactionId]);
-
-  const setTextAreaValue = useCallback((val: string) => {
-    if (inputTextAreaRef.current) {
-      inputTextAreaRef.current.value = val;
-    }
-  }, []);
-
-  const selectInteraction = useCallback(
-    (id: string) => {
-      setInteractionId(id);
-      const val = getInteractionInput(id);
-      setTextAreaValue(val);
-    },
-    [getInteractionInput, setTextAreaValue]
-  );
+  }, [
+    getApi,
+    agentId,
+    interactionId,
+    markAttemptToLoadInteractionsBatch,
+    lastAttemptedInteractionsBatchId,
+    oldestInteractionId,
+    updateOldestInteraction,
+    selectInteraction,
+  ]);
 
   useEffect(() => {
     (async () => {
