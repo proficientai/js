@@ -13,8 +13,6 @@ import type { AgentViewProps } from './types';
 import { useMultiSectionPagination } from './useMultiSectionPagination';
 import { useTextInputMap } from './useTextInputMap';
 
-const paginationLimit = 20; // TODO: Make dynamic
-
 type InteractionState = {
   interaction: Interaction;
   messages: Message[];
@@ -53,7 +51,7 @@ export function AgentView({
   const oldestInteractionId = useRef<string | null>(null);
   const lastAttemptedInteractionsBatchId = useRef<null | string>(null);
   const [interactionId, setInteractionId] = useState<string | null>(null);
-  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const inputTextAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const { get: getInteractionInput, set: setInteractionInput } = useTextInputMap();
 
   const interactionState = interactionId ? interactionStatesById[interactionId] ?? null : null;
@@ -105,8 +103,8 @@ export function AgentView({
   }, [getApi, agentId, interactionId]);
 
   const setTextAreaValue = useCallback((val: string) => {
-    if (textAreaRef.current) {
-      textAreaRef.current.value = val;
+    if (inputTextAreaRef.current) {
+      inputTextAreaRef.current.value = val;
     }
   }, []);
 
@@ -154,7 +152,7 @@ export function AgentView({
 
         const { data: receivedMessages, has_more: hasMore } = await api.messages.list({
           interaction_id: interactionId,
-          limit: paginationLimit,
+          limit: 20,
           starting_after: oldestMessageId ?? undefined,
         });
 
@@ -352,7 +350,7 @@ export function AgentView({
               onClickSend={handleSendMessage}
               onInputChange={(text) => setInteractionInput(interaction.id, text)}
               placeholder={inputPlaceholder}
-              textAreaRef={textAreaRef}
+              textAreaRef={inputTextAreaRef}
             />
           </div>
         );
