@@ -4,10 +4,10 @@ import type { Agent, Interaction, Message } from '@proficient/client';
 import { cloneDeep } from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import TextareaAutosize from 'react-textarea-autosize';
 
 import { useApi, useKeyboardEnterEvent } from '../../hooks';
-import type { InteractionViewProps } from './types';
+import { InputSection } from './InputSection';
+import type { AgentViewProps } from './types';
 
 const paginationLimit = 20; // TODO: Make dynamic
 
@@ -89,7 +89,7 @@ export function AgentView({
   userExternalId,
   userHmac,
   inputPlaceholder = 'Type something...',
-}: InteractionViewProps) {
+}: AgentViewProps) {
   const { getApi } = useApi({ apiKey, userExternalId, userHmac });
 
   const [agentState, setAgentState] = useState<AgentState>({ status: 'nil' });
@@ -495,68 +495,18 @@ export function AgentView({
               })}
             </InfiniteScroll>
 
-            <div
-              css={css`
-                display: flex;
-                flex-direction: column;
-                border-top: 1px solid gray;
-                padding-left: 20px;
-                padding-right: 20px;
-                padding-top: 12px;
-                padding-bottom: 12px;
-              `}>
-              <div
-                css={css`
-                  display: flex;
-                  flex-direction: column;
-                  border: 1px solid gray;
-                  border-radius: 6px;
-                  overflow: hidden;
-
-                  &:focus-within {
-                    border-color: blue;
-                  }
-                `}>
-                <TextareaAutosize
-                  ref={textAreaRef}
-                  placeholder={inputPlaceholder}
-                  css={css`
-                    resize: none;
-                    border: none;
-                    padding-top: 8px;
-                    padding-bottom: 8px;
-                    padding-left: 12px;
-                    padding-right: 12px;
-                    outline: 2px solid transparent;
-                    outline-offset: 2px;
-                  `}
-                  minRows={4}
-                  onChange={(e) => {
-                    const text = e.target.value;
-                    if (text) {
-                      textInputMap.current.set(interaction.id, text);
-                    } else {
-                      textInputMap.current.delete(interaction.id);
-                    }
-                  }}
-                />
-                <div
-                  css={css`
-                    display: flex;
-                    justify-content: end;
-                    padding-top: 8px;
-                    padding-bottom: 8px;
-                    padding-left: 12px;
-                    padding-right: 12px;
-                    cursor: text;
-                  `}
-                  onClick={() => {
-                    textAreaRef.current?.focus();
-                  }}>
-                  <button onClick={handleSendMessage}>{'> Send'}</button>
-                </div>
-              </div>
-            </div>
+            <InputSection
+              onClickSend={handleSendMessage}
+              onInputChange={(text) => {
+                if (text) {
+                  textInputMap.current.set(interaction.id, text);
+                } else {
+                  textInputMap.current.delete(interaction.id);
+                }
+              }}
+              placeholder={inputPlaceholder}
+              textAreaRef={textAreaRef}
+            />
           </div>
         );
       })()}
