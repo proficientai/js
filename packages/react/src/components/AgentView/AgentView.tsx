@@ -10,6 +10,7 @@ import { HeaderSection } from './HeaderSection';
 import { InputSection } from './InputSection';
 import { SidebarSection } from './SidebarSection';
 import type { AgentViewProps } from './types';
+import { useTextInputMap } from './useTextInputMap';
 
 const paginationLimit = 20; // TODO: Make dynamic
 
@@ -98,11 +99,11 @@ export function AgentView({
   const [interactionStatesById, setInteractionStatesById] = useState<Record<string, InteractionState>>({});
   const [hasMoreInteractions, setHasMoreInteractions] = useState(true);
   const paginationMap = useRef(new MultiSectionPaginationMap());
-  const textInputMap = useRef(new Map<string, string>());
   const oldestInteractionId = useRef<string | null>(null);
   const lastAttemptedInteractionsBatchId = useRef<null | string>(null);
   const [interactionId, setInteractionId] = useState<string | null>(null);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const { get: getInteractionInput, set: setInteractionInput } = useTextInputMap();
 
   const interactionState = interactionId ? interactionStatesById[interactionId] ?? null : null;
 
@@ -161,10 +162,10 @@ export function AgentView({
   const selectInteraction = useCallback(
     (id: string) => {
       setInteractionId(id);
-      const val = textInputMap.current.get(id) ?? '';
+      const val = getInteractionInput(id);
       setTextAreaValue(val);
     },
-    [setTextAreaValue]
+    [getInteractionInput, setTextAreaValue]
   );
 
   useEffect(() => {
@@ -250,12 +251,12 @@ export function AgentView({
       interaction: { id: interactionId },
       messages,
     } = interactionState;
-    const content = textInputMap.current.get(interactionId);
+    const content = getInteractionInput(interactionId);
     if (!content) {
       alert('No message');
       return;
     }
-    textInputMap.current.delete(interactionId);
+    setInteractionInput(interactionId, '');
     setTextAreaValue('');
     setInteractionStatesById((prev) => {
       const next = cloneDeep(prev);
@@ -307,7 +308,7 @@ export function AgentView({
       intState.messages.unshift(received);
       return next;
     });
-  }, [getApi, setTextAreaValue, interactionState]);
+  }, [getApi, getInteractionInput, setInteractionInput, setTextAreaValue, interactionState]);
 
   useKeyboardEnterEvent(handleSendMessage);
 
@@ -398,13 +399,7 @@ export function AgentView({
 
             <InputSection
               onClickSend={handleSendMessage}
-              onInputChange={(text) => {
-                if (text) {
-                  textInputMap.current.set(interaction.id, text);
-                } else {
-                  textInputMap.current.delete(interaction.id);
-                }
-              }}
+              onInputChange={(text) => setInteractionInput(interaction.id, text)}
               placeholder={inputPlaceholder}
               textAreaRef={textAreaRef}
             />
