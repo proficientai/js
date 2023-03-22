@@ -10,6 +10,7 @@ import { HeaderSection } from './HeaderSection';
 import { InputSection } from './InputSection';
 import { SidebarSection } from './SidebarSection';
 import type { AgentViewProps } from './types';
+import { useMultiSectionPagination } from './useMultiSectionPagination';
 import { useTextInputMap } from './useTextInputMap';
 
 const paginationLimit = 20; // TODO: Make dynamic
@@ -19,56 +20,6 @@ type InteractionState = {
   messages: Message[];
   hasMore: boolean;
 };
-
-interface SectionPaginationInfo {
-  oldestItemId: string | null;
-  /**
-   * null: no attempt
-   * 0: initial attempt
-   * string: the ID of the oldest batch item
-   */
-  lastAttempt: null | 0 | string;
-}
-
-class MultiSectionPaginationMap {
-  private readonly map = new Map<string, SectionPaginationInfo>();
-
-  public setLastAttemptFor(sectionId: string, attempt: 0 | string) {
-    let sectionInfo = this.map.get(sectionId);
-    if (!sectionInfo) {
-      sectionInfo = {
-        oldestItemId: null,
-        lastAttempt: null,
-      };
-      this.map.set(sectionId, sectionInfo);
-    }
-    sectionInfo.lastAttempt = attempt;
-  }
-
-  public setOldestItemFor(sectionId: string, oldestItemId: string | null) {
-    let sectionInfo = this.map.get(sectionId);
-    if (!sectionInfo) {
-      sectionInfo = {
-        oldestItemId: null,
-        lastAttempt: null,
-      };
-      this.map.set(sectionId, sectionInfo);
-    }
-    sectionInfo.oldestItemId = oldestItemId;
-  }
-
-  public lastAttemptFor(sectionId: string) {
-    const sectionInfo = this.map.get(sectionId);
-    if (!sectionInfo) return null;
-    return sectionInfo.lastAttempt;
-  }
-
-  public oldestItemFor(sectionId: string) {
-    const sectionInfo = this.map.get(sectionId);
-    if (!sectionInfo) return null;
-    return sectionInfo.oldestItemId;
-  }
-}
 
 type AgentState =
   | {
@@ -98,7 +49,7 @@ export function AgentView({
   const [agentState, setAgentState] = useState<AgentState>({ status: 'nil' });
   const [interactionStatesById, setInteractionStatesById] = useState<Record<string, InteractionState>>({});
   const [hasMoreInteractions, setHasMoreInteractions] = useState(true);
-  const paginationMap = useRef(new MultiSectionPaginationMap());
+  const paginationMap = useMultiSectionPagination();
   const oldestInteractionId = useRef<string | null>(null);
   const lastAttemptedInteractionsBatchId = useRef<null | string>(null);
   const [interactionId, setInteractionId] = useState<string | null>(null);
@@ -190,15 +141,15 @@ export function AgentView({
     async (interactionId: string) => {
       try {
         const api = await getApi();
-        const oldestMessageId = paginationMap.current.oldestItemFor(interactionId);
-        const lastAttemptedBatchId = paginationMap.current.lastAttemptFor(interactionId);
+        const oldestMessageId = paginationMap.oldestItemFor(interactionId);
+        const lastAttemptedBatchId = paginationMap.lastAttemptFor(interactionId);
 
         if (oldestMessageId === null) {
-          paginationMap.current.setLastAttemptFor(interactionId, 0);
+          paginationMap.setLastAttemptFor(interactionId, 0);
         } else if (lastAttemptedBatchId === oldestMessageId) {
           return;
         } else {
-          paginationMap.current.setLastAttemptFor(interactionId, oldestMessageId);
+          paginationMap.setLastAttemptFor(interactionId, oldestMessageId);
         }
 
         const { data: receivedMessages, has_more: hasMore } = await api.messages.list({
@@ -225,7 +176,7 @@ export function AgentView({
         });
         const oldestMessage = receivedMessages[receivedMessages.length - 1];
         if (oldestMessage) {
-          paginationMap.current.setOldestItemFor(interactionId, oldestMessage.id);
+          paginationMap.setOldestItemFor(interactionId, oldestMessage.id);
         }
       } catch (e: any) {
         // TODO: Handle properly
@@ -233,7 +184,7 @@ export function AgentView({
         console.log(e.response.data);
       }
     },
-    [getApi]
+    [getApi, paginationMap]
   );
 
   useEffect(() => {
@@ -289,7 +240,7 @@ export function AgentView({
     });
 
     if (sent.index === 0) {
-      paginationMap.current.setOldestItemFor(interactionId, sent.id);
+      paginationMap.setOldestItemFor(interactionId, sent.id);
     }
 
     setInteractionStatesById((prev) => {
@@ -308,7 +259,7 @@ export function AgentView({
       intState.messages.unshift(received);
       return next;
     });
-  }, [getApi, getInteractionInput, setInteractionInput, setTextAreaValue, interactionState]);
+  }, [getApi, getInteractionInput, setInteractionInput, setTextAreaValue, interactionState, paginationMap]);
 
   useKeyboardEnterEvent(handleSendMessage);
 
@@ -317,7 +268,7 @@ export function AgentView({
     const { interaction: newInteraction, messages } = await api.interactions.create({ agent_id: agentId });
     const oldestMessage = messages[messages.length - 1];
     if (oldestMessage) {
-      paginationMap.current.setOldestItemFor(newInteraction.id, oldestMessage.id);
+      paginationMap.setOldestItemFor(newInteraction.id, oldestMessage.id);
     }
     setInteractionStatesById((prev) => {
       const next = cloneDeep(prev);
@@ -329,7 +280,7 @@ export function AgentView({
       return next;
     });
     setInteractionId(newInteraction.id);
-  }, [getApi, agentId]);
+  }, [getApi, agentId, paginationMap]);
 
   const handleDeleteInteraction = useCallback(
     async (interactionId: string) => {
