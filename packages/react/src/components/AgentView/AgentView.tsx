@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useApi, useKeyboardEnterEvent } from '../../hooks';
 import { ChatSection } from './ChatSection';
+import { HeaderSection } from './HeaderSection';
 import { InputSection } from './InputSection';
 import type { AgentViewProps } from './types';
 
@@ -429,17 +430,7 @@ export function AgentView({
             css={css`
               width: 100%;
             `}>
-            <div
-              css={css`
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                padding: 12px;
-                border-bottom: 1px solid gray;
-              `}>
-              <div>{interaction.id}</div>
-              <button onClick={() => handleDeleteInteraction(interaction.id)}>Delete interaction</button>
-            </div>
+            <HeaderSection onClickDelete={() => handleDeleteInteraction(interaction.id)} title={interaction.id} />
 
             <ChatSection hasMore={hasMore} messages={messages} next={() => loadNextMessagesBatch(interaction.id)} />
 
