@@ -328,6 +328,7 @@ export function AgentView({
         border-radius: 4px;
       `}>
       <SidebarSection
+        description={agent.description}
         header={agent.name}
         interactions={sortedInteractions}
         isSelectedInteraction={(i) => i.id === interactionId}
