@@ -2,6 +2,7 @@
 import { css } from '@emotion/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
+import { colors } from '../../../styles';
 import type { ChatSectionProps } from './types';
 
 export function ChatSection({ hasMore, messages, next }: ChatSectionProps) {
@@ -10,10 +11,11 @@ export function ChatSection({ hasMore, messages, next }: ChatSectionProps) {
       dataLength={messages.length}
       next={next}
       css={css`
+        background-color: ${colors.gray[800]};
         display: flex;
         flex-direction: column-reverse;
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 24px;
+        padding-right: 24px;
       `}
       inverse
       hasMore={hasMore}
@@ -22,6 +24,8 @@ export function ChatSection({ hasMore, messages, next }: ChatSectionProps) {
         <div
           css={css`
             text-align: center;
+            color: ${colors.gray[500]};
+            font-size: 14px;
           `}>
           Loading...
         </div>
@@ -33,7 +37,7 @@ export function ChatSection({ hasMore, messages, next }: ChatSectionProps) {
             padding: 10px;
             margin-bottom: 10px;
             margin-top: 10px;
-            color: #444;
+            color: ${colors.gray[500]};
             font-size: 14px;
           `}>
           This marks the beginning of the interaction.
@@ -45,15 +49,14 @@ export function ChatSection({ hasMore, messages, next }: ChatSectionProps) {
             key={message.id}
             css={css`
               padding: 10px;
-              border-radius: 10px;
-              margin-bottom: 10px;
+              border-radius: 16px;
+              margin-bottom: 12px;
               margin-left: ${message.sent_by === 'agent' ? 0 : 'auto'};
               width: fit-content;
-              max-width: 75ch;
+              max-width: 60ch;
               white-space: pre-wrap;
-              border: 1px solid rgb(235, 235, 235);
-              background-color: ${message.sent_by === 'agent' ? 'rgb(250, 250, 250)' : 'rgb(41, 87, 255)'};
-              color: ${message.sent_by === 'agent' ? 'black' : 'white'};
+              background-color: ${message.sent_by === 'agent' ? colors.gray[700] : colors.indigo[600]};
+              color: ${colors.gray[100]};
             `}>
             {message.content}
           </div>
