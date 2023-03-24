@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { colors } from '../../../styles';
+import { SendMessageIcon } from '../../icons/SendMessageIcon';
 import type { InputSectionProps } from './types';
 
 export function InputSection({ onClickSend, onInputChange, placeholder, textAreaRef }: InputSectionProps) {
@@ -65,7 +66,28 @@ export function InputSection({ onClickSend, onInputChange, placeholder, textArea
           onClick={() => {
             textAreaRef.current?.focus();
           }}>
-          <button onClick={onClickSend}>{'> Send'}</button>
+          <button
+            onClick={onClickSend}
+            css={css`
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              color: white;
+              background-color: ${colors.indigo[600]};
+              outline: none;
+              border: none;
+              cursor: pointer;
+              padding-top: 6px;
+              padding-bottom: 6px;
+              padding-left: 8px;
+              padding-right: 8px;
+              border-radius: 6px;
+              &:hover {
+                background-color: ${colors.indigo[700]};
+              }
+            `}>
+            <SendMessageIcon />
+          </button>
         </div>
       </div>
     </div>
