@@ -72,7 +72,7 @@ export function InputSection({ onClickSend, onInputChange, placeholder, textArea
               display: flex;
               justify-content: center;
               align-items: center;
-              color: white;
+              color: ${colors.gray[100]};
               background-color: ${colors.indigo[600]};
               outline: none;
               border: none;
