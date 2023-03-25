@@ -2,6 +2,7 @@
 import { css } from '@emotion/react';
 
 import { colors } from '../../../styles';
+import { PlusIcon } from '../../icons/PlusIcon';
 import type { SidebarSectionProps } from './types';
 
 export function SidebarSection({
@@ -47,12 +48,36 @@ export function SidebarSection({
           padding-right: 12px;
         `}>
         <button
+          onClick={onClickNewInteraction}
           css={css`
+            display: flex;
+            width: 100%;
+            border: 1px solid ${colors.gray[700]};
+            align-items: center;
+            color: ${colors.gray[100]};
+            background-color: ${colors.gray[800]};
+            outline: none;
+            cursor: pointer;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            padding-left: 16px;
+            padding-right: 16px;
+            border-radius: 4px;
+
             margin-top: 10px;
             margin-bottom: 10px;
-          `}
-          onClick={onClickNewInteraction}>
-          + Create new interaction
+
+            &:hover {
+              background-color: ${colors.gray[700]};
+            }
+          `}>
+          <PlusIcon />
+          <span
+            css={css`
+              margin-left: 10px;
+            `}>
+            Create new interaction
+          </span>
         </button>
       </div>
 
@@ -66,7 +91,7 @@ export function SidebarSection({
             <div
               key={i.id}
               css={css`
-                border-bottom: 1px solid ${colors.gray[700]};
+                border-top: 1px solid ${colors.gray[700]};
                 padding-top: 12px;
                 padding-bottom: 12px;
                 padding-left: 12px;
