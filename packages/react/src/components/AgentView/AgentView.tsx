@@ -329,60 +329,7 @@ export function AgentView({
       `}>
       <Global
         styles={css`
-          @font-face {
-            font-family: Inter;
-            font-style: normal;
-            font-weight: 100;
-            src: url('../../../assets/fonts/Inter-Thin.ttf') format('truetype');
-          }
-          @font-face {
-            font-family: Inter;
-            font-style: normal;
-            font-weight: 200;
-            src: url('../../../assets/fonts/Inter-ExtraLight.ttf') format('truetype');
-          }
-          @font-face {
-            font-family: Inter;
-            font-style: normal;
-            font-weight: 300;
-            src: url('../../../assets/fonts/Inter-Light.ttf') format('truetype');
-          }
-          @font-face {
-            font-family: Inter;
-            font-style: normal;
-            font-weight: 400;
-            src: url('../../../assets/fonts/Inter-Regular.ttf') format('truetype');
-          }
-          @font-face {
-            font-family: Inter;
-            font-style: normal;
-            font-weight: 500;
-            src: url('../../../assets/fonts/Inter-Medium.ttf') format('truetype');
-          }
-          @font-face {
-            font-family: Inter;
-            font-style: normal;
-            font-weight: 600;
-            src: url('../../../assets/fonts/Inter-SemiBold.ttf') format('truetype');
-          }
-          @font-face {
-            font-family: Inter;
-            font-style: normal;
-            font-weight: 700;
-            src: url('../../../assets/fonts/Inter-Bold.ttf') format('truetype');
-          }
-          @font-face {
-            font-family: Inter;
-            font-style: normal;
-            font-weight: 800;
-            src: url('../../../assets/fonts/Inter-ExtraBold.ttf') format('truetype');
-          }
-          @font-face {
-            font-family: Inter;
-            font-style: normal;
-            font-weight: 900;
-            src: url('../../../assets/fonts/Inter-Black.ttf') format('truetype');
-          }
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
         `}
       />
       <SidebarSection
