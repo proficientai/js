@@ -3,9 +3,9 @@ import { useRef } from 'react';
 interface SectionPaginationInfo {
   oldestItemId: string | null;
   /**
-   * null: no attempt
-   * 0: initial attempt
-   * string: the ID of the oldest batch item
+   * - null: no attempt
+   * - 0: initial attempt
+   * - string: the ID of the oldest batch item
    */
   lastAttempt: null | 0 | string;
 }

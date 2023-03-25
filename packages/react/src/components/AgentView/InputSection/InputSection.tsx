@@ -46,6 +46,8 @@ export function InputSection({ onClickSend, onInputChange, placeholder, textArea
             outline: 2px solid transparent;
             outline-offset: 2px;
             color: ${colors.gray[100]};
+            font-family: Inter;
+            font-size: 14px;
           `}
           minRows={4}
           onChange={(e) => {

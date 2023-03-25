@@ -38,6 +38,7 @@ export function ChatSection({ hasMore, messages, next }: ChatSectionProps) {
             margin-bottom: 10px;
             margin-top: 10px;
             color: ${colors.gray[500]};
+            font-family: Inter;
             font-size: 14px;
           `}>
           This marks the beginning of the interaction.
@@ -57,6 +58,8 @@ export function ChatSection({ hasMore, messages, next }: ChatSectionProps) {
               white-space: pre-wrap;
               background-color: ${message.sent_by === 'agent' ? colors.gray[700] : colors.indigo[600]};
               color: ${colors.gray[100]};
+              font-family: Inter;
+              font-size: 14px;
             `}>
             {message.content}
           </div>
