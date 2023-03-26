@@ -2,7 +2,7 @@
 import { Global, css } from '@emotion/react';
 import type { Agent, Interaction, Message } from '@proficient/client';
 import { cloneDeep } from 'lodash';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useApi, useKeyboardEnterEvent } from '../../hooks';
 import { ChatSection } from './ChatSection';
@@ -14,11 +14,20 @@ import { useMultiSectionPagination } from './useMultiSectionPagination';
 import { usePagination } from './usePagination';
 import { useTextInputMap } from './useTextInputMap';
 
-type InteractionState = {
-  interaction: Interaction;
-  messages: Message[];
-  hasMore: boolean;
-};
+type InteractionState =
+  | {
+      status: 'loading' | 'success';
+      interaction: Interaction;
+      messagesById: Map<string, Message>;
+      hasMore: boolean;
+    }
+  | {
+      status: 'error';
+      errorCode: 'not-found' | 'unknown';
+      interaction?: Interaction;
+      messagesById: Map<string, Message>;
+      hasMore: boolean;
+    };
 
 type AgentState =
   | {
@@ -60,6 +69,21 @@ export function AgentView({
 
   const interactionState = interactionId ? interactionStatesById[interactionId] ?? null : null;
 
+  const sortedInteractions = useMemo(() => {
+    const filteredInteractions = Object.values(interactionStatesById)
+      .map((s) => (s.status === 'success' ? s.interaction : null))
+      .filter((i) => !!i) as Interaction[];
+    return filteredInteractions.sort((i1, i2) => i2.updated_at - i1.updated_at);
+  }, [interactionStatesById]);
+
+  const sortedMessages = useMemo(() => {
+    if (interactionState?.status === 'success') {
+      const { messagesById } = interactionState;
+      return Array.from(messagesById.values()).sort((m1, m2) => m2.index - m1.index);
+    }
+    return [];
+  }, [interactionState]);
+
   const setTextAreaValue = useCallback((val: string) => {
     if (inputTextAreaRef.current) {
       inputTextAreaRef.current.value = val;
@@ -90,9 +114,10 @@ export function AgentView({
           let intState = next[i.id];
           if (!intState) {
             intState = {
+              status: 'success',
               hasMore: true,
               interaction: i,
-              messages: [],
+              messagesById: new Map(),
             };
           } else {
             // TODO: See if we want to update existing object
@@ -176,7 +201,9 @@ export function AgentView({
             return next;
           }
           intState.hasMore = hasMore;
-          intState.messages.push(...receivedMessages);
+          receivedMessages.forEach((m) => {
+            intState.messagesById.set(m.id, m);
+          });
           return next;
         });
         const oldestMessage = receivedMessages[receivedMessages.length - 1];
@@ -199,13 +226,12 @@ export function AgentView({
   }, [loadNextMessagesBatch, interactionId]);
 
   const handleSendMessage = useCallback(async () => {
-    if (!interactionState) {
+    if (!interactionState || interactionState.status !== 'success') {
       // TODO: Confirm
       return;
     }
     const {
       interaction: { id: interactionId },
-      messages,
     } = interactionState;
     const content = getInteractionInput(interactionId);
     if (!content) {
@@ -223,9 +249,9 @@ export function AgentView({
         });
         return next;
       }
-      intState.messages.unshift({
+      intState.messagesById.set('provisional', {
         id: 'provisional',
-        index: -1,
+        index: intState.messagesById.size,
         content,
         created_at: Date.now(),
         interaction_id: interactionId,
@@ -236,7 +262,7 @@ export function AgentView({
     });
 
     const api = await getApi();
-    const [firstMessage] = messages;
+    const [firstMessage] = sortedMessages;
     const parentId = firstMessage?.id ?? null;
     const { received, sent } = await api.messages.create({
       content,
@@ -257,14 +283,20 @@ export function AgentView({
         });
         return next;
       }
-      const provisionalMessageIndex = intState.messages.findIndex((m) => m.id === 'provisional');
-      if (provisionalMessageIndex !== -1) {
-        intState.messages[provisionalMessageIndex] = sent;
-      }
-      intState.messages.unshift(received);
+      intState.messagesById.delete('provisional');
+      intState.messagesById.set(sent.id, sent);
+      intState.messagesById.set(received.id, received);
       return next;
     });
-  }, [getApi, getInteractionInput, setInteractionInput, setTextAreaValue, interactionState, paginationMap]);
+  }, [
+    getApi,
+    getInteractionInput,
+    setInteractionInput,
+    setTextAreaValue,
+    interactionState,
+    paginationMap,
+    sortedMessages,
+  ]);
 
   useKeyboardEnterEvent(handleSendMessage);
 
@@ -278,9 +310,10 @@ export function AgentView({
     setInteractionStatesById((prev) => {
       const next = cloneDeep(prev);
       next[newInteraction.id] = {
+        status: 'success',
         hasMore: true,
         interaction: newInteraction,
-        messages,
+        messagesById: new Map(messages.map((m) => [m.id, m])),
       };
       return next;
     });
@@ -315,9 +348,6 @@ export function AgentView({
   }
 
   const { agent } = agentState;
-  const sortedInteractions = Object.values(interactionStatesById)
-    .map((s) => s.interaction)
-    .sort((i1, i2) => i2.updated_at - i1.updated_at);
 
   return (
     <div
@@ -348,7 +378,11 @@ export function AgentView({
           return <div>No selected interaction...</div>;
         }
 
-        const { messages, interaction, hasMore } = interactionState;
+        if (interactionState.status === 'error') {
+          return <div>Error loading interaction: {interactionState.errorCode}</div>;
+        }
+
+        const { interaction, hasMore } = interactionState;
 
         return (
           <div
@@ -357,7 +391,11 @@ export function AgentView({
             `}>
             <HeaderSection onClickDelete={() => handleDeleteInteraction(interaction.id)} title={interaction.id} />
 
-            <ChatSection hasMore={hasMore} messages={messages} next={() => loadNextMessagesBatch(interaction.id)} />
+            <ChatSection
+              hasMore={hasMore}
+              messages={sortedMessages}
+              next={() => loadNextMessagesBatch(interaction.id)}
+            />
 
             <InputSection
               onClickSend={handleSendMessage}
