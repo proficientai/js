@@ -20,6 +20,7 @@ export interface MessageCreateParams {
 }
 
 export interface MessageResendParams {
+  interaction_id: string;
   content: string;
 }
 
