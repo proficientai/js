@@ -14,20 +14,7 @@ import { useMultiSectionPagination } from './useMultiSectionPagination';
 import { usePagination } from './usePagination';
 import { useTextInputMap } from './useTextInputMap';
 
-type InteractionState =
-  | {
-      status: 'loading' | 'success';
-      interaction: Interaction;
-      messagesById: Map<string, Message>;
-      hasMore: boolean;
-    }
-  | {
-      status: 'error';
-      errorCode: 'not-found' | 'unknown';
-      interaction?: Interaction;
-      messagesById: Map<string, Message>;
-      hasMore: boolean;
-    };
+const PROVISIONAL_MESSAGE_ID = '_msg_provisional';
 
 type AgentState =
   | {
@@ -45,6 +32,42 @@ type AgentState =
       agent: Agent;
     };
 
+type InteractionState =
+  | {
+      status: 'loading';
+      interaction?: Interaction;
+    }
+  | {
+      status: 'success';
+      interaction: Interaction;
+    }
+  | {
+      status: 'error';
+      errorCode: 'not-found' | 'unknown';
+    };
+
+type MessagesState =
+  | {
+      status: 'loading' | 'success';
+      messagesById: Map<string, Message>;
+      hasMore: boolean;
+    }
+  | {
+      status: 'error';
+      errorCode: 'not-found' | 'unknown';
+      messagesById: Map<string, Message>;
+      hasMore: boolean;
+    };
+
+type WritingState =
+  | {
+      status: 'nil' | 'writing';
+    }
+  | {
+      status: 'error';
+      errorCode: 'not-found' | 'unknown';
+    };
+
 export function AgentView({
   apiKey,
   agentId,
@@ -56,6 +79,8 @@ export function AgentView({
 
   const [agentState, setAgentState] = useState<AgentState>({ status: 'nil' });
   const [interactionStatesById, setInteractionStatesById] = useState<Record<string, InteractionState>>({});
+  const [messagesStatesById, setMessagesStatesById] = useState<Record<string, MessagesState>>({});
+  const [writingStatesById, setWritingStatesById] = useState<Record<string, WritingState>>({});
   const {
     markAttempt: markAttemptToLoadInteractionsBatch,
     lastAttemptId: lastAttemptedInteractionsBatchId,
@@ -68,6 +93,8 @@ export function AgentView({
   const { get: getInteractionInput, set: setInteractionInput } = useTextInputMap();
 
   const interactionState = interactionId ? interactionStatesById[interactionId] ?? null : null;
+  const messagesState = interactionId ? messagesStatesById[interactionId] ?? null : null;
+  const writingState = interactionId ? writingStatesById[interactionId] ?? null : null;
 
   const sortedInteractions = useMemo(() => {
     const filteredInteractions = Object.values(interactionStatesById)
@@ -77,12 +104,12 @@ export function AgentView({
   }, [interactionStatesById]);
 
   const sortedMessages = useMemo(() => {
-    if (interactionState?.status === 'success') {
-      const { messagesById } = interactionState;
+    if (messagesState?.status === 'success') {
+      const { messagesById } = messagesState;
       return Array.from(messagesById.values()).sort((m1, m2) => m2.index - m1.index);
     }
     return [];
-  }, [interactionState]);
+  }, [messagesState]);
 
   const setTextAreaValue = useCallback((val: string) => {
     if (inputTextAreaRef.current) {
@@ -111,19 +138,33 @@ export function AgentView({
       setInteractionStatesById((prev) => {
         const next = cloneDeep(prev);
         receivedInteractions.forEach((i) => {
-          let intState = next[i.id];
-          if (!intState) {
-            intState = {
+          let interactionState = next[i.id];
+          if (!interactionState) {
+            interactionState = {
+              status: 'success',
+              interaction: i,
+            };
+          } else {
+            // TODO: See if we want to update existing object
+          }
+          next[i.id] = interactionState;
+        });
+        return next;
+      });
+      setMessagesStatesById((prev) => {
+        const next = cloneDeep(prev);
+        receivedInteractions.forEach((i) => {
+          let messagesState = next[i.id];
+          if (!messagesState) {
+            messagesState = {
               status: 'success',
               hasMore: true,
-              interaction: i,
               messagesById: new Map(),
             };
           } else {
             // TODO: See if we want to update existing object
-            // ...
           }
-          next[i.id] = intState;
+          next[i.id] = messagesState;
         });
         return next;
       });
@@ -188,10 +229,10 @@ export function AgentView({
           starting_after: oldestMessageId ?? undefined,
         });
 
-        setInteractionStatesById((prev) => {
+        setMessagesStatesById((prev) => {
           const next = cloneDeep(prev);
-          const intState = next[interactionId];
-          if (!intState) {
+          const messageState = next[interactionId];
+          if (!messageState) {
             console.warn(
               'Could not find interaction state. This indicates an unexpected behavior in application flow:',
               {
@@ -200,9 +241,9 @@ export function AgentView({
             );
             return next;
           }
-          intState.hasMore = hasMore;
+          messageState.hasMore = hasMore;
           receivedMessages.forEach((m) => {
-            intState.messagesById.set(m.id, m);
+            messageState.messagesById.set(m.id, m);
           });
           return next;
         });
@@ -240,18 +281,18 @@ export function AgentView({
     }
     setInteractionInput(interactionId, '');
     setTextAreaValue('');
-    setInteractionStatesById((prev) => {
+    setMessagesStatesById((prev) => {
       const next = cloneDeep(prev);
-      const intState = next[interactionId];
-      if (!intState) {
+      const messageState = next[interactionId];
+      if (!messageState) {
         console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
           interactionId,
         });
         return next;
       }
-      intState.messagesById.set('provisional', {
-        id: 'provisional',
-        index: intState.messagesById.size,
+      messageState.messagesById.set(PROVISIONAL_MESSAGE_ID, {
+        id: PROVISIONAL_MESSAGE_ID,
+        index: messageState.messagesById.size,
         content,
         created_at: Date.now(),
         interaction_id: interactionId,
@@ -260,6 +301,8 @@ export function AgentView({
       });
       return next;
     });
+
+    // TODO: Set is agent writing here
 
     const api = await getApi();
     const [firstMessage] = sortedMessages;
@@ -274,18 +317,18 @@ export function AgentView({
       paginationMap.setOldestItemFor(interactionId, sent.id);
     }
 
-    setInteractionStatesById((prev) => {
+    setMessagesStatesById((prev) => {
       const next = cloneDeep(prev);
-      const intState = next[interactionId];
-      if (!intState) {
+      const messagesState = next[interactionId];
+      if (!messagesState) {
         console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
           interactionId,
         });
         return next;
       }
-      intState.messagesById.delete('provisional');
-      intState.messagesById.set(sent.id, sent);
-      intState.messagesById.set(received.id, received);
+      messagesState.messagesById.delete(PROVISIONAL_MESSAGE_ID);
+      messagesState.messagesById.set(sent.id, sent);
+      messagesState.messagesById.set(received.id, received);
       return next;
     });
   }, [
@@ -311,8 +354,15 @@ export function AgentView({
       const next = cloneDeep(prev);
       next[newInteraction.id] = {
         status: 'success',
-        hasMore: true,
         interaction: newInteraction,
+      };
+      return next;
+    });
+    setMessagesStatesById((prev) => {
+      const next = cloneDeep(prev);
+      next[newInteraction.id] = {
+        status: 'success',
+        hasMore: true,
         messagesById: new Map(messages.map((m) => [m.id, m])),
       };
       return next;
@@ -382,7 +432,18 @@ export function AgentView({
           return <div>Error loading interaction: {interactionState.errorCode}</div>;
         }
 
-        const { interaction, hasMore } = interactionState;
+        if (!messagesState) {
+          return <div>No selected interaction...</div>;
+        }
+
+        if (messagesState.status === 'error') {
+          return <div>Error loading messages: {messagesState.errorCode}</div>;
+        }
+
+        const { interaction } = interactionState;
+        const { hasMore } = messagesState;
+
+        if (!interaction) return null;
 
         return (
           <div
