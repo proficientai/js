@@ -1,5 +1,11 @@
 # @proficient/api
 
+## 0.15.0
+
+### Minor Changes
+
+- Added interaction_id to MessageResendParams
+
 ## 0.14.0
 
 ### Minor Changes
