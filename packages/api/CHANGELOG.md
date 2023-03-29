@@ -1,5 +1,11 @@
 # @proficient/api
 
+## 0.15.1
+
+### Patch Changes
+
+- Fix missing dist
+
 ## 0.15.0
 
 ### Minor Changes
