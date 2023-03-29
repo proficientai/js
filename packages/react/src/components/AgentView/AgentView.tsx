@@ -168,6 +168,21 @@ export function AgentView({
         });
         return next;
       });
+      setWritingStatesById((prev) => {
+        const next = cloneDeep(prev);
+        receivedInteractions.forEach((i) => {
+          let writingState = next[i.id];
+          if (!writingState) {
+            writingState = {
+              status: 'nil',
+            };
+          } else {
+            // TODO: See if we want to update existing object
+          }
+          next[i.id] = writingState;
+        });
+        return next;
+      });
       const [firstInteraction] = receivedInteractions;
       if (firstInteraction && interactionId === null) {
         selectInteraction(firstInteraction.id);
@@ -301,8 +316,18 @@ export function AgentView({
       });
       return next;
     });
-
-    // TODO: Set is agent writing here
+    setWritingStatesById((prev) => {
+      const next = cloneDeep(prev);
+      const writingState = next[interactionId];
+      if (!writingState) {
+        console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
+          interactionId,
+        });
+        return next;
+      }
+      writingState.status = 'writing';
+      return next;
+    });
 
     const api = await getApi();
     const [firstMessage] = sortedMessages;
@@ -331,6 +356,18 @@ export function AgentView({
       messagesState.messagesById.set(received.id, received);
       return next;
     });
+    setWritingStatesById((prev) => {
+      const next = cloneDeep(prev);
+      const writingState = next[interactionId];
+      if (!writingState) {
+        console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
+          interactionId,
+        });
+        return next;
+      }
+      writingState.status = 'nil';
+      return next;
+    });
   }, [
     getApi,
     getInteractionInput,
@@ -340,6 +377,10 @@ export function AgentView({
     paginationMap,
     sortedMessages,
   ]);
+
+  const handleRetry = useCallback(async (interactionId: string) => {
+    // TODO: Implement
+  }, []);
 
   useKeyboardEnterEvent(handleSendMessage);
 
@@ -367,6 +408,13 @@ export function AgentView({
       };
       return next;
     });
+    setWritingStatesById((prev) => {
+      const next = cloneDeep(prev);
+      next[newInteraction.id] = {
+        status: 'nil',
+      };
+      return next;
+    });
     setInteractionId(newInteraction.id);
   }, [getApi, agentId, paginationMap]);
 
@@ -381,6 +429,14 @@ export function AgentView({
         return;
       }
       setInteractionStatesById((prev) => {
+        const { [interactionId]: _, ...next } = prev;
+        return next;
+      });
+      setMessagesStatesById((prev) => {
+        const { [interactionId]: _, ...next } = prev;
+        return next;
+      });
+      setWritingStatesById((prev) => {
         const { [interactionId]: _, ...next } = prev;
         return next;
       });
@@ -424,16 +480,12 @@ export function AgentView({
       />
 
       {(() => {
-        if (!interactionState) {
+        if (!interactionState || !messagesState || !writingState) {
           return <div>No selected interaction...</div>;
         }
 
         if (interactionState.status === 'error') {
           return <div>Error loading interaction: {interactionState.errorCode}</div>;
-        }
-
-        if (!messagesState) {
-          return <div>No selected interaction...</div>;
         }
 
         if (messagesState.status === 'error') {
@@ -442,8 +494,11 @@ export function AgentView({
 
         const { interaction } = interactionState;
         const { hasMore } = messagesState;
+        const { status: writingStatus } = writingState;
 
         if (!interaction) return null;
+
+        agent;
 
         return (
           <div
@@ -453,9 +508,12 @@ export function AgentView({
             <HeaderSection onClickDelete={() => handleDeleteInteraction(interaction.id)} title={interaction.id} />
 
             <ChatSection
+              agentName={agent.name}
               hasMore={hasMore}
               messages={sortedMessages}
               next={() => loadNextMessagesBatch(interaction.id)}
+              retry={() => handleRetry(interaction.id)}
+              writingStatus={writingStatus}
             />
 
             <InputSection
