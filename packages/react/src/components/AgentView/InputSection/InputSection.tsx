@@ -75,7 +75,7 @@ export function InputSection({ onClickSend, onInputChange, placeholder, textArea
               justify-content: center;
               align-items: center;
               color: ${colors.gray[100]};
-              background-color: ${colors.indigo[600]};
+              background-color: ${colors.indigo[500]};
               outline: none;
               border: none;
               cursor: pointer;
@@ -85,6 +85,9 @@ export function InputSection({ onClickSend, onInputChange, placeholder, textArea
               padding-right: 8px;
               border-radius: 6px;
               &:hover {
+                background-color: ${colors.indigo[600]};
+              }
+              &:active {
                 background-color: ${colors.indigo[700]};
               }
             `}>
