@@ -474,6 +474,10 @@ export function AgentView({
 
   const handleDeleteInteraction = useCallback(
     async (interactionId: string) => {
+      const shouldDelete = confirm(
+        'Are you sure you want to delete this interaction? You will not be able to recover it as all the messages in it will be permanently deleted.'
+      );
+      if (!shouldDelete) return;
       const api = await getApi();
       try {
         await api.interactions.delete(interactionId);
