@@ -1,5 +1,11 @@
 # @proficient/api
 
+## 0.16.0
+
+### Minor Changes
+
+- Implement `/reply` endpoint
+
 ## 0.15.1
 
 ### Patch Changes

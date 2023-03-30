@@ -1,5 +1,16 @@
 # @proficient/react
 
+## 0.4.0
+
+### Minor Changes
+
+- Implement `/reply` endpoint
+
+### Patch Changes
+
+- Updated dependencies
+  - @proficient/client@0.4.0
+
 ## 0.3.2
 
 ### Patch Changes
