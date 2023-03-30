@@ -1,5 +1,16 @@
 # @proficient/client
 
+## 0.5.0
+
+### Minor Changes
+
+- Implement message reset endpoint
+
+### Patch Changes
+
+- Updated dependencies
+  - @proficient/api@0.17.0
+
 ## 0.4.0
 
 ### Minor Changes

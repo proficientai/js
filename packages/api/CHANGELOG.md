@@ -1,5 +1,11 @@
 # @proficient/api
 
+## 0.17.0
+
+### Minor Changes
+
+- Implement message reset endpoint
+
 ## 0.16.0
 
 ### Minor Changes
