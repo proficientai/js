@@ -310,23 +310,11 @@ export function AgentView({
       });
       return next;
     });
-    setWritingStatesById((prev) => {
-      const next = cloneDeep(prev);
-      const writingState = next[interactionId];
-      if (!writingState) {
-        console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
-          interactionId,
-        });
-        return next;
-      }
-      writingState.status = 'writing';
-      return next;
-    });
 
     const api = await getApi();
     const [firstMessage] = sortedMessages;
     const parentId = firstMessage?.id ?? null;
-    const { received, sent } = await api.messages.create({
+    const sent = await api.messages.create({
       content,
       interaction_id: interactionId,
       parent_id: parentId,
@@ -347,9 +335,39 @@ export function AgentView({
       }
       messagesState.messagesById.delete(PROVISIONAL_MESSAGE_ID);
       messagesState.messagesById.set(sent.id, sent);
+      return next;
+    });
+
+    // Start generating reply
+
+    setWritingStatesById((prev) => {
+      const next = cloneDeep(prev);
+      const writingState = next[interactionId];
+      if (!writingState) {
+        console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
+          interactionId,
+        });
+        return next;
+      }
+      writingState.status = 'writing';
+      return next;
+    });
+
+    const received = await api.messages.reply(sent.id, { interaction_id: interactionId });
+
+    setMessagesStatesById((prev) => {
+      const next = cloneDeep(prev);
+      const messagesState = next[interactionId];
+      if (!messagesState) {
+        console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
+          interactionId,
+        });
+        return next;
+      }
       messagesState.messagesById.set(received.id, received);
       return next;
     });
+
     setWritingStatesById((prev) => {
       const next = cloneDeep(prev);
       const writingState = next[interactionId];

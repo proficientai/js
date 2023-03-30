@@ -19,12 +19,7 @@ export interface MessageCreateParams {
   parent_id: string | null;
 }
 
-export interface MessageResendParams {
+export interface MessageReplyParams {
   interaction_id: string;
-  content: string;
-}
-
-export interface MessageSendResponse {
-  sent: Message;
-  received: Message;
+  content?: string;
 }

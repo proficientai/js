@@ -7,6 +7,5 @@ export type {
   InteractionParticipant,
   Message,
   MessageCreateParams,
-  MessageResendParams,
-  MessageSendResponse,
+  MessageReplyParams,
 } from '@proficient/api';

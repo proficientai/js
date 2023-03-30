@@ -1,4 +1,4 @@
-import type { ClientApi, MessageCreateParams, MessageResendParams } from '@proficient/api';
+import type { ClientApi, MessageCreateParams, MessageReplyParams } from '@proficient/api';
 
 import type { RequestSender } from '../RequestSender';
 
@@ -23,9 +23,9 @@ export class Messages {
     return response;
   }
 
-  public async resend(messageId: string, params: MessageResendParams) {
-    const response = await this.rs.post<ClientApi.ResponseBody<'PostMessagesMessage'>>(
-      `/messages/${messageId}`,
+  public async reply(messageId: string, params: MessageReplyParams) {
+    const response = await this.rs.post<ClientApi.ResponseBody<'PostMessagesMessageReply'>>(
+      `/messages/${messageId}/reply`,
       params
     );
     return response;
