@@ -282,13 +282,7 @@ export function AgentView({
   }, [loadNextMessagesBatch, interactionId]);
 
   const handleSendMessage = useCallback(async () => {
-    if (!interactionState || interactionState.status !== 'success') {
-      // TODO: Confirm
-      return;
-    }
-    const {
-      interaction: { id: interactionId },
-    } = interactionState;
+    if (interactionId === null) return;
     const content = getInteractionInput(interactionId);
     if (!content) {
       alert('No message');
@@ -369,16 +363,17 @@ export function AgentView({
       return next;
     });
   }, [
+    interactionId,
     getApi,
     getInteractionInput,
     setInteractionInput,
     setTextAreaValue,
-    interactionState,
     paginationMap,
     sortedMessages,
   ]);
 
   const handleRetry = useCallback(async (interactionId: string) => {
+    if (interactionId === null) return;
     // TODO: Implement
   }, []);
 
