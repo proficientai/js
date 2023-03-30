@@ -1,5 +1,11 @@
 # @proficient/api
 
+## 0.18.0
+
+### Minor Changes
+
+- Remove `turn` from Interaction
+
 ## 0.17.0
 
 ### Minor Changes

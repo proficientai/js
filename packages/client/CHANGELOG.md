@@ -1,5 +1,16 @@
 # @proficient/client
 
+## 0.6.0
+
+### Minor Changes
+
+- Remove `turn` from Interaction
+
+### Patch Changes
+
+- Updated dependencies
+  - @proficient/api@0.18.0
+
 ## 0.5.0
 
 ### Minor Changes
