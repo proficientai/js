@@ -5,6 +5,6 @@ export interface ChatSectionProps {
   hasMore: boolean;
   messages: Message[];
   next: () => Promise<void>;
-  retry: () => Promise<void>;
+  onClickRequestAnswer: () => Promise<void>;
   writingStatus: 'nil' | 'writing' | 'error';
 }

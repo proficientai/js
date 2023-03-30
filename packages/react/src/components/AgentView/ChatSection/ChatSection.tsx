@@ -6,7 +6,17 @@ import { colors } from '../../../styles';
 import { RetryIcon } from '../../icons/RetryIcon';
 import type { ChatSectionProps } from './types';
 
-export function ChatSection({ agentName, hasMore, messages, next, writingStatus }: ChatSectionProps) {
+export function ChatSection({
+  agentName,
+  hasMore,
+  messages,
+  next,
+  onClickRequestAnswer,
+  writingStatus,
+}: ChatSectionProps) {
+  const [lastMessage] = messages;
+  const canRequestAnswer = lastMessage?.sent_by === 'user';
+
   return (
     <InfiniteScroll
       dataLength={messages.length}
@@ -64,10 +74,11 @@ export function ChatSection({ agentName, hasMore, messages, next, writingStatus 
               </span>
             );
           }
-          if (writingStatus === 'error') {
+
+          if (canRequestAnswer) {
             return (
               <button
-                onClick={() => {}}
+                onClick={onClickRequestAnswer}
                 css={css`
                   display: flex;
                   border: 1px solid ${colors.gray[700]};
@@ -96,7 +107,7 @@ export function ChatSection({ agentName, hasMore, messages, next, writingStatus 
                   css={css`
                     margin-left: 10px;
                   `}>
-                  Retry answer
+                  Request answer
                 </span>
               </button>
             );

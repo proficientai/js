@@ -337,49 +337,6 @@ export function AgentView({
       messagesState.messagesById.set(sent.id, sent);
       return next;
     });
-
-    // Start generating reply
-
-    setWritingStatesById((prev) => {
-      const next = cloneDeep(prev);
-      const writingState = next[interactionId];
-      if (!writingState) {
-        console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
-          interactionId,
-        });
-        return next;
-      }
-      writingState.status = 'writing';
-      return next;
-    });
-
-    const received = await api.messages.reply(sent.id, { interaction_id: interactionId });
-
-    setMessagesStatesById((prev) => {
-      const next = cloneDeep(prev);
-      const messagesState = next[interactionId];
-      if (!messagesState) {
-        console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
-          interactionId,
-        });
-        return next;
-      }
-      messagesState.messagesById.set(received.id, received);
-      return next;
-    });
-
-    setWritingStatesById((prev) => {
-      const next = cloneDeep(prev);
-      const writingState = next[interactionId];
-      if (!writingState) {
-        console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
-          interactionId,
-        });
-        return next;
-      }
-      writingState.status = 'nil';
-      return next;
-    });
   }, [
     interactionId,
     getApi,
@@ -390,10 +347,61 @@ export function AgentView({
     sortedMessages,
   ]);
 
-  const handleRetry = useCallback(async (interactionId: string) => {
-    if (interactionId === null) return;
-    // TODO: Implement
-  }, []);
+  const handleRequestAnswer = useCallback(
+    async (interactionId: string) => {
+      if (interactionId === null) return;
+      const [lastMessage] = sortedMessages;
+
+      if (!lastMessage || lastMessage.sent_by !== 'user') {
+        alert('Last message must be sent by user to request answer.');
+        return;
+      }
+
+      const api = await getApi();
+
+      setWritingStatesById((prev) => {
+        const next = cloneDeep(prev);
+        const writingState = next[interactionId];
+        if (!writingState) {
+          console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
+            interactionId,
+          });
+          return next;
+        }
+        writingState.status = 'writing';
+        return next;
+      });
+
+      const received = await api.messages.reply(lastMessage.id, { interaction_id: interactionId });
+
+      setMessagesStatesById((prev) => {
+        const next = cloneDeep(prev);
+        const messagesState = next[interactionId];
+        if (!messagesState) {
+          console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
+            interactionId,
+          });
+          return next;
+        }
+        messagesState.messagesById.set(received.id, received);
+        return next;
+      });
+
+      setWritingStatesById((prev) => {
+        const next = cloneDeep(prev);
+        const writingState = next[interactionId];
+        if (!writingState) {
+          console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
+            interactionId,
+          });
+          return next;
+        }
+        writingState.status = 'nil';
+        return next;
+      });
+    },
+    [getApi, sortedMessages]
+  );
 
   useKeyboardEnterEvent(handleSendMessage);
 
@@ -511,8 +519,6 @@ export function AgentView({
 
         if (!interaction) return null;
 
-        agent;
-
         return (
           <div
             css={css`
@@ -525,7 +531,7 @@ export function AgentView({
               hasMore={hasMore}
               messages={sortedMessages}
               next={() => loadNextMessagesBatch(interaction.id)}
-              retry={() => handleRetry(interaction.id)}
+              onClickRequestAnswer={() => handleRequestAnswer(interaction.id)}
               writingStatus={writingStatus}
             />
 

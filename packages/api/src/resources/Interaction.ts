@@ -1,5 +1,3 @@
-import type { InteractionParticipant } from '../types';
-
 export interface Interaction {
   id: string;
   object: 'interaction';
@@ -9,7 +7,6 @@ export interface Interaction {
   created_at: number;
   updated_at: number;
   total_message_count: number;
-  turn: InteractionParticipant;
 }
 
 export interface InteractionCreateParams {
