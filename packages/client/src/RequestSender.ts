@@ -7,7 +7,8 @@ export class RequestSender {
 
   public constructor(credentials: ApiCredentials) {
     this.axiosInstance = axios.create({
-      baseURL: 'http://localhost:8080/client', // TODO: Update
+      // TODO: Update
+      baseURL: 'http://localhost:8080/client',
       headers: {
         'Content-Type': 'application/json',
         'X-PROFICIENT-API-KEY': credentials.apiKey,

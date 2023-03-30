@@ -1,4 +1,4 @@
-import type { ClientApi, MessageCreateParams } from '@proficient/api';
+import type { ClientApi, MessageCreateParams, MessageResendParams } from '@proficient/api';
 
 import type { RequestSender } from '../RequestSender';
 
@@ -14,12 +14,20 @@ export class Messages {
   }
 
   public async get(messageId: string) {
-    const resource = await this.rs.get<ClientApi.ResponseBody<'GetMessagesMessage'>>(`/messages/${messageId}`);
-    return resource;
+    const response = await this.rs.get<ClientApi.ResponseBody<'GetMessagesMessage'>>(`/messages/${messageId}`);
+    return response;
   }
 
   public async create(params: MessageCreateParams) {
-    const resource = await this.rs.post<ClientApi.ResponseBody<'PostMessages'>>(`/messages`, params);
-    return resource;
+    const response = await this.rs.post<ClientApi.ResponseBody<'PostMessages'>>(`/messages`, params);
+    return response;
+  }
+
+  public async resend(messageId: string, params: MessageResendParams) {
+    const response = await this.rs.post<ClientApi.ResponseBody<'PostMessagesMessage'>>(
+      `/messages/${messageId}`,
+      params
+    );
+    return response;
   }
 }
