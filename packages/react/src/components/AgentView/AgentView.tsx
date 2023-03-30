@@ -73,6 +73,7 @@ export function AgentView({
   agentId,
   userExternalId,
   userHmac,
+  autoRequestReply = true,
   inputPlaceholder = 'Type something...',
 }: AgentViewProps) {
   const { getApi } = useApi({ apiKey, userExternalId, userHmac });
@@ -281,6 +282,88 @@ export function AgentView({
     }
   }, [loadNextMessagesBatch, interactionId]);
 
+  const handleRequestAnswer = useCallback(
+    async (interactionId: string, lastMessage?: Message) => {
+      if (interactionId === null) return;
+      lastMessage ??= sortedMessages[0];
+
+      console.log('LAST MESSAGE=', lastMessage);
+
+      if (!lastMessage || lastMessage.sent_by !== 'user') {
+        alert('Last message must be sent by user to request answer.');
+        return;
+      }
+
+      const api = await getApi();
+
+      setWritingStatesById((prev) => {
+        const next = cloneDeep(prev);
+        const writingState = next[interactionId];
+        if (!writingState) {
+          console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
+            interactionId,
+          });
+          return next;
+        }
+        writingState.status = 'writing';
+        return next;
+      });
+
+      try {
+        const received = await api.messages.reply(lastMessage.id, { interaction_id: interactionId });
+
+        setMessagesStatesById((prev) => {
+          const next = cloneDeep(prev);
+          const messagesState = next[interactionId];
+          if (!messagesState) {
+            console.warn(
+              'Could not find interaction state. This indicates an unexpected behavior in application flow:',
+              {
+                interactionId,
+              }
+            );
+            return next;
+          }
+          messagesState.messagesById.set(received.id, received);
+          return next;
+        });
+        setWritingStatesById((prev) => {
+          const next = cloneDeep(prev);
+          const writingState = next[interactionId];
+          if (!writingState) {
+            console.warn(
+              'Could not find interaction state. This indicates an unexpected behavior in application flow:',
+              {
+                interactionId,
+              }
+            );
+            return next;
+          }
+          writingState.status = 'nil';
+          return next;
+        });
+      } catch (e) {
+        console.error('An unexpected error!');
+        setWritingStatesById((prev) => {
+          const next = cloneDeep(prev);
+          const writingState = next[interactionId];
+          if (!writingState) {
+            console.warn(
+              'Could not find interaction state. This indicates an unexpected behavior in application flow:',
+              {
+                interactionId,
+              }
+            );
+            return next;
+          }
+          writingState.status = 'error';
+          return next;
+        });
+      }
+    },
+    [getApi, sortedMessages]
+  );
+
   const handleSendMessage = useCallback(async () => {
     if (interactionId === null) return;
     const content = getInteractionInput(interactionId);
@@ -337,6 +420,10 @@ export function AgentView({
       messagesState.messagesById.set(sent.id, sent);
       return next;
     });
+
+    if (autoRequestReply) {
+      await handleRequestAnswer(interactionId, sent);
+    }
   }, [
     interactionId,
     getApi,
@@ -345,63 +432,9 @@ export function AgentView({
     setTextAreaValue,
     paginationMap,
     sortedMessages,
+    autoRequestReply,
+    handleRequestAnswer,
   ]);
-
-  const handleRequestAnswer = useCallback(
-    async (interactionId: string) => {
-      if (interactionId === null) return;
-      const [lastMessage] = sortedMessages;
-
-      if (!lastMessage || lastMessage.sent_by !== 'user') {
-        alert('Last message must be sent by user to request answer.');
-        return;
-      }
-
-      const api = await getApi();
-
-      setWritingStatesById((prev) => {
-        const next = cloneDeep(prev);
-        const writingState = next[interactionId];
-        if (!writingState) {
-          console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
-            interactionId,
-          });
-          return next;
-        }
-        writingState.status = 'writing';
-        return next;
-      });
-
-      const received = await api.messages.reply(lastMessage.id, { interaction_id: interactionId });
-
-      setMessagesStatesById((prev) => {
-        const next = cloneDeep(prev);
-        const messagesState = next[interactionId];
-        if (!messagesState) {
-          console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
-            interactionId,
-          });
-          return next;
-        }
-        messagesState.messagesById.set(received.id, received);
-        return next;
-      });
-
-      setWritingStatesById((prev) => {
-        const next = cloneDeep(prev);
-        const writingState = next[interactionId];
-        if (!writingState) {
-          console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
-            interactionId,
-          });
-          return next;
-        }
-        writingState.status = 'nil';
-        return next;
-      });
-    },
-    [getApi, sortedMessages]
-  );
 
   useKeyboardEnterEvent(handleSendMessage);
 
@@ -528,6 +561,7 @@ export function AgentView({
 
             <ChatSection
               agentName={agent.name}
+              autoRequestReply={autoRequestReply}
               hasMore={hasMore}
               messages={sortedMessages}
               next={() => loadNextMessagesBatch(interaction.id)}

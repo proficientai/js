@@ -3,5 +3,12 @@ export interface AgentViewProps {
   agentId: string;
   userExternalId: string;
   userHmac?: string | (() => Promise<string>);
+  /**
+   * @defaultValue true
+   */
+  autoRequestReply?: boolean;
+  /**
+   * @defaultValue "Type something..."
+   */
   inputPlaceholder?: string;
 }

@@ -3,11 +3,13 @@ import { css } from '@emotion/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { colors } from '../../../styles';
+import { BoltIcon } from '../../icons/BoltIcon';
 import { RetryIcon } from '../../icons/RetryIcon';
 import type { ChatSectionProps } from './types';
 
 export function ChatSection({
   agentName,
+  autoRequestReply,
   hasMore,
   messages,
   next,
@@ -15,8 +17,8 @@ export function ChatSection({
   writingStatus,
 }: ChatSectionProps) {
   const [lastMessage] = messages;
-  const canRequestAnswer = lastMessage?.sent_by === 'user';
-
+  const canRequestAnswer =
+    lastMessage?.sent_by === 'user' && (!autoRequestReply || writingStatus === 'error' || writingStatus === 'nil');
   return (
     <InfiniteScroll
       dataLength={messages.length}
@@ -102,12 +104,12 @@ export function ChatSection({
                     background-color: ${colors.gray[700]};
                   }
                 `}>
-                <RetryIcon />
+                {autoRequestReply ? <RetryIcon /> : <BoltIcon />}
                 <span
                   css={css`
                     margin-left: 10px;
                   `}>
-                  Request answer
+                  {autoRequestReply ? 'Retry' : 'Request answer'}
                 </span>
               </button>
             );
