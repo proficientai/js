@@ -2,6 +2,7 @@
 import { css } from '@emotion/react';
 
 import { colors } from '../../../styles';
+import { InteractionIcon } from '../../icons/InteractionIcon';
 import { PlusIcon } from '../../icons/PlusIcon';
 import type { SidebarSectionProps } from './types';
 
@@ -91,6 +92,9 @@ export function SidebarSection({
             <div
               key={i.id}
               css={css`
+                display: flex;
+                flex-direction: row;
+                align-items: center;
                 border-top: 1px solid ${colors.gray[700]};
                 padding-top: 12px;
                 padding-bottom: 12px;
@@ -105,7 +109,13 @@ export function SidebarSection({
                 }
               `}
               onClick={() => onClickInteraction(i)}>
-              {i.id}
+              <InteractionIcon />
+              <span
+                css={css`
+                  margin-left: 10px;
+                `}>
+                {i.id}
+              </span>
             </div>
           );
         })}
