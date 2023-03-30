@@ -1,6 +1,6 @@
 import type { Agent } from './resources/Agent';
 import type { Interaction, InteractionCreateParams } from './resources/Interaction';
-import type { Message, MessageCreateParams, MessageReplyParams } from './resources/Message';
+import type { Message, MessageCreateParams, MessageReplyParams, MessageResetParams } from './resources/Message';
 
 export namespace ClientApi {
   export type Operations = {
@@ -67,6 +67,13 @@ export namespace ClientApi {
       pathParams: {
         message_id: string;
       };
+      responseBody: Message;
+    };
+    PostMessagesMessage: {
+      pathParams: {
+        message_id: string;
+      };
+      requestBody: MessageResetParams;
       responseBody: Message;
     };
     PostMessagesMessageReply: {
