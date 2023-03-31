@@ -1,5 +1,11 @@
 # @proficient/react
 
+## 0.9.0
+
+### Minor Changes
+
+- Implemented ability to update interaction name
+
 ## 0.8.3
 
 ### Patch Changes
