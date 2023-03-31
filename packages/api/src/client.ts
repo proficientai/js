@@ -37,6 +37,9 @@ export namespace ClientApi {
       };
     };
     PostInteractionsInteraction: {
+      pathParams: {
+        interaction_id: string;
+      };
       requestBody: InteractionUpdateParams;
       responseBody: Interaction;
     };
