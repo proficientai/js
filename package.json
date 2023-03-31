@@ -15,7 +15,8 @@
     "dev": "turbo run dev --parallel",
     "dev:web": "turbo run dev --filter=web",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\"",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "publish-packages": "turbo run build --filter=api --filter=client --filter=react"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
