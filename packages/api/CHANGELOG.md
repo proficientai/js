@@ -1,5 +1,11 @@
 # @proficient/api
 
+## 0.19.0
+
+### Minor Changes
+
+- Implemented autoRequestReply and added title to Interaction
+
 ## 0.18.0
 
 ### Minor Changes

@@ -1,5 +1,16 @@
 # @proficient/react
 
+## 0.7.0
+
+### Minor Changes
+
+- Implemented autoRequestReply and added title to Interaction
+
+### Patch Changes
+
+- Updated dependencies
+  - @proficient/client@0.7.0
+
 ## 0.6.0
 
 ### Minor Changes
