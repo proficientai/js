@@ -1,5 +1,11 @@
 # @proficient/api
 
+## 0.21.2
+
+### Patch Changes
+
+- Fix incorrect dist
+
 ## 0.21.1
 
 ### Patch Changes
