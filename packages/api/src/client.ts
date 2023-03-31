@@ -1,5 +1,5 @@
 import type { Agent } from './resources/Agent';
-import type { Interaction, InteractionCreateParams } from './resources/Interaction';
+import type { Interaction, InteractionCreateParams, InteractionUpdateParams } from './resources/Interaction';
 import type { Message, MessageCreateParams, MessageReplyParams, MessageResetParams } from './resources/Message';
 
 export namespace ClientApi {
@@ -35,6 +35,10 @@ export namespace ClientApi {
          */
         messages: Message[];
       };
+    };
+    PostInteractionsInteraction: {
+      requestBody: InteractionUpdateParams;
+      responseBody: Interaction;
     };
     GetInteractionsInteraction: {
       pathParams: {

@@ -13,3 +13,7 @@ export interface Interaction {
 export interface InteractionCreateParams {
   agent_id: string;
 }
+
+export interface InteractionUpdateParams {
+  name?: string;
+}
