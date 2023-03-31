@@ -7,6 +7,7 @@ export interface Interaction {
   created_at: number;
   updated_at: number;
   total_message_count: number;
+  title: string;
 }
 
 export interface InteractionCreateParams {
