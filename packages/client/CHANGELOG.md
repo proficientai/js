@@ -1,5 +1,16 @@
 # @proficient/client
 
+## 0.9.0
+
+### Minor Changes
+
+- Added PostInteractionsInteraction operation
+
+### Patch Changes
+
+- Updated dependencies
+  - @proficient/api@0.21.0
+
 ## 0.8.0
 
 ### Minor Changes

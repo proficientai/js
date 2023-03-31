@@ -1,5 +1,11 @@
 # @proficient/api
 
+## 0.21.0
+
+### Minor Changes
+
+- Added PostInteractionsInteraction operation
+
 ## 0.20.0
 
 ### Minor Changes
