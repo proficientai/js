@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 /**
  * Detects whether the 'Enter' key (without Shift) is pressed.
  */
-export function useKeyboardEnterEvent(callback: () => void | Promise<void>) {
+export function useKeyboardEnterEvent(callback: () => void | Promise<void>, ignore?: boolean) {
   useEffect(() => {
     const handlePressEnter = (event: KeyboardEvent) => {
-      if (event.key === 'Enter' && !event.shiftKey) {
+      if (!ignore && event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault();
         callback();
       }
@@ -17,5 +17,5 @@ export function useKeyboardEnterEvent(callback: () => void | Promise<void>) {
     return () => {
       document.removeEventListener('keydown', handlePressEnter, false);
     };
-  }, [callback]);
+  }, [ignore, callback]);
 }

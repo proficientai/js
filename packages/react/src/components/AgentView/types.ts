@@ -8,6 +8,10 @@ export interface AgentViewProps {
    */
   autoRequestReply?: boolean;
   /**
+   * @defaultValue true
+   */
+  sendOnEnter?: boolean;
+  /**
    * @defaultValue "Type something..."
    */
   inputPlaceholder?: string;

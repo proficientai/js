@@ -23,6 +23,7 @@ export default function AgentPage() {
       userExternalId={USER_EXTERNAL_ID}
       userHmac={() => getHmac(USER_EXTERNAL_ID)}
       autoRequestReply
+      sendOnEnter={false}
     />
   );
 }

@@ -74,6 +74,7 @@ export function AgentView({
   userExternalId,
   userHmac,
   autoRequestReply = true,
+  sendOnEnter = true,
   inputPlaceholder = 'Type something...',
 }: AgentViewProps) {
   const { getApi } = useApi({ apiKey, userExternalId, userHmac });
@@ -602,6 +603,7 @@ export function AgentView({
               onClickSend={handleSendMessage}
               onInputChange={(text) => setInteractionInput(interaction.id, text)}
               placeholder={inputPlaceholder}
+              sendOnEnter={sendOnEnter}
               textAreaRef={inputTextAreaRef}
             />
           </div>
