@@ -1,5 +1,11 @@
 # @proficient/api
 
+## 0.20.0
+
+### Minor Changes
+
+- Rename Interaction `title` to `name`
+
 ## 0.19.0
 
 ### Minor Changes

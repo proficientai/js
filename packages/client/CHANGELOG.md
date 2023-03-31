@@ -1,5 +1,16 @@
 # @proficient/client
 
+## 0.8.0
+
+### Minor Changes
+
+- Rename Interaction `title` to `name`
+
+### Patch Changes
+
+- Updated dependencies
+  - @proficient/api@0.20.0
+
 ## 0.7.0
 
 ### Minor Changes
