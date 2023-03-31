@@ -1,5 +1,11 @@
 # @proficient/api
 
+## 0.21.1
+
+### Patch Changes
+
+- Added path params to PostInteractionsInteraction
+
 ## 0.21.0
 
 ### Minor Changes
