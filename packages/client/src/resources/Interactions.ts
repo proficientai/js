@@ -1,4 +1,4 @@
-import type { ClientApi, InteractionCreateParams } from '@proficient/api';
+import type { ClientApi, InteractionCreateParams, InteractionUpdateParams } from '@proficient/api';
 
 import type { RequestSender } from '../RequestSender';
 
@@ -22,6 +22,13 @@ export class Interactions {
 
   public async create(params: InteractionCreateParams) {
     return await this.rs.post<ClientApi.ResponseBody<'PostInteractions'>>(`/interactions`, params);
+  }
+
+  public async update(interactionId: string, params: InteractionUpdateParams) {
+    return await this.rs.post<ClientApi.ResponseBody<'PostInteractionsInteraction'>>(
+      `/interactions/${interactionId}`,
+      params
+    );
   }
 
   public async delete(interactionId: string) {
