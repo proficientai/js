@@ -438,7 +438,7 @@ export function AgentView({
 
   useKeyboardEnterEvent(handleSendMessage);
 
-  const handleCreateNewInteraction = useCallback(async () => {
+  const handleCreateInteraction = useCallback(async () => {
     const api = await getApi();
     const { interaction: newInteraction, messages } = await api.interactions.create({ agent_id: agentId });
     const oldestMessage = messages[messages.length - 1];
@@ -471,6 +471,25 @@ export function AgentView({
     });
     setInteractionId(newInteraction.id);
   }, [getApi, agentId, paginationMap]);
+
+  const handleUpdateInteraction = useCallback(
+    async (name: string) => {
+      if (interactionId === null) return;
+      const api = await getApi();
+      const updatedInteraction = await api.interactions.update(interactionId, {
+        name,
+      });
+      setInteractionStatesById((prev) => {
+        const next = cloneDeep(prev);
+        next[interactionId] = {
+          status: 'success',
+          interaction: updatedInteraction,
+        };
+        return next;
+      });
+    },
+    [getApi, interactionId]
+  );
 
   const handleDeleteInteraction = useCallback(
     async (interactionId: string) => {
@@ -534,7 +553,7 @@ export function AgentView({
         onClickInteraction={(i) => {
           selectInteraction(i.id);
         }}
-        onClickNewInteraction={handleCreateNewInteraction}
+        onClickNewInteraction={handleCreateInteraction}
       />
 
       {(() => {
@@ -561,7 +580,15 @@ export function AgentView({
             css={css`
               width: 100%;
             `}>
-            <HeaderSection onClickDelete={() => handleDeleteInteraction(interaction.id)} title={interaction.id} />
+            <HeaderSection
+              onClickDelete={() => handleDeleteInteraction(interaction.id)}
+              onTitleBlur={async (text) => {
+                if (interaction.name !== text) {
+                  await handleUpdateInteraction(text);
+                }
+              }}
+              title={interaction.name}
+            />
 
             <ChatSection
               agentName={agent.name}

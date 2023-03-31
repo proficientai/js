@@ -76,6 +76,9 @@ export function SidebarSection({
           <span
             css={css`
               margin-left: 10px;
+              white-space: nowrap;
+              font-family: Inter, sans-serif;
+              font-size: 13px;
             `}>
             Create new interaction
           </span>
@@ -113,8 +116,11 @@ export function SidebarSection({
               <span
                 css={css`
                   margin-left: 10px;
+                  font-family: Inter, sans-serif;
+                  font-size: 14px;
+                  color: ${i.name ? colors.gray[100] : colors.gray[500]};
                 `}>
-                {i.id}
+                {i.name || 'New interaction'}
               </span>
             </div>
           );

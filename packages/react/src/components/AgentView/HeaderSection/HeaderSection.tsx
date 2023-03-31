@@ -1,17 +1,24 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { useEffect, useState } from 'react';
 
 import { colors } from '../../../styles';
+import { InteractionIcon } from '../../icons/InteractionIcon';
 import { TrashIcon } from '../../icons/TrashIcon';
 import type { HeaderSectionProps } from './types';
 
-export function HeaderSection({ title, onClickDelete }: HeaderSectionProps) {
+export function HeaderSection({ onClickDelete, onTitleBlur, title: titleInitial }: HeaderSectionProps) {
+  const [title, setTitle] = useState(titleInitial);
+
+  useEffect(() => {
+    setTitle(titleInitial);
+  }, [titleInitial]);
+
   return (
     <div
       css={css`
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
         align-items: center;
         padding-left: 20px;
         padding-right: 20px;
@@ -19,19 +26,44 @@ export function HeaderSection({ title, onClickDelete }: HeaderSectionProps) {
         padding-bottom: 12px;
         border-bottom: 1px solid ${colors.gray[700]};
         background-color: ${colors.gray[800]};
+        color: ${colors.gray[100]};
       `}>
-      <div
+      <InteractionIcon />
+      <input
+        type="text"
         css={css`
+          background-color: transparent;
+          margin-left: 8px;
+          border: 1px solid transparent;
+          border-radius: 8px;
+          padding-top: 8px;
+          padding-bottom: 8px;
+          padding-left: 12px;
+          padding-right: 12px;
+          outline: 2px solid transparent;
+          outline-offset: 2px;
+          font-family: Inter, sans-serif;
+          font-size: 14px;
           color: ${colors.gray[100]};
-        `}>
-        {title}
-      </div>
+
+          &:focus {
+            border-color: ${colors.gray[500]};
+          }
+        `}
+        placeholder="New interaction"
+        onBlur={(e) => onTitleBlur(e.currentTarget.value)}
+        onChange={(e) => setTitle(e.currentTarget.value)}
+        value={title}
+        maxLength={50} // TODO: Make dynamic
+      />
+
       <button
         onClick={onClickDelete}
         css={css`
           display: flex;
           justify-content: center;
           align-items: center;
+          margin-left: auto;
           color: ${colors.gray[100]};
           background-color: ${colors.gray[800]};
           outline: none;
