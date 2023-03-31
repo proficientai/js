@@ -4,7 +4,7 @@ import type { Agent, Interaction, Message } from '@proficient/client';
 import { cloneDeep } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { useApi, useKeyboardEnterEvent } from '../../hooks';
+import { useApi } from '../../hooks';
 import { ChatSection } from './ChatSection';
 import { HeaderSection } from './HeaderSection';
 import { InputSection } from './InputSection';
@@ -435,8 +435,6 @@ export function AgentView({
     autoRequestReply,
     handleRequestAnswer,
   ]);
-
-  useKeyboardEnterEvent(handleSendMessage);
 
   const handleCreateInteraction = useCallback(async () => {
     const api = await getApi();

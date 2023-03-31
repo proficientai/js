@@ -1,12 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { useCallback } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
+import { useKeyboardEnterEvent } from '../../../hooks';
 import { colors } from '../../../styles';
 import { SendMessageIcon } from '../../icons/SendMessageIcon';
 import type { InputSectionProps } from './types';
 
 export function InputSection({ onClickSend, onInputChange, placeholder, textAreaRef }: InputSectionProps) {
+  const handleSendClick = useCallback(async () => {
+    if (document.activeElement === textAreaRef.current) {
+      await onClickSend();
+    }
+  }, [textAreaRef, onClickSend]);
+
+  useKeyboardEnterEvent(handleSendClick);
+
   return (
     <div
       css={css`
