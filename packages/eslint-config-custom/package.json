@@ -1,8 +1,9 @@
 {
   "name": "eslint-config-custom",
   "version": "0.0.0",
-  "main": "index.js",
+  "private": true,
   "license": "MIT",
+  "main": "index.js",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
@@ -17,6 +18,5 @@
   },
   "devDependencies": {
     "typescript": "5.0.3"
-  },
-  "private": true
+  }
 }

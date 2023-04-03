@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "turbo run build",
+    "build-packages": "turbo run build --filter=api --filter=client --filter=react",
     "build:api": "turbo run build --filter=api",
     "build:client": "turbo run build --filter=client",
     "build:react": "turbo run build --filter=react",
@@ -15,9 +16,12 @@
     "dev": "turbo run dev --parallel",
     "dev:web": "turbo run dev --filter=web",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\"",
+    "postformat": "npx sort-package-json \"package.json\" \"{,!(node_modules)/}**/*package.json\"",
     "lint": "turbo run lint",
-    "build-packages": "turbo run build --filter=api --filter=client --filter=react",
     "publish-packages": "npm run build-packages && changeset publish"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.26.0"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
@@ -25,11 +29,8 @@
     "prettier": "^2.7.1",
     "turbo": "latest"
   },
+  "packageManager": "npm@8.19.2",
   "engines": {
     "node": ">=14.0.0"
-  },
-  "dependencies": {
-    "@changesets/cli": "^2.26.0"
-  },
-  "packageManager": "npm@8.19.2"
+  }
 }
