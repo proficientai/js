@@ -10,10 +10,13 @@ export default function AgentPage() {
   }
 
   return (
-    <AgentView
-      apiKey={process.env.NEXT_PUBLIC_PROFICIENT_KEY}
-      agentId="ag_T7fDbhEtbhw4HJdV0rYY1mXg"
-      userExternalId={userId}
-    />
+    <div>
+      <h1 style={{ textAlign: 'center' }}>Example Client Application</h1>
+      <AgentView
+        apiKey={process.env.NEXT_PUBLIC_PROFICIENT_KEY}
+        agentId="ag_BPH01G6Ser6FMGy0EhpvlEg3"
+        userExternalId={userId}
+      />
+    </div>
   );
 }
