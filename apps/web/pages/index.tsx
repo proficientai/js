@@ -21,7 +21,7 @@ export default function ExampleClient() {
 
   // Load agents
   useEffect(() => {
-    const apiKey = process.env.NEXT_PUBLIC_PROFICIENT_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_PROFICIENT_KEY;
     if (userHmac !== null && apiKey) {
       (async () => {
         const proficient = new Proficient({
