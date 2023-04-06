@@ -4,13 +4,13 @@ export interface AgentConfig {
   object: 'agent_config';
   agent_id: string;
   provider: ProviderId;
-  system_prompt: string;
+  system_message: string;
   initial_turn: InteractionParticipant;
   greeting: string;
 }
 
 export interface AgentConfigUpdateParams {
-  system_prompt?: string;
+  system_message?: string;
   initial_turn?: InteractionParticipant;
   greeting?: string;
 }

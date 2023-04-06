@@ -14,7 +14,7 @@ export interface AgentCreateParams {
   name: string;
   description: string;
   provider: ProviderId;
-  system_prompt?: string;
+  system_message?: string;
   initial_turn?: InteractionParticipant;
   greeting?: string;
 }
