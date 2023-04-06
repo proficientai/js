@@ -1,5 +1,11 @@
 # @proficient/react
 
+## 0.9.1
+
+### Patch Changes
+
+- @proficient/client@0.9.3
+
 ## 0.9.0
 
 ### Minor Changes

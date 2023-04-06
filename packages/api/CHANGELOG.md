@@ -1,5 +1,11 @@
 # @proficient/api
 
+## 0.22.0
+
+### Minor Changes
+
+- 9e4ec6a: Renamed system_prompt to system_message
+
 ## 0.21.2
 
 ### Patch Changes

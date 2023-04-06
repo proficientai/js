@@ -1,5 +1,12 @@
 # @proficient/client
 
+## 0.9.3
+
+### Patch Changes
+
+- Updated dependencies [9e4ec6a]
+  - @proficient/api@0.22.0
+
 ## 0.9.2
 
 ### Patch Changes
