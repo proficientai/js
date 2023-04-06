@@ -12,13 +12,16 @@
     "build:api": "turbo run build --filter=api",
     "build:client": "turbo run build --filter=client",
     "build:react": "turbo run build --filter=react",
+    "changeset": "changeset",
+    "changeset:release": "npm run build-packages && changeset publish",
+    "changeset:version": "changeset version",
     "compile:web": "turbo run compile --filter=web",
     "dev": "turbo run dev --parallel",
     "dev:web": "turbo run dev --filter=web",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\"",
-    "postformat": "npx sort-package-json \"package.json\" \"{,!(node_modules)/}**/*package.json\"",
-    "lint": "turbo run lint",
-    "publish-packages": "npm run build-packages && changeset publish"
+    "format": "npm run format:code && npm run format:package.json",
+    "format:code": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\"",
+    "format:package.json": "npx sort-package-json \"package.json\" \"{,!(node_modules)/}**/*package.json\"",
+    "lint": "turbo run lint"
   },
   "dependencies": {
     "@changesets/cli": "^2.26.0"
