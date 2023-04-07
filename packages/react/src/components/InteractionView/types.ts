@@ -1,4 +1,4 @@
-export interface AgentViewProps {
+export interface InteractionViewProps {
   apiKey: string;
   agentId: string;
   userExternalId: string;

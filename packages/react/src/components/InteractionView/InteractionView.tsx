@@ -9,7 +9,7 @@ import { ChatSection } from './ChatSection';
 import { HeaderSection } from './HeaderSection';
 import { InputSection } from './InputSection';
 import { SidebarSection } from './SidebarSection';
-import type { AgentViewProps } from './types';
+import type { InteractionViewProps } from './types';
 import { useMultiSectionPagination } from './useMultiSectionPagination';
 import { usePagination } from './usePagination';
 import { useTextInputMap } from './useTextInputMap';
@@ -68,7 +68,7 @@ type WritingState =
       errorCode: 'not-found' | 'unknown';
     };
 
-export function AgentView({
+export function InteractionView({
   apiKey,
   agentId,
   userExternalId,
@@ -76,7 +76,7 @@ export function AgentView({
   autoRequestReply = true,
   sendOnEnter = true,
   inputPlaceholder = 'Type something...',
-}: AgentViewProps) {
+}: InteractionViewProps) {
   const { getApi } = useApi({ apiKey, userExternalId, userHmac });
 
   const [agentState, setAgentState] = useState<AgentState>({ status: 'nil' });
