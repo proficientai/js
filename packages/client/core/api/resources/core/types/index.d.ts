@@ -4,5 +4,7 @@ export * from "./AgentObjectType";
 export * from "./InteractionObjectType";
 export * from "./AgentId";
 export * from "./InteractionId";
+export * from "./InteractionCreateParams";
+export * from "./InteractionCreateResponse";
 export * from "./Agent";
 export * from "./Interaction";

@@ -18,4 +18,8 @@ export declare class Interactions {
      * Retrieves the interaction with the given ID.
      */
     get(interactionId: ProficientAiApi.InteractionId): Promise<ProficientAiApi.Interaction>;
+    /**
+     * Create a new `Interaction` with an agent.
+     */
+    create(request: ProficientAiApi.InteractionCreateParams): Promise<ProficientAiApi.InteractionCreateResponse>;
 }

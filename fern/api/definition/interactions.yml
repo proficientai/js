@@ -29,6 +29,16 @@ service:
         interaction_id: core.InteractionId
       response: core.Interaction
 
+    create:
+      path: ''
+      method: POST
+      docs: Create a new `Interaction` with an agent.
+      display-name: Create an interaction
+      request:
+        name: CreateInteractionRequest
+        body: core.InteractionCreateParams
+      response: core.InteractionCreateResponse
+
 types:
   InteractionsList:
     properties:

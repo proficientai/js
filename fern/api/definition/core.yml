@@ -39,6 +39,17 @@ types:
       - name: Example0
         value: int_53mfKtX0Da6zaJCp5bNnzxDaEg1xptWvQDr2
 
+  # Request/Response Interfaces
+
+  InteractionCreateParams:
+    type: AgentId
+    docs: The data with which an `Interaction`` is created.
+
+  InteractionCreateResponse:
+    properties:
+      interaction: Interaction
+      # TODO: Add messages array
+
   # Objects
 
   Agent:

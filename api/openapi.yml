@@ -73,6 +73,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/InteractionsList'
       summary: List all interactions
+    post:
+      description: Create a new `Interaction` with an agent.
+      operationId: interactions_create
+      tags:
+        - Interactions
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InteractionCreateResponse'
+      summary: Create an interaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InteractionCreateParams'
   /interactions/{interaction_id}:
     get:
       description: Retrieves the interaction with the given ID.
@@ -133,6 +153,16 @@ components:
     InteractionId:
       type: string
       description: The unique identifier of the interaction
+    InteractionCreateParams:
+      $ref: '#/components/schemas/AgentId'
+      description: The data with which an `Interaction`` is created.
+    InteractionCreateResponse:
+      type: object
+      properties:
+        interaction:
+          $ref: '#/components/schemas/Interaction'
+      required:
+        - interaction
     Agent:
       type: object
       properties:
