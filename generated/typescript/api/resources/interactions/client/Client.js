@@ -72,5 +72,38 @@ class Interactions {
                 });
         }
     }
+    /**
+     * Retrieves the interaction with the given ID.
+     */
+    async get(interactionId) {
+        const _response = await core.fetcher({
+            url: (0, url_join_1.default)(this.options.environment, `/interactions/${await serializers.InteractionId.jsonOrThrow(interactionId)}`),
+            method: "GET",
+        });
+        if (_response.ok) {
+            return await serializers.Interaction.parseOrThrow(_response.body, {
+                allowUnknownKeys: true,
+            });
+        }
+        if (_response.error.reason === "status-code") {
+            throw new errors.ProficientAiApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+            });
+        }
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ProficientAiApiError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.ProficientAiApiTimeoutError();
+            case "unknown":
+                throw new errors.ProficientAiApiError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
 }
 exports.Interactions = Interactions;

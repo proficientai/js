@@ -13,6 +13,14 @@ service:
       docs: Returns a list of interactions associated with the user. The interactions are returned sorted by creation date, with the most recently created interactions appearing first.
       display-name: List all interactions
       response: InteractionsList
+    get:
+      path: /{interaction_id}
+      method: GET
+      docs: Retrieves the interaction with the given ID.
+      display-name: Retrieve an interaction
+      path-parameters:
+        interaction_id: core.InteractionId
+      response: core.Interaction
 
 types:
   InteractionsList:

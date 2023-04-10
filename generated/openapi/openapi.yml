@@ -58,6 +58,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/InteractionsList'
       summary: List all interactions
+  /interactions/{interaction_id}:
+    get:
+      description: Retrieves the interaction with the given ID.
+      operationId: interactions_get
+      tags:
+        - Interactions
+      parameters:
+        - name: interaction_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/InteractionId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interaction'
+      summary: Retrieve an interaction
 components:
   schemas:
     AgentsList:
