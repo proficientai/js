@@ -1,7 +1,8 @@
 import { createHmac } from 'crypto';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const HMAC_SECRET = 'hsec_SVqkgDsWjVZzR3RnciwVAzyJuvhYAb6dBNENS1QvXAnuxrg0yfnxbuCfN2CnIWRsYLFRLJmD';
+// Must store this securely in your server
+const HMAC_SECRET = 'hsec_gszc1j3vR7XDsJ9aTawJ61UrGjfT40D0dvQJ0TBLJUfM9L7Ax782EKDnTNAj9J8VhKUnuK6Y';
 
 export type ResponseBody =
   | {

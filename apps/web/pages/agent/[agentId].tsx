@@ -20,7 +20,12 @@ export default function AgentPage() {
   return (
     <div>
       <h1 style={{ textAlign: 'center' }}>Example Client Application</h1>
-      <InteractionView apiKey={process.env.NEXT_PUBLIC_PROFICIENT_KEY} agentId={agentId} userExternalId={userId} />
+      <InteractionView
+        apiKey={process.env.NEXT_PUBLIC_PROFICIENT_KEY}
+        agentId={agentId}
+        userExternalId={userId}
+        userHmac={() => getHmac(userId)}
+      />
     </div>
   );
 }
