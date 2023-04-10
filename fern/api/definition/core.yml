@@ -19,14 +19,14 @@ types:
     type: string
     docs: The unique identifier of the agent
     examples:
-      - name: AgentId0
+      - name: Example0
         value: ag_Lad8YCGGiDLiqIZPWRXmc2ix
 
   InteractionId:
     type: string
     docs: The unique identifier of the interaction
     examples:
-      - name: InteractionId0
+      - name: Example0
         value: int_53mfKtX0Da6zaJCp5bNnzxDaEg1xptWvQDr2
 
   # Objects
@@ -53,7 +53,7 @@ types:
     examples:
       - name: Example0
         value:
-          id: ag_Lad8YCGGiDLiqIZPWRXmc2ix
+          id: $AgentId.Example0
           object: agent
           active: true
           name: Eliza
