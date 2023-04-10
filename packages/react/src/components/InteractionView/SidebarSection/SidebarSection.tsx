@@ -30,6 +30,8 @@ export function SidebarSection({
         <div
           css={css`
             color: ${colors.gray[100]};
+            font-family: Inter, sans-serif;
+            font-size: 14px;
           `}>
           {header}
         </div>
@@ -38,52 +40,115 @@ export function SidebarSection({
             color: ${colors.gray[500]};
             font-size: 14px;
             margin-top: 6px;
+            font-family: Inter, sans-serif;
           `}>
           {description}
         </div>
       </div>
 
-      <div
-        css={css`
-          padding-left: 12px;
-          padding-right: 12px;
-        `}>
-        <button
-          onClick={onClickNewInteraction}
+      {interactions.length === 0 ? (
+        <div
           css={css`
+            padding-left: 12px;
+            padding-right: 12px;
+            min-height: 500px;
             display: flex;
-            width: 100%;
-            border: 1px solid ${colors.gray[700]};
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            color: ${colors.gray[100]};
-            background-color: ${colors.gray[800]};
-            outline: none;
-            cursor: pointer;
-            padding-top: 6px;
-            padding-bottom: 6px;
-            padding-left: 16px;
-            padding-right: 16px;
-            border-radius: 4px;
-
-            margin-top: 10px;
-            margin-bottom: 10px;
-
-            &:hover {
-              background-color: ${colors.gray[700]};
-            }
           `}>
-          <PlusIcon />
-          <span
+          <button
+            onClick={onClickNewInteraction}
             css={css`
-              margin-left: 10px;
-              white-space: nowrap;
-              font-family: Inter, sans-serif;
-              font-size: 13px;
+              display: flex;
+              width: 100%;
+              border: 1px solid ${colors.gray[700]};
+              align-items: center;
+              color: ${colors.gray[100]};
+              background-color: ${colors.gray[800]};
+              outline: none;
+              cursor: pointer;
+              padding-top: 6px;
+              padding-bottom: 6px;
+              padding-left: 16px;
+              padding-right: 16px;
+              border-radius: 4px;
+
+              margin-top: 10px;
+              margin-bottom: 10px;
+
+              &:hover {
+                background-color: ${colors.gray[700]};
+              }
             `}>
-            Create new interaction
-          </span>
-        </button>
-      </div>
+            <PlusIcon />
+            <span
+              css={css`
+                margin-left: 10px;
+                white-space: nowrap;
+                font-family: Inter, sans-serif;
+                font-size: 13px;
+              `}>
+              Create new interaction
+            </span>
+          </button>
+
+          <div
+            css={css`
+              text-align: center;
+              padding: 10px;
+              margin-bottom: 10px;
+              margin-top: 10px;
+              color: ${colors.gray[500]};
+              font-family: Inter, sans-serif;
+              font-size: 14px;
+            `}>
+            No interactions.
+          </div>
+        </div>
+      ) : (
+        <div
+          css={css`
+            padding-left: 12px;
+            padding-right: 12px;
+          `}>
+          <button
+            onClick={onClickNewInteraction}
+            css={css`
+              display: flex;
+              width: 100%;
+              border: 1px solid ${colors.gray[700]};
+              align-items: center;
+              color: ${colors.gray[100]};
+              background-color: ${colors.gray[800]};
+              outline: none;
+              cursor: pointer;
+              padding-top: 6px;
+              padding-bottom: 6px;
+              padding-left: 16px;
+              padding-right: 16px;
+              border-radius: 4px;
+
+              margin-top: 10px;
+              margin-bottom: 10px;
+
+              &:hover {
+                background-color: ${colors.gray[700]};
+              }
+            `}>
+            <PlusIcon />
+            <span
+              css={css`
+                margin-left: 10px;
+                white-space: nowrap;
+                font-family: Inter, sans-serif;
+                font-size: 13px;
+              `}>
+              Create new interaction
+            </span>
+          </button>
+        </div>
+      )}
 
       <div
         css={css`
