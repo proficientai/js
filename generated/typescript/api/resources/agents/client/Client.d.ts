@@ -13,5 +13,9 @@ export declare class Agents {
     /**
      * Returns a list of your agents. The agents are returned sorted by creation date, with the most recently created agents appearing first.
      */
-    getAgents(): Promise<ProficientAiApi.Agents>;
+    getAll(): Promise<ProficientAiApi.AgentsList>;
+    /**
+     * Retrieves the agent with the given ID.
+     */
+    get(agentId: ProficientAiApi.AgentId): Promise<ProficientAiApi.Agent>;
 }

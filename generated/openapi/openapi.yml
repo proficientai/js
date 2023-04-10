@@ -8,7 +8,7 @@ paths:
       description: >-
         Returns a list of your agents. The agents are returned sorted by
         creation date, with the most recently created agents appearing first.
-      operationId: agents_getAgents
+      operationId: agents_getAll
       tags:
         - Agents
       parameters: []
@@ -18,15 +18,38 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Agents'
+                $ref: '#/components/schemas/AgentsList'
       summary: List all agents
+  /agents/{agent_id}:
+    get:
+      description: Retrieves the agent with the given ID.
+      operationId: agents_get
+      tags:
+        - Agents
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/AgentId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+      summary: Retrieve an agent
 components:
   schemas:
+    AgentId:
+      type: string
+      description: The unique identifier of the agent
     AgentResourceType:
       type: string
       enum:
         - agent
-    Agents:
+    AgentsList:
       type: object
       properties:
         data:
@@ -39,8 +62,7 @@ components:
       type: object
       properties:
         id:
-          type: string
-          description: The unique identifier of the agent
+          $ref: '#/components/schemas/AgentId'
         object:
           $ref: '#/components/schemas/AgentResourceType'
           description: The type of the object

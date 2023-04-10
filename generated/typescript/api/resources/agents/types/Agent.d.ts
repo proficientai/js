@@ -3,8 +3,7 @@
  */
 import { ProficientAiApi } from "../../../..";
 export interface Agent {
-    /** The unique identifier of the agent */
-    id: string;
+    id: ProficientAiApi.AgentId;
     /** The type of the object */
     object: ProficientAiApi.AgentResourceType;
     /** Whether the agent is currently active. If not, all interactions with this agent will be blocked. */

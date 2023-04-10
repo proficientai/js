@@ -26,14 +26,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Agent = void 0;
+exports.AgentsList = void 0;
 const core = __importStar(require("../../../../core"));
-exports.Agent = core.serialization.object({
-    id: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentId),
-    object: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentResourceType),
-    active: core.serialization.boolean(),
-    name: core.serialization.string(),
-    description: core.serialization.string(),
-    createdAt: core.serialization.property("created_at", core.serialization.number()),
-    updatedAt: core.serialization.property("updated_at", core.serialization.number()),
+exports.AgentsList = core.serialization.object({
+    data: core.serialization.list(core.serialization.lazyObject(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).Agent)),
 });

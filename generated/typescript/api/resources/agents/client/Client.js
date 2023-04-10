@@ -42,13 +42,46 @@ class Agents {
     /**
      * Returns a list of your agents. The agents are returned sorted by creation date, with the most recently created agents appearing first.
      */
-    async getAgents() {
+    async getAll() {
         const _response = await core.fetcher({
             url: (0, url_join_1.default)(this.options.environment, "/agents"),
             method: "GET",
         });
         if (_response.ok) {
-            return await serializers.Agents.parseOrThrow(_response.body, {
+            return await serializers.AgentsList.parseOrThrow(_response.body, {
+                allowUnknownKeys: true,
+            });
+        }
+        if (_response.error.reason === "status-code") {
+            throw new errors.ProficientAiApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+            });
+        }
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ProficientAiApiError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.ProficientAiApiTimeoutError();
+            case "unknown":
+                throw new errors.ProficientAiApiError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+    /**
+     * Retrieves the agent with the given ID.
+     */
+    async get(agentId) {
+        const _response = await core.fetcher({
+            url: (0, url_join_1.default)(this.options.environment, `/agents/${await serializers.AgentId.jsonOrThrow(agentId)}`),
+            method: "GET",
+        });
+        if (_response.ok) {
+            return await serializers.Agent.parseOrThrow(_response.body, {
                 allowUnknownKeys: true,
             });
         }

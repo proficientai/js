@@ -7,7 +7,7 @@ import * as core from "../../../../core";
 export declare const Agent: core.serialization.ObjectSchema<serializers.Agent.Raw, ProficientAiApi.Agent>;
 export declare namespace Agent {
     interface Raw {
-        id: string;
+        id: serializers.AgentId.Raw;
         object: serializers.AgentResourceType.Raw;
         active: boolean;
         name: string;

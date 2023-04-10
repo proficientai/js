@@ -4,25 +4,37 @@ service:
   auth: false
   base-path: /agents
   endpoints:
-    getAgents:
+    getAll:
       path: ''
       method: GET
       docs: Returns a list of your agents. The agents are returned sorted by creation date, with the most recently created agents appearing first.
       display-name: List all agents
-      response: Agents
+      response: AgentsList
+    get:
+      path: '/{agent_id}'
+      method: GET
+      docs: Retrieves the agent with the given ID.
+      display-name: Retrieve an agent
+      path-parameters:
+        agent_id: AgentId
+      response: Agent
 
 types:
+  AgentId:
+    type: string
+    docs: The unique identifier of the agent
+    examples:
+      - name: AgentId0
+        value: ag_Lad8YCGGiDLiqIZPWRXmc2ix
   AgentResourceType:
     enum:
       - agent
-  Agents:
+  AgentsList:
     properties:
       data: list<Agent>
   Agent:
     properties:
-      id:
-        type: string
-        docs: The unique identifier of the agent
+      id: AgentId
       object:
         type: AgentResourceType
         docs: The type of the object

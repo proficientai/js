@@ -4,8 +4,8 @@
 import * as serializers from "../../..";
 import { ProficientAiApi } from "../../../..";
 import * as core from "../../../../core";
-export declare const Agents: core.serialization.ObjectSchema<serializers.Agents.Raw, ProficientAiApi.Agents>;
-export declare namespace Agents {
+export declare const AgentsList: core.serialization.ObjectSchema<serializers.AgentsList.Raw, ProficientAiApi.AgentsList>;
+export declare namespace AgentsList {
     interface Raw {
         data: serializers.Agent.Raw[];
     }
