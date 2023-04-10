@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+service:
+  auth: false
+  base-path: /agents
+  endpoints:
+    getAgents:
+      path: ''
+      method: GET
+      docs: Returns a list of your agents. The agents are returned sorted by creation date, with the most recently created agents appearing first.
+      display-name: List all agents
+      response: Agents
+
+types:
+  AgentResourceType:
+    enum:
+      - agent
+  Agents:
+    properties:
+      data: list<Agent>
+  Agent:
+    properties:
+      id:
+        type: string
+        docs: The unique identifier of the agent
+      object:
+        type: AgentResourceType
+        docs: The type of the object
+      active:
+        type: boolean
+        docs: Whether the agent is currently active. If not, all interactions with this agent will be blocked.
+      name:
+        type: string
+        docs: The name of the agent
+      description:
+        type: string
+        docs: The description of the agent
+      created_at:
+        type: integer
+        docs: The time at which the object was created, measured in milliseconds since the Unix epoch
+      updated_at:
+        type: integer
+        docs: The time at which the object was last updated, measured in milliseconds since the Unix epoch
+    # examples:
+    #   - name: Example0
+    #   - value:
+    #       id: ag_Lad8YCGGiDLiqIZPWRXmc2ix
+    #       object: agent
+    #       active: true
+    #       name: Eliza
+    #       description: A general-purpose assistant
+    #       created_at: 1671631795145
+    #       updated_at: 1671631795145
+
+errors:
+  AgentDoesNotExistError:
+    status-code: 404
+    type: string
