@@ -46,6 +46,11 @@ class Agents {
         const _response = await core.fetcher({
             url: (0, url_join_1.default)(this.options.environment, "/agents"),
             method: "GET",
+            headers: {
+                "X-PROFICIENT-API-KEY": this.options.xProficientApiKey,
+                "X-PROFICIENT-USER-EXTERNAL-ID": this.options.xProficientUserExternalId,
+                "X-PROFICIENT-USER-HMAC": this.options.xProficientUserHmac,
+            },
         });
         if (_response.ok) {
             return await serializers.AgentsList.parseOrThrow(_response.body, {
@@ -79,6 +84,11 @@ class Agents {
         const _response = await core.fetcher({
             url: (0, url_join_1.default)(this.options.environment, `/agents/${await serializers.AgentId.jsonOrThrow(agentId)}`),
             method: "GET",
+            headers: {
+                "X-PROFICIENT-API-KEY": this.options.xProficientApiKey,
+                "X-PROFICIENT-USER-EXTERNAL-ID": this.options.xProficientUserExternalId,
+                "X-PROFICIENT-USER-HMAC": this.options.xProficientUserHmac,
+            },
         });
         if (_response.ok) {
             return await serializers.Agent.parseOrThrow(_response.body, {

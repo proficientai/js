@@ -57,6 +57,11 @@ class Interactions {
         const _response = await core.fetcher({
             url: (0, url_join_1.default)(this.options.environment, "/interactions"),
             method: "GET",
+            headers: {
+                "X-PROFICIENT-API-KEY": this.options.xProficientApiKey,
+                "X-PROFICIENT-USER-EXTERNAL-ID": this.options.xProficientUserExternalId,
+                "X-PROFICIENT-USER-HMAC": this.options.xProficientUserHmac,
+            },
             queryParameters: _queryParams,
         });
         if (_response.ok) {
@@ -91,6 +96,11 @@ class Interactions {
         const _response = await core.fetcher({
             url: (0, url_join_1.default)(this.options.environment, `/interactions/${await serializers.InteractionId.jsonOrThrow(interactionId)}`),
             method: "GET",
+            headers: {
+                "X-PROFICIENT-API-KEY": this.options.xProficientApiKey,
+                "X-PROFICIENT-USER-EXTERNAL-ID": this.options.xProficientUserExternalId,
+                "X-PROFICIENT-USER-HMAC": this.options.xProficientUserHmac,
+            },
         });
         if (_response.ok) {
             return await serializers.Interaction.parseOrThrow(_response.body, {
@@ -124,6 +134,11 @@ class Interactions {
         const _response = await core.fetcher({
             url: (0, url_join_1.default)(this.options.environment, "/interactions"),
             method: "POST",
+            headers: {
+                "X-PROFICIENT-API-KEY": this.options.xProficientApiKey,
+                "X-PROFICIENT-USER-EXTERNAL-ID": this.options.xProficientUserExternalId,
+                "X-PROFICIENT-USER-HMAC": this.options.xProficientUserHmac,
+            },
             body: await serializers.InteractionCreateParams.jsonOrThrow(request),
         });
         if (_response.ok) {

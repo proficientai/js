@@ -5,6 +5,9 @@ import { ProficientAiApi } from "../../../..";
 export declare namespace Agents {
     interface Options {
         environment: string;
+        xProficientApiKey: string;
+        xProficientUserExternalId: string;
+        xProficientUserHmac?: string;
     }
 }
 export declare class Agents {

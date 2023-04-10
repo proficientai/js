@@ -5,6 +5,9 @@ import { ProficientAiApi } from "../../../..";
 export declare namespace Interactions {
     interface Options {
         environment: string;
+        xProficientApiKey: string;
+        xProficientUserExternalId: string;
+        xProficientUserHmac?: string;
     }
 }
 export declare class Interactions {

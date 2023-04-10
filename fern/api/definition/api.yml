@@ -1,3 +1,7 @@
 name: api
+headers:
+  X-PROFICIENT-API-KEY: string
+  X-PROFICIENT-USER-EXTERNAL-ID: string
+  X-PROFICIENT-USER-HMAC: optional<string>
 error-discrimination:
   strategy: status-code

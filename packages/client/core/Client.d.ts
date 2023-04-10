@@ -6,6 +6,9 @@ import { Interactions } from "./api/resources/interactions/client/Client";
 export declare namespace ProficientAiApiClient {
     interface Options {
         environment: string;
+        xProficientApiKey: string;
+        xProficientUserExternalId: string;
+        xProficientUserHmac?: string;
     }
 }
 export declare class ProficientAiApiClient {
