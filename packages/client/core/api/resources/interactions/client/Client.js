@@ -42,7 +42,7 @@ class Interactions {
     /**
      * Returns a list of interactions associated with the user. The interactions are returned sorted by creation date, with the most recently created interactions appearing first.
      */
-    async getAll(request = {}) {
+    async list(request = {}) {
         const { agentId, limit, startingAfter } = request;
         const _queryParams = new URLSearchParams();
         if (agentId != null) {

@@ -1,1 +1,1 @@
-export { GetAllInteractionsRequest } from "./GetAllInteractionsRequest";
+export { ListInteractionsRequest } from "./ListInteractionsRequest";

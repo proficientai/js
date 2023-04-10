@@ -42,7 +42,7 @@ class Agents {
     /**
      * Returns a list of your agents. The agents are returned sorted by creation date, with the most recently created agents appearing first.
      */
-    async getAll() {
+    async list() {
         const _response = await core.fetcher({
             url: (0, url_join_1.default)(this.options.environment, "/agents"),
             method: "GET",

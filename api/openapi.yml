@@ -8,7 +8,7 @@ paths:
       description: >-
         Returns a list of your agents. The agents are returned sorted by
         creation date, with the most recently created agents appearing first.
-      operationId: agents_getAll
+      operationId: agents_list
       tags:
         - Agents
       parameters: []
@@ -46,7 +46,7 @@ paths:
         Returns a list of interactions associated with the user. The
         interactions are returned sorted by creation date, with the most
         recently created interactions appearing first.
-      operationId: interactions_getAll
+      operationId: interactions_list
       tags:
         - Interactions
       parameters:

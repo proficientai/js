@@ -7,7 +7,7 @@ service:
   auth: false
   base-path: /agents
   endpoints:
-    getAll:
+    list:
       path: ''
       method: GET
       docs: Returns a list of your agents. The agents are returned sorted by creation date, with the most recently created agents appearing first.

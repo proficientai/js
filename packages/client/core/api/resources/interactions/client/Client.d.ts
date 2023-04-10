@@ -16,7 +16,7 @@ export declare class Interactions {
     /**
      * Returns a list of interactions associated with the user. The interactions are returned sorted by creation date, with the most recently created interactions appearing first.
      */
-    getAll(request?: ProficientAiApi.GetAllInteractionsRequest): Promise<ProficientAiApi.InteractionsList>;
+    list(request?: ProficientAiApi.ListInteractionsRequest): Promise<ProficientAiApi.InteractionsList>;
     /**
      * Retrieves the interaction with the given ID.
      */
