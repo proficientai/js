@@ -40,15 +40,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/Agent'
       summary: Retrieve an agent
+  /interactions:
+    get:
+      description: >-
+        Returns a list of interactions associated with the user. The
+        interactions are returned sorted by creation date, with the most
+        recently created interactions appearing first.
+      operationId: interactions_getAll
+      tags:
+        - Interactions
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InteractionsList'
+      summary: List all interactions
 components:
   schemas:
-    AgentId:
-      type: string
-      description: The unique identifier of the agent
-    AgentResourceType:
-      type: string
-      enum:
-        - agent
     AgentsList:
       type: object
       properties:
@@ -58,35 +69,55 @@ components:
             $ref: '#/components/schemas/Agent'
       required:
         - data
+    AgentObjectType:
+      type: string
+      enum:
+        - agent
+      description: The type of the Agent object
+    InteractionObjectType:
+      type: string
+      enum:
+        - interaction
+      description: The type of the Interaction object
+    AgentId:
+      type: string
+      description: The unique identifier of the agent
+    InteractionId:
+      type: string
+      description: The unique identifier of the interaction
     Agent:
       type: object
       properties:
         id:
           $ref: '#/components/schemas/AgentId'
         object:
-          $ref: '#/components/schemas/AgentResourceType'
-          description: The type of the object
+          $ref: '#/components/schemas/AgentObjectType'
         active:
           type: boolean
           description: >-
             Whether the agent is currently active. If not, all interactions with
             this agent will be blocked.
+          example: true
         name:
           type: string
           description: The name of the agent
+          example: Eliza
         description:
           type: string
           description: The description of the agent
+          example: A general-purpose assistant
         created_at:
           type: integer
           description: >-
             The time at which the object was created, measured in milliseconds
             since the Unix epoch
+          example: 1671631795145
         updated_at:
           type: integer
           description: >-
             The time at which the object was last updated, measured in
             milliseconds since the Unix epoch
+          example: 1671631795145
       required:
         - id
         - object
@@ -95,4 +126,54 @@ components:
         - description
         - created_at
         - updated_at
+    Interaction:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/InteractionId'
+        object:
+          $ref: '#/components/schemas/InteractionObjectType'
+        agent_id:
+          $ref: '#/components/schemas/AgentId'
+        archived:
+          type: boolean
+          description: Whether the interaction has been archived by the user
+        created_at:
+          type: integer
+          description: >-
+            The time at which the object was created, measured in milliseconds
+            since the Unix epoch
+        name:
+          type: string
+          description: The name of the interaction
+        total_message_count:
+          type: integer
+          description: The total number of messages in the interaction
+        updated_at:
+          type: integer
+          description: >-
+            The time at which the object was last updated, measured in
+            milliseconds since the Unix epoch
+        user_id:
+          type: string
+          description: The unique identifier of the user
+      required:
+        - id
+        - object
+        - agent_id
+        - archived
+        - created_at
+        - name
+        - total_message_count
+        - updated_at
+        - user_id
+    InteractionsList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interaction'
+      required:
+        - data
   securitySchemes: {}

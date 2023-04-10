@@ -4,7 +4,7 @@
 import * as serializers from "../../..";
 import { ProficientAiApi } from "../../../..";
 import * as core from "../../../../core";
-export declare const AgentResourceType: core.serialization.Schema<serializers.AgentResourceType.Raw, ProficientAiApi.AgentResourceType>;
-export declare namespace AgentResourceType {
+export declare const AgentObjectType: core.serialization.Schema<serializers.AgentObjectType.Raw, ProficientAiApi.AgentObjectType>;
+export declare namespace AgentObjectType {
     type Raw = "agent";
 }

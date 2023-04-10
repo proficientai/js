@@ -5,6 +5,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProficientAiApiClient = void 0;
 const Client_1 = require("./api/resources/agents/client/Client");
+const Client_2 = require("./api/resources/interactions/client/Client");
 class ProficientAiApiClient {
     options;
     constructor(options) {
@@ -13,6 +14,10 @@ class ProficientAiApiClient {
     _agents;
     get agents() {
         return (this._agents ??= new Client_1.Agents(this.options));
+    }
+    _interactions;
+    get interactions() {
+        return (this._interactions ??= new Client_2.Interactions(this.options));
     }
 }
 exports.ProficientAiApiClient = ProficientAiApiClient;

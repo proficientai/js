@@ -26,6 +26,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AgentResourceType = void 0;
+exports.Agent = void 0;
 const core = __importStar(require("../../../../core"));
-exports.AgentResourceType = core.serialization.enum_(["agent"]);
+exports.Agent = core.serialization.object({
+    id: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentId),
+    object: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentObjectType),
+    active: core.serialization.boolean(),
+    name: core.serialization.string(),
+    description: core.serialization.string(),
+    createdAt: core.serialization.property("created_at", core.serialization.number()),
+    updatedAt: core.serialization.property("updated_at", core.serialization.number()),
+});

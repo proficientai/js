@@ -1,0 +1,86 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+types:
+  # Object types
+
+  AgentObjectType:
+    enum:
+      - agent
+    docs: The type of the Agent object
+
+  InteractionObjectType:
+    enum:
+      - interaction
+    docs: The type of the Interaction object
+
+  # Object identifiers
+
+  AgentId:
+    type: string
+    docs: The unique identifier of the agent
+    examples:
+      - name: AgentId0
+        value: ag_Lad8YCGGiDLiqIZPWRXmc2ix
+
+  InteractionId:
+    type: string
+    docs: The unique identifier of the interaction
+    examples:
+      - name: InteractionId0
+        value: int_53mfKtX0Da6zaJCp5bNnzxDaEg1xptWvQDr2
+
+  # Objects
+
+  Agent:
+    properties:
+      id: AgentId
+      object: AgentObjectType
+      active:
+        type: boolean
+        docs: Whether the agent is currently active. If not, all interactions with this agent will be blocked.
+      name:
+        type: string
+        docs: The name of the agent
+      description:
+        type: string
+        docs: The description of the agent
+      created_at:
+        type: integer
+        docs: The time at which the object was created, measured in milliseconds since the Unix epoch
+      updated_at:
+        type: integer
+        docs: The time at which the object was last updated, measured in milliseconds since the Unix epoch
+    examples:
+      - name: Example0
+        value:
+          id: ag_Lad8YCGGiDLiqIZPWRXmc2ix
+          object: agent
+          active: true
+          name: Eliza
+          description: A general-purpose assistant
+          created_at: 1671631795145
+          updated_at: 1671631795145
+
+  Interaction:
+    properties:
+      id: InteractionId
+      object: InteractionObjectType
+      agent_id: AgentId
+      archived:
+        type: boolean
+        docs: Whether the interaction has been archived by the user
+      created_at:
+        type: integer
+        docs: The time at which the object was created, measured in milliseconds since the Unix epoch
+      name:
+        type: string
+        docs: The name of the interaction
+      total_message_count:
+        type: integer
+        docs: The total number of messages in the interaction
+      updated_at:
+        type: integer
+        docs: The time at which the object was last updated, measured in milliseconds since the Unix epoch
+      user_id:
+        type: string
+        docs: The unique identifier of the user

@@ -8,7 +8,7 @@ export declare const Agent: core.serialization.ObjectSchema<serializers.Agent.Ra
 export declare namespace Agent {
     interface Raw {
         id: serializers.AgentId.Raw;
-        object: serializers.AgentResourceType.Raw;
+        object: serializers.AgentObjectType.Raw;
         active: boolean;
         name: string;
         description: string;

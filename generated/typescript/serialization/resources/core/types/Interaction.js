@@ -26,14 +26,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Agent = void 0;
+exports.Interaction = void 0;
 const core = __importStar(require("../../../../core"));
-exports.Agent = core.serialization.object({
-    id: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentId),
-    object: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentResourceType),
-    active: core.serialization.boolean(),
-    name: core.serialization.string(),
-    description: core.serialization.string(),
+exports.Interaction = core.serialization.object({
+    id: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InteractionId),
+    object: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InteractionObjectType),
+    agentId: core.serialization.property("agent_id", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentId)),
+    archived: core.serialization.boolean(),
     createdAt: core.serialization.property("created_at", core.serialization.number()),
+    name: core.serialization.string(),
+    totalMessageCount: core.serialization.property("total_message_count", core.serialization.number()),
     updatedAt: core.serialization.property("updated_at", core.serialization.number()),
+    userId: core.serialization.property("user_id", core.serialization.string()),
 });

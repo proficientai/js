@@ -1,5 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
 
+imports:
+  core: core.yml
+
 service:
   auth: false
   base-path: /agents
@@ -11,58 +14,18 @@ service:
       display-name: List all agents
       response: AgentsList
     get:
-      path: '/{agent_id}'
+      path: /{agent_id}
       method: GET
       docs: Retrieves the agent with the given ID.
       display-name: Retrieve an agent
       path-parameters:
-        agent_id: AgentId
-      response: Agent
+        agent_id: core.AgentId
+      response: core.Agent
 
 types:
-  AgentId:
-    type: string
-    docs: The unique identifier of the agent
-    examples:
-      - name: AgentId0
-        value: ag_Lad8YCGGiDLiqIZPWRXmc2ix
-  AgentResourceType:
-    enum:
-      - agent
   AgentsList:
     properties:
-      data: list<Agent>
-  Agent:
-    properties:
-      id: AgentId
-      object:
-        type: AgentResourceType
-        docs: The type of the object
-      active:
-        type: boolean
-        docs: Whether the agent is currently active. If not, all interactions with this agent will be blocked.
-      name:
-        type: string
-        docs: The name of the agent
-      description:
-        type: string
-        docs: The description of the agent
-      created_at:
-        type: integer
-        docs: The time at which the object was created, measured in milliseconds since the Unix epoch
-      updated_at:
-        type: integer
-        docs: The time at which the object was last updated, measured in milliseconds since the Unix epoch
-    # examples:
-    #   - name: Example0
-    #   - value:
-    #       id: ag_Lad8YCGGiDLiqIZPWRXmc2ix
-    #       object: agent
-    #       active: true
-    #       name: Eliza
-    #       description: A general-purpose assistant
-    #       created_at: 1671631795145
-    #       updated_at: 1671631795145
+      data: list<core.Agent>
 
 errors:
   AgentDoesNotExistError:

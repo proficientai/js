@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  core: core.yml
+
+service:
+  auth: false
+  base-path: /interactions
+  endpoints:
+    getAll:
+      path: ''
+      method: GET
+      docs: Returns a list of interactions associated with the user. The interactions are returned sorted by creation date, with the most recently created interactions appearing first.
+      display-name: List all interactions
+      response: InteractionsList
+
+types:
+  InteractionsList:
+    properties:
+      data: list<core.Interaction>
+
+errors:
+  InteractionDoesNotExistError:
+    status-code: 404
+    type: string
