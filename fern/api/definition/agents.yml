@@ -13,6 +13,7 @@ service:
       docs: Returns a list of your agents. The agents are returned sorted by creation date, with the most recently created agents appearing first.
       display-name: List all agents
       response: AgentsList
+
     get:
       path: /{agent_id}
       method: GET

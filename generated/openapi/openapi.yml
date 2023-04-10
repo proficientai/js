@@ -49,7 +49,22 @@ paths:
       operationId: interactions_getAll
       tags:
         - Interactions
-      parameters: []
+      parameters:
+        - name: agent_id
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/AgentId'
+        - name: limit
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PaginationLimit'
+        - name: starting_after
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PaginationLimit'
       responses:
         '200':
           description: ''
@@ -89,6 +104,19 @@ components:
             $ref: '#/components/schemas/Agent'
       required:
         - data
+    PaginationLimit:
+      type: integer
+      description: >-
+        Used to specify the maximum number of objects that can be returned. Must
+        be an integer ranging from 1 to 100. Defaults to 20.
+    PaginationStartingAfter:
+      type: string
+      description: >-
+        A pagination cursor parameter that takes an object ID as a value. This
+        indicates the position of the list where you want to start fetching the
+        data. For example, if your first request returns 100 objects ending with
+        `obj_100`, you can use `starting_after=obj_100` in your subsequent API
+        call to retrieve the next page of the list.
     AgentObjectType:
       type: string
       enum:

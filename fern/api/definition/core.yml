@@ -1,6 +1,16 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
 
 types:
+  # Commonly used parameters
+
+  PaginationLimit:
+    type: optional<integer>
+    docs: Used to specify the maximum number of objects that can be returned. Must be an integer ranging from 1 to 100. Defaults to 20.
+
+  PaginationStartingAfter:
+    type: optional<string>
+    docs: A pagination cursor parameter that takes an object ID as a value. This indicates the position of the list where you want to start fetching the data. For example, if your first request returns 100 objects ending with `obj_100`, you can use `starting_after=obj_100` in your subsequent API call to retrieve the next page of the list.
+
   # Object types
 
   AgentObjectType:

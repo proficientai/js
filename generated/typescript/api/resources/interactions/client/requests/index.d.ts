@@ -1,0 +1,1 @@
+export { GetAllInteractionsRequest } from "./GetAllInteractionsRequest";

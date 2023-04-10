@@ -42,10 +42,22 @@ class Interactions {
     /**
      * Returns a list of interactions associated with the user. The interactions are returned sorted by creation date, with the most recently created interactions appearing first.
      */
-    async getAll() {
+    async getAll(request = {}) {
+        const { agentId, limit, startingAfter } = request;
+        const _queryParams = new URLSearchParams();
+        if (agentId != null) {
+            _queryParams.append("agent_id", agentId);
+        }
+        if (limit != null) {
+            _queryParams.append("limit", limit.toString());
+        }
+        if (startingAfter != null) {
+            _queryParams.append("starting_after", startingAfter.toString());
+        }
         const _response = await core.fetcher({
             url: (0, url_join_1.default)(this.options.environment, "/interactions"),
             method: "GET",
+            queryParameters: _queryParams,
         });
         if (_response.ok) {
             return await serializers.InteractionsList.parseOrThrow(_response.body, {
