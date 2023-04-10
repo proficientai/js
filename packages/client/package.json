@@ -6,10 +6,13 @@
   "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist/**"
+    "dist/**",
+    "core/**"
   ],
   "scripts": {
-    "build": "rm -rf dist && tsc",
+    "build": "npm run build:core && npm run build:dist",
+    "build:core": "rm -rf core && fern generate",
+    "build:dist": "rm -rf dist && tsc",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "dev": "tsc -w",
     "lint": "TIMING=1 eslint \"src/**/*.ts*\"",
