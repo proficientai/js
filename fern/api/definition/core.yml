@@ -146,6 +146,11 @@ types:
       content: optional<MessageContent>
     docs: The data with which a `Message` is reset.
 
+  MessageAskParams:
+    properties:
+      interaction_id: InteractionId
+    docs: The data with which a reply to a `Message` is asked for.
+
   # Objects
 
   Agent:

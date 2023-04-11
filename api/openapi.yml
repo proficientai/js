@@ -264,6 +264,32 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/MessageResetParams'
+  /messages/{message_id}/ask:
+    post:
+      description: Requests a reply from the `Agent` to a given `Message`.
+      operationId: messages_ask
+      tags:
+        - Messages
+      parameters:
+        - name: message_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/MessageId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+      summary: Ask for a reply to a message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAskParams'
 components:
   schemas:
     AgentsList:
@@ -396,6 +422,14 @@ components:
           $ref: '#/components/schemas/InteractionId'
         content:
           $ref: '#/components/schemas/MessageContent'
+      required:
+        - interaction_id
+    MessageAskParams:
+      type: object
+      description: The data with which a reply to a `Message` is asked for.
+      properties:
+        interaction_id:
+          $ref: '#/components/schemas/InteractionId'
       required:
         - interaction_id
     Agent:

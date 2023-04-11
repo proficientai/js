@@ -51,6 +51,18 @@ service:
         body: core.MessageResetParams
       response: core.Message
 
+    ask:
+      path: /{message_id}/ask
+      method: POST
+      docs: Requests a reply from the `Agent` to a given `Message`.
+      display-name: Ask for a reply to a message
+      path-parameters:
+        message_id: core.MessageId
+      request:
+        name: MessageAskRequest
+        body: core.MessageAskParams
+      response: core.Message
+
 types:
   MessagesList:
     properties:
