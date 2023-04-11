@@ -1,5 +1,11 @@
 # @proficient/client
 
+## 0.11.1
+
+### Patch Changes
+
+- Fix incorrect type for query param
+
 ## 0.11.0
 
 ### Minor Changes
