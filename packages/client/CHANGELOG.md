@@ -1,5 +1,11 @@
 # @proficient/client
 
+## 0.10.0
+
+### Minor Changes
+
+- The @proficient/client package is now auto-generated
+
 ## 0.9.3
 
 ### Patch Changes
