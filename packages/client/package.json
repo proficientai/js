@@ -3,11 +3,10 @@
   "version": "0.9.3",
   "license": "MIT",
   "main": "./dist/index.js",
-  "source": "./src/index.ts",
+  "source": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist/**",
-    "core/**"
+    "dist/**"
   ],
   "scripts": {
     "build": "npm run build:core && npm run build:dist",
