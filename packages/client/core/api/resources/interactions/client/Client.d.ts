@@ -23,7 +23,11 @@ export declare class Interactions {
      */
     get(interactionId: ProficientAiApi.InteractionId): Promise<ProficientAiApi.Interaction>;
     /**
-     * Create a new `Interaction` with an agent.
+     * Creates a new `Interaction` with an agent.
      */
     create(request: ProficientAiApi.InteractionCreateParams): Promise<ProficientAiApi.InteractionCreateResponse>;
+    /**
+     * Updates the properties of the specified interaction. Only the provided properties will be updated. Any properties not provided will be left unchanged.
+     */
+    update(interactionId: ProficientAiApi.InteractionId, request: ProficientAiApi.InteractionUpdateParams): Promise<ProficientAiApi.Interaction>;
 }

@@ -26,8 +26,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InteractionCreateParams = void 0;
+exports.InteractionUpdateParams = void 0;
 const core = __importStar(require("../../../../core"));
-exports.InteractionCreateParams = core.serialization.object({
-    agentId: core.serialization.property("agent_id", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentId)),
+exports.InteractionUpdateParams = core.serialization.object({
+    name: core.serialization.string().optional(),
 });

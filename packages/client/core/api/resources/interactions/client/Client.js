@@ -128,7 +128,7 @@ class Interactions {
         }
     }
     /**
-     * Create a new `Interaction` with an agent.
+     * Creates a new `Interaction` with an agent.
      */
     async create(request) {
         const _response = await core.fetcher({
@@ -143,6 +143,45 @@ class Interactions {
         });
         if (_response.ok) {
             return await serializers.InteractionCreateResponse.parseOrThrow(_response.body, { allowUnknownKeys: true });
+        }
+        if (_response.error.reason === "status-code") {
+            throw new errors.ProficientAiApiError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+            });
+        }
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ProficientAiApiError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.ProficientAiApiTimeoutError();
+            case "unknown":
+                throw new errors.ProficientAiApiError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+    /**
+     * Updates the properties of the specified interaction. Only the provided properties will be updated. Any properties not provided will be left unchanged.
+     */
+    async update(interactionId, request) {
+        const _response = await core.fetcher({
+            url: (0, url_join_1.default)(this.options.environment, `/interactions/${await serializers.InteractionId.jsonOrThrow(interactionId)}`),
+            method: "POST",
+            headers: {
+                "X-PROFICIENT-API-KEY": this.options.xProficientApiKey,
+                "X-PROFICIENT-USER-EXTERNAL-ID": this.options.xProficientUserExternalId,
+                "X-PROFICIENT-USER-HMAC": this.options.xProficientUserHmac,
+            },
+            body: await serializers.InteractionUpdateParams.jsonOrThrow(request),
+        });
+        if (_response.ok) {
+            return await serializers.Interaction.parseOrThrow(_response.body, {
+                allowUnknownKeys: true,
+            });
         }
         if (_response.error.reason === "status-code") {
             throw new errors.ProficientAiApiError({

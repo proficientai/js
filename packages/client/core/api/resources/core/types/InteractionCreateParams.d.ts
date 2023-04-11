@@ -3,6 +3,8 @@
  */
 import { ProficientAiApi } from "../../../..";
 /**
- * The data with which an `Interaction`` is created.
+ * The data with which an `Interaction` is created.
  */
-export declare type InteractionCreateParams = ProficientAiApi.AgentId;
+export interface InteractionCreateParams {
+    agentId: ProficientAiApi.AgentId;
+}

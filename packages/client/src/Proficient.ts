@@ -1,6 +1,5 @@
 import { ProficientAiApiClient, ProficientAiApiEnvironment } from '../core';
 import { RequestSender } from './RequestSender';
-import { Agents } from './resources/Agents';
 import { Interactions } from './resources/Interactions';
 import { Messages } from './resources/Messages';
 import type { ApiCredentials } from './types';

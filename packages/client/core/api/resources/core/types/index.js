@@ -22,5 +22,6 @@ __exportStar(require("./AgentId"), exports);
 __exportStar(require("./InteractionId"), exports);
 __exportStar(require("./InteractionCreateParams"), exports);
 __exportStar(require("./InteractionCreateResponse"), exports);
+__exportStar(require("./InteractionUpdateParams"), exports);
 __exportStar(require("./Agent"), exports);
 __exportStar(require("./Interaction"), exports);

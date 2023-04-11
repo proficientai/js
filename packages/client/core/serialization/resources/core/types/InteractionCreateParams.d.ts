@@ -4,7 +4,9 @@
 import * as serializers from "../../..";
 import { ProficientAiApi } from "../../../..";
 import * as core from "../../../../core";
-export declare const InteractionCreateParams: core.serialization.Schema<serializers.InteractionCreateParams.Raw, ProficientAiApi.InteractionCreateParams>;
+export declare const InteractionCreateParams: core.serialization.ObjectSchema<serializers.InteractionCreateParams.Raw, ProficientAiApi.InteractionCreateParams>;
 export declare namespace InteractionCreateParams {
-    type Raw = serializers.AgentId.Raw;
+    interface Raw {
+        agent_id: serializers.AgentId.Raw;
+    }
 }

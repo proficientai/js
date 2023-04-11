@@ -74,7 +74,7 @@ paths:
                 $ref: '#/components/schemas/InteractionsList'
       summary: List all interactions
     post:
-      description: Create a new `Interaction` with an agent.
+      description: Creates a new `Interaction` with an agent.
       operationId: interactions_create
       tags:
         - Interactions
@@ -113,6 +113,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/Interaction'
       summary: Retrieve an interaction
+    post:
+      description: >-
+        Updates the properties of the specified interaction. Only the provided
+        properties will be updated. Any properties not provided will be left
+        unchanged.
+      operationId: interactions_update
+      tags:
+        - Interactions
+      parameters:
+        - name: interaction_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/InteractionId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interaction'
+      summary: Update an interaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InteractionUpdateParams'
 components:
   schemas:
     AgentsList:
@@ -154,15 +182,29 @@ components:
       type: string
       description: The unique identifier of the interaction
     InteractionCreateParams:
-      $ref: '#/components/schemas/AgentId'
-      description: The data with which an `Interaction`` is created.
+      type: object
+      description: The data with which an `Interaction` is created.
+      properties:
+        agent_id:
+          $ref: '#/components/schemas/AgentId'
+      required:
+        - agent_id
     InteractionCreateResponse:
       type: object
+      description: >-
+        An object that contains the initial interaction data including the
+        `Interaction` object itself and the initial messages associated with it.
       properties:
         interaction:
           $ref: '#/components/schemas/Interaction'
       required:
         - interaction
+    InteractionUpdateParams:
+      type: object
+      description: The data with which an `Interaction` is updated.
+      properties:
+        name:
+          type: string
     Agent:
       type: object
       properties:
