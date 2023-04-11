@@ -6,6 +6,9 @@ types:
   PaginationLimit:
     type: optional<integer>
     docs: Used to specify the maximum number of objects that can be returned. Must be an integer ranging from 1 to 100. Defaults to 20.
+    examples:
+      - name: Example0
+        value: 25
 
   PaginationStartingAfter:
     type: optional<string>
@@ -27,30 +30,7 @@ types:
       - name: Example0
         value: 1671631799692
 
-  InteractionParticipant:
-    enum:
-      - user
-      - agent
-    docs: Represents the type of the participant in a given `Interaction`. As an example, `Message`s are created by interaction participants so the `sent_by` property of a `Message` must be an `InteractionParticipant`.
-
-  # Object types
-
-  AgentObjectType:
-    enum:
-      - agent
-    docs: The type of the `Agent` object
-
-  InteractionObjectType:
-    enum:
-      - interaction
-    docs: The type of the `Interaction` object
-
-  MessageObjectType:
-    enum:
-      - message
-    docs: The type of the `Message` object
-
-  # Object identifiers
+  # Agent
 
   AgentId:
     type: string
@@ -59,6 +39,16 @@ types:
       - name: Example0
         value: ag_Lad8YCGGiDLiqIZPWRXmc2ix
 
+  AgentObjectType:
+    enum:
+      - agent
+    docs: The type of the `Agent` object
+    examples:
+      - name: Example0
+        value: agent
+
+  # Interaction
+
   InteractionId:
     type: string
     docs: The unique identifier of the `Interaction`
@@ -66,12 +56,46 @@ types:
       - name: Example0
         value: int_53mfKtX0Da6zaJCp5bNnzxDaEg1xptWvQDr2
 
+  InteractionObjectType:
+    enum:
+      - interaction
+    docs: The type of the `Interaction` object
+    examples:
+      - name: Example0
+        value: interaction
+
+  InteractionName:
+    type: string
+    docs: The name of the `Interaction`
+    examples:
+      - name: Example0
+        value: interaction
+
+  InteractionParticipant:
+    enum:
+      - user
+      - agent
+    docs: Represents the type of the participant in a given `Interaction`. As an example, `Message`s are created by interaction participants so the `sent_by` property of a `Message` must be an `InteractionParticipant`.
+    examples:
+      - name: Example0
+        value: user
+
+  # Message
+
   MessageId:
     type: string
     docs: The unique identifier of the `Message`
     examples:
       - name: Example0
         value: msg_BlzvLJ8h2QZY8QOK3vjhIlqK43zciPzpPgIhvTo8ai2VnQIW
+
+  MessageObjectType:
+    enum:
+      - message
+    docs: The type of the `Message` object
+    examples:
+      - name: Example0
+        value: message
 
   # Request/Response Interfaces
 
@@ -83,12 +107,12 @@ types:
   InteractionCreateResponse:
     properties:
       interaction: Interaction
-      # TODO: Add messages array
+      messages: list<Message>
     docs: An object that contains the initial interaction data including the `Interaction` object itself and the initial `Message`s associated with it.
 
   InteractionUpdateParams:
     properties:
-      name: optional<string> # TODO: Use $Interaction.name
+      name: optional<InteractionName>
     docs: The data with which an `Interaction` is updated.
 
   # Objects
@@ -129,9 +153,7 @@ types:
         type: boolean
         docs: Whether the interaction has been archived by the user
       created_at: CreatedAt
-      name:
-        type: string
-        docs: The name of the interaction
+      name: InteractionName
       total_message_count:
         type: integer
         docs: The total number of messages in the interaction
