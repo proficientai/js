@@ -11,33 +11,67 @@ types:
     type: optional<string>
     docs: A pagination cursor parameter that takes an object ID as a value. This indicates the position of the list where you want to start fetching the data. For example, if your first request returns 100 objects ending with `obj_100`, you can use `starting_after=obj_100` in your subsequent API call to retrieve the next page of the list.
 
+  # Commonly used object properties
+
+  CreatedAt:
+    type: integer
+    docs: The time at which the object was created, measured in milliseconds since the Unix epoch
+    examples:
+      - name: Example0
+        value: 1671631795145
+
+  UpdatedAt:
+    type: integer
+    docs: The time at which the object was last updated, measured in milliseconds since the Unix epoch
+    examples:
+      - name: Example0
+        value: 1671631799692
+
+  InteractionParticipant:
+    enum:
+      - user
+      - agent
+    docs: Represents the type of the participant in a given `Interaction`. As an example, `Message`s are created by interaction participants so the `sent_by` property of a `Message` must be an `InteractionParticipant`.
+
   # Object types
 
   AgentObjectType:
     enum:
       - agent
-    docs: The type of the Agent object
+    docs: The type of the `Agent` object
 
   InteractionObjectType:
     enum:
       - interaction
-    docs: The type of the Interaction object
+    docs: The type of the `Interaction` object
+
+  MessageObjectType:
+    enum:
+      - message
+    docs: The type of the `Message` object
 
   # Object identifiers
 
   AgentId:
     type: string
-    docs: The unique identifier of the agent
+    docs: The unique identifier of the `Agent`
     examples:
       - name: Example0
         value: ag_Lad8YCGGiDLiqIZPWRXmc2ix
 
   InteractionId:
     type: string
-    docs: The unique identifier of the interaction
+    docs: The unique identifier of the `Interaction`
     examples:
       - name: Example0
         value: int_53mfKtX0Da6zaJCp5bNnzxDaEg1xptWvQDr2
+
+  MessageId:
+    type: string
+    docs: The unique identifier of the `Message`
+    examples:
+      - name: Example0
+        value: msg_BlzvLJ8h2QZY8QOK3vjhIlqK43zciPzpPgIhvTo8ai2VnQIW
 
   # Request/Response Interfaces
 
@@ -50,7 +84,7 @@ types:
     properties:
       interaction: Interaction
       # TODO: Add messages array
-    docs: An object that contains the initial interaction data including the `Interaction` object itself and the initial messages associated with it.
+    docs: An object that contains the initial interaction data including the `Interaction` object itself and the initial `Message`s associated with it.
 
   InteractionUpdateParams:
     properties:
@@ -65,19 +99,15 @@ types:
       object: AgentObjectType
       active:
         type: boolean
-        docs: Whether the agent is currently active. If not, all interactions with this agent will be blocked.
+        docs: Whether the `Agent` is currently active. If not, users will not be able to communicate with the `Agent`.
       name:
         type: string
-        docs: The name of the agent
+        docs: The name of the `Agent`
       description:
         type: string
-        docs: The description of the agent
-      created_at:
-        type: integer
-        docs: The time at which the object was created, measured in milliseconds since the Unix epoch
-      updated_at:
-        type: integer
-        docs: The time at which the object was last updated, measured in milliseconds since the Unix epoch
+        docs: The description of the `Agent`
+      created_at: CreatedAt
+      updated_at: UpdatedAt
     examples:
       - name: Example0
         value:
@@ -86,8 +116,9 @@ types:
           active: true
           name: Eliza
           description: A general-purpose assistant
-          created_at: 1671631795145
-          updated_at: 1671631795145
+          created_at: $CreatedAt.Example0
+          updated_at: $UpdatedAt.Example0
+    docs: <p>An _agent_ is an AI entity that exists to serve your organization. Agents are intelligent, configurable and context-aware and can interact with your users via a messaging system enabled by the Proficient API.</p>
 
   Interaction:
     properties:
@@ -97,18 +128,30 @@ types:
       archived:
         type: boolean
         docs: Whether the interaction has been archived by the user
-      created_at:
-        type: integer
-        docs: The time at which the object was created, measured in milliseconds since the Unix epoch
+      created_at: CreatedAt
       name:
         type: string
         docs: The name of the interaction
       total_message_count:
         type: integer
         docs: The total number of messages in the interaction
-      updated_at:
-        type: integer
-        docs: The time at which the object was last updated, measured in milliseconds since the Unix epoch
+      updated_at: UpdatedAt
       user_id:
         type: string
         docs: The unique identifier of the user
+    docs: <p>Users communicate with agents via <i>interactions</i>. You can think of each interaction as a conversation between an agent and user.</p>
+
+  Message:
+    properties:
+      id: MessageId
+      object: MessageObjectType
+      index:
+        type: integer
+        docs: The 0-based index of the `Message`. The index represents the position of the `Message` within the `Interaction`, where the first `Message` will have an index of 0.
+      interaction_id: InteractionId
+      created_at: CreatedAt
+      content:
+        type: string
+        docs: The message content.
+      sent_by: InteractionParticipant
+    docs: <p>Each interaction holds a number of <i>messages</i> and every message belongs to an interaction. The `sent_by` property of a message indicates whether a message was created by an `Agent` or a `User`.</p>

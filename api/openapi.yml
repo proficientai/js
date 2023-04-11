@@ -165,22 +165,49 @@ components:
         data. For example, if your first request returns 100 objects ending with
         `obj_100`, you can use `starting_after=obj_100` in your subsequent API
         call to retrieve the next page of the list.
+    CreatedAt:
+      type: integer
+      description: >-
+        The time at which the object was created, measured in milliseconds since
+        the Unix epoch
+    UpdatedAt:
+      type: integer
+      description: >-
+        The time at which the object was last updated, measured in milliseconds
+        since the Unix epoch
+    InteractionParticipant:
+      type: string
+      enum:
+        - user
+        - agent
+      description: >-
+        Represents the type of the participant in a given `Interaction`. As an
+        example, `Message`s are created by interaction participants so the
+        `sent_by` property of a `Message` must be an `InteractionParticipant`.
     AgentObjectType:
       type: string
       enum:
         - agent
-      description: The type of the Agent object
+      description: The type of the `Agent` object
     InteractionObjectType:
       type: string
       enum:
         - interaction
-      description: The type of the Interaction object
+      description: The type of the `Interaction` object
+    MessageObjectType:
+      type: string
+      enum:
+        - message
+      description: The type of the `Message` object
     AgentId:
       type: string
-      description: The unique identifier of the agent
+      description: The unique identifier of the `Agent`
     InteractionId:
       type: string
-      description: The unique identifier of the interaction
+      description: The unique identifier of the `Interaction`
+    MessageId:
+      type: string
+      description: The unique identifier of the `Message`
     InteractionCreateParams:
       type: object
       description: The data with which an `Interaction` is created.
@@ -193,7 +220,8 @@ components:
       type: object
       description: >-
         An object that contains the initial interaction data including the
-        `Interaction` object itself and the initial messages associated with it.
+        `Interaction` object itself and the initial `Message`s associated with
+        it.
       properties:
         interaction:
           $ref: '#/components/schemas/Interaction'
@@ -207,6 +235,11 @@ components:
           type: string
     Agent:
       type: object
+      description: >-
+        <p>An _agent_ is an AI entity that exists to serve your organization.
+        Agents are intelligent, configurable and context-aware and can interact
+        with your users via a messaging system enabled by the Proficient
+        API.</p>
       properties:
         id:
           $ref: '#/components/schemas/AgentId'
@@ -215,29 +248,21 @@ components:
         active:
           type: boolean
           description: >-
-            Whether the agent is currently active. If not, all interactions with
-            this agent will be blocked.
+            Whether the `Agent` is currently active. If not, users will not be
+            able to communicate with the `Agent`.
           example: true
         name:
           type: string
-          description: The name of the agent
+          description: The name of the `Agent`
           example: Eliza
         description:
           type: string
-          description: The description of the agent
+          description: The description of the `Agent`
           example: A general-purpose assistant
         created_at:
-          type: integer
-          description: >-
-            The time at which the object was created, measured in milliseconds
-            since the Unix epoch
-          example: 1671631795145
+          $ref: '#/components/schemas/CreatedAt'
         updated_at:
-          type: integer
-          description: >-
-            The time at which the object was last updated, measured in
-            milliseconds since the Unix epoch
-          example: 1671631795145
+          $ref: '#/components/schemas/UpdatedAt'
       required:
         - id
         - object
@@ -248,6 +273,9 @@ components:
         - updated_at
     Interaction:
       type: object
+      description: >-
+        <p>Users communicate with agents via <i>interactions</i>. You can think
+        of each interaction as a conversation between an agent and user.</p>
       properties:
         id:
           $ref: '#/components/schemas/InteractionId'
@@ -259,10 +287,7 @@ components:
           type: boolean
           description: Whether the interaction has been archived by the user
         created_at:
-          type: integer
-          description: >-
-            The time at which the object was created, measured in milliseconds
-            since the Unix epoch
+          $ref: '#/components/schemas/CreatedAt'
         name:
           type: string
           description: The name of the interaction
@@ -270,10 +295,7 @@ components:
           type: integer
           description: The total number of messages in the interaction
         updated_at:
-          type: integer
-          description: >-
-            The time at which the object was last updated, measured in
-            milliseconds since the Unix epoch
+          $ref: '#/components/schemas/UpdatedAt'
         user_id:
           type: string
           description: The unique identifier of the user
@@ -287,6 +309,40 @@ components:
         - total_message_count
         - updated_at
         - user_id
+    Message:
+      type: object
+      description: >-
+        <p>Each interaction holds a number of <i>messages</i> and every message
+        belongs to an interaction. The `sent_by` property of a message indicates
+        whether a message was created by an `Agent` or a `User`.</p>
+      properties:
+        id:
+          $ref: '#/components/schemas/MessageId'
+        object:
+          $ref: '#/components/schemas/MessageObjectType'
+        index:
+          type: integer
+          description: >-
+            The 0-based index of the `Message`. The index represents the
+            position of the `Message` within the `Interaction`, where the first
+            `Message` will have an index of 0.
+        interaction_id:
+          $ref: '#/components/schemas/InteractionId'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        content:
+          type: string
+          description: The message content.
+        sent_by:
+          $ref: '#/components/schemas/InteractionParticipant'
+      required:
+        - id
+        - object
+        - index
+        - interaction_id
+        - created_at
+        - content
+        - sent_by
     InteractionsList:
       type: object
       properties:
