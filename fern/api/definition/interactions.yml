@@ -17,7 +17,7 @@ service:
         query-parameters:
           agent_id: optional<core.AgentId>
           limit: core.PaginationLimit
-          starting_after: core.PaginationLimit
+          starting_after: core.PaginationStartingAfter
       response: InteractionsList
 
     get:

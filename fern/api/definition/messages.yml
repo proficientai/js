@@ -17,7 +17,7 @@ service:
         query-parameters:
           interaction_id: core.InteractionId
           limit: core.PaginationLimit
-          starting_after: core.PaginationLimit
+          starting_after: core.PaginationStartingAfter
       response: MessagesList
 
     get:
