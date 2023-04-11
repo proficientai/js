@@ -20,6 +20,26 @@ service:
           starting_after: core.PaginationLimit
       response: MessagesList
 
+    get:
+      path: /{message_id}
+      method: GET
+      docs: Retrieves the message with the given ID.
+      display-name: Retrieve a message
+      path-parameters:
+        message_id: core.MessageId
+      response: core.Message
+
+
+    create:
+      path: ''
+      method: POST
+      docs: Creates a new `Message` in a given `Interaction`
+      display-name: Create a message in an interaction
+      request:
+        name: CreateMessageRequest
+        body: core.MessageCreateParams
+      response: core.Message
+
 types:
   MessagesList:
     properties:

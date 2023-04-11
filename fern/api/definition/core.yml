@@ -101,6 +101,20 @@ types:
       - name: Example0
         value: message
 
+  MessageContent:
+    type: string
+    docs: The content of the `Message`
+    examples:
+      - name: Example0
+        value: Tell me some interesting facts about Archimedes.
+
+  ParentMessageId:
+    type: optional<string>
+    docs: The ID of the last message by the agent in the interaction.
+    examples:
+      - name: Example0
+        value: $MessageId.Example0
+
   # Request/Response Interfaces
 
   InteractionCreateParams:
@@ -118,6 +132,13 @@ types:
     properties:
       name: optional<InteractionName>
     docs: The data with which an `Interaction` is updated.
+
+  MessageCreateParams:
+    properties:
+      interaction_id: InteractionId
+      content: MessageContent
+      parent_id: optional<string>
+    docs: The data with which a `Message` is created.
 
   # Objects
 
@@ -176,8 +197,6 @@ types:
         docs: The 0-based index of the `Message`. The index represents the position of the `Message` within the `Interaction`, where the first `Message` will have an index of 0.
       interaction_id: InteractionId
       created_at: CreatedAt
-      content:
-        type: string
-        docs: The message content.
+      content: MessageContent
       sent_by: InteractionParticipant
     docs: <p>Each interaction holds a number of <i>messages</i> and every message belongs to an interaction. The `sent_by` property of a message indicates whether a message was created by an `Agent` or a `User`.</p>
