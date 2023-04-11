@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { Global, css } from '@emotion/react';
-import type { Interaction, Message, ProficientAiApi } from '@proficient/client';
+import type { Message, ProficientAiApi } from '@proficient/client';
 import { cloneDeep } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -35,11 +35,11 @@ type AgentState =
 type InteractionState =
   | {
       status: 'loading';
-      interaction?: Interaction;
+      interaction?: ProficientAiApi.Interaction;
     }
   | {
       status: 'success';
-      interaction: Interaction;
+      interaction: ProficientAiApi.Interaction;
     }
   | {
       status: 'error';
@@ -101,8 +101,8 @@ export function InteractionView({
   const sortedInteractions = useMemo(() => {
     const filteredInteractions = Object.values(interactionStatesById)
       .map((s) => (s.status === 'success' ? s.interaction : null))
-      .filter((i) => !!i) as Interaction[];
-    return filteredInteractions.sort((i1, i2) => i2.updated_at - i1.updated_at);
+      .filter((i) => !!i) as ProficientAiApi.Interaction[];
+    return filteredInteractions.sort((i1, i2) => i2.updatedAt - i1.updatedAt);
   }, [interactionStatesById]);
 
   const sortedMessages = useMemo(() => {
@@ -133,8 +133,8 @@ export function InteractionView({
       const api = await getApi();
       if (lastAttemptedInteractionsBatchId !== null && lastAttemptedInteractionsBatchId === oldestInteractionId) return;
       markAttemptToLoadInteractionsBatch();
-      const { data: receivedInteractions, has_more: hasMore } = await api.interactions.list({
-        agent_id: agentId,
+      const { data: receivedInteractions, hasMore } = await api.interactions.list({
+        agentId,
         limit: 20,
       });
       setInteractionStatesById((prev) => {
@@ -439,7 +439,7 @@ export function InteractionView({
 
   const handleCreateInteraction = useCallback(async () => {
     const api = await getApi();
-    const { interaction: newInteraction, messages } = await api.interactions.create({ agent_id: agentId });
+    const { interaction: newInteraction, messages } = await api.interactions.create({ agentId });
     const oldestMessage = messages[messages.length - 1];
     if (oldestMessage) {
       paginationMap.setOldestItemFor(newInteraction.id, oldestMessage.id);

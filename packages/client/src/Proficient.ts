@@ -1,6 +1,5 @@
 import { ProficientAiApiClient, ProficientAiApiEnvironment } from '../core';
 import { RequestSender } from './RequestSender';
-import { Interactions } from './resources/Interactions';
 import { Messages } from './resources/Messages';
 import type { ApiCredentials } from './types';
 
@@ -23,7 +22,7 @@ export class Proficient {
   }
 
   public get interactions() {
-    return new Interactions(this.requestSender);
+    return this.client.interactions;
   }
 
   public get messages() {

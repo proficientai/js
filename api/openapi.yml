@@ -186,6 +186,11 @@ components:
         data. For example, if your first request returns 100 objects ending with
         `obj_100`, you can use `starting_after=obj_100` in your subsequent API
         call to retrieve the next page of the list.
+    PaginationHasMore:
+      type: boolean
+      description: >-
+        Whether the database has more items after this list. If true, then you
+        can send more paginated requests to exhaust the remaining items.
     CreatedAt:
       type: integer
       description: >-
@@ -378,8 +383,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Interaction'
+        has_more:
+          $ref: '#/components/schemas/PaginationHasMore'
       required:
         - data
+        - has_more
   securitySchemes: {}
 servers:
   - url: https://api.proficientai.com

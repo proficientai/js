@@ -1,11 +1,11 @@
-import type { Interaction } from '@proficient/client';
+import type { ProficientAiApi } from '@proficient/client';
 import type { MouseEventHandler } from 'react';
 
 export interface SidebarSectionProps {
   description: string;
   header: string;
-  interactions: Interaction[];
-  isSelectedInteraction: (i: Interaction) => boolean;
-  onClickInteraction: (i: Interaction) => void;
+  interactions: ProficientAiApi.Interaction[];
+  isSelectedInteraction: (i: ProficientAiApi.Interaction) => boolean;
+  onClickInteraction: (i: ProficientAiApi.Interaction) => void;
   onClickNewInteraction: MouseEventHandler<HTMLButtonElement>;
 }

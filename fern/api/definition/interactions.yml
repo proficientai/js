@@ -64,6 +64,7 @@ types:
   InteractionsList:
     properties:
       data: list<core.Interaction>
+      has_more: core.PaginationHasMore
 
 errors:
   InteractionDoesNotExistError:
