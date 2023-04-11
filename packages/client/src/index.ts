@@ -1,3 +1,4 @@
+export type { ProficientAiApi } from '../core';
 export { Proficient } from './Proficient';
 export type { ApiCredentials } from './types';
 export type {

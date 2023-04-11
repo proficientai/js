@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { Global, css } from '@emotion/react';
-import type { Agent, Interaction, Message } from '@proficient/client';
+import type { Interaction, Message, ProficientAiApi } from '@proficient/client';
 import { cloneDeep } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -29,7 +29,7 @@ type AgentState =
     }
   | {
       status: 'success';
-      agent: Agent;
+      agent: ProficientAiApi.Agent;
     };
 
 type InteractionState =

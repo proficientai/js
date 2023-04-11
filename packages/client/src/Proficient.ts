@@ -20,7 +20,7 @@ export class Proficient {
   }
 
   public get agents() {
-    return new Agents(this.requestSender);
+    return this.client.agents;
   }
 
   public get interactions() {
