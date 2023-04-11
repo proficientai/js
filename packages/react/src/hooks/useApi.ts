@@ -1,4 +1,4 @@
-import { Proficient } from '@proficient/client';
+import { ProficientClient, ProficientEnvironment } from '@proficient/client';
 import { useCallback, useRef } from 'react';
 
 type Params = {
@@ -15,7 +15,12 @@ export function useApi(params: Params) {
     if (!cachedHmacRef.current) {
       cachedHmacRef.current = typeof userHmac === 'function' ? await userHmac() : userHmac;
     }
-    return new Proficient({ apiKey, userExternalId, userHmac: cachedHmacRef.current });
+    return new ProficientClient({
+      environment: ProficientEnvironment.Development,
+      xProficientApiKey: apiKey,
+      xProficientUserExternalId: userExternalId,
+      xProficientUserHmac: cachedHmacRef.current,
+    });
   }, [apiKey, userExternalId, userHmac]);
 
   return { getApi };

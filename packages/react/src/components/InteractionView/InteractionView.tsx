@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { Global, css } from '@emotion/react';
-import type { Message, ProficientAiApi } from '@proficient/client';
+import type { Proficient } from '@proficient/client';
 import { cloneDeep } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -29,17 +29,17 @@ type AgentState =
     }
   | {
       status: 'success';
-      agent: ProficientAiApi.Agent;
+      agent: Proficient.Agent;
     };
 
 type InteractionState =
   | {
       status: 'loading';
-      interaction?: ProficientAiApi.Interaction;
+      interaction?: Proficient.Interaction;
     }
   | {
       status: 'success';
-      interaction: ProficientAiApi.Interaction;
+      interaction: Proficient.Interaction;
     }
   | {
       status: 'error';
@@ -49,13 +49,13 @@ type InteractionState =
 type MessagesState =
   | {
       status: 'loading' | 'success';
-      messagesById: Map<string, Message>;
+      messagesById: Map<string, Proficient.Message>;
       hasMore: boolean;
     }
   | {
       status: 'error';
       errorCode: 'not-found' | 'unknown';
-      messagesById: Map<string, Message>;
+      messagesById: Map<string, Proficient.Message>;
       hasMore: boolean;
     };
 
@@ -101,7 +101,7 @@ export function InteractionView({
   const sortedInteractions = useMemo(() => {
     const filteredInteractions = Object.values(interactionStatesById)
       .map((s) => (s.status === 'success' ? s.interaction : null))
-      .filter((i) => !!i) as ProficientAiApi.Interaction[];
+      .filter((i) => !!i) as Proficient.Interaction[];
     return filteredInteractions.sort((i1, i2) => i2.updatedAt - i1.updatedAt);
   }, [interactionStatesById]);
 
@@ -240,10 +240,10 @@ export function InteractionView({
           paginationMap.setLastAttemptFor(interactionId, oldestMessageId);
         }
 
-        const { data: receivedMessages, has_more: hasMore } = await api.messages.list({
-          interaction_id: interactionId,
+        const { data: receivedMessages, hasMore } = await api.messages.list({
+          interactionId,
           limit: 20,
-          starting_after: oldestMessageId ?? undefined,
+          startingAfter: oldestMessageId ?? undefined,
         });
 
         setMessagesStatesById((prev) => {
@@ -284,13 +284,13 @@ export function InteractionView({
   }, [loadNextMessagesBatch, interactionId]);
 
   const handleRequestAnswer = useCallback(
-    async (interactionId: string, lastMessage?: Message) => {
+    async (interactionId: string, lastMessage?: Proficient.Message) => {
       if (interactionId === null) return;
       lastMessage ??= sortedMessages[0];
 
       console.log('LAST MESSAGE=', lastMessage);
 
-      if (!lastMessage || lastMessage.sent_by !== 'user') {
+      if (!lastMessage || lastMessage.sentBy !== 'user') {
         alert('Last message must be sent by user to request answer.');
         return;
       }
@@ -311,7 +311,7 @@ export function InteractionView({
       });
 
       try {
-        const received = await api.messages.reply(lastMessage.id, { interaction_id: interactionId });
+        const received = await api.messages.ask(lastMessage.id, { interactionId });
 
         setMessagesStatesById((prev) => {
           const next = cloneDeep(prev);
@@ -387,21 +387,21 @@ export function InteractionView({
         id: PROVISIONAL_MESSAGE_ID,
         index: messageState.messagesById.size,
         content,
-        created_at: Date.now(),
-        interaction_id: interactionId,
+        createdAt: Date.now(),
+        interactionId,
         object: 'message',
-        sent_by: 'user',
+        sentBy: 'user',
       });
       return next;
     });
 
     const api = await getApi();
     const [firstMessage] = sortedMessages;
-    const parentId = firstMessage?.id ?? null;
+    const parentId = firstMessage?.id;
     const sent = await api.messages.create({
       content,
-      interaction_id: interactionId,
-      parent_id: parentId,
+      interactionId,
+      parentId,
     });
 
     if (sent.index === 0) {
@@ -475,6 +475,7 @@ export function InteractionView({
     async (name: string) => {
       if (interactionId === null) return;
       const api = await getApi();
+
       const updatedInteraction = await api.interactions.update(interactionId, {
         name,
       });

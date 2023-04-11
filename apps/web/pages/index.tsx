@@ -1,4 +1,4 @@
-import { Proficient, type ProficientAiApi } from '@proficient/client';
+import { type Proficient, ProficientClient, ProficientEnvironment } from '@proficient/client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -6,7 +6,7 @@ import { USER_EXTERNAL_ID } from '../context';
 import { getHmac } from '../util/hmac';
 
 export default function ExampleClient() {
-  const [activeAgents, setActiveAgents] = useState<ProficientAiApi.Agent[]>([]);
+  const [activeAgents, setActiveAgents] = useState<Proficient.Agent[]>([]);
   const [userHmac, setUserHmac] = useState<string | null>(null);
 
   // Get hmac
@@ -24,10 +24,11 @@ export default function ExampleClient() {
     const apiKey = process.env.NEXT_PUBLIC_PROFICIENT_KEY;
     if (userHmac !== null && apiKey) {
       (async () => {
-        const proficient = new Proficient({
-          apiKey,
-          userExternalId: USER_EXTERNAL_ID,
-          userHmac,
+        const proficient = new ProficientClient({
+          environment: ProficientEnvironment.Development,
+          xProficientApiKey: apiKey,
+          xProficientUserExternalId: USER_EXTERNAL_ID,
+          xProficientUserHmac: userHmac,
         });
         const { data: agents } = await proficient.agents.list();
         console.log('RECEIVED AGENTS:', agents);

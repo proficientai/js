@@ -1,10 +1,10 @@
-import type { Message } from '@proficient/client';
+import type { Proficient } from '@proficient/client';
 
 export interface ChatSectionProps {
   agentName: string;
   autoRequestReply: boolean;
   hasMore: boolean;
-  messages: Message[];
+  messages: Proficient.Message[];
   next: () => Promise<void>;
   onClickRequestAnswer: () => Promise<void>;
   writingStatus: 'nil' | 'writing' | 'error';
