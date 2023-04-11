@@ -1,4 +1,4 @@
-import { ProficientAiApiClient } from '../core';
+import { ProficientAiApiClient, ProficientAiApiEnvironment } from '../core';
 import { RequestSender } from './RequestSender';
 import { Agents } from './resources/Agents';
 import { Interactions } from './resources/Interactions';
@@ -11,7 +11,7 @@ export class Proficient {
 
   public constructor(credentials: ApiCredentials) {
     this.client = new ProficientAiApiClient({
-      environment: 'dev', // TODO: Make dynamic
+      environment: ProficientAiApiEnvironment.Development, // TODO: Make dynamic
       xProficientApiKey: credentials.apiKey,
       xProficientUserExternalId: credentials.userExternalId,
       xProficientUserHmac: credentials.userHmac,

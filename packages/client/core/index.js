@@ -23,10 +23,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProficientAiApiTimeoutError = exports.ProficientAiApiError = exports.ProficientAiApiClient = exports.ProficientAiApi = void 0;
+exports.ProficientAiApiTimeoutError = exports.ProficientAiApiError = exports.ProficientAiApiEnvironment = exports.ProficientAiApiClient = exports.ProficientAiApi = void 0;
 exports.ProficientAiApi = __importStar(require("./api"));
 var Client_1 = require("./Client");
 Object.defineProperty(exports, "ProficientAiApiClient", { enumerable: true, get: function () { return Client_1.ProficientAiApiClient; } });
+var environments_1 = require("./environments");
+Object.defineProperty(exports, "ProficientAiApiEnvironment", { enumerable: true, get: function () { return environments_1.ProficientAiApiEnvironment; } });
 var errors_1 = require("./errors");
 Object.defineProperty(exports, "ProficientAiApiError", { enumerable: true, get: function () { return errors_1.ProficientAiApiError; } });
 Object.defineProperty(exports, "ProficientAiApiTimeoutError", { enumerable: true, get: function () { return errors_1.ProficientAiApiTimeoutError; } });

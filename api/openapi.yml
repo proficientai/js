@@ -255,3 +255,10 @@ components:
       required:
         - data
   securitySchemes: {}
+servers:
+  - url: https://api.proficientai.com
+    description: Production (The production environment)
+  - url: https://staging.proficientai.com
+    description: Staging (The staging environment)
+  - url: http://localhost:8080/client
+    description: Development (The local environment)
