@@ -162,6 +162,39 @@ paths:
               schema:
                 $ref: '#/components/schemas/Interaction'
       summary: Delete an interaction
+  /messages:
+    get:
+      description: >-
+        Returns a list of all messages in the specified interaction. The
+        messages are returned sorted by creation date, with the most recently
+        created messages appearing first.
+      operationId: messages_list
+      tags:
+        - Messages
+      parameters:
+        - name: interaction
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/InteractionId'
+        - name: limit
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PaginationLimit'
+        - name: starting_after
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/PaginationLimit'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessagesList'
+      summary: List all messages in an interaction
 components:
   schemas:
     AgentsList:
@@ -383,6 +416,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Interaction'
+        has_more:
+          $ref: '#/components/schemas/PaginationHasMore'
+      required:
+        - data
+        - has_more
+    MessagesList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
         has_more:
           $ref: '#/components/schemas/PaginationHasMore'
       required:

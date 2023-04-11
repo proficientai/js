@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  core: core.yml
+
+service:
+  auth: false
+  base-path: /messages
+  endpoints:
+    list:
+      path: ''
+      method: GET
+      docs: Returns a list of all messages in the specified interaction. The messages are returned sorted by creation date, with the most recently created messages appearing first.
+      display-name: List all messages in an interaction
+      request:
+        name: ListMessagesRequest
+        query-parameters:
+          interaction: core.InteractionId
+          limit: core.PaginationLimit
+          starting_after: core.PaginationLimit
+      response: MessagesList
+
+types:
+  MessagesList:
+    properties:
+      data: list<core.Message>
+      has_more: core.PaginationHasMore
+
+errors:
+  MessageDoesNotExistError:
+    status-code: 404
+    type: string
