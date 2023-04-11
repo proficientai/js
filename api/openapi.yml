@@ -195,6 +195,75 @@ paths:
               schema:
                 $ref: '#/components/schemas/MessagesList'
       summary: List all messages in an interaction
+    post:
+      description: Creates a new `Message` in a given `Interaction`
+      operationId: messages_create
+      tags:
+        - Messages
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+      summary: Create a message in an interaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageCreateParams'
+  /messages/{message_id}:
+    get:
+      description: Retrieves the message with the given ID.
+      operationId: messages_get
+      tags:
+        - Messages
+      parameters:
+        - name: message_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/MessageId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+      summary: Retrieve a message
+    post:
+      description: >-
+        Resetting a `Message` does 2 things. First it deletes all the `Message`s
+        in the `Interaction` that come after this `Message` (i.e. whose `index`
+        is greater). Then, it updates the content of the `Message`, if you've
+        provided it in the request body.
+      operationId: messages_reset
+      tags:
+        - Messages
+      parameters:
+        - name: message_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/MessageId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+      summary: Reset a message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageResetParams'
 components:
   schemas:
     AgentsList:
@@ -270,6 +339,12 @@ components:
       enum:
         - message
       description: The type of the `Message` object
+    MessageContent:
+      type: string
+      description: The content of the `Message`
+    ParentMessageId:
+      type: string
+      description: The ID of the last message by the agent in the interaction.
     InteractionCreateParams:
       type: object
       description: The data with which an `Interaction` is created.
@@ -300,6 +375,29 @@ components:
       properties:
         name:
           $ref: '#/components/schemas/InteractionName'
+    MessageCreateParams:
+      type: object
+      description: The data with which a `Message` is created.
+      properties:
+        interaction_id:
+          $ref: '#/components/schemas/InteractionId'
+        content:
+          $ref: '#/components/schemas/MessageContent'
+        parent_id:
+          type: string
+      required:
+        - interaction_id
+        - content
+    MessageResetParams:
+      type: object
+      description: The data with which a `Message` is reset.
+      properties:
+        interaction_id:
+          $ref: '#/components/schemas/InteractionId'
+        content:
+          $ref: '#/components/schemas/MessageContent'
+      required:
+        - interaction_id
     Agent:
       type: object
       description: >-
@@ -397,8 +495,7 @@ components:
         created_at:
           $ref: '#/components/schemas/CreatedAt'
         content:
-          type: string
-          description: The message content.
+          $ref: '#/components/schemas/MessageContent'
         sent_by:
           $ref: '#/components/schemas/InteractionParticipant'
       required:

@@ -140,6 +140,12 @@ types:
       parent_id: optional<string>
     docs: The data with which a `Message` is created.
 
+  MessageResetParams:
+    properties:
+      interaction_id: InteractionId
+      content: optional<MessageContent>
+    docs: The data with which a `Message` is reset.
+
   # Objects
 
   Agent:

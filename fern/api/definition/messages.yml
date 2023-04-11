@@ -29,7 +29,6 @@ service:
         message_id: core.MessageId
       response: core.Message
 
-
     create:
       path: ''
       method: POST
@@ -38,6 +37,18 @@ service:
       request:
         name: CreateMessageRequest
         body: core.MessageCreateParams
+      response: core.Message
+
+    reset:
+      path: /{message_id}
+      method: POST
+      docs: Resetting a `Message` does 2 things. First it deletes all the `Message`s in the `Interaction` that come after this `Message` (i.e. whose `index` is greater). Then, it updates the content of the `Message`, if you've provided it in the request body.
+      display-name: Reset a message
+      path-parameters:
+        message_id: core.MessageId
+      request:
+        name: ResetMessageRequest
+        body: core.MessageResetParams
       response: core.Message
 
 types:
