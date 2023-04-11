@@ -172,7 +172,7 @@ paths:
       tags:
         - Messages
       parameters:
-        - name: interaction
+        - name: interaction_id
           in: query
           required: true
           schema:
