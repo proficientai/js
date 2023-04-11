@@ -141,6 +141,27 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/InteractionUpdateParams'
+    delete:
+      description: >-
+        Permanently deletes the specified interaction and all the messages
+        within it. This cannot be undone.
+      operationId: interactions_delete
+      tags:
+        - Interactions
+      parameters:
+        - name: interaction_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/InteractionId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interaction'
+      summary: Delete an interaction
 components:
   schemas:
     AgentsList:
@@ -175,6 +196,25 @@ components:
       description: >-
         The time at which the object was last updated, measured in milliseconds
         since the Unix epoch
+    AgentId:
+      type: string
+      description: The unique identifier of the `Agent`
+    AgentObjectType:
+      type: string
+      enum:
+        - agent
+      description: The type of the `Agent` object
+    InteractionId:
+      type: string
+      description: The unique identifier of the `Interaction`
+    InteractionObjectType:
+      type: string
+      enum:
+        - interaction
+      description: The type of the `Interaction` object
+    InteractionName:
+      type: string
+      description: The name of the `Interaction`
     InteractionParticipant:
       type: string
       enum:
@@ -184,30 +224,14 @@ components:
         Represents the type of the participant in a given `Interaction`. As an
         example, `Message`s are created by interaction participants so the
         `sent_by` property of a `Message` must be an `InteractionParticipant`.
-    AgentObjectType:
+    MessageId:
       type: string
-      enum:
-        - agent
-      description: The type of the `Agent` object
-    InteractionObjectType:
-      type: string
-      enum:
-        - interaction
-      description: The type of the `Interaction` object
+      description: The unique identifier of the `Message`
     MessageObjectType:
       type: string
       enum:
         - message
       description: The type of the `Message` object
-    AgentId:
-      type: string
-      description: The unique identifier of the `Agent`
-    InteractionId:
-      type: string
-      description: The unique identifier of the `Interaction`
-    MessageId:
-      type: string
-      description: The unique identifier of the `Message`
     InteractionCreateParams:
       type: object
       description: The data with which an `Interaction` is created.
@@ -225,14 +249,19 @@ components:
       properties:
         interaction:
           $ref: '#/components/schemas/Interaction'
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
       required:
         - interaction
+        - messages
     InteractionUpdateParams:
       type: object
       description: The data with which an `Interaction` is updated.
       properties:
         name:
-          type: string
+          $ref: '#/components/schemas/InteractionName'
     Agent:
       type: object
       description: >-
@@ -289,8 +318,7 @@ components:
         created_at:
           $ref: '#/components/schemas/CreatedAt'
         name:
-          type: string
-          description: The name of the interaction
+          $ref: '#/components/schemas/InteractionName'
         total_message_count:
           type: integer
           description: The total number of messages in the interaction

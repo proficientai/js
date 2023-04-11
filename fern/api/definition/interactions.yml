@@ -51,6 +51,15 @@ service:
         body: core.InteractionUpdateParams
       response: core.Interaction
 
+    delete:
+      path: /{interaction_id}
+      method: DELETE
+      docs: Permanently deletes the specified interaction and all the messages within it. This cannot be undone.
+      display-name: Delete an interaction
+      path-parameters:
+        interaction_id: core.InteractionId
+      response: core.Interaction
+
 types:
   InteractionsList:
     properties:
