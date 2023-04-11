@@ -1,5 +1,11 @@
 # @proficient/client
 
+## 0.11.0
+
+### Minor Changes
+
+- Rename query param
+
 ## 0.10.0
 
 ### Minor Changes
