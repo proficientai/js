@@ -18,7 +18,7 @@ export function ChatSection({
 }: ChatSectionProps) {
   const [lastMessage] = messages;
   const canRequestAnswer =
-    lastMessage?.sent_by === 'user' && (!autoRequestReply || writingStatus === 'error' || writingStatus === 'nil');
+    lastMessage?.sentBy === 'user' && (!autoRequestReply || writingStatus === 'error' || writingStatus === 'nil');
   return (
     <InfiniteScroll
       dataLength={messages.length}
@@ -124,11 +124,11 @@ export function ChatSection({
               padding: 10px;
               border-radius: 16px;
               margin-bottom: 12px;
-              margin-left: ${message.sent_by === 'agent' ? 0 : 'auto'};
+              margin-left: ${message.sentBy === 'agent' ? 0 : 'auto'};
               width: fit-content;
               max-width: 60ch;
               white-space: pre-wrap;
-              background-color: ${message.sent_by === 'agent' ? colors.gray[700] : colors.indigo[600]};
+              background-color: ${message.sentBy === 'agent' ? colors.gray[700] : colors.indigo[600]};
               color: ${colors.gray[100]};
               font-family: Inter, sans-serif;
               font-size: 14px;

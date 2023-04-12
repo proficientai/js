@@ -1,4 +1,4 @@
-import type { Message } from '@proficient/client';
+import type { Proficient } from '@proficient/client';
 import { sleep } from '@proficient/util';
 import { LoremIpsum } from 'lorem-ipsum';
 import { v4 as uuid } from 'uuid';
@@ -18,23 +18,23 @@ class MockDB {
   /**
    * Most recently created messages appear last.
    */
-  private historyPromise: Promise<Message[]>;
+  private historyPromise: Promise<Proficient.Message[]>;
 
   public constructor() {
     this.historyPromise = this.buildFakeHistory(100);
   }
 
   private async buildFakeHistory(count: number) {
-    const history = new Array<Message>(count);
+    const history = new Array<Proficient.Message>(count);
     for (let i = 0; i < count; i++) {
       history[i] = {
         id: uuid(),
         object: 'message',
         index: i,
-        interaction_id: 'int_123',
-        created_at: Date.now(),
+        interactionId: 'int_123',
+        createdAt: Date.now(),
         content: (i + 1).toString() + ': ' + lorem.generateSentences(2),
-        sent_by: i % 2 === 0 ? 'agent' : 'user',
+        sentBy: i % 2 === 0 ? 'agent' : 'user',
       };
       await sleep(1);
     }
@@ -56,7 +56,7 @@ class MockDB {
       }
       startingMessageIndex = idx - 1;
     }
-    const messages: Message[] = [];
+    const messages: Proficient.Message[] = [];
 
     let i = startingMessageIndex;
     for (; i >= 0 && messages.length < count; i--) {
@@ -75,14 +75,14 @@ class MockDB {
     const sentMessageIndex = history.length;
     const replyIndex = sentMessageIndex + 1;
 
-    const sentMessage: Message = {
+    const sentMessage: Proficient.Message = {
       id: uuid(),
       object: 'message',
       index: sentMessageIndex,
-      interaction_id: 'int_123',
-      created_at: Date.now(),
+      interactionId: 'int_123',
+      createdAt: Date.now(),
       content,
-      sent_by: 'user',
+      sentBy: 'user',
     };
     history.push(sentMessage);
 
@@ -93,14 +93,14 @@ class MockDB {
 
     const replyPromise = (async () => {
       await sleep(2_000);
-      const m: Message = {
+      const m: Proficient.Message = {
         id: uuid(),
         object: 'message',
         index: replyIndex,
-        interaction_id: 'int_123',
-        created_at: Date.now(),
+        interactionId: 'int_123',
+        createdAt: Date.now(),
         content: lorem.generateSentences(3),
-        sent_by: 'agent',
+        sentBy: 'agent',
       };
       await sentMessagePromise;
       const history = await this.historyPromise;

@@ -10,7 +10,9 @@
     "/src"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs --dts",
+    "build": "npm run compile && npm run bundle",
+    "bundle": "tsup src/index.ts --format cjs --dts",
+    "compile": "tsc --noEmit",
     "dev": "tsup src/index.ts --format cjs --dts --watch",
     "lint": "TIMING=1 eslint \"**/*.ts*\""
   },
