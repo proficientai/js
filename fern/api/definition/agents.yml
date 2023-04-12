@@ -22,6 +22,8 @@ service:
       path-parameters:
         agent_id: core.AgentId
       response: core.Agent
+      errors:
+        - AgentNotFoundError
 
 types:
   AgentsList:
@@ -29,6 +31,6 @@ types:
       data: list<core.Agent>
 
 errors:
-  AgentDoesNotExistError:
+  AgentNotFoundError:
     status-code: 404
-    type: string
+    type: core.Error

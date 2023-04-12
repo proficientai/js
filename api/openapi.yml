@@ -39,6 +39,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Agent'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       summary: Retrieve an agent
   /interactions:
     get:
@@ -301,6 +307,17 @@ components:
             $ref: '#/components/schemas/Agent'
       required:
         - data
+    Error:
+      type: object
+      description: The error response interface.
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
     PaginationLimit:
       type: integer
       description: >-

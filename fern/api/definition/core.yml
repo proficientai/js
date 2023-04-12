@@ -1,6 +1,15 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
 
 types:
+  # Error interface
+
+  Error:
+    properties:
+      code: string # TODO: Make enum
+      message: string
+    # TODO: Improve
+    docs: The error response interface.
+
   # Commonly used parameters
 
   PaginationLimit:
