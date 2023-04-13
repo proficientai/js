@@ -10,7 +10,7 @@ groups:
         config:
           namespaceExport: Proficient
       - name: fernapi/fern-typescript-express
-        version: 0.5.8
+        version: 0.5.9
         output:
           location: local-file-system
           path: ../../generated/express
