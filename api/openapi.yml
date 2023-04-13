@@ -78,6 +78,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InteractionsList'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       summary: List all interactions
     post:
       description: Creates a new `Interaction` with an agent.
@@ -92,6 +98,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InteractionCreateResponse'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       summary: Create an interaction
       requestBody:
         required: true
@@ -307,12 +319,23 @@ components:
             $ref: '#/components/schemas/Agent'
       required:
         - data
+    ErrorCode:
+      type: string
+      enum:
+        - invalid_request
+        - invalid_credentials
+        - forbidden
+        - resource_not_found
+        - unavailable
+        - unknown
     Error:
       type: object
-      description: The error response interface.
+      description: >-
+        Represents the general interface of an API error. The body of every
+        error returned by the API contains `code` and `message` fields.
       properties:
         code:
-          type: string
+          $ref: '#/components/schemas/ErrorCode'
         message:
           type: string
       required:

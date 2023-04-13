@@ -23,14 +23,9 @@ service:
         agent_id: core.AgentId
       response: core.Agent
       errors:
-        - AgentNotFoundError
+        - core.ResourceNotFoundError
 
 types:
   AgentsList:
     properties:
       data: list<core.Agent>
-
-errors:
-  AgentNotFoundError:
-    status-code: 404
-    type: core.Error

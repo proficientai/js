@@ -2,13 +2,20 @@
 
 types:
   # Error interface
+  ErrorCode:
+    enum:
+      - invalid_request
+      - invalid_credentials
+      - forbidden
+      - resource_not_found
+      - unavailable
+      - unknown
 
   Error:
     properties:
-      code: string # TODO: Make enum
+      code: ErrorCode
       message: string
-    # TODO: Improve
-    docs: The error response interface.
+    docs: Represents the general interface of an API error. The body of every error returned by the API contains `code` and `message` fields.
 
   # Commonly used parameters
 
@@ -220,3 +227,23 @@ types:
       content: MessageContent
       sent_by: InteractionParticipant
     docs: <p>Each interaction holds a number of <i>messages</i> and every message belongs to an interaction. The `sent_by` property of a message indicates whether a message was created by an `Agent` or a `User`.</p>
+
+errors:
+  InvalidRequestError:
+    status-code: 400
+    type: Error
+  InvalidCredentialsError:
+    status-code: 401
+    type: Error
+  ForbiddenError:
+    status-code: 403
+    type: Error
+  ResourceNotFoundError:
+    status-code: 404
+    type: Error
+  InternalError:
+    status-code: 500
+    type: Error
+  ServiceUnavailableError:
+    status-code: 503
+    type: Error

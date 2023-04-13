@@ -19,6 +19,8 @@ service:
           limit: core.PaginationLimit
           starting_after: core.PaginationStartingAfter
       response: InteractionsList
+      errors:
+        - core.ResourceNotFoundError
 
     get:
       path: /{interaction_id}
@@ -38,6 +40,8 @@ service:
         name: CreateInteractionRequest
         body: core.InteractionCreateParams
       response: core.InteractionCreateResponse
+      errors:
+        - core.ResourceNotFoundError
 
     update:
       path: /{interaction_id}
@@ -65,8 +69,3 @@ types:
     properties:
       data: list<core.Interaction>
       has_more: core.PaginationHasMore
-
-errors:
-  InteractionDoesNotExistError:
-    status-code: 404
-    type: string
