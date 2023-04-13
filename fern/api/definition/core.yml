@@ -8,6 +8,7 @@ types:
       - invalid_credentials
       - forbidden
       - resource_not_found
+      - conflict
       - unavailable
       - unknown
 
@@ -240,6 +241,9 @@ errors:
     type: Error
   ResourceNotFoundError:
     status-code: 404
+    type: Error
+  ConflictError:
+    status-code: 409
     type: Error
   InternalError:
     status-code: 500
