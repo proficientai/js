@@ -8,6 +8,8 @@ service:
   base-path: /interactions
   endpoints:
     list:
+      audiences:
+        - client
       path: ''
       method: GET
       docs: Returns a list of interactions associated with the user. The interactions are returned sorted by creation date, with the most recently created interactions appearing first.
@@ -23,6 +25,8 @@ service:
         - core.ResourceNotFoundError
 
     get:
+      audiences:
+        - client
       path: /{interaction_id}
       method: GET
       docs: Retrieves the interaction with the given ID.
@@ -32,6 +36,8 @@ service:
       response: core.Interaction
 
     create:
+      audiences:
+        - client
       path: ''
       method: POST
       docs: Creates a new `Interaction` with an agent.
@@ -44,6 +50,8 @@ service:
         - core.ResourceNotFoundError
 
     update:
+      audiences:
+        - client
       path: /{interaction_id}
       method: POST
       docs: Updates the properties of the specified interaction. Only the provided properties will be updated. Any properties not provided will be left unchanged.
@@ -56,6 +64,8 @@ service:
       response: core.Interaction
 
     delete:
+      audiences:
+        - client
       path: /{interaction_id}
       method: DELETE
       docs: Permanently deletes the specified interaction and all the messages within it. This cannot be undone.

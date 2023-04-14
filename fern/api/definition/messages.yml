@@ -8,6 +8,8 @@ service:
   base-path: /messages
   endpoints:
     list:
+      audiences:
+        - client
       path: ''
       method: GET
       docs: Returns a list of all messages in the specified interaction. The messages are returned sorted by creation date, with the most recently created messages appearing first.
@@ -21,6 +23,8 @@ service:
       response: MessagesList
 
     get:
+      audiences:
+        - client
       path: /{message_id}
       method: GET
       docs: Retrieves the message with the given ID.
@@ -30,6 +34,8 @@ service:
       response: core.Message
 
     create:
+      audiences:
+        - client
       path: ''
       method: POST
       docs: Creates a new `Message` in a given `Interaction`
@@ -40,6 +46,8 @@ service:
       response: core.Message
 
     reset:
+      audiences:
+        - client
       path: /{message_id}
       method: POST
       docs: Resetting a `Message` does 2 things. First it deletes all the `Message`s in the `Interaction` that come after this `Message` (i.e. whose `index` is greater). Then, it updates the content of the `Message`, if you've provided it in the request body.
@@ -52,6 +60,8 @@ service:
       response: core.Message
 
     ask:
+      audiences:
+        - client
       path: /{message_id}/ask
       method: POST
       docs: Requests a reply from the `Agent` to a given `Message`.
