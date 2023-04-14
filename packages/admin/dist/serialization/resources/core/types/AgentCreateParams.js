@@ -26,16 +26,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ConflictError = void 0;
-const errors = __importStar(require("../../../../errors"));
-class ConflictError extends errors.ProficientError {
-    constructor(body) {
-        super({
-            message: "ConflictError",
-            statusCode: 409,
-            body: body,
-        });
-        Object.setPrototypeOf(this, ConflictError.prototype);
-    }
-}
-exports.ConflictError = ConflictError;
+exports.AgentCreateParams = void 0;
+const core = __importStar(require("../../../../core"));
+exports.AgentCreateParams = core.serialization.object({
+    name: core.serialization.string(),
+});

@@ -8,13 +8,13 @@ exports.ProficientEnvironment = {
     /**
      * The production environment
      */
-    Production: "https://admin.proficientai.com",
+    Production: "https://api.proficientai.com",
     /**
      * The staging environment
      */
-    Staging: "https://admin.staging.proficientai.com",
+    Staging: "https://staging.proficientai.com",
     /**
      * The local environment
      */
-    Development: "http://localhost:8080/admin",
+    Development: "http://localhost:8080/client",
 };

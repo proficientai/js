@@ -41,7 +41,7 @@ class Agents {
         this.options = options;
     }
     /**
-     * Returns a list of your agents. The agents are returned sorted by creation date, with the most recently created agents appearing first.
+     * Returns a list of agents that belong to the current organization. The agents are returned sorted by creation date, with the most recently created agents appearing first.
      */
     async list() {
         const _response = await core.fetcher({
@@ -117,6 +117,48 @@ class Agents {
                         body: _response.error.body,
                     });
             }
+        }
+        switch (_response.error.reason) {
+            case "non-json":
+                throw new errors.ProficientError({
+                    statusCode: _response.error.statusCode,
+                    body: _response.error.rawBody,
+                });
+            case "timeout":
+                throw new errors.ProficientTimeoutError();
+            case "unknown":
+                throw new errors.ProficientError({
+                    message: _response.error.errorMessage,
+                });
+        }
+    }
+    /**
+     * Creates a new agent with the given properties.
+     */
+    async create(request) {
+        const _response = await core.fetcher({
+            url: (0, url_join_1.default)(this.options.environment, "/agents"),
+            method: "POST",
+            headers: {
+                "X-PROFICIENT-API-KEY": await core.Supplier.get(this.options.xProficientApiKey),
+                "X-PROFICIENT-USER-EXTERNAL-ID": await core.Supplier.get(this.options.xProficientUserExternalId),
+                "X-PROFICIENT-USER-HMAC": await core.Supplier.get(this.options.xProficientUserHmac),
+            },
+            contentType: "application/json",
+            body: await serializers.AgentCreateParams.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
+        });
+        if (_response.ok) {
+            return await serializers.Agent.parseOrThrow(_response.body, {
+                unrecognizedObjectKeys: "passthrough",
+                allowUnrecognizedUnionMembers: true,
+                allowUnrecognizedEnumValues: true,
+            });
+        }
+        if (_response.error.reason === "status-code") {
+            throw new errors.ProficientError({
+                statusCode: _response.error.statusCode,
+                body: _response.error.body,
+            });
         }
         switch (_response.error.reason) {
             case "non-json":

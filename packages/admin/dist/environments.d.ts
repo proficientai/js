@@ -5,14 +5,14 @@ export declare const ProficientEnvironment: {
     /**
      * The production environment
      */
-    readonly Production: "https://admin.proficientai.com";
+    readonly Production: "https://api.proficientai.com";
     /**
      * The staging environment
      */
-    readonly Staging: "https://admin.staging.proficientai.com";
+    readonly Staging: "https://staging.proficientai.com";
     /**
      * The local environment
      */
-    readonly Development: "http://localhost:8080/admin";
+    readonly Development: "http://localhost:8080/client";
 };
 export declare type ProficientEnvironment = typeof ProficientEnvironment.Production | typeof ProficientEnvironment.Staging | typeof ProficientEnvironment.Development;
