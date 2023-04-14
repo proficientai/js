@@ -1,0 +1,22 @@
+name: api
+
+environments:
+  Production:
+    docs: The production environment
+    url: https://admin.proficientai.com
+  Staging:
+    docs: The staging environment
+    url: https://admin.staging.proficientai.com
+  Development:
+    docs: The local environment
+    url: http://localhost:8080/admin
+
+default-environment: null
+
+headers:
+  X-PROFICIENT-API-KEY: string
+  X-PROFICIENT-USER-EXTERNAL-ID: string
+  X-PROFICIENT-USER-HMAC: optional<string>
+
+error-discrimination:
+  strategy: status-code

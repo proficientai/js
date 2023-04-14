@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  core: core.yml
+
+service:
+  auth: false
+  base-path: /agents
+  endpoints:
+    list:
+      path: ''
+      method: GET
+      docs: Returns a list of your agents. The agents are returned sorted by creation date, with the most recently created agents appearing first.
+      display-name: List all agents
+      response: AgentsList
+
+    get:
+      path: /{agent_id}
+      method: GET
+      docs: Retrieves the agent with the given ID.
+      display-name: Retrieve an agent
+      path-parameters:
+        agent_id: core.AgentId
+      response: core.Agent
+      errors:
+        - core.ResourceNotFoundError
+
+types:
+  AgentsList:
+    properties:
+      data: list<core.Agent>

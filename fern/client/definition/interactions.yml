@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  core: core.yml
+
+service:
+  auth: false
+  base-path: /interactions
+  endpoints:
+    list:
+      path: ''
+      method: GET
+      docs: Returns a list of interactions associated with the user. The interactions are returned sorted by creation date, with the most recently created interactions appearing first.
+      display-name: List all interactions
+      request:
+        name: ListInteractionsRequest
+        query-parameters:
+          agent_id: optional<core.AgentId>
+          limit: core.PaginationLimit
+          starting_after: core.PaginationStartingAfter
+      response: InteractionsList
+      errors:
+        - core.ResourceNotFoundError
+
+    get:
+      path: /{interaction_id}
+      method: GET
+      docs: Retrieves the interaction with the given ID.
+      display-name: Retrieve an interaction
+      path-parameters:
+        interaction_id: core.InteractionId
+      response: core.Interaction
+
+    create:
+      path: ''
+      method: POST
+      docs: Creates a new `Interaction` with an agent.
+      display-name: Create an interaction
+      request:
+        name: CreateInteractionRequest
+        body: core.InteractionCreateParams
+      response: core.InteractionCreateResponse
+      errors:
+        - core.ResourceNotFoundError
+
+    update:
+      path: /{interaction_id}
+      method: POST
+      docs: Updates the properties of the specified interaction. Only the provided properties will be updated. Any properties not provided will be left unchanged.
+      display-name: Update an interaction
+      path-parameters:
+        interaction_id: core.InteractionId
+      request:
+        name: UpdateInteractionRequest
+        body: core.InteractionUpdateParams
+      response: core.Interaction
+
+    delete:
+      path: /{interaction_id}
+      method: DELETE
+      docs: Permanently deletes the specified interaction and all the messages within it. This cannot be undone.
+      display-name: Delete an interaction
+      path-parameters:
+        interaction_id: core.InteractionId
+      response: core.Interaction
+
+types:
+  InteractionsList:
+    properties:
+      data: list<core.Interaction>
+      has_more: core.PaginationHasMore
