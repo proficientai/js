@@ -326,6 +326,7 @@ components:
         - invalid_credentials
         - forbidden
         - resource_not_found
+        - conflict
         - unavailable
         - unknown
     Error:
