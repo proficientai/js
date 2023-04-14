@@ -10,7 +10,7 @@ groups:
         version: 0.5.9
         output:
           location: local-file-system
-          path: ../../generated/express
+          path: ../core
   admin:
     audiences:
       - admin
