@@ -21,11 +21,11 @@ types:
   # Commonly used parameters
 
   PaginationLimit:
-    type: optional<integer>
+    type: optional<string>
     docs: Used to specify the maximum number of objects that can be returned. Must be an integer ranging from 1 to 100. Defaults to 20.
     examples:
       - name: Example0
-        value: 25
+        value: '25'
 
   PaginationStartingAfter:
     type: optional<string>

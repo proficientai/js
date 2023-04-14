@@ -135,7 +135,7 @@ export function InteractionView({
       markAttemptToLoadInteractionsBatch();
       const { data: receivedInteractions, hasMore } = await api.interactions.list({
         agentId,
-        limit: 20,
+        limit: '20',
       });
       setInteractionStatesById((prev) => {
         const next = cloneDeep(prev);
@@ -242,7 +242,7 @@ export function InteractionView({
 
         const { data: receivedMessages, hasMore } = await api.messages.list({
           interactionId,
-          limit: 20,
+          limit: '20',
           startingAfter: oldestMessageId ?? undefined,
         });
 
