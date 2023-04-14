@@ -1,6 +1,16 @@
-default-group: client
+default-group: server
 
 groups:
+  server:
+    audiences:
+      - admin
+      - client
+    generators:
+      - name: fernapi/fern-typescript-express
+        version: 0.5.9
+        output:
+          location: local-file-system
+          path: ../../generated/express
   admin:
     audiences:
       - admin
@@ -12,11 +22,6 @@ groups:
           path: ../../packages/admin/dist
         config:
           namespaceExport: Proficient
-      - name: fernapi/fern-typescript-express
-        version: 0.5.9
-        output:
-          location: local-file-system
-          path: ../../generated/express-admin
       - name: fernapi/fern-openapi
         version: 0.0.22
         output:
@@ -33,11 +38,6 @@ groups:
           path: ../../packages/client/dist
         config:
           namespaceExport: Proficient
-      - name: fernapi/fern-typescript-express
-        version: 0.5.9
-        output:
-          location: local-file-system
-          path: ../../generated/express-client
       - name: fernapi/fern-openapi
         version: 0.0.22
         output:
