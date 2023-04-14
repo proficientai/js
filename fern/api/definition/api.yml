@@ -1,4 +1,8 @@
-name: client-api
+name: api
+
+audiences:
+  - admin
+  - client
 
 environments:
   Production:

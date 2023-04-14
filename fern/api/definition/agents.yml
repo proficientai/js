@@ -8,16 +8,22 @@ service:
   base-path: /agents
   endpoints:
     list:
+      audiences:
+        - admin
+        - client
       path: ''
       method: GET
-      docs: Returns a list of your agents. The agents are returned sorted by creation date, with the most recently created agents appearing first.
+      docs: Returns a list of agents that belong to the current organization. The agents are returned sorted by creation date, with the most recently created agents appearing first.
       display-name: List all agents
       response: AgentsList
 
     get:
+      audiences:
+        - admin
+        - client
       path: /{agent_id}
       method: GET
-      docs: Retrieves the `Agent` with the given ID.
+      docs: Retrieves the agent with the given ID.
       display-name: Retrieve an agent
       path-parameters:
         agent_id: core.AgentId
@@ -26,9 +32,11 @@ service:
         - core.ResourceNotFoundError
 
     create:
+      audiences:
+        - admin
       path: ''
       method: POST
-      docs: Creates a new `Agent` with the given properties.
+      docs: Creates a new agent with the given properties.
       display-name: Create an agent
       request:
         name: CreateAgentRequest
