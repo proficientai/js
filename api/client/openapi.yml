@@ -1,13 +1,14 @@
 openapi: 3.0.1
 info:
-  title: client-api
+  title: api
   version: ''
 paths:
   /agents:
     get:
       description: >-
-        Returns a list of your agents. The agents are returned sorted by
-        creation date, with the most recently created agents appearing first.
+        Returns a list of agents that belong to the current organization. The
+        agents are returned sorted by creation date, with the most recently
+        created agents appearing first.
       operationId: agents_list
       tags:
         - Agents
@@ -409,9 +410,6 @@ components:
     MessageContent:
       type: string
       description: The content of the `Message`
-    ParentMessageId:
-      type: string
-      description: The ID of the last message by the agent in the interaction.
     InteractionCreateParams:
       type: object
       description: The data with which an `Interaction` is created.

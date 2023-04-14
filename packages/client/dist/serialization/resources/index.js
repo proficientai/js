@@ -35,4 +35,3 @@ exports.interactions = __importStar(require("./interactions"));
 __exportStar(require("./interactions/types"), exports);
 exports.messages = __importStar(require("./messages"));
 __exportStar(require("./messages/types"), exports);
-__exportStar(require("./messages/errors"), exports);

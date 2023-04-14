@@ -14,7 +14,6 @@ export * from "./InteractionParticipant";
 export * from "./MessageId";
 export * from "./MessageObjectType";
 export * from "./MessageContent";
-export * from "./ParentMessageId";
 export * from "./InteractionCreateParams";
 export * from "./InteractionCreateResponse";
 export * from "./InteractionUpdateParams";

@@ -6,4 +6,3 @@ export * as interactions from "./interactions";
 export * from "./interactions/types";
 export * as messages from "./messages";
 export * from "./messages/types";
-export * from "./messages/errors";

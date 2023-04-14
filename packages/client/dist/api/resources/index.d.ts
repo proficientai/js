@@ -7,6 +7,5 @@ export * from "./interactions/types";
 export * as messages from "./messages";
 export * from "./messages/types";
 export * from "./core/errors";
-export * from "./messages/errors";
 export * from "./interactions/client/requests";
 export * from "./messages/client/requests";

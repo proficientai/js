@@ -41,7 +41,7 @@ class Agents {
         this.options = options;
     }
     /**
-     * Returns a list of your agents. The agents are returned sorted by creation date, with the most recently created agents appearing first.
+     * Returns a list of agents that belong to the current organization. The agents are returned sorted by creation date, with the most recently created agents appearing first.
      */
     async list() {
         const _response = await core.fetcher({

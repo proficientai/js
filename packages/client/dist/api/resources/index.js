@@ -36,6 +36,5 @@ __exportStar(require("./interactions/types"), exports);
 exports.messages = __importStar(require("./messages"));
 __exportStar(require("./messages/types"), exports);
 __exportStar(require("./core/errors"), exports);
-__exportStar(require("./messages/errors"), exports);
 __exportStar(require("./interactions/client/requests"), exports);
 __exportStar(require("./messages/client/requests"), exports);

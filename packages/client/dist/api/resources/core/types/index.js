@@ -30,7 +30,6 @@ __exportStar(require("./InteractionParticipant"), exports);
 __exportStar(require("./MessageId"), exports);
 __exportStar(require("./MessageObjectType"), exports);
 __exportStar(require("./MessageContent"), exports);
-__exportStar(require("./ParentMessageId"), exports);
 __exportStar(require("./InteractionCreateParams"), exports);
 __exportStar(require("./InteractionCreateResponse"), exports);
 __exportStar(require("./InteractionUpdateParams"), exports);
