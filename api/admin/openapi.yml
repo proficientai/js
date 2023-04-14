@@ -1,13 +1,14 @@
 openapi: 3.0.1
 info:
-  title: admin-api
+  title: api
   version: ''
 paths:
   /agents:
     get:
       description: >-
-        Returns a list of your agents. The agents are returned sorted by
-        creation date, with the most recently created agents appearing first.
+        Returns a list of agents that belong to the current organization. The
+        agents are returned sorted by creation date, with the most recently
+        created agents appearing first.
       operationId: agents_list
       tags:
         - Agents
@@ -20,6 +21,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/AgentsList'
       summary: List all agents
+    post:
+      description: Creates a new agent with the given properties.
+      operationId: agents_create
+      tags:
+        - Agents
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+      summary: Create an agent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentCreateParams'
   /agents/{agent_id}:
     get:
       description: Retrieves the agent with the given ID.
@@ -46,268 +67,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       summary: Retrieve an agent
-  /interactions:
-    get:
-      description: >-
-        Returns a list of interactions associated with the user. The
-        interactions are returned sorted by creation date, with the most
-        recently created interactions appearing first.
-      operationId: interactions_list
-      tags:
-        - Interactions
-      parameters:
-        - name: agent_id
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/AgentId'
-        - name: limit
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/PaginationLimit'
-        - name: starting_after
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/PaginationStartingAfter'
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InteractionsList'
-        '404':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      summary: List all interactions
-    post:
-      description: Creates a new `Interaction` with an agent.
-      operationId: interactions_create
-      tags:
-        - Interactions
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InteractionCreateResponse'
-        '404':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      summary: Create an interaction
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InteractionCreateParams'
-  /interactions/{interaction_id}:
-    get:
-      description: Retrieves the interaction with the given ID.
-      operationId: interactions_get
-      tags:
-        - Interactions
-      parameters:
-        - name: interaction_id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/InteractionId'
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Interaction'
-      summary: Retrieve an interaction
-    post:
-      description: >-
-        Updates the properties of the specified interaction. Only the provided
-        properties will be updated. Any properties not provided will be left
-        unchanged.
-      operationId: interactions_update
-      tags:
-        - Interactions
-      parameters:
-        - name: interaction_id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/InteractionId'
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Interaction'
-      summary: Update an interaction
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InteractionUpdateParams'
-    delete:
-      description: >-
-        Permanently deletes the specified interaction and all the messages
-        within it. This cannot be undone.
-      operationId: interactions_delete
-      tags:
-        - Interactions
-      parameters:
-        - name: interaction_id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/InteractionId'
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Interaction'
-      summary: Delete an interaction
-  /messages:
-    get:
-      description: >-
-        Returns a list of all messages in the specified interaction. The
-        messages are returned sorted by creation date, with the most recently
-        created messages appearing first.
-      operationId: messages_list
-      tags:
-        - Messages
-      parameters:
-        - name: interaction_id
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/InteractionId'
-        - name: limit
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/PaginationLimit'
-        - name: starting_after
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/PaginationStartingAfter'
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MessagesList'
-      summary: List all messages in an interaction
-    post:
-      description: Creates a new `Message` in a given `Interaction`
-      operationId: messages_create
-      tags:
-        - Messages
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Message'
-      summary: Create a message in an interaction
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MessageCreateParams'
-  /messages/{message_id}:
-    get:
-      description: Retrieves the message with the given ID.
-      operationId: messages_get
-      tags:
-        - Messages
-      parameters:
-        - name: message_id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/MessageId'
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Message'
-      summary: Retrieve a message
-    post:
-      description: >-
-        Resetting a `Message` does 2 things. First it deletes all the `Message`s
-        in the `Interaction` that come after this `Message` (i.e. whose `index`
-        is greater). Then, it updates the content of the `Message`, if you've
-        provided it in the request body.
-      operationId: messages_reset
-      tags:
-        - Messages
-      parameters:
-        - name: message_id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/MessageId'
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Message'
-      summary: Reset a message
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MessageResetParams'
-  /messages/{message_id}/ask:
-    post:
-      description: Requests a reply from the `Agent` to a given `Message`.
-      operationId: messages_ask
-      tags:
-        - Messages
-      parameters:
-        - name: message_id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/MessageId'
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Message'
-      summary: Ask for a reply to a message
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MessageAskParams'
 components:
   schemas:
     AgentsList:
@@ -342,24 +101,6 @@ components:
       required:
         - code
         - message
-    PaginationLimit:
-      type: string
-      description: >-
-        Used to specify the maximum number of objects that can be returned. Must
-        be an integer ranging from 1 to 100. Defaults to 20.
-    PaginationStartingAfter:
-      type: string
-      description: >-
-        A pagination cursor parameter that takes an object ID as a value. This
-        indicates the position of the list where you want to start fetching the
-        data. For example, if your first request returns 100 objects ending with
-        `obj_100`, you can use `starting_after=obj_100` in your subsequent API
-        call to retrieve the next page of the list.
-    PaginationHasMore:
-      type: boolean
-      description: >-
-        Whether the database has more items after this list. If true, then you
-        can send more paginated requests to exhaust the remaining items.
     CreatedAt:
       type: integer
       description: >-
@@ -378,101 +119,14 @@ components:
       enum:
         - agent
       description: The type of the `Agent` object
-    InteractionId:
-      type: string
-      description: The unique identifier of the `Interaction`
-    InteractionObjectType:
-      type: string
-      enum:
-        - interaction
-      description: The type of the `Interaction` object
-    InteractionName:
-      type: string
-      description: The name of the `Interaction`
-    InteractionParticipant:
-      type: string
-      enum:
-        - user
-        - agent
-      description: >-
-        Represents the type of the participant in a given `Interaction`. As an
-        example, `Message`s are created by interaction participants so the
-        `sent_by` property of a `Message` must be an `InteractionParticipant`.
-    MessageId:
-      type: string
-      description: The unique identifier of the `Message`
-    MessageObjectType:
-      type: string
-      enum:
-        - message
-      description: The type of the `Message` object
-    MessageContent:
-      type: string
-      description: The content of the `Message`
-    ParentMessageId:
-      type: string
-      description: The ID of the last message by the agent in the interaction.
-    InteractionCreateParams:
+    AgentCreateParams:
       type: object
-      description: The data with which an `Interaction` is created.
-      properties:
-        agent_id:
-          $ref: '#/components/schemas/AgentId'
-      required:
-        - agent_id
-    InteractionCreateResponse:
-      type: object
-      description: >-
-        An object that contains the initial interaction data including the
-        `Interaction` object itself and the initial `Message`s associated with
-        it.
-      properties:
-        interaction:
-          $ref: '#/components/schemas/Interaction'
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-      required:
-        - interaction
-        - messages
-    InteractionUpdateParams:
-      type: object
-      description: The data with which an `Interaction` is updated.
+      description: The data with which an `Agent` is created.
       properties:
         name:
-          $ref: '#/components/schemas/InteractionName'
-    MessageCreateParams:
-      type: object
-      description: The data with which a `Message` is created.
-      properties:
-        interaction_id:
-          $ref: '#/components/schemas/InteractionId'
-        content:
-          $ref: '#/components/schemas/MessageContent'
-        parent_id:
           type: string
       required:
-        - interaction_id
-        - content
-    MessageResetParams:
-      type: object
-      description: The data with which a `Message` is reset.
-      properties:
-        interaction_id:
-          $ref: '#/components/schemas/InteractionId'
-        content:
-          $ref: '#/components/schemas/MessageContent'
-      required:
-        - interaction_id
-    MessageAskParams:
-      type: object
-      description: The data with which a reply to a `Message` is asked for.
-      properties:
-        interaction_id:
-          $ref: '#/components/schemas/InteractionId'
-      required:
-        - interaction_id
+        - name
     Agent:
       type: object
       description: >-
@@ -511,105 +165,11 @@ components:
         - description
         - created_at
         - updated_at
-    Interaction:
-      type: object
-      description: >-
-        <p>Users communicate with agents via <i>interactions</i>. You can think
-        of each interaction as a conversation between an agent and user.</p>
-      properties:
-        id:
-          $ref: '#/components/schemas/InteractionId'
-        object:
-          $ref: '#/components/schemas/InteractionObjectType'
-        agent_id:
-          $ref: '#/components/schemas/AgentId'
-        archived:
-          type: boolean
-          description: Whether the interaction has been archived by the user
-        created_at:
-          $ref: '#/components/schemas/CreatedAt'
-        name:
-          $ref: '#/components/schemas/InteractionName'
-        total_message_count:
-          type: integer
-          description: The total number of messages in the interaction
-        updated_at:
-          $ref: '#/components/schemas/UpdatedAt'
-        user_id:
-          type: string
-          description: The unique identifier of the user
-      required:
-        - id
-        - object
-        - agent_id
-        - archived
-        - created_at
-        - name
-        - total_message_count
-        - updated_at
-        - user_id
-    Message:
-      type: object
-      description: >-
-        <p>Each interaction holds a number of <i>messages</i> and every message
-        belongs to an interaction. The `sent_by` property of a message indicates
-        whether a message was created by an `Agent` or a `User`.</p>
-      properties:
-        id:
-          $ref: '#/components/schemas/MessageId'
-        object:
-          $ref: '#/components/schemas/MessageObjectType'
-        index:
-          type: integer
-          description: >-
-            The 0-based index of the `Message`. The index represents the
-            position of the `Message` within the `Interaction`, where the first
-            `Message` will have an index of 0.
-        interaction_id:
-          $ref: '#/components/schemas/InteractionId'
-        created_at:
-          $ref: '#/components/schemas/CreatedAt'
-        content:
-          $ref: '#/components/schemas/MessageContent'
-        sent_by:
-          $ref: '#/components/schemas/InteractionParticipant'
-      required:
-        - id
-        - object
-        - index
-        - interaction_id
-        - created_at
-        - content
-        - sent_by
-    InteractionsList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Interaction'
-        has_more:
-          $ref: '#/components/schemas/PaginationHasMore'
-      required:
-        - data
-        - has_more
-    MessagesList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        has_more:
-          $ref: '#/components/schemas/PaginationHasMore'
-      required:
-        - data
-        - has_more
   securitySchemes: {}
 servers:
-  - url: https://admin.proficientai.com
+  - url: https://api.proficientai.com
     description: Production (The production environment)
-  - url: https://admin.staging.proficientai.com
+  - url: https://staging.proficientai.com
     description: Staging (The staging environment)
-  - url: http://localhost:8080/admin
+  - url: http://localhost:8080/client
     description: Development (The local environment)
