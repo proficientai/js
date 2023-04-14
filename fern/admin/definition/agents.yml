@@ -25,6 +25,17 @@ service:
       errors:
         - core.ResourceNotFoundError
 
+    create:
+      path: ''
+      method: POST
+      docs: Creates a new `Agent` with the given properties.
+      display-name: Create an agent
+      request:
+        name: CreateAgentRequest
+        body: core.AgentCreateParams
+      response: core.Agent
+
+
 types:
   AgentsList:
     properties:
