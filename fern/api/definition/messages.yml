@@ -21,6 +21,10 @@ service:
           limit: core.PaginationLimit
           starting_after: core.PaginationStartingAfter
       response: MessagesList
+      errors:
+        - core.ForbiddenError
+        - core.ResourceNotFoundError
+        - core.InternalError
 
     get:
       audiences:
@@ -32,6 +36,10 @@ service:
       path-parameters:
         message_id: core.MessageId
       response: core.Message
+      errors:
+        - core.ForbiddenError
+        - core.ResourceNotFoundError
+        - core.InternalError
 
     create:
       audiences:
@@ -44,6 +52,11 @@ service:
         name: CreateMessageRequest
         body: core.MessageCreateParams
       response: core.Message
+      errors:
+        - core.ForbiddenError
+        - core.ResourceNotFoundError
+        - core.ConflictError
+        - core.InternalError
 
     reset:
       audiences:
@@ -58,6 +71,11 @@ service:
         name: ResetMessageRequest
         body: core.MessageResetParams
       response: core.Message
+      errors:
+        - core.ForbiddenError
+        - core.ResourceNotFoundError
+        - core.ConflictError
+        - core.InternalError
 
     ask:
       audiences:
@@ -72,6 +90,11 @@ service:
         name: MessageAskRequest
         body: core.MessageAskParams
       response: core.Message
+      errors:
+        - core.ForbiddenError
+        - core.ResourceNotFoundError
+        - core.ConflictError
+        - core.InternalError
 
 types:
   MessagesList:

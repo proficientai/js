@@ -22,6 +22,7 @@ service:
           starting_after: core.PaginationStartingAfter
       response: InteractionsList
       errors:
+        - core.ForbiddenError
         - core.ResourceNotFoundError
         - core.InternalError
 
@@ -36,6 +37,7 @@ service:
         interaction_id: core.InteractionId
       response: core.Interaction
       errors:
+        - core.ForbiddenError
         - core.ResourceNotFoundError
         - core.InternalError
 
@@ -51,6 +53,7 @@ service:
         body: core.InteractionCreateParams
       response: core.InteractionCreateResponse
       errors:
+        - core.ForbiddenError
         - core.ResourceNotFoundError
         - core.InternalError
 
@@ -68,6 +71,7 @@ service:
         body: core.InteractionUpdateParams
       response: core.Interaction
       errors:
+        - core.ForbiddenError
         - core.ResourceNotFoundError
         - core.InternalError
 
@@ -81,7 +85,11 @@ service:
       path-parameters:
         interaction_id: core.InteractionId
       response: core.Interaction
-
+      errors:
+        - core.ForbiddenError
+        - core.ResourceNotFoundError
+        - core.InternalError
+        - core.ServiceUnavailableError
 types:
   InteractionsList:
     properties:

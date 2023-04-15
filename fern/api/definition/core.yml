@@ -2,7 +2,7 @@
 
 types:
   # Error interface
-  ErrorCode:
+  ApiErrorCode:
     enum:
       - invalid_request
       - invalid_credentials
@@ -12,10 +12,14 @@ types:
       - unavailable
       - unknown
 
-  Error:
+  ApiErrorBody:
     properties:
-      code: ErrorCode
+      code: ApiErrorCode
       message: string
+
+  ApiError:
+    properties:
+      error: ApiErrorBody
     docs: Represents the general interface of an API error. The body of every error returned by the API contains `code` and `message` fields.
 
   # Commonly used parameters
@@ -238,22 +242,22 @@ types:
 errors:
   InvalidRequestError:
     status-code: 400
-    type: Error
+    type: ApiError
   InvalidCredentialsError:
     status-code: 401
-    type: Error
+    type: ApiError
   ForbiddenError:
     status-code: 403
-    type: Error
+    type: ApiError
   ResourceNotFoundError:
     status-code: 404
-    type: Error
+    type: ApiError
   ConflictError:
     status-code: 409
-    type: Error
+    type: ApiError
   InternalError:
     status-code: 500
-    type: Error
+    type: ApiError
   ServiceUnavailableError:
     status-code: 503
-    type: Error
+    type: ApiError

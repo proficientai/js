@@ -10,7 +10,7 @@ groups:
         version: 0.5.9
         output:
           location: local-file-system
-          path: ../core
+          path: ../../server
   admin:
     audiences:
       - admin
