@@ -16,6 +16,8 @@ service:
       docs: Returns a list of agents that belong to the current organization. The agents are returned sorted by creation date, with the most recently created agents appearing first.
       display-name: List all agents
       response: AgentsList
+      errors:
+        - core.InternalError
 
     get:
       audiences:
@@ -30,6 +32,7 @@ service:
       response: core.Agent
       errors:
         - core.ResourceNotFoundError
+        - core.InternalError
 
     create:
       audiences:
@@ -42,6 +45,10 @@ service:
         name: CreateAgentRequest
         body: core.AgentCreateParams
       response: core.Agent
+      errors:
+        - core.InvalidRequestError
+        - core.ForbiddenError
+        - core.InternalError
 
 types:
   AgentsList:

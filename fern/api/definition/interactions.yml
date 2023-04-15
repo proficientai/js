@@ -23,6 +23,7 @@ service:
       response: InteractionsList
       errors:
         - core.ResourceNotFoundError
+        - core.InternalError
 
     get:
       audiences:
@@ -34,6 +35,9 @@ service:
       path-parameters:
         interaction_id: core.InteractionId
       response: core.Interaction
+      errors:
+        - core.ResourceNotFoundError
+        - core.InternalError
 
     create:
       audiences:
@@ -48,6 +52,7 @@ service:
       response: core.InteractionCreateResponse
       errors:
         - core.ResourceNotFoundError
+        - core.InternalError
 
     update:
       audiences:
@@ -62,6 +67,9 @@ service:
         name: UpdateInteractionRequest
         body: core.InteractionUpdateParams
       response: core.Interaction
+      errors:
+        - core.ResourceNotFoundError
+        - core.InternalError
 
     delete:
       audiences:
