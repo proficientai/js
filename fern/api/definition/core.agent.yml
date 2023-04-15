@@ -49,11 +49,12 @@ types:
     audiences:
       - admin
     properties:
-      name: optional<AgentName>
       description: optional<AgentDescription>
+      greeting_message: optional<agent_config.GreetingMessage>
+      initial_turn: optional<agent_config.InitialTurn>
+      name: optional<AgentName>
       provider: agent_config.Provider
       system_message: optional<agent_config.SystemMessage>
-      initial_turn: optional<agent_config.InitialTurn>
     docs: The data with which an agent is created.
 
   AgentUpdateParams:
