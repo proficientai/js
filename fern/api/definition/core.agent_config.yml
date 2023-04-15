@@ -37,6 +37,12 @@ types:
       - name: Example0
         value: You are a helpful AI assistant developed by Acme, Inc. and your job is to help its users with a wide range of tasks.
 
+  InitialTurn:
+    audiences:
+      - admin
+    type: interaction.InteractionParticipant
+    docs: Indicates who sends the first message in each interaction. Defaults to `"user"`.
+
   GreetingMessage:
     audiences:
       - admin
@@ -53,7 +59,7 @@ types:
       - admin
     properties:
       system_message: optional<SystemMessage>
-      initial_turn: optional<interaction.InteractionParticipant>
+      initial_turn: optional<InitialTurn>
       greeting_message: optional<GreetingMessage>
     docs: The data with which an `AgentConfig` is updated.
 
@@ -67,6 +73,6 @@ types:
       agent_id: agent.AgentId
       provider: Provider
       system_message: SystemMessage
-      initial_turn: interaction.InteractionParticipant
+      initial_turn: InitialTurn
       greeting_message: GreetingMessage
     docs: Represents the current configuration of the agent. This is an admin-level resource that is not exposed to the users.

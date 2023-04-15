@@ -2,7 +2,7 @@
 
 imports:
   core: core.yml
-  # agent_config: core.agent_config.yml
+  agent_config: core.agent_config.yml
 
 types:
   # Properties
@@ -22,18 +22,46 @@ types:
       - name: Example0
         value: agent
 
+  AgentActiveStatus:
+    type: boolean
+    docs: Whether the agent is currently active. If not, users will not be able to interact with the agent.
+    examples:
+      - name: Example0
+        value: true
+
+  AgentName:
+    type: string
+    docs: The name of the agent
+    examples:
+      - name: Example0
+        value: Taya
+
+  AgentDescription:
+    type: string
+    docs: The description of the agent
+    examples:
+      - name: Example0
+        value: An AI assistant that helps job seekers with their job applications.
+
   # Request/Response Interfaces
 
   AgentCreateParams:
+    audiences:
+      - admin
     properties:
-      name: string
-      # TODO: Implement rest
+      name: optional<AgentName>
+      description: optional<AgentDescription>
+      provider: agent_config.Provider
+      system_message: optional<agent_config.SystemMessage>
+      initial_turn: optional<agent_config.InitialTurn>
     docs: The data with which an agent is created.
 
   AgentUpdateParams:
+    audiences:
+      - admin
     properties:
-      name: string
-      # TODO: Implement rest
+      name: optional<AgentName>
+      description: optional<AgentDescription>
     docs: The data with which an agent is updated.
 
   # Resource
@@ -42,15 +70,9 @@ types:
     properties:
       id: AgentId
       object: AgentObjectType
-      active:
-        type: boolean
-        docs: Whether the agent is currently active. If not, users will not be able to interact with the agent.
-      name:
-        type: string
-        docs: The name of the agent
-      description:
-        type: string
-        docs: The description of the agent
+      active: AgentActiveStatus
+      name: AgentName
+      description: AgentDescription
       created_at: core.CreatedAt
       updated_at: core.UpdatedAt
     examples:
