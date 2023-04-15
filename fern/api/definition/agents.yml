@@ -71,6 +71,21 @@ service:
         - core.InternalError
         - core.ServiceUnavailableError
 
+    delete:
+      audiences:
+        - admin
+      path: /{agent_id}
+      method: DELETE
+      docs: Permanently deletes the specified agent and all the interactions associated with it. This cannot be undone.
+      display-name: Delete an agent
+      path-parameters:
+        agent_id: agent.AgentId
+      response: agent.Agent
+      errors:
+        - core.ResourceNotFoundError
+        - core.InternalError
+        - core.ServiceUnavailableError
+
 types:
   AgentsList:
     properties:
