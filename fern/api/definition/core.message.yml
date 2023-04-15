@@ -1,0 +1,72 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  core: core.yml
+  interaction: core.interaction.yml
+
+types:
+  # Properties
+
+  MessageId:
+    type: string
+    docs: The unique identifier of the `Message`
+    examples:
+      - name: Example0
+        value: msg_BlzvLJ8h2QZY8QOK3vjhIlqK43zciPzpPgIhvTo8ai2VnQIW
+
+  MessageObjectType:
+    enum:
+      - message
+    docs: The type of the `Message` object
+    examples:
+      - name: Example0
+        value: message
+
+  MessageContent:
+    type: string
+    docs: The content of the `Message`
+    examples:
+      - name: Example0
+        value: Tell me some interesting facts about Archimedes.
+
+  # Request/Response Interfaces
+
+  ParentMessageId:
+    type: optional<string>
+    docs: The ID of the last message by the agent in the interaction.
+    examples:
+      - name: Example0
+        value: $MessageId.Example0
+
+  MessageCreateParams:
+    properties:
+      interaction_id: interaction.InteractionId
+      content: MessageContent
+      parent_id: optional<string>
+    docs: The data with which a `Message` is created.
+
+  MessageResetParams:
+    properties:
+      interaction_id: interaction.InteractionId
+      content: optional<MessageContent>
+    docs: The data with which a `Message` is reset.
+
+  MessageAskParams:
+    properties:
+      interaction_id: interaction.InteractionId
+    docs: The data with which a reply to a `Message` is asked for.
+
+  # Resource
+
+  Message:
+    properties:
+      id: MessageId
+      object: MessageObjectType
+      index:
+        type: integer
+        docs: The 0-based index of the `Message`. The index represents the position of the `Message` within the `Interaction`, where the first `Message` will have an index of 0.
+      interaction_id: interaction.InteractionId
+      created_at: core.CreatedAt
+      content: MessageContent
+      sent_by: interaction.InteractionParticipant
+    docs: <p>Each interaction holds a number of <i>messages</i> and every message belongs to an interaction. The `sent_by` property of a message indicates whether a message was created by an `Agent` or a `User`.</p>

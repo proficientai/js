@@ -2,7 +2,8 @@
 
 imports:
   core: core.yml
-  agent: core.agent.yaml
+  agent: core.agent.yml
+  interaction: core.interaction.yml
 
 service:
   auth: false
@@ -35,8 +36,8 @@ service:
       docs: Retrieves the interaction with the given ID.
       display-name: Retrieve an interaction
       path-parameters:
-        interaction_id: core.InteractionId
-      response: core.Interaction
+        interaction_id: interaction.InteractionId
+      response: interaction.Interaction
       errors:
         - core.ForbiddenError
         - core.ResourceNotFoundError
@@ -51,8 +52,8 @@ service:
       display-name: Create an interaction
       request:
         name: CreateInteractionRequest
-        body: core.InteractionCreateParams
-      response: core.InteractionCreateResponse
+        body: interaction.InteractionCreateParams
+      response: interaction.InteractionCreateResponse
       errors:
         - core.ForbiddenError
         - core.ResourceNotFoundError
@@ -66,11 +67,11 @@ service:
       docs: Updates the properties of the specified interaction. Only the provided properties will be updated. Any properties not provided will be left unchanged.
       display-name: Update an interaction
       path-parameters:
-        interaction_id: core.InteractionId
+        interaction_id: interaction.InteractionId
       request:
         name: UpdateInteractionRequest
-        body: core.InteractionUpdateParams
-      response: core.Interaction
+        body: interaction.InteractionUpdateParams
+      response: interaction.Interaction
       errors:
         - core.ForbiddenError
         - core.ResourceNotFoundError
@@ -84,8 +85,8 @@ service:
       docs: Permanently deletes the specified interaction and all the messages within it. This cannot be undone.
       display-name: Delete an interaction
       path-parameters:
-        interaction_id: core.InteractionId
-      response: core.Interaction
+        interaction_id: interaction.InteractionId
+      response: interaction.Interaction
       errors:
         - core.ForbiddenError
         - core.ResourceNotFoundError
@@ -94,5 +95,5 @@ service:
 types:
   InteractionsList:
     properties:
-      data: list<core.Interaction>
+      data: list<interaction.Interaction>
       has_more: core.PaginationHasMore

@@ -2,6 +2,8 @@
 
 imports:
   core: core.yml
+  message: core.message.yml
+  interaction: core.interaction.yml
 
 service:
   auth: false
@@ -17,7 +19,7 @@ service:
       request:
         name: ListMessagesRequest
         query-parameters:
-          interaction_id: core.InteractionId
+          interaction_id: interaction.InteractionId
           limit: core.PaginationLimit
           starting_after: core.PaginationStartingAfter
       response: MessagesList
@@ -34,8 +36,8 @@ service:
       docs: Retrieves the message with the given ID.
       display-name: Retrieve a message
       path-parameters:
-        message_id: core.MessageId
-      response: core.Message
+        message_id: message.MessageId
+      response: message.Message
       errors:
         - core.ForbiddenError
         - core.ResourceNotFoundError
@@ -50,8 +52,8 @@ service:
       display-name: Create a message in an interaction
       request:
         name: CreateMessageRequest
-        body: core.MessageCreateParams
-      response: core.Message
+        body: message.MessageCreateParams
+      response: message.Message
       errors:
         - core.ForbiddenError
         - core.ResourceNotFoundError
@@ -66,11 +68,11 @@ service:
       docs: Resetting a `Message` does 2 things. First it deletes all the `Message`s in the `Interaction` that come after this `Message` (i.e. whose `index` is greater). Then, it updates the content of the `Message`, if you've provided it in the request body.
       display-name: Reset a message
       path-parameters:
-        message_id: core.MessageId
+        message_id: message.MessageId
       request:
         name: ResetMessageRequest
-        body: core.MessageResetParams
-      response: core.Message
+        body: message.MessageResetParams
+      response: message.Message
       errors:
         - core.ForbiddenError
         - core.ResourceNotFoundError
@@ -85,11 +87,11 @@ service:
       docs: Requests a reply from the `Agent` to a given `Message`.
       display-name: Ask for a reply to a message
       path-parameters:
-        message_id: core.MessageId
+        message_id: message.MessageId
       request:
         name: MessageAskRequest
-        body: core.MessageAskParams
-      response: core.Message
+        body: message.MessageAskParams
+      response: message.Message
       errors:
         - core.ForbiddenError
         - core.ResourceNotFoundError
@@ -99,7 +101,7 @@ service:
 types:
   MessagesList:
     properties:
-      data: list<core.Message>
+      data: list<message.Message>
       has_more: core.PaginationHasMore
 
 errors:

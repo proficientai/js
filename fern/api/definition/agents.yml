@@ -2,7 +2,7 @@
 
 imports:
   core: core.yml
-  agent: core.agent.yaml
+  agent: core.agent.yml
 
 service:
   auth: false

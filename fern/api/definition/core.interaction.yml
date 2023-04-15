@@ -1,0 +1,79 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  core: core.yml
+  agent: core.agent.yml
+  message: core.message.yml
+
+types:
+  # Properties
+
+  InteractionId:
+    type: string
+    docs: The unique identifier of the `Interaction`
+    examples:
+      - name: Example0
+        value: int_53mfKtX0Da6zaJCp5bNnzxDaEg1xptWvQDr2
+
+  InteractionObjectType:
+    enum:
+      - interaction
+    docs: The type of the `Interaction` object
+    examples:
+      - name: Example0
+        value: interaction
+
+  InteractionName:
+    type: string
+    docs: The name of the `Interaction`
+    examples:
+      - name: Example0
+        value: interaction
+
+  InteractionParticipant:
+    enum:
+      - user
+      - agent
+    docs: Represents the type of the participant in a given `Interaction`. As an example, `Message`s are created by interaction participants so the `sent_by` property of a `Message` must be an `InteractionParticipant`.
+    examples:
+      - name: Example0
+        value: user
+
+  # Request/Response Interfaces
+
+  InteractionCreateParams:
+    properties:
+      agent_id: agent.AgentId
+    docs: The data with which an `Interaction` is created.
+
+  InteractionCreateResponse:
+    properties:
+      interaction: Interaction
+      messages: list<message.Message>
+    docs: An object that contains the initial interaction data including the `Interaction` object itself and the initial `Message`s associated with it.
+
+  InteractionUpdateParams:
+    properties:
+      name: optional<InteractionName>
+    docs: The data with which an `Interaction` is updated.
+
+  # Resource
+
+  Interaction:
+    properties:
+      id: InteractionId
+      object: InteractionObjectType
+      agent_id: agent.AgentId
+      archived:
+        type: boolean
+        docs: Whether the interaction has been archived by the user
+      created_at: core.CreatedAt
+      name: InteractionName
+      total_message_count:
+        type: integer
+        docs: The total number of messages in the interaction
+      updated_at: core.UpdatedAt
+      user_id:
+        type: string
+        docs: The unique identifier of the user
+    docs: <p>Users communicate with agents via <i>interactions</i>. You can think of each interaction as a conversation between an agent and user.</p>
