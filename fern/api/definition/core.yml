@@ -1,5 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
 
+imports:
+  agent: core.agent.yaml
+
 types:
   # Error interface
   ApiErrorCode:
@@ -54,36 +57,6 @@ types:
     examples:
       - name: Example0
         value: 1671631799692
-
-  # Agent
-
-  AgentId:
-    type: string
-    docs: The unique identifier of the `Agent`
-    examples:
-      - name: Example0
-        value: ag_Lad8YCGGiDLiqIZPWRXmc2ix
-
-  AgentObjectType:
-    enum:
-      - agent
-    docs: The type of the `Agent` object
-    examples:
-      - name: Example0
-        value: agent
-
-  AgentCreateParams:
-    properties:
-      name: string
-      # TODO: Implement rest
-    docs: The data with which an `Agent` is created.
-
-  AgentUpdateParams:
-    properties:
-      name: string
-      # TODO: Implement rest
-    docs: The data with which an `Agent` is updated.
-
 
   # Interaction
 
@@ -153,7 +126,7 @@ types:
 
   InteractionCreateParams:
     properties:
-      agent_id: AgentId
+      agent_id: agent.AgentId
     docs: The data with which an `Interaction` is created.
 
   InteractionCreateResponse:
@@ -187,38 +160,11 @@ types:
 
   # Objects
 
-  Agent:
-    properties:
-      id: AgentId
-      object: AgentObjectType
-      active:
-        type: boolean
-        docs: Whether the `Agent` is currently active. If not, users will not be able to communicate with the `Agent`.
-      name:
-        type: string
-        docs: The name of the `Agent`
-      description:
-        type: string
-        docs: The description of the `Agent`
-      created_at: CreatedAt
-      updated_at: UpdatedAt
-    examples:
-      - name: Example0
-        value:
-          id: $AgentId.Example0
-          object: agent
-          active: true
-          name: Eliza
-          description: A general-purpose assistant
-          created_at: $CreatedAt.Example0
-          updated_at: $UpdatedAt.Example0
-    docs: <p>An _agent_ is an AI entity that exists to serve your organization. Agents are intelligent, configurable and context-aware and can interact with your users via a messaging system enabled by the Proficient API.</p>
-
   Interaction:
     properties:
       id: InteractionId
       object: InteractionObjectType
-      agent_id: AgentId
+      agent_id: agent.AgentId
       archived:
         type: boolean
         docs: Whether the interaction has been archived by the user

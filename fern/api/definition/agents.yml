@@ -2,6 +2,7 @@
 
 imports:
   core: core.yml
+  agent: core.agent.yaml
 
 service:
   auth: false
@@ -28,8 +29,8 @@ service:
       docs: Retrieves the agent with the given ID.
       display-name: Retrieve an agent
       path-parameters:
-        agent_id: core.AgentId
-      response: core.Agent
+        agent_id: agent.AgentId
+      response: agent.Agent
       errors:
         - core.ResourceNotFoundError
         - core.InternalError
@@ -43,8 +44,8 @@ service:
       display-name: Create an agent
       request:
         name: CreateAgentRequest
-        body: core.AgentCreateParams
-      response: core.Agent
+        body: agent.AgentCreateParams
+      response: agent.Agent
       errors:
         - core.InvalidRequestError
         - core.ForbiddenError
@@ -58,11 +59,11 @@ service:
       docs: Updates the properties of the specified agent. Only the provided properties will be updated. Any properties not provided will be left unchanged.
       display-name: Update an agent
       path-parameters:
-        age: core.AgentId
+        agent_id: agent.AgentId
       request:
         name: UpdateAgentRequest
-        body: core.AgentUpdateParams
-      response: core.Agent
+        body: agent.AgentUpdateParams
+      response: agent.Agent
       errors:
         - core.InvalidRequestError
         - core.ForbiddenError
@@ -73,4 +74,4 @@ service:
 types:
   AgentsList:
     properties:
-      data: list<core.Agent>
+      data: list<agent.Agent>

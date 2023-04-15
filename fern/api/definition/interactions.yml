@@ -2,6 +2,7 @@
 
 imports:
   core: core.yml
+  agent: core.agent.yaml
 
 service:
   auth: false
@@ -17,7 +18,7 @@ service:
       request:
         name: ListInteractionsRequest
         query-parameters:
-          agent_id: optional<core.AgentId>
+          agent_id: optional<agent.AgentId>
           limit: core.PaginationLimit
           starting_after: core.PaginationStartingAfter
       response: InteractionsList

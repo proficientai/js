@@ -524,6 +524,52 @@ components:
             $ref: '#/components/schemas/Agent'
       required:
         - data
+    AgentId:
+      type: string
+      description: The unique identifier of the `Agent`
+    AgentObjectType:
+      type: string
+      enum:
+        - agent
+      description: The type of the `Agent` object
+    Agent:
+      type: object
+      description: >-
+        <p>An _agent_ is an AI entity that exists to serve your organization.
+        Agents are intelligent, configurable and context-aware and can interact
+        with your users via a messaging system enabled by the Proficient
+        API.</p>
+      properties:
+        id:
+          $ref: '#/components/schemas/AgentId'
+        object:
+          $ref: '#/components/schemas/AgentObjectType'
+        active:
+          type: boolean
+          description: >-
+            Whether the `Agent` is currently active. If not, users will not be
+            able to communicate with the `Agent`.
+          example: true
+        name:
+          type: string
+          description: The name of the `Agent`
+          example: Eliza
+        description:
+          type: string
+          description: The description of the `Agent`
+          example: A general-purpose assistant
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+      required:
+        - id
+        - object
+        - active
+        - name
+        - description
+        - created_at
+        - updated_at
     ApiErrorCode:
       type: string
       enum:
@@ -582,14 +628,6 @@ components:
       description: >-
         The time at which the object was last updated, measured in milliseconds
         since the Unix epoch
-    AgentId:
-      type: string
-      description: The unique identifier of the `Agent`
-    AgentObjectType:
-      type: string
-      enum:
-        - agent
-      description: The type of the `Agent` object
     InteractionId:
       type: string
       description: The unique identifier of the `Interaction`
@@ -682,44 +720,6 @@ components:
           $ref: '#/components/schemas/InteractionId'
       required:
         - interaction_id
-    Agent:
-      type: object
-      description: >-
-        <p>An _agent_ is an AI entity that exists to serve your organization.
-        Agents are intelligent, configurable and context-aware and can interact
-        with your users via a messaging system enabled by the Proficient
-        API.</p>
-      properties:
-        id:
-          $ref: '#/components/schemas/AgentId'
-        object:
-          $ref: '#/components/schemas/AgentObjectType'
-        active:
-          type: boolean
-          description: >-
-            Whether the `Agent` is currently active. If not, users will not be
-            able to communicate with the `Agent`.
-          example: true
-        name:
-          type: string
-          description: The name of the `Agent`
-          example: Eliza
-        description:
-          type: string
-          description: The description of the `Agent`
-          example: A general-purpose assistant
-        created_at:
-          $ref: '#/components/schemas/CreatedAt'
-        updated_at:
-          $ref: '#/components/schemas/UpdatedAt'
-      required:
-        - id
-        - object
-        - active
-        - name
-        - description
-        - created_at
-        - updated_at
     Interaction:
       type: object
       description: >-
