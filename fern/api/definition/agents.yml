@@ -50,6 +50,26 @@ service:
         - core.ForbiddenError
         - core.InternalError
 
+    update:
+      audiences:
+        - admin
+      path: /{agent_id}
+      method: POST
+      docs: Updates the properties of the specified agent. Only the provided properties will be updated. Any properties not provided will be left unchanged.
+      display-name: Update an agent
+      path-parameters:
+        age: core.AgentId
+      request:
+        name: UpdateAgentRequest
+        body: core.AgentUpdateParams
+      response: core.Agent
+      errors:
+        - core.InvalidRequestError
+        - core.ForbiddenError
+        - core.ResourceNotFoundError
+        - core.InternalError
+        - core.ServiceUnavailableError
+
 types:
   AgentsList:
     properties:

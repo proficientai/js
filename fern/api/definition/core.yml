@@ -78,6 +78,13 @@ types:
       # TODO: Implement rest
     docs: The data with which an `Agent` is created.
 
+  AgentUpdateParams:
+    properties:
+      name: string
+      # TODO: Implement rest
+    docs: The data with which an `Agent` is updated.
+
+
   # Interaction
 
   InteractionId:
