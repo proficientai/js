@@ -104,6 +104,36 @@ service:
         - core.InternalError
         - core.ServiceUnavailableError
 
+    activate:
+      audiences:
+        - admin
+      path: /{agent_id}/activate
+      method: POST
+      docs: Activates the specified agent. New message or interaction requests sent to this agent will not be blocked while the agent is active. This request does not fail if the agent is already active.
+      display-name: Activate an agent
+      path-parameters:
+        agent_id: agent.AgentId
+      response: agent.Agent
+      errors:
+        - core.ResourceNotFoundError
+        - core.InternalError
+        - core.ServiceUnavailableError
+
+    deactivate:
+      audiences:
+        - admin
+      path: /{agent_id}/deactivate
+      method: POST
+      docs: Deactivates the specified agent. Any new message or interaction requests sent to this agent will be blocked while the agent is disabled. This request does not fail if the agent is already deactivated.
+      display-name: Deactivate an agent
+      path-parameters:
+        agent_id: agent.AgentId
+      response: agent.Agent
+      errors:
+        - core.ResourceNotFoundError
+        - core.InternalError
+        - core.ServiceUnavailableError
+
     delete:
       audiences:
         - admin
