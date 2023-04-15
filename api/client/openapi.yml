@@ -581,9 +581,15 @@ components:
       enum:
         - interaction
       description: The type of the `Interaction` object
+    InteractionArchived:
+      type: boolean
+      description: Whether the interaction has been archived by the user
     InteractionName:
       type: string
       description: The name of the interaction
+    InteractionTotalMessageCount:
+      type: integer
+      description: The total number of messages in the interaction
     InteractionParticipant:
       type: string
       enum:
@@ -636,20 +642,19 @@ components:
         agent_id:
           $ref: '#/components/schemas/AgentId'
         archived:
-          type: boolean
-          description: Whether the interaction has been archived by the user
+          $ref: '#/components/schemas/InteractionArchived'
         created_at:
           $ref: '#/components/schemas/CreatedAt'
         name:
           $ref: '#/components/schemas/InteractionName'
         total_message_count:
-          type: integer
-          description: The total number of messages in the interaction
+          $ref: '#/components/schemas/InteractionTotalMessageCount'
         updated_at:
           $ref: '#/components/schemas/UpdatedAt'
         user_id:
           type: string
           description: The unique identifier of the user
+          example: string
       required:
         - id
         - object
@@ -671,6 +676,12 @@ components:
     MessageContent:
       type: string
       description: The content of the message
+    MessageIndex:
+      type: integer
+      description: >-
+        The 0-based index of the message. The index represents the position of
+        the message within the interaction, where the first (i.e. the oldest)
+        message will have an index of 0.
     MessageCreateParams:
       type: object
       description: The data with which a message is created.
@@ -713,27 +724,23 @@ components:
           $ref: '#/components/schemas/MessageId'
         object:
           $ref: '#/components/schemas/MessageObjectType'
-        index:
-          type: integer
-          description: >-
-            The 0-based index of the message. The index represents the position
-            of the message within the interaction, where the first (i.e. the
-            oldest) message will have an index of 0.
-        interaction_id:
-          $ref: '#/components/schemas/InteractionId'
-        created_at:
-          $ref: '#/components/schemas/CreatedAt'
         content:
           $ref: '#/components/schemas/MessageContent'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        index:
+          $ref: '#/components/schemas/MessageIndex'
+        interaction_id:
+          $ref: '#/components/schemas/InteractionId'
         sent_by:
           $ref: '#/components/schemas/InteractionParticipant'
       required:
         - id
         - object
+        - content
+        - created_at
         - index
         - interaction_id
-        - created_at
-        - content
         - sent_by
     ApiErrorCode:
       type: string
@@ -817,7 +824,11 @@ components:
       required:
         - data
         - has_more
-  securitySchemes: {}
+  securitySchemes:
+    AuthorizationAuth:
+      type: apiKey
+      in: header
+      name: Authorization
 servers:
   - url: https://api.proficientai.com
     description: Production (The production environment)

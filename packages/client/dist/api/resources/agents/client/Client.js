@@ -49,6 +49,7 @@ class Agents {
             url: (0, url_join_1.default)(this.options.environment, "/agents"),
             method: "GET",
             headers: {
+                Authorization: await this._getAuthorizationHeader(),
                 "X-PROFICIENT-API-KEY": await core.Supplier.get(this.options.xProficientApiKey),
                 "X-PROFICIENT-USER-EXTERNAL-ID": await core.Supplier.get(this.options.xProficientUserExternalId),
                 "X-PROFICIENT-USER-HMAC": await core.Supplier.get(this.options.xProficientUserHmac),
@@ -101,6 +102,7 @@ class Agents {
             url: (0, url_join_1.default)(this.options.environment, `/agents/${await serializers.AgentId.jsonOrThrow(agentId)}`),
             method: "GET",
             headers: {
+                Authorization: await this._getAuthorizationHeader(),
                 "X-PROFICIENT-API-KEY": await core.Supplier.get(this.options.xProficientApiKey),
                 "X-PROFICIENT-USER-EXTERNAL-ID": await core.Supplier.get(this.options.xProficientUserExternalId),
                 "X-PROFICIENT-USER-HMAC": await core.Supplier.get(this.options.xProficientUserHmac),
@@ -148,6 +150,13 @@ class Agents {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+    async _getAuthorizationHeader() {
+        const value = await core.Supplier.get(this.options.authorization);
+        if (value != null) {
+            return value;
+        }
+        return undefined;
     }
 }
 exports.Agents = Agents;

@@ -547,7 +547,11 @@ components:
       description: >-
         The time at which the object was last updated, measured in milliseconds
         since the Unix epoch
-  securitySchemes: {}
+  securitySchemes:
+    AuthorizationAuth:
+      type: apiKey
+      in: header
+      name: Authorization
 servers:
   - url: https://api.proficientai.com
     description: Production (The production environment)

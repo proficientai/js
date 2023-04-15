@@ -4,5 +4,8 @@
 import { Proficient } from "../../../..";
 /**
  * Indicates who sends the first message in each interaction. Defaults to `"user"`.
+ *
+ * @example
+ *     Proficient.InteractionParticipant.User
  */
 export declare type InitialTurn = Proficient.InteractionParticipant;

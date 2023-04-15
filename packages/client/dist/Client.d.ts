@@ -9,8 +9,9 @@ import { Messages } from "./api/resources/messages/client/Client";
 export declare namespace ProficientClient {
     interface Options {
         environment: environments.ProficientEnvironment | string;
-        xProficientApiKey: core.Supplier<string>;
-        xProficientUserExternalId: core.Supplier<string>;
+        authorization?: core.Supplier<string | undefined>;
+        xProficientApiKey?: core.Supplier<string | undefined>;
+        xProficientUserExternalId?: core.Supplier<string | undefined>;
         xProficientUserHmac?: core.Supplier<string | undefined>;
     }
 }

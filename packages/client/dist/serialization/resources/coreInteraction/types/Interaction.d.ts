@@ -10,10 +10,10 @@ export declare namespace Interaction {
         id: serializers.InteractionId.Raw;
         object: serializers.InteractionObjectType.Raw;
         agent_id: serializers.AgentId.Raw;
-        archived: boolean;
+        archived: serializers.InteractionArchived.Raw;
         created_at: serializers.CreatedAt.Raw;
         name: serializers.InteractionName.Raw;
-        total_message_count: number;
+        total_message_count: serializers.InteractionTotalMessageCount.Raw;
         updated_at: serializers.UpdatedAt.Raw;
         user_id: string;
     }

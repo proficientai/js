@@ -61,6 +61,7 @@ class Messages {
             url: (0, url_join_1.default)(this.options.environment, "/messages"),
             method: "GET",
             headers: {
+                Authorization: await this._getAuthorizationHeader(),
                 "X-PROFICIENT-API-KEY": await core.Supplier.get(this.options.xProficientApiKey),
                 "X-PROFICIENT-USER-EXTERNAL-ID": await core.Supplier.get(this.options.xProficientUserExternalId),
                 "X-PROFICIENT-USER-HMAC": await core.Supplier.get(this.options.xProficientUserHmac),
@@ -127,6 +128,7 @@ class Messages {
             url: (0, url_join_1.default)(this.options.environment, `/messages/${await serializers.MessageId.jsonOrThrow(messageId)}`),
             method: "GET",
             headers: {
+                Authorization: await this._getAuthorizationHeader(),
                 "X-PROFICIENT-API-KEY": await core.Supplier.get(this.options.xProficientApiKey),
                 "X-PROFICIENT-USER-EXTERNAL-ID": await core.Supplier.get(this.options.xProficientUserExternalId),
                 "X-PROFICIENT-USER-HMAC": await core.Supplier.get(this.options.xProficientUserHmac),
@@ -193,6 +195,7 @@ class Messages {
             url: (0, url_join_1.default)(this.options.environment, "/messages"),
             method: "POST",
             headers: {
+                Authorization: await this._getAuthorizationHeader(),
                 "X-PROFICIENT-API-KEY": await core.Supplier.get(this.options.xProficientApiKey),
                 "X-PROFICIENT-USER-EXTERNAL-ID": await core.Supplier.get(this.options.xProficientUserExternalId),
                 "X-PROFICIENT-USER-HMAC": await core.Supplier.get(this.options.xProficientUserHmac),
@@ -266,6 +269,7 @@ class Messages {
             url: (0, url_join_1.default)(this.options.environment, `/messages/${await serializers.MessageId.jsonOrThrow(messageId)}`),
             method: "POST",
             headers: {
+                Authorization: await this._getAuthorizationHeader(),
                 "X-PROFICIENT-API-KEY": await core.Supplier.get(this.options.xProficientApiKey),
                 "X-PROFICIENT-USER-EXTERNAL-ID": await core.Supplier.get(this.options.xProficientUserExternalId),
                 "X-PROFICIENT-USER-HMAC": await core.Supplier.get(this.options.xProficientUserHmac),
@@ -339,6 +343,7 @@ class Messages {
             url: (0, url_join_1.default)(this.options.environment, `/messages/${await serializers.MessageId.jsonOrThrow(messageId)}/ask`),
             method: "POST",
             headers: {
+                Authorization: await this._getAuthorizationHeader(),
                 "X-PROFICIENT-API-KEY": await core.Supplier.get(this.options.xProficientApiKey),
                 "X-PROFICIENT-USER-EXTERNAL-ID": await core.Supplier.get(this.options.xProficientUserExternalId),
                 "X-PROFICIENT-USER-HMAC": await core.Supplier.get(this.options.xProficientUserHmac),
@@ -399,6 +404,13 @@ class Messages {
                     message: _response.error.errorMessage,
                 });
         }
+    }
+    async _getAuthorizationHeader() {
+        const value = await core.Supplier.get(this.options.authorization);
+        if (value != null) {
+            return value;
+        }
+        return undefined;
     }
 }
 exports.Messages = Messages;

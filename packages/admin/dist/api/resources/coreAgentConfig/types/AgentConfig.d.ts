@@ -4,6 +4,16 @@
 import { Proficient } from "../../../..";
 /**
  * Represents the current configuration of the agent. This is an admin-level resource that is not exposed to the users.
+ *
+ * @example
+ *     {
+ *         object: Proficient.AgentConfigObjectType.AgentConfig,
+ *         agentId: "ag_Lad8YCGGiDLiqIZPWRXmc2ix",
+ *         provider: Proficient.Provider.OpenaiGpt4,
+ *         systemMessage: "You are a helpful AI assistant developed by Acme, Inc. and your job is to help its users with a wide range of tasks.",
+ *         initialTurn: Proficient.InteractionParticipant.User,
+ *         greetingMessage: "Hello, how may I help you today?"
+ *     }
  */
 export interface AgentConfig {
     object: Proficient.AgentConfigObjectType;

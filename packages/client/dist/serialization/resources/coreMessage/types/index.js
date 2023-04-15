@@ -17,6 +17,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./MessageId"), exports);
 __exportStar(require("./MessageObjectType"), exports);
 __exportStar(require("./MessageContent"), exports);
+__exportStar(require("./MessageIndex"), exports);
 __exportStar(require("./MessageCreateParams"), exports);
 __exportStar(require("./MessageResetParams"), exports);
 __exportStar(require("./MessageAskParams"), exports);

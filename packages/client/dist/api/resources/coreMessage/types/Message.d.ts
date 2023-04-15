@@ -4,14 +4,24 @@
 import { Proficient } from "../../../..";
 /**
  * <p>Each interaction holds a number of <i>messages</i> and every message belongs to an interaction. The `sent_by` property of a message indicates whether a message was created by an agent or a user.</p>
+ *
+ * @example
+ *     {
+ *         id: "msg_BlzvLJ8h2QZY8QOK3vjhIlqK43zciPzpPgIhvTo8ai2VnQIW",
+ *         object: Proficient.MessageObjectType.Message,
+ *         content: "Tell me some interesting facts about Archimedes.",
+ *         createdAt: 1671631795145,
+ *         index: 11,
+ *         interactionId: "int_53mfKtX0Da6zaJCp5bNnzxDaEg1xptWvQDr2",
+ *         sentBy: Proficient.InteractionParticipant.User
+ *     }
  */
 export interface Message {
     id: Proficient.MessageId;
     object: Proficient.MessageObjectType;
-    /** The 0-based index of the message. The index represents the position of the message within the interaction, where the first (i.e. the oldest) message will have an index of 0. */
-    index: number;
-    interactionId: Proficient.InteractionId;
-    createdAt: Proficient.CreatedAt;
     content: Proficient.MessageContent;
+    createdAt: Proficient.CreatedAt;
+    index: Proficient.MessageIndex;
+    interactionId: Proficient.InteractionId;
     sentBy: Proficient.InteractionParticipant;
 }

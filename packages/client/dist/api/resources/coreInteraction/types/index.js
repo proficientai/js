@@ -16,7 +16,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./InteractionId"), exports);
 __exportStar(require("./InteractionObjectType"), exports);
+__exportStar(require("./InteractionArchived"), exports);
 __exportStar(require("./InteractionName"), exports);
+__exportStar(require("./InteractionTotalMessageCount"), exports);
 __exportStar(require("./InteractionParticipant"), exports);
 __exportStar(require("./InteractionCreateParams"), exports);
 __exportStar(require("./InteractionCreateResponse"), exports);

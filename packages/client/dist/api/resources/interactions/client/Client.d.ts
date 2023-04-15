@@ -7,8 +7,9 @@ import { Proficient } from "../../../..";
 export declare namespace Interactions {
     interface Options {
         environment: environments.ProficientEnvironment | string;
-        xProficientApiKey: core.Supplier<string>;
-        xProficientUserExternalId: core.Supplier<string>;
+        authorization?: core.Supplier<string | undefined>;
+        xProficientApiKey?: core.Supplier<string | undefined>;
+        xProficientUserExternalId?: core.Supplier<string | undefined>;
         xProficientUserHmac?: core.Supplier<string | undefined>;
     }
 }
@@ -51,4 +52,5 @@ export declare class Interactions {
      * @throws {Proficient.ServiceUnavailableError}
      */
     delete(interactionId: Proficient.InteractionId): Promise<Proficient.Interaction>;
+    private _getAuthorizationHeader;
 }

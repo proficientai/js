@@ -9,10 +9,10 @@ export declare namespace Message {
     interface Raw {
         id: serializers.MessageId.Raw;
         object: serializers.MessageObjectType.Raw;
-        index: number;
-        interaction_id: serializers.InteractionId.Raw;
-        created_at: serializers.CreatedAt.Raw;
         content: serializers.MessageContent.Raw;
+        created_at: serializers.CreatedAt.Raw;
+        index: serializers.MessageIndex.Raw;
+        interaction_id: serializers.InteractionId.Raw;
         sent_by: serializers.InteractionParticipant.Raw;
     }
 }

@@ -10,8 +10,8 @@ import { Proficient } from "../../../..";
  *         id: "ag_Lad8YCGGiDLiqIZPWRXmc2ix",
  *         object: Proficient.AgentObjectType.Agent,
  *         active: true,
- *         name: "Eliza",
- *         description: "A general-purpose assistant",
+ *         name: "Taya",
+ *         description: "An AI assistant that helps job seekers with their job applications.",
  *         createdAt: 1671631795145,
  *         updatedAt: 1671631799692
  *     }

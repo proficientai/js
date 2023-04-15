@@ -26,14 +26,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Message = void 0;
+exports.MessageIndex = void 0;
 const core = __importStar(require("../../../../core"));
-exports.Message = core.serialization.object({
-    id: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).MessageId),
-    object: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).MessageObjectType),
-    content: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).MessageContent),
-    createdAt: core.serialization.property("created_at", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).CreatedAt)),
-    index: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).MessageIndex),
-    interactionId: core.serialization.property("interaction_id", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InteractionId)),
-    sentBy: core.serialization.property("sent_by", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InteractionParticipant)),
-});
+exports.MessageIndex = core.serialization.number();
