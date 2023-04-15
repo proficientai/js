@@ -5,6 +5,7 @@ imports:
 
 types:
   # Error interface
+
   ApiErrorCode:
     enum:
       - invalid_request

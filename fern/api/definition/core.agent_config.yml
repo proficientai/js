@@ -1,0 +1,72 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  core: core.yml
+  agent: core.agent.yml
+  interaction: core.interaction.yml
+
+types:
+  # Properties
+
+  AgentConfigObjectType:
+    audiences:
+      - admin
+    enum:
+      - agent_config
+    docs: The type of the `AgentConfig` object
+    examples:
+      - name: Example0
+        value: agent_config
+
+  Provider:
+    audiences:
+      - admin
+    enum:
+      - name: openai_gpt_4
+        value: openai.gpt-4
+      - name: openai_gpt_3_5_turbo
+        value: openai.gpt-3.5-turbo
+    docs: The provider of the agent. A provider is the underlying model that powers the agent.
+
+  SystemMessage:
+    audiences:
+      - admin
+    type: string
+    docs: The message used you provide to the agent.
+    examples:
+      - name: Example0
+        value: You are a helpful AI assistant developed by Acme, Inc. and your job is to help its users with a wide range of tasks.
+
+  GreetingMessage:
+    audiences:
+      - admin
+    type: string
+    docs: The message sent by the agent at the beginning of each interaction.
+    examples:
+      - name: Example0
+        value: Hello, how may I help you today?
+
+  # Request/Response Interfaces
+
+  AgentConfigUpdateParams:
+    audiences:
+      - admin
+    properties:
+      system_message: optional<SystemMessage>
+      initial_turn: optional<interaction.InteractionParticipant>
+      greeting_message: optional<GreetingMessage>
+    docs: The data with which an `AgentConfig` is updated.
+
+  # Resource
+
+  AgentConfig:
+    audiences:
+      - admin
+    properties:
+      object: AgentConfigObjectType
+      agent_id: agent.AgentId
+      provider: Provider
+      system_message: SystemMessage
+      initial_turn: interaction.InteractionParticipant
+      greeting_message: GreetingMessage
+    docs: Represents the current configuration of the agent. This is an admin-level resource that is not exposed to the users.
