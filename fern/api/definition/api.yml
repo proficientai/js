@@ -4,6 +4,13 @@ audiences:
   - admin
   - client
 
+auth: Authorization
+
+auth-schemes:
+  Authorization:
+    header: Authorization
+    type: optional<string>
+
 environments:
   Production:
     docs: The production environment
@@ -18,8 +25,8 @@ environments:
 default-environment: null
 
 headers:
-  X-PROFICIENT-API-KEY: string
-  X-PROFICIENT-USER-EXTERNAL-ID: string
+  X-PROFICIENT-API-KEY: optional<string>
+  X-PROFICIENT-USER-EXTERNAL-ID: optional<string>
   X-PROFICIENT-USER-HMAC: optional<string>
 
 error-discrimination:
