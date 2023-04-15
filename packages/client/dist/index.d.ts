@@ -1,4 +1,3 @@
-export * as Proficient from "./api";
-export { ProficientClient } from "./Client";
-export { ProficientEnvironment } from "./environments";
-export { ProficientError, ProficientTimeoutError } from "./errors";
+export { ProficientClient, type ProficientClientConfig } from './client';
+export { type Proficient, ProficientEnvironment } from '../core';
+//# sourceMappingURL=index.d.ts.map

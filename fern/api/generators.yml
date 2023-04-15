@@ -19,7 +19,7 @@ groups:
         version: 0.5.7
         output:
           location: local-file-system
-          path: ../../packages/admin/dist
+          path: ../../packages/admin/core
         config:
           namespaceExport: Proficient
       - name: fernapi/fern-openapi
@@ -35,7 +35,7 @@ groups:
         version: 0.5.7
         output:
           location: local-file-system
-          path: ../../packages/client/dist
+          path: ../../packages/client/core
         config:
           namespaceExport: Proficient
       - name: fernapi/fern-openapi
