@@ -5,7 +5,6 @@ import { Proficient } from "../../../..";
 /**
  * Represents the general interface of an API error. The body of every error returned by the API contains `code` and `message` fields.
  */
-export interface Error {
-    code: Proficient.ErrorCode;
-    message: string;
+export interface ApiError {
+    error: Proficient.ApiErrorBody;
 }

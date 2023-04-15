@@ -4,5 +4,5 @@
 import * as errors from "../../../../errors";
 import { Proficient } from "../../../..";
 export declare class ResourceNotFoundError extends errors.ProficientError {
-    constructor(body: Proficient.Error);
+    constructor(body: Proficient.ApiError);
 }

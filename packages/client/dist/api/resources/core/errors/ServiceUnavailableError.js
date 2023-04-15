@@ -26,14 +26,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ErrorCode = void 0;
-const core = __importStar(require("../../../../core"));
-exports.ErrorCode = core.serialization.enum_([
-    "invalid_request",
-    "invalid_credentials",
-    "forbidden",
-    "resource_not_found",
-    "conflict",
-    "unavailable",
-    "unknown",
-]);
+exports.ServiceUnavailableError = void 0;
+const errors = __importStar(require("../../../../errors"));
+class ServiceUnavailableError extends errors.ProficientError {
+    constructor(body) {
+        super({
+            message: "ServiceUnavailableError",
+            statusCode: 503,
+            body: body,
+        });
+        Object.setPrototypeOf(this, ServiceUnavailableError.prototype);
+    }
+}
+exports.ServiceUnavailableError = ServiceUnavailableError;

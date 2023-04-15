@@ -17,24 +17,38 @@ export declare class Interactions {
     constructor(options: Interactions.Options);
     /**
      * Returns a list of interactions associated with the user. The interactions are returned sorted by creation date, with the most recently created interactions appearing first.
+     * @throws {Proficient.ForbiddenError}
      * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
      */
     list(request?: Proficient.ListInteractionsRequest): Promise<Proficient.InteractionsList>;
     /**
      * Retrieves the interaction with the given ID.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
      */
     get(interactionId: Proficient.InteractionId): Promise<Proficient.Interaction>;
     /**
      * Creates a new `Interaction` with an agent.
+     * @throws {Proficient.ForbiddenError}
      * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
      */
     create(request: Proficient.InteractionCreateParams): Promise<Proficient.InteractionCreateResponse>;
     /**
      * Updates the properties of the specified interaction. Only the provided properties will be updated. Any properties not provided will be left unchanged.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
      */
     update(interactionId: Proficient.InteractionId, request: Proficient.InteractionUpdateParams): Promise<Proficient.Interaction>;
     /**
      * Permanently deletes the specified interaction and all the messages within it. This cannot be undone.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
+     * @throws {Proficient.ServiceUnavailableError}
      */
     delete(interactionId: Proficient.InteractionId): Promise<Proficient.Interaction>;
 }

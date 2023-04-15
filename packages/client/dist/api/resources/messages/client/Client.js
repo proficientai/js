@@ -31,6 +31,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Messages = void 0;
 const core = __importStar(require("../../../../core"));
+const __1 = require("../../../..");
 const url_search_params_1 = __importDefault(require("@ungap/url-search-params"));
 const url_join_1 = __importDefault(require("url-join"));
 const serializers = __importStar(require("../../../../serialization"));
@@ -42,6 +43,9 @@ class Messages {
     }
     /**
      * Returns a list of all messages in the specified interaction. The messages are returned sorted by creation date, with the most recently created messages appearing first.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
      */
     async list(request) {
         const { interactionId, limit, startingAfter } = request;
@@ -72,10 +76,31 @@ class Messages {
             });
         }
         if (_response.error.reason === "status-code") {
-            throw new errors.ProficientError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-            });
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 404:
+                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 500:
+                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                default:
+                    throw new errors.ProficientError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
         }
         switch (_response.error.reason) {
             case "non-json":
@@ -93,6 +118,9 @@ class Messages {
     }
     /**
      * Retrieves the message with the given ID.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
      */
     async get(messageId) {
         const _response = await core.fetcher({
@@ -113,10 +141,31 @@ class Messages {
             });
         }
         if (_response.error.reason === "status-code") {
-            throw new errors.ProficientError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-            });
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 404:
+                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 500:
+                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                default:
+                    throw new errors.ProficientError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
         }
         switch (_response.error.reason) {
             case "non-json":
@@ -134,6 +183,10 @@ class Messages {
     }
     /**
      * Creates a new `Message` in a given `Interaction`
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.ConflictError}
+     * @throws {Proficient.InternalError}
      */
     async create(request) {
         const _response = await core.fetcher({
@@ -155,10 +208,37 @@ class Messages {
             });
         }
         if (_response.error.reason === "status-code") {
-            throw new errors.ProficientError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-            });
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 404:
+                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 409:
+                    throw new __1.Proficient.ConflictError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 500:
+                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                default:
+                    throw new errors.ProficientError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
         }
         switch (_response.error.reason) {
             case "non-json":
@@ -176,6 +256,10 @@ class Messages {
     }
     /**
      * Resetting a `Message` does 2 things. First it deletes all the `Message`s in the `Interaction` that come after this `Message` (i.e. whose `index` is greater). Then, it updates the content of the `Message`, if you've provided it in the request body.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.ConflictError}
+     * @throws {Proficient.InternalError}
      */
     async reset(messageId, request) {
         const _response = await core.fetcher({
@@ -197,10 +281,37 @@ class Messages {
             });
         }
         if (_response.error.reason === "status-code") {
-            throw new errors.ProficientError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-            });
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 404:
+                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 409:
+                    throw new __1.Proficient.ConflictError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 500:
+                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                default:
+                    throw new errors.ProficientError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
         }
         switch (_response.error.reason) {
             case "non-json":
@@ -218,6 +329,10 @@ class Messages {
     }
     /**
      * Requests a reply from the `Agent` to a given `Message`.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.ConflictError}
+     * @throws {Proficient.InternalError}
      */
     async ask(messageId, request) {
         const _response = await core.fetcher({
@@ -239,10 +354,37 @@ class Messages {
             });
         }
         if (_response.error.reason === "status-code") {
-            throw new errors.ProficientError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-            });
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 404:
+                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 409:
+                    throw new __1.Proficient.ConflictError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 500:
+                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                default:
+                    throw new errors.ProficientError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
         }
         switch (_response.error.reason) {
             case "non-json":

@@ -4,10 +4,10 @@
 import * as serializers from "../../..";
 import { Proficient } from "../../../..";
 import * as core from "../../../../core";
-export declare const Error: core.serialization.ObjectSchema<serializers.Error.Raw, Proficient.Error>;
-export declare namespace Error {
+export declare const ApiErrorBody: core.serialization.ObjectSchema<serializers.ApiErrorBody.Raw, Proficient.ApiErrorBody>;
+export declare namespace ApiErrorBody {
     interface Raw {
-        code: serializers.ErrorCode.Raw;
+        code: serializers.ApiErrorCode.Raw;
         message: string;
     }
 }

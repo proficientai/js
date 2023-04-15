@@ -3,6 +3,6 @@
  */
 import * as errors from "../../../../errors";
 import { Proficient } from "../../../..";
-export declare class ResourceNotFoundError extends errors.ProficientError {
+export declare class InternalError extends errors.ProficientError {
     constructor(body: Proficient.ApiError);
 }

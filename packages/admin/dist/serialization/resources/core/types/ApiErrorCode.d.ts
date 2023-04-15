@@ -4,7 +4,7 @@
 import * as serializers from "../../..";
 import { Proficient } from "../../../..";
 import * as core from "../../../../core";
-export declare const ErrorCode: core.serialization.Schema<serializers.ErrorCode.Raw, Proficient.ErrorCode>;
-export declare namespace ErrorCode {
+export declare const ApiErrorCode: core.serialization.Schema<serializers.ApiErrorCode.Raw, Proficient.ApiErrorCode>;
+export declare namespace ApiErrorCode {
     type Raw = "invalid_request" | "invalid_credentials" | "forbidden" | "resource_not_found" | "conflict" | "unavailable" | "unknown";
 }

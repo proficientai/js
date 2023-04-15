@@ -20,6 +20,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AgentsList'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: List all agents
     post:
       description: Creates a new agent with the given properties.
@@ -34,6 +40,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Agent'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: Create an agent
       requestBody:
         required: true
@@ -65,7 +89,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: Retrieve an agent
 components:
   schemas:
@@ -78,7 +108,7 @@ components:
             $ref: '#/components/schemas/Agent'
       required:
         - data
-    ErrorCode:
+    ApiErrorCode:
       type: string
       enum:
         - invalid_request
@@ -88,19 +118,26 @@ components:
         - conflict
         - unavailable
         - unknown
-    Error:
+    ApiErrorBody:
       type: object
-      description: >-
-        Represents the general interface of an API error. The body of every
-        error returned by the API contains `code` and `message` fields.
       properties:
         code:
-          $ref: '#/components/schemas/ErrorCode'
+          $ref: '#/components/schemas/ApiErrorCode'
         message:
           type: string
       required:
         - code
         - message
+    ApiError:
+      type: object
+      description: >-
+        Represents the general interface of an API error. The body of every
+        error returned by the API contains `code` and `message` fields.
+      properties:
+        error:
+          $ref: '#/components/schemas/ApiErrorBody'
+      required:
+        - error
     CreatedAt:
       type: integer
       description: >-

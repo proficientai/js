@@ -14,8 +14,9 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./ErrorCode"), exports);
-__exportStar(require("./Error"), exports);
+__exportStar(require("./ApiErrorCode"), exports);
+__exportStar(require("./ApiErrorBody"), exports);
+__exportStar(require("./ApiError"), exports);
 __exportStar(require("./CreatedAt"), exports);
 __exportStar(require("./UpdatedAt"), exports);
 __exportStar(require("./AgentId"), exports);

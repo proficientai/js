@@ -17,22 +17,40 @@ export declare class Messages {
     constructor(options: Messages.Options);
     /**
      * Returns a list of all messages in the specified interaction. The messages are returned sorted by creation date, with the most recently created messages appearing first.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
      */
     list(request: Proficient.ListMessagesRequest): Promise<Proficient.MessagesList>;
     /**
      * Retrieves the message with the given ID.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
      */
     get(messageId: Proficient.MessageId): Promise<Proficient.Message>;
     /**
      * Creates a new `Message` in a given `Interaction`
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.ConflictError}
+     * @throws {Proficient.InternalError}
      */
     create(request: Proficient.MessageCreateParams): Promise<Proficient.Message>;
     /**
      * Resetting a `Message` does 2 things. First it deletes all the `Message`s in the `Interaction` that come after this `Message` (i.e. whose `index` is greater). Then, it updates the content of the `Message`, if you've provided it in the request body.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.ConflictError}
+     * @throws {Proficient.InternalError}
      */
     reset(messageId: Proficient.MessageId, request: Proficient.MessageResetParams): Promise<Proficient.Message>;
     /**
      * Requests a reply from the `Agent` to a given `Message`.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.ConflictError}
+     * @throws {Proficient.InternalError}
      */
     ask(messageId: Proficient.MessageId, request: Proficient.MessageAskParams): Promise<Proficient.Message>;
 }

@@ -43,7 +43,9 @@ class Interactions {
     }
     /**
      * Returns a list of interactions associated with the user. The interactions are returned sorted by creation date, with the most recently created interactions appearing first.
+     * @throws {Proficient.ForbiddenError}
      * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
      */
     async list(request = {}) {
         const { agentId, limit, startingAfter } = request;
@@ -77,8 +79,20 @@ class Interactions {
         }
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 403:
+                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
                 case 404:
-                    throw new __1.Proficient.ResourceNotFoundError(await serializers.Error.parseOrThrow(_response.error.body, {
+                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 500:
+                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
                         unrecognizedObjectKeys: "passthrough",
                         allowUnrecognizedUnionMembers: true,
                         allowUnrecognizedEnumValues: true,
@@ -106,6 +120,9 @@ class Interactions {
     }
     /**
      * Retrieves the interaction with the given ID.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
      */
     async get(interactionId) {
         const _response = await core.fetcher({
@@ -126,10 +143,31 @@ class Interactions {
             });
         }
         if (_response.error.reason === "status-code") {
-            throw new errors.ProficientError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-            });
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 404:
+                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 500:
+                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                default:
+                    throw new errors.ProficientError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
         }
         switch (_response.error.reason) {
             case "non-json":
@@ -147,7 +185,9 @@ class Interactions {
     }
     /**
      * Creates a new `Interaction` with an agent.
+     * @throws {Proficient.ForbiddenError}
      * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
      */
     async create(request) {
         const _response = await core.fetcher({
@@ -170,8 +210,20 @@ class Interactions {
         }
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
+                case 403:
+                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
                 case 404:
-                    throw new __1.Proficient.ResourceNotFoundError(await serializers.Error.parseOrThrow(_response.error.body, {
+                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 500:
+                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
                         unrecognizedObjectKeys: "passthrough",
                         allowUnrecognizedUnionMembers: true,
                         allowUnrecognizedEnumValues: true,
@@ -199,6 +251,9 @@ class Interactions {
     }
     /**
      * Updates the properties of the specified interaction. Only the provided properties will be updated. Any properties not provided will be left unchanged.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
      */
     async update(interactionId, request) {
         const _response = await core.fetcher({
@@ -220,10 +275,31 @@ class Interactions {
             });
         }
         if (_response.error.reason === "status-code") {
-            throw new errors.ProficientError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-            });
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 404:
+                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 500:
+                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                default:
+                    throw new errors.ProficientError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
         }
         switch (_response.error.reason) {
             case "non-json":
@@ -241,6 +317,10 @@ class Interactions {
     }
     /**
      * Permanently deletes the specified interaction and all the messages within it. This cannot be undone.
+     * @throws {Proficient.ForbiddenError}
+     * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
+     * @throws {Proficient.ServiceUnavailableError}
      */
     async delete(interactionId) {
         const _response = await core.fetcher({
@@ -261,10 +341,37 @@ class Interactions {
             });
         }
         if (_response.error.reason === "status-code") {
-            throw new errors.ProficientError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-            });
+            switch (_response.error.statusCode) {
+                case 403:
+                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 404:
+                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 500:
+                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 503:
+                    throw new __1.Proficient.ServiceUnavailableError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                default:
+                    throw new errors.ProficientError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
         }
         switch (_response.error.reason) {
             case "non-json":

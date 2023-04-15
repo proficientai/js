@@ -42,6 +42,7 @@ class Agents {
     }
     /**
      * Returns a list of agents that belong to the current organization. The agents are returned sorted by creation date, with the most recently created agents appearing first.
+     * @throws {Proficient.InternalError}
      */
     async list() {
         const _response = await core.fetcher({
@@ -62,10 +63,19 @@ class Agents {
             });
         }
         if (_response.error.reason === "status-code") {
-            throw new errors.ProficientError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-            });
+            switch (_response.error.statusCode) {
+                case 500:
+                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                default:
+                    throw new errors.ProficientError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                    });
+            }
         }
         switch (_response.error.reason) {
             case "non-json":
@@ -84,6 +94,7 @@ class Agents {
     /**
      * Retrieves the agent with the given ID.
      * @throws {Proficient.ResourceNotFoundError}
+     * @throws {Proficient.InternalError}
      */
     async get(agentId) {
         const _response = await core.fetcher({
@@ -106,7 +117,13 @@ class Agents {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 404:
-                    throw new __1.Proficient.ResourceNotFoundError(await serializers.Error.parseOrThrow(_response.error.body, {
+                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
+                        unrecognizedObjectKeys: "passthrough",
+                        allowUnrecognizedUnionMembers: true,
+                        allowUnrecognizedEnumValues: true,
+                    }));
+                case 500:
+                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
                         unrecognizedObjectKeys: "passthrough",
                         allowUnrecognizedUnionMembers: true,
                         allowUnrecognizedEnumValues: true,

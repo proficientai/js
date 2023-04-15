@@ -20,6 +20,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AgentsList'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: List all agents
   /agents/{agent_id}:
     get:
@@ -45,7 +51,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: Retrieve an agent
   /interactions:
     get:
@@ -79,12 +91,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InteractionsList'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
         '404':
           description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: List all interactions
     post:
       description: Creates a new `Interaction` with an agent.
@@ -99,12 +123,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InteractionCreateResponse'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
         '404':
           description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: Create an interaction
       requestBody:
         required: true
@@ -131,6 +167,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Interaction'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: Retrieve an interaction
     post:
       description: >-
@@ -153,6 +207,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Interaction'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: Update an interaction
       requestBody:
         required: true
@@ -180,6 +252,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Interaction'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: Delete an interaction
   /messages:
     get:
@@ -213,6 +309,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MessagesList'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: List all messages in an interaction
     post:
       description: Creates a new `Message` in a given `Interaction`
@@ -227,6 +341,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: Create a message in an interaction
       requestBody:
         required: true
@@ -253,6 +391,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: Retrieve a message
     post:
       description: >-
@@ -276,6 +432,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: Reset a message
       requestBody:
         required: true
@@ -302,6 +482,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
       summary: Ask for a reply to a message
       requestBody:
         required: true
@@ -320,7 +524,7 @@ components:
             $ref: '#/components/schemas/Agent'
       required:
         - data
-    ErrorCode:
+    ApiErrorCode:
       type: string
       enum:
         - invalid_request
@@ -330,19 +534,26 @@ components:
         - conflict
         - unavailable
         - unknown
-    Error:
+    ApiErrorBody:
       type: object
-      description: >-
-        Represents the general interface of an API error. The body of every
-        error returned by the API contains `code` and `message` fields.
       properties:
         code:
-          $ref: '#/components/schemas/ErrorCode'
+          $ref: '#/components/schemas/ApiErrorCode'
         message:
           type: string
       required:
         - code
         - message
+    ApiError:
+      type: object
+      description: >-
+        Represents the general interface of an API error. The body of every
+        error returned by the API contains `code` and `message` fields.
+      properties:
+        error:
+          $ref: '#/components/schemas/ApiErrorBody'
+      required:
+        - error
     PaginationLimit:
       type: string
       description: >-

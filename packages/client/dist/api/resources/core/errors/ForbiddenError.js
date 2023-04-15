@@ -26,14 +26,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ErrorCode = void 0;
-const core = __importStar(require("../../../../core"));
-exports.ErrorCode = core.serialization.enum_([
-    "invalid_request",
-    "invalid_credentials",
-    "forbidden",
-    "resource_not_found",
-    "conflict",
-    "unavailable",
-    "unknown",
-]);
+exports.ForbiddenError = void 0;
+const errors = __importStar(require("../../../../errors"));
+class ForbiddenError extends errors.ProficientError {
+    constructor(body) {
+        super({
+            message: "ForbiddenError",
+            statusCode: 403,
+            body: body,
+        });
+        Object.setPrototypeOf(this, ForbiddenError.prototype);
+    }
+}
+exports.ForbiddenError = ForbiddenError;
