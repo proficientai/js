@@ -77,7 +77,7 @@ service:
         - admin
       path: /{agent_id}/config
       method: GET
-      docs: Retrieves the current configuration of the agent.
+      docs: Retrieves the current configuration of the specified agent.
       display-name: Retrieve agent configuration
       path-parameters:
         agent_id: agent.AgentId
@@ -85,6 +85,24 @@ service:
       errors:
         - core.ResourceNotFoundError
         - core.InternalError
+
+    updateConfig:
+      audiences:
+        - admin
+      path: /{agent_id}/config
+      method: POST
+      docs: Updates the configuration of the specified agent. Only the provided properties will be updated. Any properties not provided will be left unchanged.
+      display-name: Update agent configuration
+      path-parameters:
+        agent_id: agent.AgentId
+      request:
+        name: UpdateAgentConfigRequest
+        body: agent_config.AgentConfigUpdateParams
+      response: agent_config.AgentConfig
+      errors:
+        - core.ResourceNotFoundError
+        - core.InternalError
+        - core.ServiceUnavailableError
 
     delete:
       audiences:
