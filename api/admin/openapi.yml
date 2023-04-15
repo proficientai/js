@@ -97,6 +97,263 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiError'
       summary: Retrieve an agent
+    post:
+      description: >-
+        Updates the properties of the specified agent. Only the provided
+        properties will be updated. Any properties not provided will be left
+        unchanged.
+      operationId: agents_update
+      tags:
+        - Agents
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/AgentId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Update an agent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentUpdateParams'
+    delete:
+      description: >-
+        Permanently deletes the specified agent and all the interactions
+        associated with it. This cannot be undone.
+      operationId: agents_delete
+      tags:
+        - Agents
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/AgentId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Delete an agent
+  /agents/{agent_id}/config:
+    get:
+      description: Retrieves the current configuration of the specified agent.
+      operationId: agents_getConfig
+      tags:
+        - Agents
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/AgentId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentConfig'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Retrieve agent configuration
+    post:
+      description: >-
+        Updates the configuration of the specified agent. Only the provided
+        properties will be updated. Any properties not provided will be left
+        unchanged.
+      operationId: agents_updateConfig
+      tags:
+        - Agents
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/AgentId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentConfig'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Update agent configuration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentConfigUpdateParams'
+  /agents/{agent_id}/activate:
+    post:
+      description: >-
+        Activates the specified agent. New message or interaction requests sent
+        to this agent will not be blocked while the agent is active. This
+        request does not fail if the agent is already active.
+      operationId: agents_activate
+      tags:
+        - Agents
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/AgentId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Activate an agent
+  /agents/{agent_id}/deactivate:
+    post:
+      description: >-
+        Deactivates the specified agent. Any new message or interaction requests
+        sent to this agent will be blocked while the agent is disabled. This
+        request does not fail if the agent is already deactivated.
+      operationId: agents_deactivate
+      tags:
+        - Agents
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/AgentId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Agent'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Deactivate an agent
 components:
   schemas:
     AgentsList:
@@ -108,6 +365,148 @@ components:
             $ref: '#/components/schemas/Agent'
       required:
         - data
+    AgentConfigObjectType:
+      type: string
+      enum:
+        - agent_config
+      description: The type of the `AgentConfig` object
+    Provider:
+      type: string
+      enum:
+        - openai.gpt-4
+        - openai.gpt-3.5-turbo
+      description: >-
+        The provider of the agent. A provider is the underlying model that
+        powers the agent.
+    SystemMessage:
+      type: string
+      description: The message used you provide to the agent.
+    InitialTurn:
+      $ref: '#/components/schemas/InteractionParticipant'
+      description: >-
+        Indicates who sends the first message in each interaction. Defaults to
+        `"user"`.
+    GreetingMessage:
+      type: string
+      description: The message sent by the agent at the beginning of each interaction.
+    AgentConfigUpdateParams:
+      type: object
+      description: The data with which an `AgentConfig` is updated.
+      properties:
+        system_message:
+          $ref: '#/components/schemas/SystemMessage'
+        initial_turn:
+          $ref: '#/components/schemas/InitialTurn'
+        greeting_message:
+          $ref: '#/components/schemas/GreetingMessage'
+    AgentConfig:
+      type: object
+      description: >-
+        Represents the current configuration of the agent. This is an
+        admin-level resource that is not exposed to the users.
+      properties:
+        object:
+          $ref: '#/components/schemas/AgentConfigObjectType'
+        agent_id:
+          $ref: '#/components/schemas/AgentId'
+        provider:
+          $ref: '#/components/schemas/Provider'
+        system_message:
+          $ref: '#/components/schemas/SystemMessage'
+        initial_turn:
+          $ref: '#/components/schemas/InitialTurn'
+        greeting_message:
+          $ref: '#/components/schemas/GreetingMessage'
+      required:
+        - object
+        - agent_id
+        - provider
+        - system_message
+        - initial_turn
+        - greeting_message
+    AgentId:
+      type: string
+      description: The unique identifier of the agent
+    AgentObjectType:
+      type: string
+      enum:
+        - agent
+      description: The type of the `Agent` object
+    AgentActiveStatus:
+      type: boolean
+      description: >-
+        Whether the agent is currently active. If not, users will not be able to
+        interact with the agent.
+    AgentName:
+      type: string
+      description: The name of the agent
+    AgentDescription:
+      type: string
+      description: The description of the agent
+    AgentCreateParams:
+      type: object
+      description: The data with which an agent is created.
+      properties:
+        name:
+          $ref: '#/components/schemas/AgentName'
+        description:
+          $ref: '#/components/schemas/AgentDescription'
+        provider:
+          $ref: '#/components/schemas/Provider'
+        system_message:
+          $ref: '#/components/schemas/SystemMessage'
+        initial_turn:
+          $ref: '#/components/schemas/InitialTurn'
+      required:
+        - provider
+    AgentUpdateParams:
+      type: object
+      description: The data with which an agent is updated.
+      properties:
+        name:
+          $ref: '#/components/schemas/AgentName'
+        description:
+          $ref: '#/components/schemas/AgentDescription'
+    Agent:
+      type: object
+      description: >-
+        <p>An _agent_ is an AI entity that exists to serve your organization.
+        Agents are intelligent, configurable and context-aware and can interact
+        with your users via a messaging system enabled by the Proficient
+        API.</p>
+      properties:
+        id:
+          $ref: '#/components/schemas/AgentId'
+        object:
+          $ref: '#/components/schemas/AgentObjectType'
+        active:
+          $ref: '#/components/schemas/AgentActiveStatus'
+        name:
+          $ref: '#/components/schemas/AgentName'
+        description:
+          $ref: '#/components/schemas/AgentDescription'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+      required:
+        - id
+        - object
+        - active
+        - name
+        - description
+        - created_at
+        - updated_at
+    InteractionParticipant:
+      type: string
+      enum:
+        - user
+        - agent
+      description: >-
+        Represents the type of the participant in a given interaction. As an
+        example, message are created by interaction participants so the
+        `sent_by` property of a `Message` object must be an
+        `InteractionParticipant`.
     ApiErrorCode:
       type: string
       enum:
@@ -148,60 +547,6 @@ components:
       description: >-
         The time at which the object was last updated, measured in milliseconds
         since the Unix epoch
-    AgentId:
-      type: string
-      description: The unique identifier of the `Agent`
-    AgentObjectType:
-      type: string
-      enum:
-        - agent
-      description: The type of the `Agent` object
-    AgentCreateParams:
-      type: object
-      description: The data with which an `Agent` is created.
-      properties:
-        name:
-          type: string
-      required:
-        - name
-    Agent:
-      type: object
-      description: >-
-        <p>An _agent_ is an AI entity that exists to serve your organization.
-        Agents are intelligent, configurable and context-aware and can interact
-        with your users via a messaging system enabled by the Proficient
-        API.</p>
-      properties:
-        id:
-          $ref: '#/components/schemas/AgentId'
-        object:
-          $ref: '#/components/schemas/AgentObjectType'
-        active:
-          type: boolean
-          description: >-
-            Whether the `Agent` is currently active. If not, users will not be
-            able to communicate with the `Agent`.
-          example: true
-        name:
-          type: string
-          description: The name of the `Agent`
-          example: Eliza
-        description:
-          type: string
-          description: The description of the `Agent`
-          example: A general-purpose assistant
-        created_at:
-          $ref: '#/components/schemas/CreatedAt'
-        updated_at:
-          $ref: '#/components/schemas/UpdatedAt'
-      required:
-        - id
-        - object
-        - active
-        - name
-        - description
-        - created_at
-        - updated_at
   securitySchemes: {}
 servers:
   - url: https://api.proficientai.com

@@ -19,7 +19,3 @@ __exportStar(require("./ApiErrorBody"), exports);
 __exportStar(require("./ApiError"), exports);
 __exportStar(require("./CreatedAt"), exports);
 __exportStar(require("./UpdatedAt"), exports);
-__exportStar(require("./AgentId"), exports);
-__exportStar(require("./AgentObjectType"), exports);
-__exportStar(require("./AgentCreateParams"), exports);
-__exportStar(require("./Agent"), exports);

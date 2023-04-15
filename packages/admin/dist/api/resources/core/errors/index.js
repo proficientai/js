@@ -18,3 +18,4 @@ __exportStar(require("./InvalidRequestError"), exports);
 __exportStar(require("./ForbiddenError"), exports);
 __exportStar(require("./ResourceNotFoundError"), exports);
 __exportStar(require("./InternalError"), exports);
+__exportStar(require("./ServiceUnavailableError"), exports);
