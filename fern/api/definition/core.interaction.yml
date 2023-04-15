@@ -10,7 +10,7 @@ types:
 
   InteractionId:
     type: string
-    docs: The unique identifier of the `Interaction`
+    docs: The unique identifier of the interaction
     examples:
       - name: Example0
         value: int_53mfKtX0Da6zaJCp5bNnzxDaEg1xptWvQDr2
@@ -25,7 +25,7 @@ types:
 
   InteractionName:
     type: string
-    docs: The name of the `Interaction`
+    docs: The name of the interaction
     examples:
       - name: Example0
         value: interaction
@@ -34,7 +34,7 @@ types:
     enum:
       - user
       - agent
-    docs: Represents the type of the participant in a given `Interaction`. As an example, `Message`s are created by interaction participants so the `sent_by` property of a `Message` must be an `InteractionParticipant`.
+    docs: Represents the type of the participant in a given interaction. As an example, message are created by interaction participants so the `sent_by` property of a `Message` object must be an `InteractionParticipant`.
     examples:
       - name: Example0
         value: user
@@ -44,18 +44,18 @@ types:
   InteractionCreateParams:
     properties:
       agent_id: agent.AgentId
-    docs: The data with which an `Interaction` is created.
+    docs: The data with which an interaction is created.
 
   InteractionCreateResponse:
     properties:
       interaction: Interaction
       messages: list<message.Message>
-    docs: An object that contains the initial interaction data including the `Interaction` object itself and the initial `Message`s associated with it.
+    docs: An object that contains the initial interaction data including the `Interaction` object itself and the initial messages associated with it.
 
   InteractionUpdateParams:
     properties:
       name: optional<InteractionName>
-    docs: The data with which an `Interaction` is updated.
+    docs: The data with which an interaction is updated.
 
   # Resource
 

@@ -9,7 +9,7 @@ types:
 
   MessageId:
     type: string
-    docs: The unique identifier of the `Message`
+    docs: The unique identifier of the message
     examples:
       - name: Example0
         value: msg_BlzvLJ8h2QZY8QOK3vjhIlqK43zciPzpPgIhvTo8ai2VnQIW
@@ -24,7 +24,7 @@ types:
 
   MessageContent:
     type: string
-    docs: The content of the `Message`
+    docs: The content of the message
     examples:
       - name: Example0
         value: Tell me some interesting facts about Archimedes.
@@ -43,18 +43,18 @@ types:
       interaction_id: interaction.InteractionId
       content: MessageContent
       parent_id: optional<string>
-    docs: The data with which a `Message` is created.
+    docs: The data with which a message is created.
 
   MessageResetParams:
     properties:
       interaction_id: interaction.InteractionId
       content: optional<MessageContent>
-    docs: The data with which a `Message` is reset.
+    docs: The data with which a message is reset.
 
   MessageAskParams:
     properties:
       interaction_id: interaction.InteractionId
-    docs: The data with which a reply to a `Message` is asked for.
+    docs: The data with which a reply to a message is asked for.
 
   # Resource
 
@@ -64,9 +64,9 @@ types:
       object: MessageObjectType
       index:
         type: integer
-        docs: The 0-based index of the `Message`. The index represents the position of the `Message` within the `Interaction`, where the first `Message` will have an index of 0.
+        docs: The 0-based index of the message. The index represents the position of the message within the interaction, where the first (i.e. the oldest) message will have an index of 0.
       interaction_id: interaction.InteractionId
       created_at: core.CreatedAt
       content: MessageContent
       sent_by: interaction.InteractionParticipant
-    docs: <p>Each interaction holds a number of <i>messages</i> and every message belongs to an interaction. The `sent_by` property of a message indicates whether a message was created by an `Agent` or a `User`.</p>
+    docs: <p>Each interaction holds a number of <i>messages</i> and every message belongs to an interaction. The `sent_by` property of a message indicates whether a message was created by an agent or a user.</p>
