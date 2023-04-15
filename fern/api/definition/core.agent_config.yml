@@ -27,6 +27,9 @@ types:
       - name: openai_gpt_3_5_turbo
         value: openai.gpt-3.5-turbo
     docs: The provider of the agent. A provider is the underlying model that powers the agent.
+    examples:
+      - name: Example0
+        value: openai.gpt-4
 
   SystemMessage:
     audiences:
@@ -42,6 +45,9 @@ types:
       - admin
     type: interaction.InteractionParticipant
     docs: Indicates who sends the first message in each interaction. Defaults to `"user"`.
+    examples:
+      - name: Example0
+        value: user
 
   GreetingMessage:
     audiences:
@@ -75,4 +81,13 @@ types:
       system_message: SystemMessage
       initial_turn: InitialTurn
       greeting_message: GreetingMessage
+    examples:
+      - name: Example0
+        value:
+          object: $AgentConfigObjectType.Example0
+          agent_id: $agent.AgentId.Example0
+          provider: $Provider.Example0
+          system_message: $SystemMessage.Example0
+          initial_turn: $InitialTurn.Example0
+          greeting_message: $GreetingMessage.Example0
     docs: Represents the current configuration of the agent. This is an admin-level resource that is not exposed to the users.
