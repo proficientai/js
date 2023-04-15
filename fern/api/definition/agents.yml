@@ -3,6 +3,7 @@
 imports:
   core: core.yml
   agent: core.agent.yml
+  agent_config: core.agent_config.yml
 
 service:
   auth: false
@@ -70,6 +71,20 @@ service:
         - core.ResourceNotFoundError
         - core.InternalError
         - core.ServiceUnavailableError
+
+    getConfig:
+      audiences:
+        - admin
+      path: /{agent_id}/config
+      method: GET
+      docs: Retrieves the current configuration of the agent.
+      display-name: Retrieve agent configuration
+      path-parameters:
+        agent_id: agent.AgentId
+      response: agent_config.AgentConfig
+      errors:
+        - core.ResourceNotFoundError
+        - core.InternalError
 
     delete:
       audiences:
