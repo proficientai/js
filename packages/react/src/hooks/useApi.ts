@@ -17,9 +17,9 @@ export function useApi(params: Params) {
     }
     return new ProficientClient({
       environment: ProficientEnvironment.Development,
-      xProficientApiKey: apiKey,
-      xProficientUserExternalId: userExternalId,
-      xProficientUserHmac: cachedHmacRef.current,
+      apiKey,
+      userExternalId,
+      userHmac: cachedHmacRef.current,
     });
   }, [apiKey, userExternalId, userHmac]);
 
