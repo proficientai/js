@@ -1,5 +1,17 @@
 # @proficient/react
 
+## 0.10.0
+
+### Minor Changes
+
+- Major API changes
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies [103dd01]
+  - @proficient/client@0.12.0
+
 ## 0.9.4
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @proficient/client
 
+## 0.12.0
+
+### Minor Changes
+
+- Major API changes
+
+### Patch Changes
+
+- 103dd01: Add required dependency
+
 ## 0.11.1
 
 ### Patch Changes
