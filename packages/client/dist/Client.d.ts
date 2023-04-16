@@ -5,7 +5,5 @@ export interface ProficientClientConfig {
     userExternalId: string;
     userHmac?: string;
 }
-export declare class ProficientClient extends _ProficientClient {
-    constructor(config: ProficientClientConfig);
-}
+export declare function createProficientClient(config: ProficientClientConfig): _ProficientClient;
 //# sourceMappingURL=client.d.ts.map

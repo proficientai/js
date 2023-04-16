@@ -7,13 +7,11 @@ export interface ProficientClientConfig {
   userHmac?: string;
 }
 
-export class ProficientClient extends _ProficientClient {
-  public constructor(config: ProficientClientConfig) {
-    super({
-      environment: config.environment,
-      xProficientApiKey: config.apiKey,
-      xProficientUserExternalId: config.userExternalId,
-      xProficientUserHmac: config.userHmac,
-    });
-  }
+export function createProficientClient(config: ProficientClientConfig) {
+  return new _ProficientClient({
+    environment: config.environment,
+    xProficientApiKey: config.apiKey,
+    xProficientUserExternalId: config.userExternalId,
+    xProficientUserHmac: config.userHmac,
+  });
 }

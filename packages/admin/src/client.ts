@@ -5,11 +5,9 @@ export interface ProficientClientConfig {
   secretKey: string;
 }
 
-export class ProficientClient extends _ProficientClient {
-  public constructor(config: ProficientClientConfig) {
-    super({
-      environment: config.environment,
-      authorization: `Bearer ${config.secretKey}`,
-    });
-  }
+export function createProficientClient(config: ProficientClientConfig) {
+  return new _ProficientClient({
+    environment: config.environment,
+    authorization: `Bearer ${config.secretKey}`,
+  });
 }

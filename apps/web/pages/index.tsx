@@ -1,4 +1,4 @@
-import { type Proficient, ProficientClient, ProficientEnvironment } from '@proficient/client';
+import { type Proficient, ProficientEnvironment, createProficientClient } from '@proficient/client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -24,11 +24,11 @@ export default function ExampleClient() {
     const apiKey = process.env.NEXT_PUBLIC_PROFICIENT_KEY;
     if (userHmac !== null && apiKey) {
       (async () => {
-        const proficient = new ProficientClient({
+        const proficient = createProficientClient({
           environment: ProficientEnvironment.Development,
-          xProficientApiKey: apiKey,
-          xProficientUserExternalId: USER_EXTERNAL_ID,
-          xProficientUserHmac: userHmac,
+          apiKey,
+          userExternalId: USER_EXTERNAL_ID,
+          userHmac,
         });
         const { data: agents } = await proficient.agents.list();
         console.log('RECEIVED AGENTS:', agents);
