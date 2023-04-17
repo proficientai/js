@@ -13,6 +13,6 @@ export declare const ProficientEnvironment: {
     /**
      * The local environment
      */
-    readonly Development: "http://localhost:8080/client";
+    readonly Development: "http://localhost:8080";
 };
 export declare type ProficientEnvironment = typeof ProficientEnvironment.Production | typeof ProficientEnvironment.Staging | typeof ProficientEnvironment.Development;

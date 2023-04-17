@@ -834,5 +834,5 @@ servers:
     description: Production (The production environment)
   - url: https://staging.proficientai.com
     description: Staging (The staging environment)
-  - url: http://localhost:8080/client
+  - url: http://localhost:8080
     description: Development (The local environment)

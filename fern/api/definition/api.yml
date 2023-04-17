@@ -20,7 +20,7 @@ environments:
     url: https://staging.proficientai.com
   Development:
     docs: The local environment
-    url: http://localhost:8080/client
+    url: http://localhost:8080
 
 default-environment: null
 

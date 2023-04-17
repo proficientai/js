@@ -16,5 +16,5 @@ exports.ProficientEnvironment = {
     /**
      * The local environment
      */
-    Development: "http://localhost:8080/client",
+    Development: "http://localhost:8080",
 };
