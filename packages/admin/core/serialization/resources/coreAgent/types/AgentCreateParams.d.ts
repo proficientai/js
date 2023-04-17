@@ -7,10 +7,11 @@ import * as core from "../../../../core";
 export declare const AgentCreateParams: core.serialization.ObjectSchema<serializers.AgentCreateParams.Raw, Proficient.AgentCreateParams>;
 export declare namespace AgentCreateParams {
     interface Raw {
-        name?: serializers.AgentName.Raw | null;
         description?: serializers.AgentDescription.Raw | null;
+        greeting_message?: serializers.GreetingMessage.Raw | null;
+        initial_turn?: serializers.InitialTurn.Raw | null;
+        name?: serializers.AgentName.Raw | null;
         provider: serializers.Provider.Raw;
         system_message?: serializers.SystemMessage.Raw | null;
-        initial_turn?: serializers.InitialTurn.Raw | null;
     }
 }

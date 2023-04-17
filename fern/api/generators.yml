@@ -27,6 +27,12 @@ groups:
         output:
           location: local-file-system
           path: ../../api/admin
+      - name: fernapi/fern-postman
+        version: 0.0.44
+        output:
+          location: postman
+          api-key: ${POSTMAN_API_KEY}
+          workspace-id: ${POSTMAN_WORKSPACE_ID}
   client:
     audiences:
       - client
@@ -43,3 +49,9 @@ groups:
         output:
           location: local-file-system
           path: ../../api/client
+      - name: fernapi/fern-postman
+        version: 0.0.44
+        output:
+          location: postman
+          api-key: ${POSTMAN_API_KEY}
+          workspace-id: ${POSTMAN_WORKSPACE_ID}

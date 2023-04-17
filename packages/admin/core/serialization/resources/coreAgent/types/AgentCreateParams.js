@@ -29,9 +29,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AgentCreateParams = void 0;
 const core = __importStar(require("../../../../core"));
 exports.AgentCreateParams = core.serialization.object({
-    name: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentName).optional(),
     description: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentDescription).optional(),
+    greetingMessage: core.serialization.property("greeting_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).GreetingMessage).optional()),
+    initialTurn: core.serialization.property("initial_turn", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InitialTurn).optional()),
+    name: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentName).optional(),
     provider: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).Provider),
     systemMessage: core.serialization.property("system_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).SystemMessage).optional()),
-    initialTurn: core.serialization.property("initial_turn", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InitialTurn).optional()),
 });

@@ -447,16 +447,18 @@ components:
       type: object
       description: The data with which an agent is created.
       properties:
-        name:
-          $ref: '#/components/schemas/AgentName'
         description:
           $ref: '#/components/schemas/AgentDescription'
+        greeting_message:
+          $ref: '#/components/schemas/GreetingMessage'
+        initial_turn:
+          $ref: '#/components/schemas/InitialTurn'
+        name:
+          $ref: '#/components/schemas/AgentName'
         provider:
           $ref: '#/components/schemas/Provider'
         system_message:
           $ref: '#/components/schemas/SystemMessage'
-        initial_turn:
-          $ref: '#/components/schemas/InitialTurn'
       required:
         - provider
     AgentUpdateParams:

@@ -6,9 +6,10 @@ import { Proficient } from "../../../..";
  * The data with which an agent is created.
  */
 export interface AgentCreateParams {
-    name?: Proficient.AgentName;
     description?: Proficient.AgentDescription;
+    greetingMessage?: Proficient.GreetingMessage;
+    initialTurn?: Proficient.InitialTurn;
+    name?: Proficient.AgentName;
     provider: Proficient.Provider;
     systemMessage?: Proficient.SystemMessage;
-    initialTurn?: Proficient.InitialTurn;
 }
