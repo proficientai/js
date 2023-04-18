@@ -29,21 +29,21 @@ types:
       - name: Example0
         value: Tell me some interesting facts about Archimedes.
 
-  MessageIndex:
+  MessageDepth:
     type: integer
-    docs: The 0-based index of the message. The index represents the position of the message within the interaction, where the first (i.e. the oldest) message will have an index of 0.
+    docs: The depth of the message node in the interaction tree. This will be 0 for all root-level messages that mark the beginning of the interaction and increase as the conversation grows longer.
     examples:
       - name: Example0
         value: 11
 
-  # Request/Response Interfaces
-
-  ParentMessageId:
+  MessageParentId:
     type: optional<string>
-    docs: The ID of the last message by the agent in the interaction.
+    docs: The ID of the message that directly precedes a given message within a particular conversation.
     examples:
       - name: Example0
         value: $MessageId.Example0
+
+  # Request/Response Interfaces
 
   MessageCreateParams:
     properties:
@@ -71,8 +71,9 @@ types:
       object: MessageObjectType
       content: MessageContent
       created_at: core.CreatedAt
-      index: MessageIndex
+      depth: MessageDepth
       interaction_id: interaction.InteractionId
+      parent_id: optional<MessageParentId>
       sent_by: interaction.InteractionParticipant
     examples:
       - name: Example0
@@ -81,7 +82,8 @@ types:
           object: $MessageObjectType.Example0
           content: $MessageContent.Example0
           created_at: $core.CreatedAt.Example0
-          index: $MessageIndex.Example0
+          depth: $MessageDepth.Example0
           interaction_id: $interaction.InteractionId.Example0
+          parent_id: $MessageParentId.Example0
           sent_by: $interaction.InteractionParticipant.Example0
     docs: <p>Each interaction holds a number of <i>messages</i> and every message belongs to an interaction. The `sent_by` property of a message indicates whether a message was created by an agent or a user.</p>
