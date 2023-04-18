@@ -11,17 +11,18 @@ export function ChatSection({
   agentName,
   autoRequestReply,
   hasMore,
-  messages,
+  messageGroups,
   next,
   onClickRequestAnswer,
   writingStatus,
 }: ChatSectionProps) {
-  const [lastMessage] = messages;
-  const canRequestAnswer =
-    lastMessage?.sentBy === 'user' && (!autoRequestReply || writingStatus === 'error' || writingStatus === 'nil');
+  // const [lastMessage] = messages;
+  // const canRequestAnswer =
+  //   lastMessage?.sentBy === 'user' && (!autoRequestReply || writingStatus === 'error' || writingStatus === 'nil');
+  const canRequestAnswer = true; // TODO: Update
   return (
     <InfiniteScroll
-      dataLength={messages.length}
+      dataLength={messageGroups.length}
       next={next ?? (() => {})}
       css={css`
         background-color: ${colors.gray[800]};
@@ -116,24 +117,27 @@ export function ChatSection({
           }
         })()}
       </div>
-      {messages.map((message) => {
+      {messageGroups.map((messageGroup) => {
+        const { id, messages, activeIndex } = messageGroup;
+        const activeMessage = messages[activeIndex];
+        if (!activeMessage) return null;
         return (
           <div
-            key={message.id}
+            key={id}
             css={css`
               padding: 10px;
               border-radius: 16px;
               margin-bottom: 12px;
-              margin-left: ${message.sentBy === 'agent' ? 0 : 'auto'};
+              margin-left: ${activeMessage.sentBy === 'agent' ? 0 : 'auto'};
               width: fit-content;
               max-width: 60ch;
               white-space: pre-wrap;
-              background-color: ${message.sentBy === 'agent' ? colors.gray[700] : colors.indigo[600]};
+              background-color: ${activeMessage.sentBy === 'agent' ? colors.gray[700] : colors.indigo[600]};
               color: ${colors.gray[100]};
               font-family: Inter, sans-serif;
               font-size: 14px;
             `}>
-            {message.content}
+            {activeMessage.content}
           </div>
         );
       })}

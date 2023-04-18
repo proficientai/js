@@ -1,3 +1,11 @@
+import type { Proficient } from '@proficient/client';
+
+export type MessageGroup = {
+  id: string;
+  activeIndex: number;
+  messages: [Proficient.Message, ...Proficient.Message[]];
+};
+
 export interface InteractionViewProps {
   apiKey: string;
   agentId: string;

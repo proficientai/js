@@ -9,7 +9,7 @@ import { ChatSection } from './ChatSection';
 import { HeaderSection } from './HeaderSection';
 import { InputSection } from './InputSection';
 import { SidebarSection } from './SidebarSection';
-import type { InteractionViewProps } from './types';
+import type { InteractionViewProps, MessageGroup } from './types';
 import { useTextInputMap } from './useTextInputMap';
 
 const PROVISIONAL_MESSAGE_ID = '_msg_provisional';
@@ -84,6 +84,7 @@ export function InteractionTreeView({
   const [interactionId, setInteractionId] = useState<string | null>(null);
   const inputTextAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const { get: getInteractionInput, set: setInteractionInput } = useTextInputMap();
+  const [messageGroups] = useState<MessageGroup[]>([]);
 
   const interactionState = interactionId ? interactionStatesById[interactionId] ?? null : null;
   const messagesState = interactionId ? messagesStatesById[interactionId] ?? null : null;
@@ -542,7 +543,7 @@ export function InteractionTreeView({
               agentName={agent.name}
               autoRequestReply={autoRequestReply}
               hasMore={hasMore}
-              messages={sortedMessages}
+              messageGroups={messageGroups}
               onClickRequestAnswer={() => handleRequestAnswer(interaction.id)}
               writingStatus={writingStatus}
             />
