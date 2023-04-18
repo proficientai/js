@@ -108,7 +108,7 @@ export function InteractionView({
   const sortedMessages = useMemo(() => {
     if (messagesState?.status === 'success') {
       const { messagesById } = messagesState;
-      return Array.from(messagesById.values()).sort((m1, m2) => m2.index - m1.index);
+      return Array.from(messagesById.values()).sort((m1, m2) => m2.depth - m1.depth);
     }
     return [];
   }, [messagesState]);
@@ -385,7 +385,7 @@ export function InteractionView({
       }
       messageState.messagesById.set(PROVISIONAL_MESSAGE_ID, {
         id: PROVISIONAL_MESSAGE_ID,
-        index: messageState.messagesById.size,
+        depth: -1, // TODO: Change
         content,
         createdAt: Date.now(),
         interactionId,
@@ -404,7 +404,8 @@ export function InteractionView({
       parentId,
     });
 
-    if (sent.index === 0) {
+    // TODO: Change
+    if (sent.depth === 0) {
       paginationMap.setOldestItemFor(interactionId, sent.id);
     }
 
