@@ -33,7 +33,8 @@ exports.Message = core.serialization.object({
     object: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).MessageObjectType),
     content: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).MessageContent),
     createdAt: core.serialization.property("created_at", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).CreatedAt)),
-    index: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).MessageIndex),
+    depth: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).MessageDepth),
     interactionId: core.serialization.property("interaction_id", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InteractionId)),
+    parentId: core.serialization.property("parent_id", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).MessageParentId).optional()),
     sentBy: core.serialization.property("sent_by", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InteractionParticipant)),
 });

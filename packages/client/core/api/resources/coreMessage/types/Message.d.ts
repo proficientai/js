@@ -11,8 +11,9 @@ import { Proficient } from "../../../..";
  *         object: Proficient.MessageObjectType.Message,
  *         content: "Tell me some interesting facts about Archimedes.",
  *         createdAt: 1671631795145,
- *         index: 11,
+ *         depth: 11,
  *         interactionId: "int_53mfKtX0Da6zaJCp5bNnzxDaEg1xptWvQDr2",
+ *         parentId: "msg_BlzvLJ8h2QZY8QOK3vjhIlqK43zciPzpPgIhvTo8ai2VnQIW",
  *         sentBy: Proficient.InteractionParticipant.User
  *     }
  */
@@ -21,7 +22,8 @@ export interface Message {
     object: Proficient.MessageObjectType;
     content: Proficient.MessageContent;
     createdAt: Proficient.CreatedAt;
-    index: Proficient.MessageIndex;
+    depth: Proficient.MessageDepth;
     interactionId: Proficient.InteractionId;
+    parentId?: Proficient.MessageParentId | undefined;
     sentBy: Proficient.InteractionParticipant;
 }

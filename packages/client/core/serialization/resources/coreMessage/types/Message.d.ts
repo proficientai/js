@@ -11,8 +11,9 @@ export declare namespace Message {
         object: serializers.MessageObjectType.Raw;
         content: serializers.MessageContent.Raw;
         created_at: serializers.CreatedAt.Raw;
-        index: serializers.MessageIndex.Raw;
+        depth: serializers.MessageDepth.Raw;
         interaction_id: serializers.InteractionId.Raw;
+        parent_id?: (serializers.MessageParentId.Raw | undefined) | null;
         sent_by: serializers.InteractionParticipant.Raw;
     }
 }

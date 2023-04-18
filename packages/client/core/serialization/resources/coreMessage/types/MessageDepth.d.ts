@@ -4,7 +4,7 @@
 import * as serializers from "../../..";
 import { Proficient } from "../../../..";
 import * as core from "../../../../core";
-export declare const MessageIndex: core.serialization.Schema<serializers.MessageIndex.Raw, Proficient.MessageIndex>;
-export declare namespace MessageIndex {
+export declare const MessageDepth: core.serialization.Schema<serializers.MessageDepth.Raw, Proficient.MessageDepth>;
+export declare namespace MessageDepth {
     type Raw = number;
 }

@@ -676,12 +676,17 @@ components:
     MessageContent:
       type: string
       description: The content of the message
-    MessageIndex:
+    MessageDepth:
       type: integer
       description: >-
-        The 0-based index of the message. The index represents the position of
-        the message within the interaction, where the first (i.e. the oldest)
-        message will have an index of 0.
+        The depth of the message node in the interaction tree. This will be 0
+        for all root-level messages that mark the beginning of the interaction
+        and increase as the conversation grows longer.
+    MessageParentId:
+      type: string
+      description: >-
+        The ID of the message that directly precedes a given message within a
+        particular conversation.
     MessageCreateParams:
       type: object
       description: The data with which a message is created.
@@ -728,10 +733,12 @@ components:
           $ref: '#/components/schemas/MessageContent'
         created_at:
           $ref: '#/components/schemas/CreatedAt'
-        index:
-          $ref: '#/components/schemas/MessageIndex'
+        depth:
+          $ref: '#/components/schemas/MessageDepth'
         interaction_id:
           $ref: '#/components/schemas/InteractionId'
+        parent_id:
+          $ref: '#/components/schemas/MessageParentId'
         sent_by:
           $ref: '#/components/schemas/InteractionParticipant'
       required:
@@ -739,7 +746,7 @@ components:
         - object
         - content
         - created_at
-        - index
+        - depth
         - interaction_id
         - sent_by
     ApiErrorCode:

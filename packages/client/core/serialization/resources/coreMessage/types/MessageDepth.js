@@ -26,6 +26,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MessageIndex = void 0;
+exports.MessageDepth = void 0;
 const core = __importStar(require("../../../../core"));
-exports.MessageIndex = core.serialization.number();
+exports.MessageDepth = core.serialization.number();
