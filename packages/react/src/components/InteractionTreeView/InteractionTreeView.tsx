@@ -10,8 +10,6 @@ import { HeaderSection } from './HeaderSection';
 import { InputSection } from './InputSection';
 import { SidebarSection } from './SidebarSection';
 import type { InteractionViewProps } from './types';
-import { useMultiSectionPagination } from './useMultiSectionPagination';
-import { usePagination } from './usePagination';
 import { useTextInputMap } from './useTextInputMap';
 
 const PROVISIONAL_MESSAGE_ID = '_msg_provisional';
@@ -83,13 +81,6 @@ export function InteractionTreeView({
   const [interactionStatesById, setInteractionStatesById] = useState<Record<string, InteractionState>>({});
   const [messagesStatesById, setMessagesStatesById] = useState<Record<string, MessagesState>>({});
   const [writingStatesById, setWritingStatesById] = useState<Record<string, WritingState>>({});
-  const {
-    markAttempt: markAttemptToLoadInteractionsBatch,
-    lastAttemptId: lastAttemptedInteractionsBatchId,
-    oldestItemId: oldestInteractionId,
-    updateOldestItem: updateOldestInteraction,
-  } = usePagination();
-  const paginationMap = useMultiSectionPagination();
   const [interactionId, setInteractionId] = useState<string | null>(null);
   const inputTextAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const { get: getInteractionInput, set: setInteractionInput } = useTextInputMap();
@@ -128,85 +119,6 @@ export function InteractionTreeView({
     [getInteractionInput, setTextAreaValue]
   );
 
-  const loadNextInteractionsBatch = useCallback(async () => {
-    try {
-      const api = await getApi();
-      if (lastAttemptedInteractionsBatchId !== null && lastAttemptedInteractionsBatchId === oldestInteractionId) return;
-      markAttemptToLoadInteractionsBatch();
-      const { data: receivedInteractions, hasMore } = await api.interactions.list({
-        agentId,
-        limit: '20',
-      });
-      setInteractionStatesById((prev) => {
-        const next = cloneDeep(prev);
-        receivedInteractions.forEach((i) => {
-          let interactionState = next[i.id];
-          if (!interactionState) {
-            interactionState = {
-              status: 'success',
-              interaction: i,
-            };
-          } else {
-            // TODO: See if we want to update existing object
-          }
-          next[i.id] = interactionState;
-        });
-        return next;
-      });
-      setMessagesStatesById((prev) => {
-        const next = cloneDeep(prev);
-        receivedInteractions.forEach((i) => {
-          let messagesState = next[i.id];
-          if (!messagesState) {
-            messagesState = {
-              status: 'success',
-              hasMore: true,
-              messagesById: new Map(),
-            };
-          } else {
-            // TODO: See if we want to update existing object
-          }
-          next[i.id] = messagesState;
-        });
-        return next;
-      });
-      setWritingStatesById((prev) => {
-        const next = cloneDeep(prev);
-        receivedInteractions.forEach((i) => {
-          let writingState = next[i.id];
-          if (!writingState) {
-            writingState = {
-              status: 'nil',
-            };
-          } else {
-            // TODO: See if we want to update existing object
-          }
-          next[i.id] = writingState;
-        });
-        return next;
-      });
-      const [firstInteraction] = receivedInteractions;
-      if (firstInteraction && interactionId === null) {
-        selectInteraction(firstInteraction.id);
-      }
-      const oldestInteraction = receivedInteractions[receivedInteractions.length - 1];
-      updateOldestInteraction(oldestInteraction?.id ?? null, hasMore);
-    } catch (e: any) {
-      // TODO: Handle properly
-      console.log('Unexpected Error in Load Interactions Batch:', e.message);
-      console.log(e.response.data);
-    }
-  }, [
-    getApi,
-    agentId,
-    interactionId,
-    markAttemptToLoadInteractionsBatch,
-    lastAttemptedInteractionsBatchId,
-    oldestInteractionId,
-    updateOldestInteraction,
-    selectInteraction,
-  ]);
-
   useEffect(() => {
     (async () => {
       setAgentState({ status: 'loading' });
@@ -222,30 +134,82 @@ export function InteractionTreeView({
   }, [agentId, getApi]);
 
   useEffect(() => {
-    loadNextInteractionsBatch();
-  }, [loadNextInteractionsBatch]);
-
-  const loadNextMessagesBatch = useCallback(
-    async (interactionId: string) => {
+    const loadInteractions = async () => {
       try {
         const api = await getApi();
-        const oldestMessageId = paginationMap.oldestItemFor(interactionId);
-        const lastAttemptedBatchId = paginationMap.lastAttemptFor(interactionId);
-
-        if (oldestMessageId === null) {
-          paginationMap.setLastAttemptFor(interactionId, 0);
-        } else if (lastAttemptedBatchId === oldestMessageId) {
-          return;
-        } else {
-          paginationMap.setLastAttemptFor(interactionId, oldestMessageId);
+        const { data: receivedInteractions } = await api.interactions.list({
+          agentId,
+          limit: '100',
+        });
+        setInteractionStatesById((prev) => {
+          const next = cloneDeep(prev);
+          receivedInteractions.forEach((i) => {
+            let interactionState = next[i.id];
+            if (!interactionState) {
+              interactionState = {
+                status: 'success',
+                interaction: i,
+              };
+            } else {
+              // TODO: See if we want to update existing object
+            }
+            next[i.id] = interactionState;
+          });
+          return next;
+        });
+        setMessagesStatesById((prev) => {
+          const next = cloneDeep(prev);
+          receivedInteractions.forEach((i) => {
+            let messagesState = next[i.id];
+            if (!messagesState) {
+              messagesState = {
+                status: 'success',
+                hasMore: true,
+                messagesById: new Map(),
+              };
+            } else {
+              // TODO: See if we want to update existing object
+            }
+            next[i.id] = messagesState;
+          });
+          return next;
+        });
+        setWritingStatesById((prev) => {
+          const next = cloneDeep(prev);
+          receivedInteractions.forEach((i) => {
+            let writingState = next[i.id];
+            if (!writingState) {
+              writingState = {
+                status: 'nil',
+              };
+            } else {
+              // TODO: See if we want to update existing object
+            }
+            next[i.id] = writingState;
+          });
+          return next;
+        });
+        const [firstInteraction] = receivedInteractions;
+        if (firstInteraction && interactionId === null) {
+          selectInteraction(firstInteraction.id);
         }
+      } catch (e: any) {
+        // TODO: Handle properly
+        console.log('Unexpected Error in Load Interactions Batch:', e.message);
+        console.log(e.response.data);
+      }
+    };
 
+    loadInteractions();
+  }, [agentId, getApi, interactionId, selectInteraction]);
+
+  useEffect(() => {
+    const loadNextMessagesBatch = async (interactionId: string) => {
+      try {
+        const api = await getApi();
         const { data: receivedMessages, hasMore } = await api.messages.list({
           interactionId,
-          limit: '20',
-          startingAfter: oldestMessageId ?? undefined,
         });
-
         setMessagesStatesById((prev) => {
           const next = cloneDeep(prev);
           const messageState = next[interactionId];
@@ -264,24 +228,17 @@ export function InteractionTreeView({
           });
           return next;
         });
-        const oldestMessage = receivedMessages[receivedMessages.length - 1];
-        if (oldestMessage) {
-          paginationMap.setOldestItemFor(interactionId, oldestMessage.id);
-        }
       } catch (e: any) {
         // TODO: Handle properly
         console.log('Unexpected Error in Load Messages Batch:', e.message);
         console.log(e.response.data);
       }
-    },
-    [getApi, paginationMap]
-  );
+    };
 
-  useEffect(() => {
     if (interactionId) {
       loadNextMessagesBatch(interactionId);
     }
-  }, [loadNextMessagesBatch, interactionId]);
+  }, [getApi, interactionId]);
 
   const handleRequestAnswer = useCallback(
     async (interactionId: string, lastMessage?: Proficient.Message) => {
@@ -404,11 +361,6 @@ export function InteractionTreeView({
       parentId,
     });
 
-    // TODO: Change
-    if (sent.depth === 0) {
-      paginationMap.setOldestItemFor(interactionId, sent.id);
-    }
-
     setMessagesStatesById((prev) => {
       const next = cloneDeep(prev);
       const messagesState = next[interactionId];
@@ -432,7 +384,6 @@ export function InteractionTreeView({
     getInteractionInput,
     setInteractionInput,
     setTextAreaValue,
-    paginationMap,
     sortedMessages,
     autoRequestReply,
     handleRequestAnswer,
@@ -441,10 +392,6 @@ export function InteractionTreeView({
   const handleCreateInteraction = useCallback(async () => {
     const api = await getApi();
     const { interaction: newInteraction, messages } = await api.interactions.create({ agentId });
-    const oldestMessage = messages[messages.length - 1];
-    if (oldestMessage) {
-      paginationMap.setOldestItemFor(newInteraction.id, oldestMessage.id);
-    }
     setInteractionStatesById((prev) => {
       const next = cloneDeep(prev);
       next[newInteraction.id] = {
@@ -470,7 +417,7 @@ export function InteractionTreeView({
       return next;
     });
     setInteractionId(newInteraction.id);
-  }, [getApi, agentId, paginationMap]);
+  }, [getApi, agentId]);
 
   const handleUpdateInteraction = useCallback(
     async (name: string) => {
@@ -596,7 +543,6 @@ export function InteractionTreeView({
               autoRequestReply={autoRequestReply}
               hasMore={hasMore}
               messages={sortedMessages}
-              next={() => loadNextMessagesBatch(interaction.id)}
               onClickRequestAnswer={() => handleRequestAnswer(interaction.id)}
               writingStatus={writingStatus}
             />

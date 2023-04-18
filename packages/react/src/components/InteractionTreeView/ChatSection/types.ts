@@ -5,7 +5,7 @@ export interface ChatSectionProps {
   autoRequestReply: boolean;
   hasMore: boolean;
   messages: Proficient.Message[];
-  next: () => Promise<void>;
+  next?: () => Promise<void>;
   onClickRequestAnswer: () => Promise<void>;
   writingStatus: 'nil' | 'writing' | 'error';
 }

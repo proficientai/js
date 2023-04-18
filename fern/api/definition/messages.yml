@@ -14,7 +14,7 @@ service:
         - client
       path: ''
       method: GET
-      docs: Returns a list of all messages in the specified interaction. The messages are returned sorted by creation date, with the most recently created messages appearing first.
+      docs: Returns a list of all messages in the specified interaction.
       display-name: List all messages in an interaction
       request:
         name: ListMessagesRequest

@@ -22,7 +22,7 @@ export function ChatSection({
   return (
     <InfiniteScroll
       dataLength={messages.length}
-      next={next}
+      next={next ?? (() => {})}
       css={css`
         background-color: ${colors.gray[800]};
         display: flex;
