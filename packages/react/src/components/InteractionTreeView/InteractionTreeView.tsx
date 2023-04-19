@@ -193,9 +193,36 @@ export function InteractionTreeView({
     }
   }, [loadMessages, interactionId]);
 
-  const handleRequestAnswer = useCallback(async (interactionId: string, lastMessage?: Proficient.Message) => {
-    //
-  }, []);
+  const handleRequestAnswer = useCallback(
+    async (interactionId: string, toMessage?: Proficient.Message) => {
+      if (interactionId === null) return;
+      const [firstMessageGroup] = messageGroups;
+      toMessage ??= firstMessageGroup?.current;
+      if (!toMessage || toMessage.sentBy !== 'user') {
+        alert('The message to which a reply is being asked for must be sent by the user.');
+        return;
+      }
+      setWritingStatesById((prev) => ({ ...prev, [interactionId]: { status: 'writing' } }));
+      try {
+        const api = await getApi();
+        const received = await api.messages.ask(toMessage.id, { interactionId });
+        setMessagesStatesById((prev) => {
+          const { [interactionId]: prevMessagesState, ...rest } = prev;
+          const newMessageMap = new Map(prevMessagesState?.messageMap);
+          newMessageMap.set(received.id, received);
+          return {
+            ...rest,
+            [interactionId]: { status: 'success', messageMap: newMessageMap },
+          };
+        });
+        setWritingStatesById((prev) => ({ ...prev, [interactionId]: { status: 'nil' } }));
+      } catch (e) {
+        console.error('An unexpected error!');
+        setWritingStatesById((prev) => ({ ...prev, [interactionId]: { status: 'error', errorCode: 'unknown' } }));
+      }
+    },
+    [getApi, messageGroups]
+  );
 
   const handleSendMessage = useCallback(async () => {
     if (interactionId === null) return;
@@ -300,7 +327,28 @@ export function InteractionTreeView({
     }
   }, [agentId, getApi]);
 
-  const handleUpdateInteraction = useCallback(async (name: string) => {}, []);
+  const handleUpdateInteraction = useCallback(
+    async (name: string) => {
+      if (interactionId === null) return;
+      try {
+        const api = await getApi();
+        const updatedInteraction = await api.interactions.update(interactionId, {
+          name,
+        });
+        setInteractionStatesById((prev) => ({
+          ...prev,
+          [interactionId]: {
+            status: 'success',
+            interaction: updatedInteraction,
+          },
+        }));
+      } catch (e) {
+        // TODO: Handle errors
+        console.error('Cannot update interaction', e);
+      }
+    },
+    [getApi, interactionId]
+  );
 
   const handleDeleteInteraction = useCallback(
     async (interactionId: string) => {
@@ -410,7 +458,7 @@ export function InteractionTreeView({
             <ChatSection
               agentName={agent.name}
               autoRequestReply={autoRequestReply}
-              layout="boxes"
+              layout="bubbles"
               messageGroups={messageGroups}
               onClickPrevious={(depth, activeIndex) => {
                 setActiveIndex(interaction.id, depth, activeIndex - 1);

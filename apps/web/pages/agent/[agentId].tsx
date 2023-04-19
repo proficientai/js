@@ -25,7 +25,6 @@ export default function AgentPage() {
         agentId={agentId}
         userExternalId={userId}
         userHmac={() => getHmac(userId)}
-        autoRequestReply={false}
       />
     </div>
   );
