@@ -65,6 +65,7 @@ export function InteractionTreeView({
     [getInteractionInput, setTextAreaValue]
   );
 
+  // Load agent
   useEffect(() => {
     (async () => {
       setAgentState({ status: 'loading' });
@@ -75,6 +76,39 @@ export function InteractionTreeView({
       } catch (e) {
         // TODO: Check error code
         setAgentState({ status: 'error', code: 'unknown' });
+      }
+    })();
+  }, [agentId, getApi]);
+
+  // Load interactions
+  useEffect(() => {
+    (async () => {
+      try {
+        const api = await getApi();
+        const { data: receivedInteractions } = await api.interactions.list({
+          agentId,
+          limit: '100',
+        });
+        const newInteractionStatesById = receivedInteractions.reduce((acc, cur) => {
+          acc[cur.id] = { status: 'success', interaction: cur };
+          return acc;
+        }, {} as Record<string, InteractionState>);
+        setInteractionStatesById(newInteractionStatesById);
+
+        const newMessagesStatesById = receivedInteractions.reduce((acc, cur) => {
+          acc[cur.id] = { status: 'loading', messageMap: new Map() };
+          return acc;
+        }, {} as Record<string, MessagesState>);
+        setMessagesStatesById(newMessagesStatesById);
+
+        const newWritingStatesById = receivedInteractions.reduce((acc, cur) => {
+          acc[cur.id] = { status: 'nil' };
+          return acc;
+        }, {} as Record<string, WritingState>);
+        setWritingStatesById(newWritingStatesById);
+      } catch (e) {
+        // TODO: Handle errors
+        alert('Error loading interactions!');
       }
     })();
   }, [agentId, getApi]);
