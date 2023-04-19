@@ -4,6 +4,7 @@ import type { Proficient } from '@proficient/client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { InteractionTree } from '../../ds/InteractionTree';
+import { InteractionTree2 } from '../../ds/InteractionTree2';
 import { useApi } from '../../hooks';
 import { ChatSection } from './ChatSection';
 import { HeaderSection } from './HeaderSection';
@@ -179,11 +180,16 @@ export function InteractionTreeView({
   const buildMessageGroups = useCallback(() => {
     const groups: MessageGroupInfo[] = [];
     if (interactionId && messagesState) {
-      const tree = InteractionTree.create(messagesState.messageMap);
-      // TODO: Build groups here
+      const tree = InteractionTree2.create(messagesState.messageMap);
+      tree.traverseFromRoot(
+        (depth) => getActiveIndex(interactionId, depth),
+        (message, currentIndex, depth, groupSize) => {
+          groups.push({ current: message!, id: message!.id, currentIndex, depth, size: groupSize });
+        }
+      );
     }
     return groups;
-  }, [interactionId, messagesState]);
+  }, [interactionId, messagesState, getActiveIndex]);
 
   if (agentState.status === 'nil' || agentState.status === 'loading') {
     // TODO: Update view
