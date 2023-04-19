@@ -1,8 +1,12 @@
 import type { Proficient } from '@proficient/client';
 
-export type MessageGroup = {
+export type MessageGroupInfo = {
   id: string;
+  /**
+   * The index of the currently active message within the group.
+   */
   activeIndex: number;
+  depth: number;
   messages: [Proficient.Message, ...Proficient.Message[]];
 };
 

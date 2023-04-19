@@ -32,7 +32,7 @@ export function ChatSection({
         padding-right: 24px;
       `}
       inverse
-      hasMore={hasMore}
+      hasMore={!!hasMore}
       height={400}
       loader={
         <div

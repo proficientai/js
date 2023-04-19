@@ -1,4 +1,4 @@
-import { InteractionView } from '@proficient/react';
+import { InteractionTreeView } from '@proficient/react';
 import { useRouter } from 'next/router';
 
 import { USER_EXTERNAL_ID } from '../../context';
@@ -20,11 +20,12 @@ export default function AgentPage() {
   return (
     <div>
       <h1 style={{ textAlign: 'center' }}>Example Client Application</h1>
-      <InteractionView
+      <InteractionTreeView
         apiKey={process.env.NEXT_PUBLIC_PROFICIENT_KEY}
         agentId={agentId}
         userExternalId={userId}
         userHmac={() => getHmac(userId)}
+        autoRequestReply={false}
       />
     </div>
   );

@@ -4,12 +4,13 @@ import type { Proficient } from '@proficient/client';
 import { cloneDeep } from 'lodash';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { InteractionTree } from '../../ds/InteractionTree';
 import { useApi } from '../../hooks';
 import { ChatSection } from './ChatSection';
 import { HeaderSection } from './HeaderSection';
 import { InputSection } from './InputSection';
 import { SidebarSection } from './SidebarSection';
-import type { InteractionViewProps, MessageGroup } from './types';
+import type { InteractionViewProps, MessageGroupInfo } from './types';
 import { useTextInputMap } from './useTextInputMap';
 
 const PROVISIONAL_MESSAGE_ID = '_msg_provisional';
@@ -47,14 +48,12 @@ type InteractionState =
 type MessagesState =
   | {
       status: 'loading' | 'success';
-      messagesById: Map<string, Proficient.Message>;
-      hasMore: boolean;
+      tree: InteractionTree;
     }
   | {
       status: 'error';
       errorCode: 'not-found' | 'unknown';
-      messagesById: Map<string, Proficient.Message>;
-      hasMore: boolean;
+      tree: InteractionTree;
     };
 
 type WritingState =
@@ -65,6 +64,23 @@ type WritingState =
       status: 'error';
       errorCode: 'not-found' | 'unknown';
     };
+
+function cloneMessagesStateMap(prev: Record<string, MessagesState>) {
+  const next: Record<string, MessagesState> = {};
+  for (const interactionId in prev) {
+    const state = prev[interactionId]!;
+    if (state.status === 'success' || state.status === 'loading') {
+      next[interactionId] = { status: state.status, tree: state.tree.clone() };
+    } else if (state.status === 'error') {
+      next[interactionId] = {
+        status: 'error',
+        errorCode: state.errorCode,
+        tree: state.tree.clone(),
+      };
+    }
+  }
+  return next;
+}
 
 export function InteractionTreeView({
   apiKey,
@@ -84,7 +100,6 @@ export function InteractionTreeView({
   const [interactionId, setInteractionId] = useState<string | null>(null);
   const inputTextAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const { get: getInteractionInput, set: setInteractionInput } = useTextInputMap();
-  const [messageGroups] = useState<MessageGroup[]>([]);
 
   const interactionState = interactionId ? interactionStatesById[interactionId] ?? null : null;
   const messagesState = interactionId ? messagesStatesById[interactionId] ?? null : null;
@@ -97,13 +112,7 @@ export function InteractionTreeView({
     return filteredInteractions.sort((i1, i2) => i2.updatedAt - i1.updatedAt);
   }, [interactionStatesById]);
 
-  const sortedMessages = useMemo(() => {
-    if (messagesState?.status === 'success') {
-      const { messagesById } = messagesState;
-      return Array.from(messagesById.values()).sort((m1, m2) => m2.depth - m1.depth);
-    }
-    return [];
-  }, [messagesState]);
+  const [activeIndexesByDepth, setActiveIndexesByDepth] = useState<number[]>([]);
 
   const setTextAreaValue = useCallback((val: string) => {
     if (inputTextAreaRef.current) {
@@ -134,85 +143,85 @@ export function InteractionTreeView({
     })();
   }, [agentId, getApi]);
 
-  useEffect(() => {
-    const loadInteractions = async () => {
-      try {
-        const api = await getApi();
-        const { data: receivedInteractions } = await api.interactions.list({
-          agentId,
-          limit: '100',
+  const loadInteractions = useCallback(async () => {
+    try {
+      const api = await getApi();
+      const { data: receivedInteractions } = await api.interactions.list({
+        agentId,
+        limit: '100',
+      });
+      setInteractionStatesById((prev) => {
+        const next = cloneDeep(prev);
+        receivedInteractions.forEach((i) => {
+          let interactionState = next[i.id];
+          if (!interactionState) {
+            interactionState = {
+              status: 'success',
+              interaction: i,
+            };
+          } else {
+            // TODO: See if we want to update existing object
+          }
+          next[i.id] = interactionState;
         });
-        setInteractionStatesById((prev) => {
-          const next = cloneDeep(prev);
-          receivedInteractions.forEach((i) => {
-            let interactionState = next[i.id];
-            if (!interactionState) {
-              interactionState = {
-                status: 'success',
-                interaction: i,
-              };
-            } else {
-              // TODO: See if we want to update existing object
-            }
-            next[i.id] = interactionState;
-          });
-          return next;
+        return next;
+      });
+      setMessagesStatesById((prev) => {
+        const next = cloneMessagesStateMap(prev);
+        receivedInteractions.forEach((i) => {
+          let messagesState = next[i.id];
+          if (!messagesState) {
+            messagesState = {
+              status: 'success',
+              tree: InteractionTree.create(),
+            };
+          } else {
+            // TODO: See if we want to update existing object
+          }
+          next[i.id] = messagesState;
         });
-        setMessagesStatesById((prev) => {
-          const next = cloneDeep(prev);
-          receivedInteractions.forEach((i) => {
-            let messagesState = next[i.id];
-            if (!messagesState) {
-              messagesState = {
-                status: 'success',
-                hasMore: true,
-                messagesById: new Map(),
-              };
-            } else {
-              // TODO: See if we want to update existing object
-            }
-            next[i.id] = messagesState;
-          });
-          return next;
+        return next;
+      });
+      setWritingStatesById((prev) => {
+        const next = cloneDeep(prev);
+        receivedInteractions.forEach((i) => {
+          let writingState = next[i.id];
+          if (!writingState) {
+            writingState = {
+              status: 'nil',
+            };
+          } else {
+            // TODO: See if we want to update existing object
+          }
+          next[i.id] = writingState;
         });
-        setWritingStatesById((prev) => {
-          const next = cloneDeep(prev);
-          receivedInteractions.forEach((i) => {
-            let writingState = next[i.id];
-            if (!writingState) {
-              writingState = {
-                status: 'nil',
-              };
-            } else {
-              // TODO: See if we want to update existing object
-            }
-            next[i.id] = writingState;
-          });
-          return next;
-        });
-        const [firstInteraction] = receivedInteractions;
-        if (firstInteraction && interactionId === null) {
-          selectInteraction(firstInteraction.id);
-        }
-      } catch (e: any) {
-        // TODO: Handle properly
-        console.log('Unexpected Error in Load Interactions Batch:', e.message);
-        console.log(e.response.data);
+        return next;
+      });
+      const [firstInteraction] = receivedInteractions;
+      if (firstInteraction && interactionId === null) {
+        selectInteraction(firstInteraction.id);
       }
-    };
-
-    loadInteractions();
+    } catch (e: any) {
+      // TODO: Handle properly
+      console.log('Unexpected Error in Load Interactions Batch:', e.message);
+      console.log(e.response.data);
+    }
   }, [agentId, getApi, interactionId, selectInteraction]);
 
   useEffect(() => {
-    const loadNextMessagesBatch = async (interactionId: string) => {
+    loadInteractions();
+    // TODO: Needs to change
+  }, []);
+
+  const loadMessages = useCallback(
+    async (interactionId: string) => {
       try {
         const api = await getApi();
-        const { data: receivedMessages, hasMore } = await api.messages.list({
+        const { data: receivedMessages } = await api.messages.list({
           interactionId,
         });
         setMessagesStatesById((prev) => {
-          const next = cloneDeep(prev);
+          const next = cloneMessagesStateMap(prev);
           const messageState = next[interactionId];
           if (!messageState) {
             console.warn(
@@ -223,9 +232,8 @@ export function InteractionTreeView({
             );
             return next;
           }
-          messageState.hasMore = hasMore;
           receivedMessages.forEach((m) => {
-            messageState.messagesById.set(m.id, m);
+            messageState.tree.addMessage(m);
           });
           return next;
         });
@@ -234,24 +242,19 @@ export function InteractionTreeView({
         console.log('Unexpected Error in Load Messages Batch:', e.message);
         console.log(e.response.data);
       }
-    };
+    },
+    [getApi]
+  );
 
+  useEffect(() => {
     if (interactionId) {
-      loadNextMessagesBatch(interactionId);
+      loadMessages(interactionId);
     }
-  }, [getApi, interactionId]);
+  }, [getApi, interactionId, loadMessages]);
 
   const handleRequestAnswer = useCallback(
     async (interactionId: string, lastMessage?: Proficient.Message) => {
       if (interactionId === null) return;
-      lastMessage ??= sortedMessages[0];
-
-      console.log('LAST MESSAGE=', lastMessage);
-
-      if (!lastMessage || lastMessage.sentBy !== 'user') {
-        alert('Last message must be sent by user to request answer.');
-        return;
-      }
 
       const api = await getApi();
 
@@ -269,10 +272,11 @@ export function InteractionTreeView({
       });
 
       try {
-        const received = await api.messages.ask(lastMessage.id, { interactionId });
+        const lastMessageId = ''; // TODO: Implement
+        const received = await api.messages.ask(lastMessageId, { interactionId });
 
         setMessagesStatesById((prev) => {
-          const next = cloneDeep(prev);
+          const next = cloneMessagesStateMap(prev);
           const messagesState = next[interactionId];
           if (!messagesState) {
             console.warn(
@@ -283,7 +287,7 @@ export function InteractionTreeView({
             );
             return next;
           }
-          messagesState.messagesById.set(received.id, received);
+          messagesState.tree.addMessage(received);
           return next;
         });
         setWritingStatesById((prev) => {
@@ -320,8 +324,28 @@ export function InteractionTreeView({
         });
       }
     },
-    [getApi, sortedMessages]
+    [getApi]
   );
+
+  const messageGroups = useMemo<MessageGroupInfo[]>(() => {
+    if (messagesState?.status === 'success') {
+      const { tree } = messagesState;
+      return tree
+        .buildConversation()
+        .reverse()
+        .map((g) => {
+          const [first] = g.messages;
+          const activeIndex = activeIndexesByDepth[g.depth] ?? 0;
+          return {
+            id: first.id,
+            activeIndex,
+            depth: g.depth,
+            messages: g.messages,
+          };
+        });
+    }
+    return [];
+  }, [messagesState, activeIndexesByDepth]);
 
   const handleSendMessage = useCallback(async () => {
     if (interactionId === null) return;
@@ -330,10 +354,16 @@ export function InteractionTreeView({
       alert('No message');
       return;
     }
+    const [firstMessageGroup] = messageGroups;
+    const parentMessage = firstMessageGroup ? firstMessageGroup.messages[firstMessageGroup.activeIndex] : undefined;
+    if (!parentMessage) {
+      alert('Could not find the parent message.');
+      return;
+    }
     setInteractionInput(interactionId, '');
     setTextAreaValue('');
     setMessagesStatesById((prev) => {
-      const next = cloneDeep(prev);
+      const next = cloneMessagesStateMap(prev);
       const messageState = next[interactionId];
       if (!messageState) {
         console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
@@ -341,29 +371,28 @@ export function InteractionTreeView({
         });
         return next;
       }
-      messageState.messagesById.set(PROVISIONAL_MESSAGE_ID, {
+      messageState.tree.addMessage({
         id: PROVISIONAL_MESSAGE_ID,
-        depth: -1, // TODO: Change
+        object: 'message',
+        depth: parentMessage.depth + 1,
         content,
         createdAt: Date.now(),
         interactionId,
-        object: 'message',
+        parentId: parentMessage.id,
         sentBy: 'user',
       });
       return next;
     });
 
     const api = await getApi();
-    const [firstMessage] = sortedMessages;
-    const parentId = firstMessage?.id;
     const sent = await api.messages.create({
       content,
       interactionId,
-      parentId,
+      parentId: parentMessage.id,
     });
 
     setMessagesStatesById((prev) => {
-      const next = cloneDeep(prev);
+      const next = cloneMessagesStateMap(prev);
       const messagesState = next[interactionId];
       if (!messagesState) {
         console.warn('Could not find interaction state. This indicates an unexpected behavior in application flow:', {
@@ -371,8 +400,7 @@ export function InteractionTreeView({
         });
         return next;
       }
-      messagesState.messagesById.delete(PROVISIONAL_MESSAGE_ID);
-      messagesState.messagesById.set(sent.id, sent);
+      messagesState.tree.replaceMessage(PROVISIONAL_MESSAGE_ID, sent);
       return next;
     });
 
@@ -381,12 +409,12 @@ export function InteractionTreeView({
     }
   }, [
     interactionId,
+    autoRequestReply,
+    messageGroups,
     getApi,
     getInteractionInput,
     setInteractionInput,
     setTextAreaValue,
-    sortedMessages,
-    autoRequestReply,
     handleRequestAnswer,
   ]);
 
@@ -402,11 +430,10 @@ export function InteractionTreeView({
       return next;
     });
     setMessagesStatesById((prev) => {
-      const next = cloneDeep(prev);
+      const next = cloneMessagesStateMap(prev);
       next[newInteraction.id] = {
         status: 'success',
-        hasMore: true,
-        messagesById: new Map(messages.map((m) => [m.id, m])),
+        tree: InteractionTree.create(messages),
       };
       return next;
     });
@@ -481,6 +508,9 @@ export function InteractionTreeView({
 
   const { agent } = agentState;
 
+  console.log('MESSAGE GROUPS =', messageGroups);
+  console.log('MESSAGES TREE =', messagesState?.tree);
+
   return (
     <div
       css={css`
@@ -519,7 +549,6 @@ export function InteractionTreeView({
         }
 
         const { interaction } = interactionState;
-        const { hasMore } = messagesState;
         const { status: writingStatus } = writingState;
 
         if (!interaction) return null;
@@ -542,7 +571,6 @@ export function InteractionTreeView({
             <ChatSection
               agentName={agent.name}
               autoRequestReply={autoRequestReply}
-              hasMore={hasMore}
               messageGroups={messageGroups}
               onClickRequestAnswer={() => handleRequestAnswer(interaction.id)}
               writingStatus={writingStatus}
