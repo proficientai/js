@@ -80,7 +80,7 @@ export function InteractionTreeView({
         (depth) => getActiveIndex(interactionId, depth),
         (message, currentIndex, depth, groupSize) => {
           if (!message) {
-            throw new Error('Implementation Error: The tree has been constructed with an incomplete dataset. ');
+            throw new Error('Implementation Error: The tree has been constructed with an incomplete dataset.');
           }
           groups[depth] = {
             current: message,
