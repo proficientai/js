@@ -270,9 +270,68 @@ export function InteractionTreeView({
     setTextAreaValue,
   ]);
 
-  const handleCreateInteraction = useCallback(async () => {}, []);
+  const handleCreateInteraction = useCallback(async () => {
+    try {
+      const api = await getApi();
+      const { interaction: newInteraction, messages } = await api.interactions.create({ agentId });
+      setInteractionStatesById((prev) => ({
+        ...prev,
+        [newInteraction.id]: {
+          status: 'success',
+          interaction: newInteraction,
+        },
+      }));
+      setMessagesStatesById((prev) => ({
+        ...prev,
+        [newInteraction.id]: {
+          status: 'success',
+          messageMap: new Map(messages.map((m) => [m.id, m])),
+        },
+      }));
+      setWritingStatesById((prev) => ({
+        ...prev,
+        [newInteraction.id]: {
+          status: 'nil',
+        },
+      }));
+      setInteractionId(newInteraction.id);
+    } catch (e) {
+      // TODO: Handle errors
+      console.error('Cannot create interaction', e);
+    }
+  }, [agentId, getApi]);
+
   const handleUpdateInteraction = useCallback(async (name: string) => {}, []);
-  const handleDeleteInteraction = useCallback(async () => {}, []);
+
+  const handleDeleteInteraction = useCallback(
+    async (interactionId: string) => {
+      const shouldDelete = confirm(
+        'Are you sure you want to delete this interaction? You will not be able to recover it as all the messages in it will be permanently deleted.'
+      );
+      if (!shouldDelete) return;
+      const api = await getApi();
+      try {
+        await api.interactions.delete(interactionId);
+      } catch (e: any) {
+        // TODO: Handle errors
+        alert(e?.response?.data?.message ?? 'Cannot delete interaction.');
+        return;
+      }
+      setInteractionStatesById((prev) => {
+        const { [interactionId]: _, ...next } = prev;
+        return next;
+      });
+      setMessagesStatesById((prev) => {
+        const { [interactionId]: _, ...next } = prev;
+        return next;
+      });
+      setWritingStatesById((prev) => {
+        const { [interactionId]: _, ...next } = prev;
+        return next;
+      });
+    },
+    [getApi]
+  );
 
   if (agentState.status === 'nil' || agentState.status === 'loading') {
     // TODO: Update view
@@ -340,7 +399,7 @@ export function InteractionTreeView({
               width: 100%;
             `}>
             <HeaderSection
-              onClickDelete={handleDeleteInteraction}
+              onClickDelete={() => handleDeleteInteraction(interaction.id)}
               onTitleBlur={async (text) => {
                 if (interaction.name !== text) {
                   await handleUpdateInteraction(text);
