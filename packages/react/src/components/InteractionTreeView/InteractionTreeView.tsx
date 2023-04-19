@@ -113,9 +113,40 @@ export function InteractionTreeView({
     })();
   }, [agentId, getApi]);
 
-  const loadInteractions = useCallback(async () => {}, []);
+  const loadMessages = useCallback(
+    async (interactionId: string) => {
+      console.log('Starting to load messages', Date.now());
+      try {
+        const api = await getApi();
+        const { data: receivedMessages } = await api.messages.list({
+          interactionId,
+        });
+        const receivedMessagesMap = new Map(receivedMessages.map((m) => [m.id, m]));
+        setMessagesStatesById((prev) => {
+          const { [interactionId]: _, ...rest } = prev;
+          return {
+            ...rest,
+            [interactionId]: {
+              status: 'success',
+              messageMap: receivedMessagesMap,
+            },
+          };
+        });
+      } catch (e) {
+        // TODO: Handle errors
+        alert('Error loading messages!');
+      }
+    },
+    [getApi]
+  );
 
-  const loadMessages = useCallback(async () => {}, []);
+  // Load messages
+  // TODO: We probably don't want to load every time `interactionId` changes
+  useEffect(() => {
+    if (interactionId) {
+      loadMessages(interactionId);
+    }
+  }, [loadMessages, interactionId]);
 
   const handleRequestAnswer = useCallback(async () => {}, []);
   const handleSendMessage = useCallback(async () => {}, []);
