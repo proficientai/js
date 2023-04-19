@@ -55,9 +55,10 @@ export type MessageGroupInfo = {
   /**
    * The index of the currently active message within the group.
    */
-  activeIndex: number;
+  currentIndex: number;
+  current: Proficient.Message;
+  size: number;
   depth: number;
-  message: Proficient.Message;
 };
 
 export interface InteractionViewProps {

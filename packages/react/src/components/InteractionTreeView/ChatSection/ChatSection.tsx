@@ -115,7 +115,7 @@ export function ChatSection({
         })()}
       </div>
       {messageGroups.map((messageGroup) => {
-        const { id, message } = messageGroup;
+        const { id, current: message } = messageGroup;
         return (
           <div
             key={id}
