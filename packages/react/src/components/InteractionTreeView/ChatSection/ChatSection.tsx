@@ -16,9 +16,6 @@ export function ChatSection({
   onClickRequestAnswer,
   writingStatus,
 }: ChatSectionProps) {
-  // const [lastMessage] = messages;
-  // const canRequestAnswer =
-  //   lastMessage?.sentBy === 'user' && (!autoRequestReply || writingStatus === 'error' || writingStatus === 'nil');
   const canRequestAnswer = true; // TODO: Update
   return (
     <InfiniteScroll
@@ -118,9 +115,7 @@ export function ChatSection({
         })()}
       </div>
       {messageGroups.map((messageGroup) => {
-        const { id, messages, activeIndex } = messageGroup;
-        const activeMessage = messages[activeIndex];
-        if (!activeMessage) return null;
+        const { id, message } = messageGroup;
         return (
           <div
             key={id}
@@ -128,16 +123,16 @@ export function ChatSection({
               padding: 10px;
               border-radius: 16px;
               margin-bottom: 12px;
-              margin-left: ${activeMessage.sentBy === 'agent' ? 0 : 'auto'};
+              margin-left: ${message.sentBy === 'agent' ? 0 : 'auto'};
               width: fit-content;
               max-width: 60ch;
               white-space: pre-wrap;
-              background-color: ${activeMessage.sentBy === 'agent' ? colors.gray[700] : colors.indigo[600]};
+              background-color: ${message.sentBy === 'agent' ? colors.gray[700] : colors.indigo[600]};
               color: ${colors.gray[100]};
               font-family: Inter, sans-serif;
               font-size: 14px;
             `}>
-            {activeMessage.content}
+            {message.content}
           </div>
         );
       })}
