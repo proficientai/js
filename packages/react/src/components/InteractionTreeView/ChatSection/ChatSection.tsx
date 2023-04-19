@@ -185,15 +185,21 @@ export function ChatSection({
                   margin-top: 12px;
                 `}>
                 {/* TODO: Improve designs */}
-                <button onClick={() => onClickPrevious?.(currentIndex)}>{'<'}</button>
+                <button onClick={() => onClickPrevious?.(message.depth, currentIndex)} disabled={currentIndex === 0}>
+                  {'<'}
+                </button>
                 <span
                   css={css`
                     margin-left: 6px;
                     margin-right: 6px;
                   `}>
-                  {currentIndex} / {groupSize}
+                  {currentIndex + 1} / {groupSize}
                 </span>
-                <button onClick={() => onClickNext?.(currentIndex)}>{'>'}</button>
+                <button
+                  onClick={() => onClickNext?.(message.depth, currentIndex)}
+                  disabled={currentIndex === groupSize - 1}>
+                  {'>'}
+                </button>
               </div>
             )}
           </div>

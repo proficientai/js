@@ -7,8 +7,8 @@ export interface ChatSectionProps {
   layout: 'bubbles' | 'boxes';
   messageGroups: MessageGroupInfo[];
   next?: () => Promise<void>;
-  onClickNext?: (currentIndex: number) => void | Promise<void>;
-  onClickPrevious?: (currentIndex: number) => void | Promise<void>;
+  onClickNext?: (depth: number, currentIndex: number) => void | Promise<void>;
+  onClickPrevious?: (depth: number, currentIndex: number) => void | Promise<void>;
   onClickRequestAnswer: () => Promise<void>;
   writingStatus: 'nil' | 'writing' | 'error';
 }

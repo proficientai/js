@@ -46,6 +46,7 @@ export class InteractionTree2 {
     // Look for an existing node. If not exists, create.
     let node = this.map.get(message.id);
     if (!node) node = new TreeNode(message, message.depth);
+    this.map.set(message.id, node);
     // It is possible that node exists but its message property doesn't
     node.message = message;
     // Look for parent
@@ -54,6 +55,7 @@ export class InteractionTree2 {
       // This is a child node. Look for parent. If not exists, create.
       let parentNode = this.map.get(parentId);
       if (!parentNode) parentNode = new TreeNode(null, node.depth - 1);
+      this.map.set(parentId, parentNode);
       parentNode.addChild(node);
     } else {
       // This is a root node
@@ -83,7 +85,7 @@ export class InteractionTree2 {
       if (!child) {
         throw new Error(`Illegal active index ${activeIndex}. Child does not exist`);
       }
-      cb(node.message, activeIndex, node.depth, node.children.length);
+      cb(child.message, activeIndex, child.depth, node.children.length);
       this.traverseDescendants(child, getActiveIndex, cb);
     }
   }

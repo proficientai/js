@@ -73,6 +73,29 @@ export function InteractionTreeView({
     return filteredInteractions.sort((i1, i2) => i2.updatedAt - i1.updatedAt);
   }, [interactionStatesById]);
 
+  const messageGroups = useMemo(() => {
+    const groups: MessageGroupInfo[] = [];
+    if (interactionId && messagesState) {
+      const tree = InteractionTree2.create(messagesState.messageMap);
+      tree.traverseFromRoot(
+        (depth) => getActiveIndex(interactionId, depth),
+        (message, currentIndex, depth, groupSize) => {
+          if (!message) {
+            throw new Error('Implementation Error: The tree has been constructed with an incomplete dataset. ');
+          }
+          groups[depth] = {
+            current: message,
+            id: message.id,
+            currentIndex,
+            depth,
+            size: groupSize,
+          };
+        }
+      );
+    }
+    return groups.reverse();
+  }, [interactionId, messagesState, getActiveIndex]);
+
   const setTextAreaValue = useCallback((val: string) => {
     if (inputTextAreaRef.current) {
       inputTextAreaRef.current.value = val;
@@ -171,25 +194,85 @@ export function InteractionTreeView({
     }
   }, [loadMessages, interactionId]);
 
-  const handleRequestAnswer = useCallback(async () => {}, []);
-  const handleSendMessage = useCallback(async () => {}, []);
+  const handleRequestAnswer = useCallback(async (interactionId: string, lastMessage?: Proficient.Message) => {
+    //
+  }, []);
+
+  const handleSendMessage = useCallback(async () => {
+    if (interactionId === null) return;
+    const content = getInteractionInput(interactionId);
+    if (!content) {
+      alert('No message');
+      return;
+    }
+    setInteractionInput(interactionId, '');
+    setTextAreaValue('');
+    setMessagesStatesById((prev) => {
+      const { [interactionId]: prevMessagesState, ...rest } = prev;
+      const newMessageMap = new Map(prevMessagesState?.messageMap);
+      newMessageMap.set(PROVISIONAL_MESSAGE_ID, {
+        id: PROVISIONAL_MESSAGE_ID,
+        depth: Number.MAX_SAFE_INTEGER, // TODO: See if this breaks anything
+        content,
+        createdAt: Date.now(),
+        interactionId,
+        object: 'message',
+        sentBy: 'user',
+      });
+      return {
+        ...rest,
+        [interactionId]: {
+          status: 'success',
+          messageMap: newMessageMap,
+        },
+      };
+    });
+
+    const api = await getApi();
+    const [firstMessageGroup] = messageGroups;
+    const parentId = firstMessageGroup?.id;
+    try {
+      const sent = await api.messages.create({
+        content,
+        interactionId,
+        parentId,
+      });
+
+      setMessagesStatesById((prev) => {
+        const { [interactionId]: prevMessagesState, ...rest } = prev;
+        const newMessageMap = new Map(prevMessagesState?.messageMap);
+        newMessageMap.delete(PROVISIONAL_MESSAGE_ID);
+        newMessageMap.set(sent.id, sent);
+        return {
+          ...rest,
+          [interactionId]: {
+            status: 'success',
+            messageMap: newMessageMap,
+          },
+        };
+      });
+
+      if (autoRequestReply) {
+        await handleRequestAnswer(interactionId, sent);
+      }
+    } catch (e: any) {
+      // TODO: Handle errors
+      alert(`Api Error: ${e?.response?.data?.message}`);
+    }
+  }, [
+    autoRequestReply,
+    getApi,
+    getInteractionInput,
+    handleRequestAnswer,
+    interactionId,
+    messageGroups,
+    setInteractionInput,
+    setTextAreaValue,
+  ]);
+
   const handleCreateInteraction = useCallback(async () => {}, []);
   const handleUpdateInteraction = useCallback(async (name: string) => {}, []);
   const handleDeleteInteraction = useCallback(async () => {}, []);
-
-  const buildMessageGroups = useCallback(() => {
-    const groups: MessageGroupInfo[] = [];
-    if (interactionId && messagesState) {
-      const tree = InteractionTree2.create(messagesState.messageMap);
-      tree.traverseFromRoot(
-        (depth) => getActiveIndex(interactionId, depth),
-        (message, currentIndex, depth, groupSize) => {
-          groups.push({ current: message!, id: message!.id, currentIndex, depth, size: groupSize });
-        }
-      );
-    }
-    return groups;
-  }, [interactionId, messagesState, getActiveIndex]);
 
   if (agentState.status === 'nil' || agentState.status === 'loading') {
     // TODO: Update view
@@ -202,8 +285,6 @@ export function InteractionTreeView({
   }
 
   const { agent } = agentState;
-
-  const messageGroups = buildMessageGroups();
 
   return (
     <div
@@ -273,7 +354,13 @@ export function InteractionTreeView({
               autoRequestReply={autoRequestReply}
               layout="boxes"
               messageGroups={messageGroups}
-              onClickRequestAnswer={handleRequestAnswer}
+              onClickPrevious={(depth, activeIndex) => {
+                setActiveIndex(interaction.id, depth, activeIndex - 1);
+              }}
+              onClickNext={(depth, activeIndex) => {
+                setActiveIndex(interaction.id, depth, activeIndex + 1);
+              }}
+              onClickRequestAnswer={() => handleRequestAnswer(interaction.id)}
               writingStatus={writingStatus}
             />
 
