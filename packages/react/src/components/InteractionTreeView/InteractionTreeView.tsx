@@ -4,7 +4,6 @@ import type { Proficient } from '@proficient/client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { InteractionTree } from '../../ds/InteractionTree';
-import { InteractionTree2 } from '../../ds/InteractionTree2';
 import { useApi } from '../../hooks';
 import { ChatSection } from './ChatSection';
 import { HeaderSection } from './HeaderSection';
@@ -76,7 +75,7 @@ export function InteractionTreeView({
   const messageGroups = useMemo(() => {
     const groups: MessageGroupInfo[] = [];
     if (interactionId && messagesState) {
-      const tree = InteractionTree2.create(messagesState.messageMap);
+      const tree = InteractionTree.create(messagesState.messageMap);
       tree.traverseFromRoot(
         (depth) => getActiveIndex(interactionId, depth),
         (message, currentIndex, depth, groupSize) => {

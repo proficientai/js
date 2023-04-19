@@ -1,85 +1,91 @@
 import type { Proficient } from '@proficient/client';
 
-type MessageGroup = {
-  depth: number;
-  messages: [Proficient.Message, ...Proficient.Message[]];
-};
+class TreeNode {
+  private readonly _children: TreeNode[];
+
+  public constructor(public message: Proficient.Message | null, public readonly depth: number) {
+    this._children = [];
+  }
+
+  public addChild(node: TreeNode) {
+    this._children.push(node);
+    this._children.sort((n1, n2) => (n1.message?.createdAt ?? 0) - (n2.message?.createdAt ?? 0));
+  }
+
+  public get children() {
+    return this._children;
+  }
+}
 
 export class InteractionTree {
   /**
-   * @param messages - An unordered list of `Message` objects that belong to the specified `Interaction`.
+   * @param messages - An unordered list or a Map of `Message` objects that belong to the specified `Interaction`.
    */
   public static create(messages: Proficient.Message[] | Map<string, Proficient.Message>) {
-    const tree = new InteractionTree(new Map(), new Map(), new Map());
+    const tree = new InteractionTree();
     messages.forEach((m) => {
       tree.addMessage(m);
     });
     return tree;
   }
 
-  public constructor(
-    private map: Map<string, Proficient.Message>,
-    private leafNodesById: Map<string, Proficient.Message>,
-    private rootNodesById: Map<string, Proficient.Message>
-  ) {}
+  private map: Map<string, TreeNode>;
+  private rootNodes: TreeNode[];
 
-  public clone() {
-    return new InteractionTree(this.map, this.leafNodesById, this.rootNodesById);
+  private constructor() {
+    this.map = new Map();
+    this.rootNodes = [];
   }
 
-  /**
-   * Root nodes sorted with respect to `createdAt`.
-   */
-  public get rootNodes() {
-    return Array.from(this.rootNodesById.values()).sort((m1, m2) => m1.createdAt - m2.createdAt);
-  }
-
-  /**
-   * @returns An array of `MessageGroup`s where the index of each `MessageGroup` represents the depth of all the messages within the group.
-   */
-  public buildConversation() {
-    const messageGroups: MessageGroup[] = [];
-    this.leafNodesById.forEach((m) => {
-      this.buildFromNode(messageGroups, m);
-    });
-    return messageGroups;
-  }
-
-  private buildFromNode(messageGroups: MessageGroup[], message: Proficient.Message) {
-    let curNode: Proficient.Message | undefined = message;
-    while (curNode) {
-      let group = messageGroups[curNode.depth];
-      if (group) {
-        group.messages.push(curNode);
-      } else {
-        group = { depth: curNode.depth, messages: [curNode] };
-      }
-      messageGroups[curNode.depth] = group;
-      curNode = curNode.parentId ? this.map.get(curNode.parentId) : undefined;
-    }
+  private addRootNode(node: TreeNode) {
+    this.rootNodes.push(node);
+    this.rootNodes.sort((n1, n2) => (n1.message?.createdAt ?? 0) - (n2.message?.createdAt ?? 0));
   }
 
   public addMessage(message: Proficient.Message) {
-    this.map.set(message.id, message);
-    if (message.depth === 0) {
-      this.rootNodesById.set(message.id, message);
-    }
-    const parentId = message.parentId;
+    // Look for an existing node. If not exists, create.
+    let node = this.map.get(message.id);
+    if (!node) node = new TreeNode(message, message.depth);
+    this.map.set(message.id, node);
+    // It is possible that the node exists but its message property doesn't
+    node.message = message;
+    const parentId = node.message.parentId;
     if (parentId) {
-      this.leafNodesById.delete(parentId);
+      // This is a child node. Look for parent. If not exists, create.
+      let parentNode = this.map.get(parentId);
+      if (!parentNode) parentNode = new TreeNode(null, node.depth - 1);
+      this.map.set(parentId, parentNode);
+      parentNode.addChild(node);
+    } else {
+      // This is a root node
+      this.addRootNode(node);
     }
   }
 
-  public replaceMessage(originalMessageId: string, newMessage: Proficient.Message) {
-    this.map.delete(originalMessageId);
-    this.map.set(newMessage.id, newMessage);
-    if (this.rootNodesById.has(originalMessageId)) {
-      this.rootNodesById.delete(originalMessageId);
-      this.rootNodesById.set(newMessage.id, newMessage);
-    }
-    if (this.leafNodesById.has(originalMessageId)) {
-      this.leafNodesById.delete(originalMessageId);
-      this.leafNodesById.set(newMessage.id, newMessage);
+  public traverseFromRoot(
+    getActiveIndex: (depth: number) => number,
+    cb: (message: Proficient.Message | null, index: number, depth: number, groupSize: number) => void
+  ) {
+    const activeIndex = getActiveIndex(0);
+    const rootNode = this.rootNodes[activeIndex];
+    if (!rootNode) return;
+    cb(rootNode.message, activeIndex, 0, this.rootNodes.length);
+    this.traverseDescendants(rootNode, getActiveIndex, cb);
+  }
+
+  private traverseDescendants(
+    node: TreeNode,
+    getActiveIndex: (depth: number) => number,
+    cb: (message: Proficient.Message | null, index: number, depth: number, groupSize: number) => void
+  ) {
+    if (node.children.length > 0) {
+      const activeIndex = getActiveIndex(node.depth + 1);
+      const child = node.children[activeIndex];
+      if (!child) {
+        throw new Error(`Illegal active index ${activeIndex}. Child does not exist`);
+      }
+      cb(child.message, activeIndex, child.depth, node.children.length);
+      this.traverseDescendants(child, getActiveIndex, cb);
     }
   }
 }
