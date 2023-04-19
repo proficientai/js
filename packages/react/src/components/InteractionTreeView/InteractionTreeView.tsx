@@ -3,6 +3,7 @@ import { Global, css } from '@emotion/react';
 import type { Proficient } from '@proficient/client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { InteractionTree } from '../../ds/InteractionTree';
 import { useApi } from '../../hooks';
 import { ChatSection } from './ChatSection';
 import { HeaderSection } from './HeaderSection';
@@ -19,6 +20,26 @@ import type {
 import { useTextInputMap } from './useTextInputMap';
 
 const PROVISIONAL_MESSAGE_ID = '_msg_provisional';
+
+function useActiveIndexes() {
+  const [mapsByInteractionId, setMapsByInteractionId] = useState<Record<string, Map<number, number>>>({});
+
+  function getActiveIndex(interactionId: string, depth: number) {
+    const map = mapsByInteractionId[interactionId];
+    return map?.get(depth) ?? 0;
+  }
+
+  function setActiveIndex(interactionId: string, depth: number, index: number) {
+    setMapsByInteractionId((prev) => {
+      const { [interactionId]: prevMap, ...rest } = prev;
+      const next = prevMap ? new Map(prevMap) : new Map();
+      next.set(depth, index);
+      return { ...rest, [interactionId]: next };
+    });
+  }
+
+  return { getActiveIndex, setActiveIndex };
+}
 
 export function InteractionTreeView({
   apiKey,
@@ -38,6 +59,7 @@ export function InteractionTreeView({
   const [interactionId, setInteractionId] = useState<string | null>(null);
   const inputTextAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const { get: getInteractionInput, set: setInteractionInput } = useTextInputMap();
+  const { getActiveIndex, setActiveIndex } = useActiveIndexes();
 
   const interactionState = interactionId ? interactionStatesById[interactionId] ?? null : null;
   const messagesState = interactionId ? messagesStatesById[interactionId] ?? null : null;
@@ -154,6 +176,15 @@ export function InteractionTreeView({
   const handleUpdateInteraction = useCallback(async (name: string) => {}, []);
   const handleDeleteInteraction = useCallback(async () => {}, []);
 
+  const buildMessageGroups = useCallback(() => {
+    const groups: MessageGroupInfo[] = [];
+    if (interactionId && messagesState) {
+      const tree = InteractionTree.create(messagesState.messageMap);
+      // TODO: Build groups here
+    }
+    return groups;
+  }, [interactionId, messagesState]);
+
   if (agentState.status === 'nil' || agentState.status === 'loading') {
     // TODO: Update view
     return <div>Loading agent...</div>;
@@ -166,7 +197,7 @@ export function InteractionTreeView({
 
   const { agent } = agentState;
 
-  const messageGroups: MessageGroupInfo[] = [];
+  const messageGroups = buildMessageGroups();
 
   return (
     <div
@@ -234,6 +265,7 @@ export function InteractionTreeView({
             <ChatSection
               agentName={agent.name}
               autoRequestReply={autoRequestReply}
+              layout="boxes"
               messageGroups={messageGroups}
               onClickRequestAnswer={handleRequestAnswer}
               writingStatus={writingStatus}

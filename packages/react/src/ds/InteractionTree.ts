@@ -9,8 +9,8 @@ export class InteractionTree {
   /**
    * @param messages - An unordered list of `Message` objects that belong to the specified `Interaction`.
    */
-  public static create(messages: Proficient.Message[] = []) {
-    const tree = new InteractionTree(new Map(), new Map());
+  public static create(messages: Proficient.Message[] | Map<string, Proficient.Message>) {
+    const tree = new InteractionTree(new Map(), new Map(), new Map());
     messages.forEach((m) => {
       tree.addMessage(m);
     });
@@ -19,11 +19,19 @@ export class InteractionTree {
 
   public constructor(
     private map: Map<string, Proficient.Message>,
-    private leafNodesById: Map<string, Proficient.Message>
+    private leafNodesById: Map<string, Proficient.Message>,
+    private rootNodesById: Map<string, Proficient.Message>
   ) {}
 
   public clone() {
-    return new InteractionTree(this.map, this.leafNodesById);
+    return new InteractionTree(this.map, this.leafNodesById, this.rootNodesById);
+  }
+
+  /**
+   * Root nodes sorted with respect to `createdAt`.
+   */
+  public get rootNodes() {
+    return Array.from(this.rootNodesById.values()).sort((m1, m2) => m1.createdAt - m2.createdAt);
   }
 
   /**
@@ -53,6 +61,9 @@ export class InteractionTree {
 
   public addMessage(message: Proficient.Message) {
     this.map.set(message.id, message);
+    if (message.depth === 0) {
+      this.rootNodesById.set(message.id, message);
+    }
     const parentId = message.parentId;
     if (parentId) {
       this.leafNodesById.delete(parentId);
@@ -62,6 +73,10 @@ export class InteractionTree {
   public replaceMessage(originalMessageId: string, newMessage: Proficient.Message) {
     this.map.delete(originalMessageId);
     this.map.set(newMessage.id, newMessage);
+    if (this.rootNodesById.has(originalMessageId)) {
+      this.rootNodesById.delete(originalMessageId);
+      this.rootNodesById.set(newMessage.id, newMessage);
+    }
     if (this.leafNodesById.has(originalMessageId)) {
       this.leafNodesById.delete(originalMessageId);
       this.leafNodesById.set(newMessage.id, newMessage);
