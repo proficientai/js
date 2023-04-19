@@ -11,8 +11,11 @@ export function ChatSection({
   agentName,
   autoRequestReply,
   hasMore,
+  layout,
   messageGroups,
   next,
+  onClickNext,
+  onClickPrevious,
   onClickRequestAnswer,
   writingStatus,
 }: ChatSectionProps) {
@@ -25,8 +28,8 @@ export function ChatSection({
         background-color: ${colors.gray[800]};
         display: flex;
         flex-direction: column-reverse;
-        padding-left: 24px;
-        padding-right: 24px;
+        padding-left: ${layout === 'bubbles' ? '24px' : undefined};
+        padding-right: ${layout === 'bubbles' ? '24px' : undefined};
       `}
       inverse
       hasMore={!!hasMore}
@@ -115,24 +118,84 @@ export function ChatSection({
         })()}
       </div>
       {messageGroups.map((messageGroup) => {
-        const { id, current: message } = messageGroup;
+        const { id, current: message, size: groupSize, currentIndex } = messageGroup;
+        if (layout === 'bubbles') {
+          return (
+            <div
+              key={id}
+              css={css`
+                padding: 10px;
+                border-radius: 16px;
+                margin-bottom: 12px;
+                margin-left: ${message.sentBy === 'agent' ? 0 : 'auto'};
+                width: fit-content;
+                max-width: 60ch;
+                white-space: pre-wrap;
+                background-color: ${message.sentBy === 'agent' ? colors.gray[700] : colors.indigo[600]};
+                color: ${colors.gray[100]};
+                font-family: Inter, sans-serif;
+                font-size: 14px;
+              `}>
+              {message.content}
+            </div>
+          );
+        }
         return (
           <div
             key={id}
             css={css`
-              padding: 10px;
-              border-radius: 16px;
-              margin-bottom: 12px;
-              margin-left: ${message.sentBy === 'agent' ? 0 : 'auto'};
-              width: fit-content;
-              max-width: 60ch;
+              padding-left: 34px;
+              padding-right: 34px;
+              padding-top: 24px;
+              padding-bottom: 24px;
               white-space: pre-wrap;
-              background-color: ${message.sentBy === 'agent' ? colors.gray[700] : colors.indigo[600]};
-              color: ${colors.gray[100]};
-              font-family: Inter, sans-serif;
-              font-size: 14px;
+              background-color: ${message.sentBy === 'agent' ? colors.gray[800] : colors.gray[900]};
             `}>
-            {message.content}
+            <div
+              key={id}
+              css={css`
+                display: flex;
+                flex-direction: row;
+              `}>
+              <div
+                css={css`
+                  color: ${colors.gray[500]};
+                  font-family: Inter, sans-serif;
+                  font-size: 14px;
+                  margin-right: 10px;
+                `}>
+                {message.sentBy === 'agent' ? agentName : 'You'}
+              </div>
+              <div
+                css={css`
+                  color: ${colors.gray[100]};
+                  font-family: Inter, sans-serif;
+                  font-size: 14px;
+                `}>
+                {message.content}
+              </div>
+            </div>
+            {groupSize > 1 && (
+              <div
+                css={css`
+                  display: flex;
+                  color: ${colors.gray[100]};
+                  font-family: Inter, sans-serif;
+                  font-size: 14px;
+                  margin-top: 12px;
+                `}>
+                {/* TODO: Improve designs */}
+                <button onClick={() => onClickPrevious?.(currentIndex)}>{'<'}</button>
+                <span
+                  css={css`
+                    margin-left: 6px;
+                    margin-right: 6px;
+                  `}>
+                  {currentIndex} / {groupSize}
+                </span>
+                <button onClick={() => onClickNext?.(currentIndex)}>{'>'}</button>
+              </div>
+            )}
           </div>
         );
       })}
