@@ -202,18 +202,18 @@ export function InteractionTreeView({
   }, [loadMessages, interactionId]);
 
   const handleRequestAnswer = useCallback(
-    async (interactionId: string, toMessage?: Proficient.Message) => {
+    async (interactionId: string, toMessageId?: string) => {
       if (interactionId === null) return;
       const [firstMessageGroup] = messageGroups;
-      toMessage ??= firstMessageGroup?.current;
-      if (!toMessage || toMessage.sentBy !== 'user') {
-        alert('The message to which a reply is being asked for must be sent by the user.');
+      toMessageId ??= firstMessageGroup?.current.id;
+      if (!toMessageId) {
+        alert('Could not find the message to which a reply is being asked for.');
         return;
       }
       setWritingStatesById((prev) => ({ ...prev, [interactionId]: { status: 'writing' } }));
       try {
         const api = await getApi();
-        const received = await api.messages.ask(toMessage.id, { interactionId });
+        const received = await api.messages.ask(toMessageId, { interactionId });
         setMessagesStatesById((prev) => {
           const { [interactionId]: prevMessagesState, ...rest } = prev;
           const newMessageMap = new Map(prevMessagesState?.messageMap);
@@ -287,7 +287,7 @@ export function InteractionTreeView({
       });
 
       if (autoRequestReply) {
-        await handleRequestAnswer(interactionId, sent);
+        await handleRequestAnswer(interactionId, sent.id);
       }
     } catch (e: any) {
       // TODO: Handle errors
@@ -450,6 +450,7 @@ export function InteractionTreeView({
 
         let generateButtonType: null | 'generate' | 'regenerate' | 'retry' = null;
 
+        // TODO: Hide "Regenerate" while agent is writing
         if (autoRequestReply) {
           if (mostRecentMessage) {
             if (mostRecentMessage.sentBy === 'agent') {
@@ -516,7 +517,12 @@ export function InteractionTreeView({
                     height: 50px;
                   `}>
                   <button
-                    onClick={() => handleRequestAnswer(interaction.id)}
+                    onClick={() =>
+                      handleRequestAnswer(
+                        interaction.id,
+                        generateButtonType === 'regenerate' ? mostRecentMessage?.parentId : mostRecentMessage?.id
+                      )
+                    }
                     css={css`
                       display: flex;
                       border: 1px solid ${colors.gray[700]};
