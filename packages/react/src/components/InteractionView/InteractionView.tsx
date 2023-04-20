@@ -44,7 +44,7 @@ function useActiveIndexes() {
   return { getActiveIndex, setActiveIndex };
 }
 
-export function InteractionTreeView({
+export function InteractionView({
   apiKey,
   agentId,
   userExternalId,
