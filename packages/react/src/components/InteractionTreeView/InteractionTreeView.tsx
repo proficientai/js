@@ -450,21 +450,22 @@ export function InteractionTreeView({
 
         let generateButtonType: null | 'generate' | 'regenerate' | 'retry' = null;
 
-        // TODO: Hide "Regenerate" while agent is writing
         if (autoRequestReply) {
           if (mostRecentMessage) {
             if (mostRecentMessage.sentBy === 'agent') {
-              generateButtonType = 'regenerate';
-            } else {
-              if (writingState.status === 'error') {
-                generateButtonType = 'retry';
+              if (writingState.status !== 'writing') {
+                generateButtonType = 'regenerate';
               }
+            } else if (writingState.status === 'error') {
+              generateButtonType = 'retry';
             }
           }
         } else {
           if (mostRecentMessage) {
             if (mostRecentMessage.sentBy === 'agent') {
-              generateButtonType = 'regenerate';
+              if (writingState.status !== 'writing') {
+                generateButtonType = 'regenerate';
+              }
             } else {
               if (writingState.status === 'error') {
                 generateButtonType = 'retry';
