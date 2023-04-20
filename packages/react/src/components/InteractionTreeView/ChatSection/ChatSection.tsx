@@ -3,23 +3,18 @@ import { css } from '@emotion/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { colors } from '../../../styles';
-import { BoltIcon } from '../../icons/BoltIcon';
-import { RetryIcon } from '../../icons/RetryIcon';
 import type { ChatSectionProps } from './types';
 
 export function ChatSection({
   agentName,
-  autoRequestReply,
   hasMore,
   layout,
   messageGroups,
   next,
   onClickNext,
   onClickPrevious,
-  onClickRequestAnswer,
   writingStatus,
 }: ChatSectionProps) {
-  const canRequestAnswer = true; // TODO: Update
   return (
     <InfiniteScroll
       dataLength={messageGroups.length}
@@ -30,6 +25,7 @@ export function ChatSection({
         flex-direction: column-reverse;
         padding-left: ${layout === 'bubbles' ? '24px' : undefined};
         padding-right: ${layout === 'bubbles' ? '24px' : undefined};
+        padding-bottom: 40px;
       `}
       inverse
       hasMore={!!hasMore}
@@ -75,44 +71,6 @@ export function ChatSection({
                 `}>
                 {agentName} is writing...
               </span>
-            );
-          }
-
-          if (canRequestAnswer) {
-            return (
-              <button
-                onClick={onClickRequestAnswer}
-                css={css`
-                  display: flex;
-                  border: 1px solid ${colors.gray[700]};
-                  align-items: center;
-                  color: ${colors.gray[100]};
-                  background-color: ${colors.gray[800]};
-                  outline: none;
-                  cursor: pointer;
-                  padding-top: 6px;
-                  padding-bottom: 6px;
-                  padding-left: 16px;
-                  padding-right: 16px;
-                  border-radius: 4px;
-
-                  margin-top: 10px;
-                  margin-bottom: 10px;
-                  margin-left: auto;
-                  margin-right: auto;
-
-                  &:hover {
-                    background-color: ${colors.gray[700]};
-                  }
-                `}>
-                {autoRequestReply ? <RetryIcon /> : <BoltIcon />}
-                <span
-                  css={css`
-                    margin-left: 10px;
-                  `}>
-                  {autoRequestReply ? 'Retry' : 'Request answer'}
-                </span>
-              </button>
             );
           }
         })()}

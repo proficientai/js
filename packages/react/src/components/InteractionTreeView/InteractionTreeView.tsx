@@ -5,6 +5,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { InteractionTree } from '../../ds/InteractionTree';
 import { useApi } from '../../hooks';
+import { colors } from '../../styles';
+import { BoltIcon } from '../icons/BoltIcon';
+import { RetryIcon } from '../icons/RetryIcon';
 import { ChatSection } from './ChatSection';
 import { HeaderSection } from './HeaderSection';
 import { InputSection } from './InputSection';
@@ -455,20 +458,67 @@ export function InteractionTreeView({
               title={interaction.name}
             />
 
-            <ChatSection
-              agentName={agent.name}
-              autoRequestReply={autoRequestReply}
-              layout="bubbles"
-              messageGroups={messageGroups}
-              onClickPrevious={(depth, activeIndex) => {
-                setActiveIndex(interaction.id, depth, activeIndex - 1);
-              }}
-              onClickNext={(depth, activeIndex) => {
-                setActiveIndex(interaction.id, depth, activeIndex + 1);
-              }}
-              onClickRequestAnswer={() => handleRequestAnswer(interaction.id)}
-              writingStatus={writingStatus}
-            />
+            <div
+              css={css`
+                width: 100%;
+                position: relative;
+                padding-bottom: 0px;
+              `}>
+              <ChatSection
+                agentName={agent.name}
+                layout="bubbles"
+                messageGroups={messageGroups}
+                onClickPrevious={(depth, activeIndex) => {
+                  setActiveIndex(interaction.id, depth, activeIndex - 1);
+                }}
+                onClickNext={(depth, activeIndex) => {
+                  setActiveIndex(interaction.id, depth, activeIndex + 1);
+                }}
+                writingStatus={writingStatus}
+              />
+              <div
+                css={css`
+                  position: absolute;
+                  bottom: 0;
+                  left: 0;
+                  right: 0;
+                  height: 50px;
+                `}>
+                <button
+                  onClick={() => handleRequestAnswer(interaction.id)}
+                  css={css`
+                    display: flex;
+                    border: 1px solid ${colors.gray[700]};
+                    align-items: center;
+                    color: ${colors.gray[100]};
+                    background-color: ${colors.gray[800]};
+                    outline: none;
+                    cursor: pointer;
+                    padding-top: 6px;
+                    padding-bottom: 6px;
+                    padding-left: 16px;
+                    padding-right: 16px;
+                    border-radius: 4px;
+
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    margin-left: auto;
+                    margin-right: auto;
+
+                    &:hover {
+                      background-color: ${colors.gray[700]};
+                    }
+                  `}>
+                  {autoRequestReply ? <RetryIcon /> : <BoltIcon />}
+                  <span
+                    css={css`
+                      margin-left: 10px;
+                    `}>
+                    {autoRequestReply ? 'Retry' : 'Request answer'}
+                  </span>
+                </button>
+              </div>
+            </div>
 
             <InputSection
               onClickSend={handleSendMessage}
