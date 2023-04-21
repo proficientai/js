@@ -28,11 +28,11 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
 
   const containerCss = css`
     ${boxCss}
-    background-color: ${darken(theme.colors.primaryBackground, 2)};
+    background-color: ${theme.colors.backgroundSecondary};
     border-top: 1px solid ${theme.colors.border};
     display: flex;
     flex-direction: column;
-    color: ${theme.colors.primaryText};
+    color: ${theme.colors.textPrimary};
   `;
 
   return (
@@ -44,10 +44,10 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
           border: 1px solid gray;
           border-radius: 12px;
           overflow: hidden;
-          border-color: ${theme.colors.primaryBackground};
+          border-color: ${theme.colors.border};
 
           &:focus-within {
-            border-color: ${theme.colors.border};
+            border-color: ${theme.colors.borderActive};
           }
         `}>
         <TextareaAutosize
@@ -79,7 +79,7 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
               display: flex;
               justify-content: center;
               align-items: center;
-              color: ${theme.colors.primaryText};
+              color: ${theme.colors.textPrimary};
               background-color: ${theme.colors.primary};
               outline: none;
               border: none;

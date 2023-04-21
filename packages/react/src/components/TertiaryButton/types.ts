@@ -1,6 +1,6 @@
 import type { CSSProperties, MouseEventHandler, ReactNode } from 'react';
 
-export interface SecondaryButtonProps {
+export interface TertiaryButtonProps {
   children?: ReactNode;
   disabled?: boolean;
   onClick: MouseEventHandler<HTMLButtonElement>;

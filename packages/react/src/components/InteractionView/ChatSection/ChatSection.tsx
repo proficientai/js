@@ -3,7 +3,10 @@ import { css } from '@emotion/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { useTheme } from '../../../hooks';
-import { darken, lighten } from '../../../styles';
+import { brighten, lighten } from '../../../styles';
+import { TertiaryButton } from '../../TertiaryButton';
+import { ChevronLeftIcon } from '../../icons/ChevronLeftIcon';
+import { ChevronRightIcon } from '../../icons/ChevronRightIcon';
 import type { ChatSectionProps } from './types';
 
 export function ChatSection({
@@ -23,7 +26,7 @@ export function ChatSection({
       dataLength={messageGroups.length}
       next={next ?? (() => {})}
       css={css`
-        background-color: ${theme.colors.primaryBackground};
+        background-color: ${theme.colors.backgroundPrimary};
         display: flex;
         flex-direction: column-reverse;
         padding-left: ${layout === 'bubbles' ? '24px' : undefined};
@@ -37,7 +40,7 @@ export function ChatSection({
         <div
           css={css`
             text-align: center;
-            color: ${theme.colors.secondaryText};
+            color: ${theme.colors.textSecondary};
             font-size: 14px;
           `}>
           Loading...
@@ -50,7 +53,7 @@ export function ChatSection({
             padding: 10px;
             margin-bottom: 10px;
             margin-top: 10px;
-            color: ${theme.colors.secondaryText};
+            color: ${theme.colors.textSecondary};
             font-family: Inter, sans-serif;
             font-size: 14px;
           `}>
@@ -68,7 +71,7 @@ export function ChatSection({
               <span
                 css={css`
                   text-align: center;
-                  color: ${theme.colors.secondaryText};
+                  color: ${theme.colors.textSecondary};
                   font-family: Inter, sans-serif;
                   font-size: 13px;
                 `}>
@@ -93,9 +96,9 @@ export function ChatSection({
                 max-width: 60ch;
                 white-space: pre-wrap;
                 background-color: ${message.sentBy === 'agent'
-                  ? lighten(theme.colors.primaryBackground, 3)
+                  ? lighten(theme.colors.backgroundPrimary, 3)
                   : theme.colors.primary};
-                color: ${theme.colors.primaryText};
+                color: ${theme.colors.textPrimary};
                 font-family: Inter, sans-serif;
                 font-size: 14px;
               `}>
@@ -112,9 +115,9 @@ export function ChatSection({
               padding-top: 24px;
               padding-bottom: 24px;
               white-space: pre-wrap;
-              background-color: ${message.sentBy === 'agent'
-                ? theme.colors.primaryBackground
-                : darken(theme.colors.primaryBackground, 1)};
+              &:hover {
+                background-color: ${brighten(theme.colors.backgroundPrimary, 1)};
+              }
             `}>
             <div
               key={id}
@@ -124,7 +127,7 @@ export function ChatSection({
               `}>
               <div
                 css={css`
-                  color: ${theme.colors.secondaryText};
+                  color: ${theme.colors.textSecondary};
                   font-family: Inter, sans-serif;
                   font-size: 14px;
                   margin-right: 10px;
@@ -133,7 +136,7 @@ export function ChatSection({
               </div>
               <div
                 css={css`
-                  color: ${theme.colors.primaryText};
+                  color: ${theme.colors.textPrimary};
                   font-family: Inter, sans-serif;
                   font-size: 14px;
                 `}>
@@ -144,15 +147,17 @@ export function ChatSection({
               <div
                 css={css`
                   display: flex;
-                  color: ${theme.colors.primaryText};
+                  align-items: center;
+                  color: ${theme.colors.textPrimary};
                   font-family: Inter, sans-serif;
                   font-size: 14px;
                   margin-top: 12px;
                 `}>
-                {/* TODO: Improve designs */}
-                <button onClick={() => onClickPrevious?.(message.depth, currentIndex)} disabled={currentIndex === 0}>
-                  {'<'}
-                </button>
+                <TertiaryButton
+                  onClick={() => onClickPrevious?.(message.depth, currentIndex)}
+                  disabled={currentIndex === 0}>
+                  <ChevronLeftIcon />
+                </TertiaryButton>
                 <span
                   css={css`
                     margin-left: 6px;
@@ -160,11 +165,11 @@ export function ChatSection({
                   `}>
                   {currentIndex + 1} / {groupSize}
                 </span>
-                <button
+                <TertiaryButton
                   onClick={() => onClickNext?.(message.depth, currentIndex)}
                   disabled={currentIndex === groupSize - 1}>
-                  {'>'}
-                </button>
+                  <ChevronRightIcon />
+                </TertiaryButton>
               </div>
             )}
           </div>

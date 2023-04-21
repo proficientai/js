@@ -10,13 +10,13 @@ export function useStyles() {
     const primaryTextCss = css`
       font-family: Inter, sans-serif;
       font-size: 14px;
-      color: ${theme.colors.primaryText};
+      color: ${theme.colors.textPrimary};
     `;
 
     const secondaryTextCss = css`
       font-family: Inter, sans-serif;
       font-size: 14px;
-      color: ${theme.colors.secondaryText};
+      color: ${theme.colors.textSecondary};
     `;
 
     const inputCss = css`
@@ -25,7 +25,7 @@ export function useStyles() {
       padding-bottom: 8px;
       padding-left: 12px;
       padding-right: 12px;
-      color: ${theme.colors.primaryText};
+      color: ${theme.colors.textPrimary};
       font-family: Inter, sans-serif;
       font-size: 14px;
       outline: 2px solid transparent;

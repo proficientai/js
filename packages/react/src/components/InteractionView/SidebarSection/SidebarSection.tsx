@@ -2,6 +2,7 @@
 import { css } from '@emotion/react';
 
 import { useStyles, useTheme } from '../../../hooks';
+import { darken } from '../../../styles';
 import { SecondaryButton } from '../../SecondaryButton';
 import { InteractionIcon } from '../../icons/InteractionIcon';
 import { PlusIcon } from '../../icons/PlusIcon';
@@ -21,7 +22,7 @@ export function SidebarSection({
     <div
       css={css`
         border-right: 1px solid ${theme.colors.border};
-        background-color: ${theme.colors.primaryBackground};
+        background-color: ${theme.colors.backgroundSecondary};
       `}>
       <div
         css={css`
@@ -75,11 +76,11 @@ export function SidebarSection({
                 padding-left: 12px;
                 padding-right: 12px;
                 cursor: pointer;
-                background-color: ${isSelectedInteraction(i) ? theme.colors.primaryBackground : 'transparent'};
-                color: ${theme.colors.primaryText};
+                background-color: ${isSelectedInteraction(i) ? theme.colors.backgroundPrimary : 'transparent'};
+                color: ${theme.colors.textPrimary};
 
                 &:hover {
-                  background-color: ${theme.colors.primaryBackground};
+                  background-color: ${theme.colors.backgroundPrimary};
                 }
               `}
               onClick={() => onClickInteraction(i)}>
@@ -89,7 +90,7 @@ export function SidebarSection({
                   margin-left: 10px;
                   font-family: Inter, sans-serif;
                   font-size: 14px;
-                  color: ${i.name ? theme.colors.primaryText : theme.colors.secondaryText};
+                  color: ${i.name ? theme.colors.textPrimary : theme.colors.textSecondary};
                 `}>
                 {i.name || 'New interaction'}
               </span>

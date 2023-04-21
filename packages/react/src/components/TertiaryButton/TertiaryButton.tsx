@@ -2,10 +2,9 @@
 import { css } from '@emotion/react';
 
 import { useTheme } from '../../hooks';
-import { lighten } from '../../styles';
-import type { SecondaryButtonProps } from './types';
+import type { TertiaryButtonProps } from './types';
 
-export function SecondaryButton({ children, disabled, onClick, style }: SecondaryButtonProps) {
+export function TertiaryButton({ children, disabled, onClick, style }: TertiaryButtonProps) {
   const theme = useTheme();
   return (
     <button
@@ -14,20 +13,20 @@ export function SecondaryButton({ children, disabled, onClick, style }: Secondar
       disabled={disabled}
       css={css`
         display: flex;
-        border: 1px solid ${theme.colors.border};
         align-items: center;
-        color: ${theme.colors.textPrimary};
-        background-color: ${theme.colors.backgroundPrimary};
+        color: ${theme.colors.textSecondary};
+        background-color: transparent;
+        border: none;
         outline: none;
         cursor: pointer;
         padding-top: 6px;
         padding-bottom: 6px;
-        padding-left: 16px;
-        padding-right: 16px;
+        padding-left: 8px;
+        padding-right: 8px;
         border-radius: 4px;
 
         &:hover {
-          background-color: ${lighten(theme.colors.backgroundPrimary, 1)};
+          color: ${theme.colors.textPrimary};
         }
       `}
       style={style}>

@@ -4,11 +4,13 @@ import { darken, lighten } from '../styles';
 
 export interface ProficientTheme {
   colors: {
+    backgroundPrimary: string;
+    backgroundSecondary: string;
     border: string;
+    borderActive: string;
     primary: string;
-    primaryBackground: string;
-    primaryText: string;
-    secondaryText: string;
+    textPrimary: string;
+    textSecondary: string;
   };
 }
 
@@ -22,7 +24,7 @@ export interface CreateThemeParams {
 
 const defaultParams: CreateThemeParams = {
   colors: {
-    background: 'hsl(222, 9%, 15%)',
+    background: 'hsl(222, 9%, 13%)',
     primary: 'hsl(239, 84%, 67%)',
     text: 'hsl(222, 9%, 95%)',
   },
@@ -39,16 +41,24 @@ export function createTheme(providedParams?: PartialDeep<CreateThemeParams>): Pr
     },
   };
 
-  const borderColor = lighten(params.colors.background, 1);
-  const secondaryTextColor = darken(params.colors.text, 1);
+  const backgroundPrimaryColor = params.colors.background;
+  const backgroundSecondaryColor = darken(backgroundPrimaryColor, 4);
+
+  const borderColor = lighten(backgroundPrimaryColor, 5);
+  const borderActiveColor = lighten(borderColor, 10);
+
+  const textPrimaryColor = params.colors.text;
+  const textSecondaryColor = darken(textPrimaryColor, 40);
 
   return {
     colors: {
+      backgroundPrimary: backgroundPrimaryColor,
+      backgroundSecondary: backgroundSecondaryColor,
       border: borderColor,
+      borderActive: borderActiveColor,
       primary: params.colors.primary,
-      primaryBackground: params.colors.background,
-      primaryText: params.colors.text,
-      secondaryText: secondaryTextColor,
+      textPrimary: textPrimaryColor,
+      textSecondary: textSecondaryColor,
     },
   };
 }

@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 
 import { useStyles, useTheme } from '../../../hooks';
-import { SecondaryButton } from '../../SecondaryButton';
+import { TertiaryButton } from '../../TertiaryButton';
 import { InteractionIcon } from '../../icons/InteractionIcon';
 import { TrashIcon } from '../../icons/TrashIcon';
 import type { HeaderSectionProps } from './types';
@@ -19,10 +19,10 @@ export function HeaderSection({ onClickDelete, onTitleBlur, title: titleInitial 
 
   const containerCss = css`
     ${boxCss}
-    background-color: ${theme.colors.primaryBackground};
+    background-color: ${theme.colors.backgroundPrimary};
     border-bottom: 1px solid ${theme.colors.border};
     align-items: center;
-    color: ${theme.colors.primaryText};
+    color: ${theme.colors.textPrimary};
   `;
 
   const titleInputCss = css`
@@ -48,9 +48,9 @@ export function HeaderSection({ onClickDelete, onTitleBlur, title: titleInitial 
         maxLength={50} // TODO: Make dynamic
       />
 
-      <SecondaryButton onClick={onClickDelete} style={{ marginLeft: 'auto' }}>
+      <TertiaryButton onClick={onClickDelete} style={{ marginLeft: 'auto' }}>
         <TrashIcon />
-      </SecondaryButton>
+      </TertiaryButton>
     </div>
   );
 }

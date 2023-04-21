@@ -6,8 +6,9 @@ import { getHmac } from '../../util/hmac';
 
 const clientTheme = createTheme({
   colors: {
-    background: '#343131',
-    primary: '#5f9822',
+    // background: '#e1e9ea',
+    // primary: '#5f9822',
+    // text: '#777777',
   },
 });
 
