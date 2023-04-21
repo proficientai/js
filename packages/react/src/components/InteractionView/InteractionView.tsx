@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ProficientThemeContext, createTheme } from '../../context';
 import { InteractionTree } from '../../ds/InteractionTree';
 import { useApi } from '../../hooks';
+import { SecondaryButton } from '../SecondaryButton';
 import { BoltIcon } from '../icons/BoltIcon';
 import { RetryIcon } from '../icons/RetryIcon';
 import { ChatSection } from './ChatSection';
@@ -519,36 +520,17 @@ export function InteractionView({
                       right: 0;
                       height: 50px;
                     `}>
-                    <button
+                    <SecondaryButton
                       onClick={() =>
                         handleRequestAnswer(
                           interaction.id,
                           generateButtonType === 'regenerate' ? mostRecentMessage?.parentId : mostRecentMessage?.id
                         )
                       }
-                      css={css`
-                        display: flex;
-                        border: 1px solid ${theme.colors.border};
-                        align-items: center;
-                        color: ${theme.colors.primaryText};
-                        background-color: ${theme.colors.primaryBackground};
-                        outline: none;
-                        cursor: pointer;
-                        padding-top: 6px;
-                        padding-bottom: 6px;
-                        padding-left: 16px;
-                        padding-right: 16px;
-                        border-radius: 4px;
-
-                        margin-top: 10px;
-                        margin-bottom: 10px;
-                        margin-left: auto;
-                        margin-right: auto;
-
-                        &:hover {
-                          background-color: ${theme.colors.primaryBackground};
-                        }
-                      `}>
+                      style={{
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
+                      }}>
                       {generateButtonType === 'generate' ? <BoltIcon /> : <RetryIcon />}
                       <span
                         css={css`
@@ -560,7 +542,7 @@ export function InteractionView({
                           ? 'Regenerate answer'
                           : 'Retry'}
                       </span>
-                    </button>
+                    </SecondaryButton>
                   </div>
                 )}
               </div>

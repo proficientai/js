@@ -2,6 +2,7 @@
 import { css } from '@emotion/react';
 
 import { useStyles, useTheme } from '../../../hooks';
+import { SecondaryButton } from '../../SecondaryButton';
 import { InteractionIcon } from '../../icons/InteractionIcon';
 import { PlusIcon } from '../../icons/PlusIcon';
 import type { SidebarSectionProps } from './types';
@@ -36,110 +37,24 @@ export function SidebarSection({
           {description}
         </div>
       </div>
-
-      {interactions.length === 0 ? (
-        <div
-          css={css`
-            padding-left: 12px;
-            padding-right: 12px;
-            min-height: 500px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-          `}>
-          <button
-            onClick={onClickNewInteraction}
+      <div
+        css={css`
+          padding-left: 12px;
+          padding-right: 12px;
+        `}>
+        <SecondaryButton onClick={onClickNewInteraction} style={{ marginTop: 10, marginBottom: 10 }}>
+          <PlusIcon />
+          <span
             css={css`
-              display: flex;
-              width: 100%;
-              border: 1px solid ${theme.colors.border};
-              align-items: center;
-              color: ${theme.colors.primaryText};
-              background-color: ${theme.colors.primaryBackground};
-              outline: none;
-              cursor: pointer;
-              padding-top: 6px;
-              padding-bottom: 6px;
-              padding-left: 16px;
-              padding-right: 16px;
-              border-radius: 4px;
-
-              margin-top: 10px;
-              margin-bottom: 10px;
-
-              &:hover {
-                background-color: ${theme.colors.primaryBackground};
-              }
-            `}>
-            <PlusIcon />
-            <span
-              css={css`
-                margin-left: 10px;
-                white-space: nowrap;
-                font-family: Inter, sans-serif;
-                font-size: 13px;
-              `}>
-              Create new interaction
-            </span>
-          </button>
-
-          <div
-            css={css`
-              text-align: center;
-              padding: 10px;
-              margin-bottom: 10px;
-              margin-top: 10px;
-              color: ${theme.colors.secondaryText};
+              margin-left: 10px;
+              white-space: nowrap;
               font-family: Inter, sans-serif;
-              font-size: 14px;
+              font-size: 13px;
             `}>
-            No interactions.
-          </div>
-        </div>
-      ) : (
-        <div
-          css={css`
-            padding-left: 12px;
-            padding-right: 12px;
-          `}>
-          <button
-            onClick={onClickNewInteraction}
-            css={css`
-              display: flex;
-              width: 100%;
-              border: 1px solid ${theme.colors.border};
-              align-items: center;
-              color: ${theme.colors.primaryText};
-              background-color: ${theme.colors.primaryBackground};
-              outline: none;
-              cursor: pointer;
-              padding-top: 6px;
-              padding-bottom: 6px;
-              padding-left: 16px;
-              padding-right: 16px;
-              border-radius: 4px;
-
-              margin-top: 10px;
-              margin-bottom: 10px;
-
-              &:hover {
-                background-color: ${theme.colors.primaryBackground};
-              }
-            `}>
-            <PlusIcon />
-            <span
-              css={css`
-                margin-left: 10px;
-                white-space: nowrap;
-                font-family: Inter, sans-serif;
-                font-size: 13px;
-              `}>
-              Create new interaction
-            </span>
-          </button>
-        </div>
-      )}
+            Create new interaction
+          </span>
+        </SecondaryButton>
+      </div>
 
       <div
         css={css`

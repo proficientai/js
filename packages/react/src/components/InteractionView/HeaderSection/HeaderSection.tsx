@@ -3,13 +3,14 @@ import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 
 import { useStyles, useTheme } from '../../../hooks';
+import { SecondaryButton } from '../../SecondaryButton';
 import { InteractionIcon } from '../../icons/InteractionIcon';
 import { TrashIcon } from '../../icons/TrashIcon';
 import type { HeaderSectionProps } from './types';
 
 export function HeaderSection({ onClickDelete, onTitleBlur, title: titleInitial }: HeaderSectionProps) {
   const theme = useTheme();
-  const { boxCss, inputCss, secondaryButtonCss } = useStyles();
+  const { boxCss, inputCss } = useStyles();
   const [title, setTitle] = useState(titleInitial);
 
   useEffect(() => {
@@ -34,11 +35,6 @@ export function HeaderSection({ onClickDelete, onTitleBlur, title: titleInitial 
     }
   `;
 
-  const trashButtonCss = css`
-    ${secondaryButtonCss}
-    margin-left: auto;
-  `;
-
   return (
     <div css={containerCss}>
       <InteractionIcon />
@@ -52,9 +48,9 @@ export function HeaderSection({ onClickDelete, onTitleBlur, title: titleInitial 
         maxLength={50} // TODO: Make dynamic
       />
 
-      <button onClick={onClickDelete} css={trashButtonCss}>
+      <SecondaryButton onClick={onClickDelete} style={{ marginLeft: 'auto' }}>
         <TrashIcon />
-      </button>
+      </SecondaryButton>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import { useMemo } from 'react';
 
-import { lighten } from '../styles';
 import { useTheme } from './useTheme';
 
 export function useStyles() {
@@ -41,26 +40,6 @@ export function useStyles() {
       padding-bottom: 12px;
     `;
 
-    const secondaryButtonCss = css`
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      outline: none;
-      border: none;
-      cursor: pointer;
-      padding-top: 6px;
-      padding-bottom: 6px;
-      padding-left: 8px;
-      padding-right: 8px;
-      border-radius: 6px;
-      background-color: ${theme.colors.primaryBackground};
-      color: ${theme.colors.primaryText};
-
-      &:hover {
-        background-color: ${lighten(theme.colors.primaryBackground, 1)};
-      }
-    `;
-
-    return { primaryTextCss, secondaryTextCss, inputCss, boxCss, secondaryButtonCss };
+    return { primaryTextCss, secondaryTextCss, inputCss, boxCss };
   }, [theme]);
 }
