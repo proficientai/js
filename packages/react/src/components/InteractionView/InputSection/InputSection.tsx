@@ -4,9 +4,24 @@ import { useCallback } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { useKeyboardEnterEvent } from '../../../hooks';
-import { colors } from '../../../styles';
+import { boxCss, colors, inputCss } from '../../../styles';
 import { SendMessageIcon } from '../../icons/SendMessageIcon';
 import type { InputSectionProps } from './types';
+
+const containerCss = css`
+  ${boxCss}
+  background-color: ${colors.gray[900]};
+  border-top: 1px solid ${colors.gray[700]};
+  display: flex;
+  flex-direction: column;
+  color: ${colors.gray[100]};
+`;
+
+const textAreaCss = css`
+  ${inputCss}
+  resize: none;
+  border: none;
+`;
 
 export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEnter, textAreaRef }: InputSectionProps) {
   const handleSendClick = useCallback(async () => {
@@ -18,17 +33,7 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
   useKeyboardEnterEvent(handleSendClick, !sendOnEnter);
 
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        border-top: 1px solid ${colors.gray[700]};
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-top: 12px;
-        padding-bottom: 12px;
-        background-color: ${colors.gray[900]};
-      `}>
+    <div css={containerCss}>
       <div
         css={css`
           display: flex;
@@ -43,22 +48,9 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
           }
         `}>
         <TextareaAutosize
+          css={textAreaCss}
           ref={textAreaRef}
           placeholder={placeholder}
-          css={css`
-            background-color: transparent;
-            resize: none;
-            border: none;
-            padding-top: 8px;
-            padding-bottom: 8px;
-            padding-left: 12px;
-            padding-right: 12px;
-            outline: 2px solid transparent;
-            outline-offset: 2px;
-            color: ${colors.gray[100]};
-            font-family: Inter, sans-serif;
-            font-size: 14px;
-          `}
           minRows={4}
           onChange={(e) => {
             const text = e.target.value;

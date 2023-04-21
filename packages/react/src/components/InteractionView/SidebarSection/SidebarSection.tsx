@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-import { colors } from '../../../styles';
+import { boxCss, colors, primaryTextCss, secondaryTextCss } from '../../../styles';
 import { InteractionIcon } from '../../icons/InteractionIcon';
 import { PlusIcon } from '../../icons/PlusIcon';
 import type { SidebarSectionProps } from './types';
@@ -22,25 +22,14 @@ export function SidebarSection({
       `}>
       <div
         css={css`
-          padding-left: 12px;
-          padding-right: 12px;
-          padding-top: 12px;
-          padding-bottom: 12px;
+          ${boxCss}
+          flex-direction: column;
         `}>
+        <div css={primaryTextCss}>{header}</div>
         <div
           css={css`
-            color: ${colors.gray[100]};
-            font-family: Inter, sans-serif;
-            font-size: 14px;
-          `}>
-          {header}
-        </div>
-        <div
-          css={css`
-            color: ${colors.gray[500]};
-            font-size: 14px;
             margin-top: 6px;
-            font-family: Inter, sans-serif;
+            ${secondaryTextCss}
           `}>
           {description}
         </div>
