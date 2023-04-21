@@ -3,10 +3,10 @@ import { Global, css } from '@emotion/react';
 import type { Proficient } from '@proficient/client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { ProficientThemeContext, createTheme } from '../../context';
 import { InteractionTree } from '../../ds/InteractionTree';
 import { useApi } from '../../hooks';
 import { colors } from '../../styles';
-import { createTheme } from '../../theme';
 import { BoltIcon } from '../icons/BoltIcon';
 import { RetryIcon } from '../icons/RetryIcon';
 import { ChatSection } from './ChatSection';
@@ -403,178 +403,180 @@ export function InteractionView({
   const { agent } = agentState;
 
   return (
-    <div
-      css={css`
-        display: flex;
-        border: 1px solid gray;
-        font-size: 16px;
-        border-radius: 4px;
-      `}>
-      <Global
-        styles={css`
-          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-        `}
-      />
-      <SidebarSection
-        description={agent.description}
-        header={agent.name}
-        interactions={sortedInteractions}
-        isSelectedInteraction={(i) => i.id === interactionId}
-        onClickInteraction={(i) => {
-          selectInteraction(i.id);
-        }}
-        onClickNewInteraction={handleCreateInteraction}
-      />
+    <ProficientThemeContext.Provider value={theme}>
+      <div
+        css={css`
+          display: flex;
+          border: 1px solid gray;
+          font-size: 16px;
+          border-radius: 4px;
+        `}>
+        <Global
+          styles={css`
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+          `}
+        />
+        <SidebarSection
+          description={agent.description}
+          header={agent.name}
+          interactions={sortedInteractions}
+          isSelectedInteraction={(i) => i.id === interactionId}
+          onClickInteraction={(i) => {
+            selectInteraction(i.id);
+          }}
+          onClickNewInteraction={handleCreateInteraction}
+        />
 
-      {(() => {
-        if (!interactionState || !messagesState || !writingState) {
-          // TODO: Update view
-          return <div>No selected interaction...</div>;
-        }
-
-        if (interactionState.status === 'error') {
-          // TODO: Update view
-          return <div>Error loading interaction: {interactionState.errorCode}</div>;
-        }
-
-        if (interactionState.status === 'loading') {
-          // TODO: Update view
-          return <div>Loading interaction...</div>;
-        }
-
-        if (messagesState.status === 'error') {
-          // TODO: Update view
-          return <div>Error loading messages: {messagesState.errorCode}</div>;
-        }
-
-        const { interaction } = interactionState;
-        const { status: writingStatus } = writingState;
-
-        let generateButtonType: null | 'generate' | 'regenerate' | 'retry' = null;
-
-        if (autoRequestReply) {
-          if (mostRecentMessage) {
-            if (mostRecentMessage.sentBy === 'agent') {
-              if (writingState.status !== 'writing') {
-                generateButtonType = 'regenerate';
-              }
-            } else if (writingState.status === 'error') {
-              generateButtonType = 'retry';
-            }
+        {(() => {
+          if (!interactionState || !messagesState || !writingState) {
+            // TODO: Update view
+            return <div>No selected interaction...</div>;
           }
-        } else {
-          if (mostRecentMessage) {
-            if (mostRecentMessage.sentBy === 'agent') {
-              if (writingState.status !== 'writing') {
-                generateButtonType = 'regenerate';
-              }
-            } else {
-              if (writingState.status === 'error') {
-                generateButtonType = 'retry';
-              } else if (writingState.status === 'nil') {
-                generateButtonType = 'generate';
-              }
-            }
-          }
-        }
 
-        return (
-          <div
-            css={css`
-              width: 100%;
-            `}>
-            <HeaderSection
-              onClickDelete={() => handleDeleteInteraction(interaction.id)}
-              onTitleBlur={async (text) => {
-                if (interaction.name !== text) {
-                  await handleUpdateInteraction(text);
+          if (interactionState.status === 'error') {
+            // TODO: Update view
+            return <div>Error loading interaction: {interactionState.errorCode}</div>;
+          }
+
+          if (interactionState.status === 'loading') {
+            // TODO: Update view
+            return <div>Loading interaction...</div>;
+          }
+
+          if (messagesState.status === 'error') {
+            // TODO: Update view
+            return <div>Error loading messages: {messagesState.errorCode}</div>;
+          }
+
+          const { interaction } = interactionState;
+          const { status: writingStatus } = writingState;
+
+          let generateButtonType: null | 'generate' | 'regenerate' | 'retry' = null;
+
+          if (autoRequestReply) {
+            if (mostRecentMessage) {
+              if (mostRecentMessage.sentBy === 'agent') {
+                if (writingState.status !== 'writing') {
+                  generateButtonType = 'regenerate';
                 }
-              }}
-              title={interaction.name}
-            />
+              } else if (writingState.status === 'error') {
+                generateButtonType = 'retry';
+              }
+            }
+          } else {
+            if (mostRecentMessage) {
+              if (mostRecentMessage.sentBy === 'agent') {
+                if (writingState.status !== 'writing') {
+                  generateButtonType = 'regenerate';
+                }
+              } else {
+                if (writingState.status === 'error') {
+                  generateButtonType = 'retry';
+                } else if (writingState.status === 'nil') {
+                  generateButtonType = 'generate';
+                }
+              }
+            }
+          }
 
+          return (
             <div
               css={css`
                 width: 100%;
-                position: relative;
               `}>
-              <ChatSection
-                agentName={agent.name}
-                layout="boxes"
-                messageGroups={messageGroups}
-                onClickPrevious={(depth, activeIndex) => {
-                  setActiveIndex(interaction.id, depth, activeIndex - 1);
+              <HeaderSection
+                onClickDelete={() => handleDeleteInteraction(interaction.id)}
+                onTitleBlur={async (text) => {
+                  if (interaction.name !== text) {
+                    await handleUpdateInteraction(text);
+                  }
                 }}
-                onClickNext={(depth, activeIndex) => {
-                  setActiveIndex(interaction.id, depth, activeIndex + 1);
-                }}
-                writingStatus={writingStatus}
+                title={interaction.name}
               />
-              {generateButtonType && (
-                <div
-                  css={css`
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    height: 50px;
-                  `}>
-                  <button
-                    onClick={() =>
-                      handleRequestAnswer(
-                        interaction.id,
-                        generateButtonType === 'regenerate' ? mostRecentMessage?.parentId : mostRecentMessage?.id
-                      )
-                    }
+
+              <div
+                css={css`
+                  width: 100%;
+                  position: relative;
+                `}>
+                <ChatSection
+                  agentName={agent.name}
+                  layout="boxes"
+                  messageGroups={messageGroups}
+                  onClickPrevious={(depth, activeIndex) => {
+                    setActiveIndex(interaction.id, depth, activeIndex - 1);
+                  }}
+                  onClickNext={(depth, activeIndex) => {
+                    setActiveIndex(interaction.id, depth, activeIndex + 1);
+                  }}
+                  writingStatus={writingStatus}
+                />
+                {generateButtonType && (
+                  <div
                     css={css`
-                      display: flex;
-                      border: 1px solid ${colors.gray[700]};
-                      align-items: center;
-                      color: ${colors.gray[100]};
-                      background-color: ${colors.gray[800]};
-                      outline: none;
-                      cursor: pointer;
-                      padding-top: 6px;
-                      padding-bottom: 6px;
-                      padding-left: 16px;
-                      padding-right: 16px;
-                      border-radius: 4px;
-
-                      margin-top: 10px;
-                      margin-bottom: 10px;
-                      margin-left: auto;
-                      margin-right: auto;
-
-                      &:hover {
-                        background-color: ${colors.gray[700]};
-                      }
+                      position: absolute;
+                      bottom: 0;
+                      left: 0;
+                      right: 0;
+                      height: 50px;
                     `}>
-                    {generateButtonType === 'generate' ? <BoltIcon /> : <RetryIcon />}
-                    <span
+                    <button
+                      onClick={() =>
+                        handleRequestAnswer(
+                          interaction.id,
+                          generateButtonType === 'regenerate' ? mostRecentMessage?.parentId : mostRecentMessage?.id
+                        )
+                      }
                       css={css`
-                        margin-left: 10px;
-                      `}>
-                      {generateButtonType === 'generate'
-                        ? 'Generate answer'
-                        : generateButtonType === 'regenerate'
-                        ? 'Regenerate answer'
-                        : 'Retry'}
-                    </span>
-                  </button>
-                </div>
-              )}
-            </div>
+                        display: flex;
+                        border: 1px solid ${colors.gray[700]};
+                        align-items: center;
+                        color: ${colors.gray[100]};
+                        background-color: ${colors.gray[800]};
+                        outline: none;
+                        cursor: pointer;
+                        padding-top: 6px;
+                        padding-bottom: 6px;
+                        padding-left: 16px;
+                        padding-right: 16px;
+                        border-radius: 4px;
 
-            <InputSection
-              onClickSend={handleSendMessage}
-              onInputChange={(text) => setInteractionInput(interaction.id, text)}
-              placeholder={inputPlaceholder}
-              sendOnEnter={sendOnEnter}
-              textAreaRef={inputTextAreaRef}
-            />
-          </div>
-        );
-      })()}
-    </div>
+                        margin-top: 10px;
+                        margin-bottom: 10px;
+                        margin-left: auto;
+                        margin-right: auto;
+
+                        &:hover {
+                          background-color: ${colors.gray[700]};
+                        }
+                      `}>
+                      {generateButtonType === 'generate' ? <BoltIcon /> : <RetryIcon />}
+                      <span
+                        css={css`
+                          margin-left: 10px;
+                        `}>
+                        {generateButtonType === 'generate'
+                          ? 'Generate answer'
+                          : generateButtonType === 'regenerate'
+                          ? 'Regenerate answer'
+                          : 'Retry'}
+                      </span>
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <InputSection
+                onClickSend={handleSendMessage}
+                onInputChange={(text) => setInteractionInput(interaction.id, text)}
+                placeholder={inputPlaceholder}
+                sendOnEnter={sendOnEnter}
+                textAreaRef={inputTextAreaRef}
+              />
+            </div>
+          );
+        })()}
+      </div>
+    </ProficientThemeContext.Provider>
   );
 }

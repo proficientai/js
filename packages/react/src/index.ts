@@ -1,2 +1,2 @@
 export { InteractionView } from './components/InteractionView';
-export { type ProficientTheme, createTheme } from './theme';
+export { createTheme, type ProficientTheme } from './context';

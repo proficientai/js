@@ -1,6 +1,6 @@
 import type { Proficient } from '@proficient/client';
 
-import { ProficientTheme } from '../../theme';
+import type { ProficientTheme } from '../../context';
 
 export type AgentState =
   | {

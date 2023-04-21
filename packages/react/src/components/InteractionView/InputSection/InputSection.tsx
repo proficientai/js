@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import { useCallback } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
+import { useTheme } from '../../../context';
 import { useKeyboardEnterEvent } from '../../../hooks';
 import { boxCss, colors, inputCss } from '../../../styles';
 import { SendMessageIcon } from '../../icons/SendMessageIcon';
@@ -24,6 +25,8 @@ const textAreaCss = css`
 `;
 
 export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEnter, textAreaRef }: InputSectionProps) {
+  const theme = useTheme();
+
   const handleSendClick = useCallback(async () => {
     if (document.activeElement === textAreaRef.current) {
       await onClickSend();
@@ -77,7 +80,7 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
               justify-content: center;
               align-items: center;
               color: ${colors.gray[100]};
-              background-color: ${colors.indigo[500]};
+              background-color: ${theme.colors.primary};
               outline: none;
               border: none;
               cursor: pointer;

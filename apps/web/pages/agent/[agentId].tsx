@@ -1,8 +1,14 @@
-import { InteractionView } from '@proficient/react';
+import { InteractionView, createTheme } from '@proficient/react';
 import { useRouter } from 'next/router';
 
 import { USER_EXTERNAL_ID } from '../../context';
 import { getHmac } from '../../util/hmac';
+
+const clientTheme = createTheme({
+  colors: {
+    primary: 'blue',
+  },
+});
 
 export default function AgentPage() {
   const router = useRouter();
@@ -26,6 +32,7 @@ export default function AgentPage() {
         userExternalId={userId}
         userHmac={() => getHmac(userId)}
         autoRequestReply={false}
+        theme={clientTheme}
       />
     </div>
   );
