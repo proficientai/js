@@ -18,6 +18,8 @@ export interface ProficientTheme {
     shadow: string;
     textPrimary: string;
     textSecondary: string;
+    textTertiary: string;
+    watermarkColor: string;
   };
 }
 
@@ -69,6 +71,9 @@ export function createTheme(providedParams?: PartialDeep<CreateThemeParams>): Pr
   const textPrimaryColor = params.colors.text;
   const textSecondaryColor = isDark ? darken(textPrimaryColor, 40) : lighten(textPrimaryColor, 40);
 
+  const textTertiaryColor = isDark ? darken(textSecondaryColor, 30) : lighten(textSecondaryColor, 30);
+  const watermarkColor = isDark ? lighten(backgroundSecondaryColor, 10) : lighten(backgroundSecondaryColor, 30);
+
   return {
     colors: {
       backgroundPrimary: backgroundPrimaryColor,
@@ -84,6 +89,8 @@ export function createTheme(providedParams?: PartialDeep<CreateThemeParams>): Pr
       shadow: shadowColor,
       textPrimary: textPrimaryColor,
       textSecondary: textSecondaryColor,
+      textTertiary: textTertiaryColor,
+      watermarkColor: watermarkColor,
     },
   };
 }

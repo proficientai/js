@@ -34,7 +34,7 @@ export function ChatSection({
       `}
       inverse
       hasMore={!!hasMore}
-      height={400}
+      height={400} // TODO: Make dynamic
       loader={
         <div
           css={css`

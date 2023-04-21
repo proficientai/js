@@ -2,10 +2,10 @@
 import { css } from '@emotion/react';
 
 import { useStyles, useTheme } from '../../../hooks';
-import { darken } from '../../../styles';
 import { SecondaryButton } from '../../SecondaryButton';
 import { InteractionIcon } from '../../icons/InteractionIcon';
 import { PlusIcon } from '../../icons/PlusIcon';
+import { ProficientIcon } from '../../icons/ProficientIcon';
 import type { SidebarSectionProps } from './types';
 
 export function SidebarSection({
@@ -98,6 +98,39 @@ export function SidebarSection({
           );
         })}
       </div>
+
+      <a
+        css={css`
+          ${boxCss}
+          display: flex;
+          align-items: center;
+          color: ${theme.colors.watermarkColor};
+          text-decoration: none;
+        `}
+        href="https://proficientai.com">
+        <ProficientIcon />
+
+        <div
+          css={css`
+            font-family: Inter, sans-serif;
+            font-size: 13px;
+            margin-left: 10px;
+          `}>
+          <span
+            css={css`
+              font-size: 10px;
+            `}>
+            powered by
+          </span>
+          <br />
+          <span
+            css={css`
+              font-size: 13px;
+            `}>
+            Proficient AI
+          </span>
+        </div>
+      </a>
     </div>
   );
 }

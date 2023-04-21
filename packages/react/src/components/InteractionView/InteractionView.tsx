@@ -408,15 +408,13 @@ export function InteractionView({
       <div
         css={css`
           display: flex;
-          border: 1px solid gray;
-          font-size: 16px;
-          border-radius: 4px;
         `}>
         <Global
           styles={css`
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
           `}
         />
+
         <SidebarSection
           description={agent.description}
           header={agent.name}
