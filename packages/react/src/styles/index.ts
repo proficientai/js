@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import tinycolor from 'tinycolor2';
 
 export const colors = {
   gray: {
@@ -27,6 +28,26 @@ export const colors = {
     900: 'hsl(226, 20%, 18%)',
   },
 };
+
+/**
+ * @param color - The color to darken.
+ * @param shadeCount - A number ranging from 0 to 25.
+ */
+export function darken(color: string, shadeCount: number) {
+  return tinycolor(color)
+    .darken(shadeCount * 2.5)
+    .toHexString();
+}
+
+/**
+ * @param color - The color to lighten.
+ * @param shadeCount - A number ranging from 0 to 25.
+ */
+export function lighten(color: string, shadeCount: number) {
+  return tinycolor(color)
+    .lighten(shadeCount * 2.5)
+    .toHexString();
+}
 
 /*
  * Text styles

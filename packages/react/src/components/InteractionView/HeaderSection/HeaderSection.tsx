@@ -2,18 +2,11 @@
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 
+import { useTheme } from '../../../context';
 import { boxCss, colors, inputCss, secondaryButtonCss } from '../../../styles';
 import { InteractionIcon } from '../../icons/InteractionIcon';
 import { TrashIcon } from '../../icons/TrashIcon';
 import type { HeaderSectionProps } from './types';
-
-const containerCss = css`
-  ${boxCss}
-  background-color: ${colors.gray[800]};
-  border-bottom: 1px solid ${colors.gray[700]};
-  align-items: center;
-  color: ${colors.gray[100]};
-`;
 
 const trashButtonCss = css`
   ${secondaryButtonCss}
@@ -31,11 +24,20 @@ const titleInputCss = css`
 `;
 
 export function HeaderSection({ onClickDelete, onTitleBlur, title: titleInitial }: HeaderSectionProps) {
+  const theme = useTheme();
   const [title, setTitle] = useState(titleInitial);
 
   useEffect(() => {
     setTitle(titleInitial);
   }, [titleInitial]);
+
+  const containerCss = css`
+    ${boxCss}
+    background-color: ${theme.colors.background};
+    border-bottom: 1px solid ${colors.gray[700]};
+    align-items: center;
+    color: ${colors.gray[100]};
+  `;
 
   return (
     <div css={containerCss}>

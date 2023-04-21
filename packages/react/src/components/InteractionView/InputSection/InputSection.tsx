@@ -5,18 +5,9 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import { useTheme } from '../../../context';
 import { useKeyboardEnterEvent } from '../../../hooks';
-import { boxCss, colors, inputCss } from '../../../styles';
+import { boxCss, colors, darken, inputCss } from '../../../styles';
 import { SendMessageIcon } from '../../icons/SendMessageIcon';
 import type { InputSectionProps } from './types';
-
-const containerCss = css`
-  ${boxCss}
-  background-color: ${colors.gray[900]};
-  border-top: 1px solid ${colors.gray[700]};
-  display: flex;
-  flex-direction: column;
-  color: ${colors.gray[100]};
-`;
 
 const textAreaCss = css`
   ${inputCss}
@@ -34,6 +25,15 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
   }, [textAreaRef, onClickSend]);
 
   useKeyboardEnterEvent(handleSendClick, !sendOnEnter);
+
+  const containerCss = css`
+    ${boxCss}
+    background-color: ${darken(theme.colors.background, 2)};
+    border-top: 1px solid ${colors.gray[700]};
+    display: flex;
+    flex-direction: column;
+    color: ${colors.gray[100]};
+  `;
 
   return (
     <div css={containerCss}>

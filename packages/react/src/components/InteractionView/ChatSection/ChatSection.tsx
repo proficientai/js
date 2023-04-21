@@ -2,7 +2,8 @@
 import { css } from '@emotion/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-import { colors } from '../../../styles';
+import { useTheme } from '../../../context';
+import { colors, darken, lighten } from '../../../styles';
 import type { ChatSectionProps } from './types';
 
 export function ChatSection({
@@ -15,12 +16,14 @@ export function ChatSection({
   onClickPrevious,
   writingStatus,
 }: ChatSectionProps) {
+  const theme = useTheme();
+
   return (
     <InfiniteScroll
       dataLength={messageGroups.length}
       next={next ?? (() => {})}
       css={css`
-        background-color: ${colors.gray[800]};
+        background-color: ${theme.colors.background};
         display: flex;
         flex-direction: column-reverse;
         padding-left: ${layout === 'bubbles' ? '24px' : undefined};
@@ -89,7 +92,9 @@ export function ChatSection({
                 width: fit-content;
                 max-width: 60ch;
                 white-space: pre-wrap;
-                background-color: ${message.sentBy === 'agent' ? colors.gray[700] : colors.indigo[600]};
+                background-color: ${message.sentBy === 'agent'
+                  ? lighten(theme.colors.background, 3)
+                  : theme.colors.primary};
                 color: ${colors.gray[100]};
                 font-family: Inter, sans-serif;
                 font-size: 14px;
@@ -107,7 +112,9 @@ export function ChatSection({
               padding-top: 24px;
               padding-bottom: 24px;
               white-space: pre-wrap;
-              background-color: ${message.sentBy === 'agent' ? colors.gray[800] : colors.gray[900]};
+              background-color: ${message.sentBy === 'agent'
+                ? theme.colors.background
+                : darken(theme.colors.background, 1)};
             `}>
             <div
               key={id}

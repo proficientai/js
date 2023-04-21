@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
+import { useTheme } from '../../../context';
 import { boxCss, colors, primaryTextCss, secondaryTextCss } from '../../../styles';
 import { InteractionIcon } from '../../icons/InteractionIcon';
 import { PlusIcon } from '../../icons/PlusIcon';
@@ -14,11 +15,12 @@ export function SidebarSection({
   onClickInteraction,
   onClickNewInteraction,
 }: SidebarSectionProps) {
+  const theme = useTheme();
   return (
     <div
       css={css`
         border-right: 1px solid ${colors.gray[700]};
-        background-color: ${colors.gray[800]};
+        background-color: ${theme.colors.background};
       `}>
       <div
         css={css`
