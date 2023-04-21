@@ -4,11 +4,18 @@ import { useCallback } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { useKeyboardEnterEvent, useStyles, useTheme } from '../../../hooks';
-import { darken } from '../../../styles';
+import { PrimaryButton } from '../../PrimaryButton';
 import { SendMessageIcon } from '../../icons/SendMessageIcon';
 import type { InputSectionProps } from './types';
 
-export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEnter, textAreaRef }: InputSectionProps) {
+export function InputSection({
+  onClickSend,
+  sendDisabled,
+  onInputChange,
+  placeholder,
+  sendOnEnter,
+  textAreaRef,
+}: InputSectionProps) {
   const theme = useTheme();
   const { inputCss } = useStyles();
 
@@ -81,31 +88,9 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
           onClick={() => {
             textAreaRef.current?.focus();
           }}>
-          <button
-            onClick={onClickSend}
-            css={css`
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              color: ${theme.colors.textPrimary};
-              background-color: ${theme.colors.primary};
-              outline: none;
-              border: none;
-              cursor: pointer;
-              padding-top: 6px;
-              padding-bottom: 6px;
-              padding-left: 8px;
-              padding-right: 8px;
-              border-radius: 6px;
-              &:hover {
-                background-color: ${darken(theme.colors.primary, 1)};
-              }
-              &:active {
-                background-color: ${darken(theme.colors.primary, 2)};
-              }
-            `}>
+          <PrimaryButton onClick={onClickSend} disabled={sendDisabled}>
             <SendMessageIcon />
-          </button>
+          </PrimaryButton>
         </div>
       </div>
     </div>

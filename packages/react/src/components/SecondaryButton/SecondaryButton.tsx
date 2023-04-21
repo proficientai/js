@@ -28,6 +28,10 @@ export function SecondaryButton({ children, disabled, onClick, style }: Secondar
         &:hover {
           background-color: ${theme.colors.hover};
         }
+
+        &:active {
+          background-color: ${theme.colors.hoverActive};
+        }
       `}
       style={style}>
       {children}

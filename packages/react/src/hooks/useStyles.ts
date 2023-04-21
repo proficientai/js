@@ -30,6 +30,10 @@ export function useStyles() {
       font-size: 14px;
       outline: 2px solid transparent;
       outline-offset: 2px;
+
+      &::placeholder {
+        color: ${theme.colors.textSecondary};
+      }
     `;
 
     const boxCss = css`

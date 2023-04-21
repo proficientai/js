@@ -10,7 +10,11 @@ export interface ProficientTheme {
     border: string;
     borderActive: string;
     hover: string;
+    hoverActive: string;
     primary: string;
+    primaryLighter: string;
+    primaryDarker: string;
+    primaryDarkest: string;
     shadow: string;
     textPrimary: string;
     textSecondary: string;
@@ -28,7 +32,7 @@ export interface CreateThemeParams {
 const defaultParams: CreateThemeParams = {
   colors: {
     background: 'hsl(222, 9%, 13%)',
-    primary: 'hsl(239, 84%, 67%)',
+    primary: 'hsl(239, 84%, 64%)',
     text: 'hsl(222, 9%, 95%)',
   },
 };
@@ -53,8 +57,12 @@ export function createTheme(providedParams?: PartialDeep<CreateThemeParams>): Pr
   const borderActiveColor = isDark ? lighten(borderColor, 10) : darken(borderColor, 10);
 
   const hoverColor = isDark ? lighten(backgroundPrimaryColor, 2) : darken(backgroundPrimaryColor, 3);
+  const hoverActiveColor = isDark ? lighten(hoverColor, 2) : darken(hoverColor, 3);
 
   const primaryColor = params.colors.primary;
+  const primaryLighterColor = lighten(params.colors.primary, 5);
+  const primaryDarkerColor = darken(primaryColor, 3);
+  const primaryDarkestColor = darken(primaryDarkerColor, 3);
 
   const shadowColor = isDark ? darken(backgroundPrimaryColor, 10) : darken(backgroundPrimaryColor, 20);
 
@@ -68,7 +76,11 @@ export function createTheme(providedParams?: PartialDeep<CreateThemeParams>): Pr
       border: borderColor,
       borderActive: borderActiveColor,
       hover: hoverColor,
+      hoverActive: hoverActiveColor,
       primary: primaryColor,
+      primaryLighter: primaryLighterColor,
+      primaryDarker: primaryDarkerColor,
+      primaryDarkest: primaryDarkestColor,
       shadow: shadowColor,
       textPrimary: textPrimaryColor,
       textSecondary: textSecondaryColor,

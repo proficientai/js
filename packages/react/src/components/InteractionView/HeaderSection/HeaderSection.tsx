@@ -28,10 +28,11 @@ export function HeaderSection({ onClickDelete, onTitleBlur, title: titleInitial 
   const titleInputCss = css`
     ${inputCss}
     margin-left: 8px;
-    border: 1px solid transparent;
+    border: 1px solid ${theme.colors.border};
     border-radius: 8px;
+
     &:focus {
-      border-color: ${theme.colors.border};
+      border-color: ${theme.colors.borderActive};
     }
   `;
 

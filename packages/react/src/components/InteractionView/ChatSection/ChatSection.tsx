@@ -3,7 +3,6 @@ import { css } from '@emotion/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { useTheme } from '../../../hooks';
-import { lighten } from '../../../styles';
 import { TertiaryButton } from '../../TertiaryButton';
 import { ChevronLeftIcon } from '../../icons/ChevronLeftIcon';
 import { ChevronRightIcon } from '../../icons/ChevronRightIcon';
@@ -88,16 +87,14 @@ export function ChatSection({
             <div
               key={id}
               css={css`
-                padding: 10px;
+                padding: 12px;
                 border-radius: 16px;
                 margin-bottom: 12px;
                 margin-left: ${message.sentBy === 'agent' ? 0 : 'auto'};
                 width: fit-content;
                 max-width: 60ch;
                 white-space: pre-wrap;
-                background-color: ${message.sentBy === 'agent'
-                  ? lighten(theme.colors.backgroundPrimary, 3)
-                  : theme.colors.primary};
+                background-color: ${message.sentBy === 'agent' ? theme.colors.hoverActive : theme.colors.primary};
                 color: ${theme.colors.textPrimary};
                 font-family: Inter, sans-serif;
                 font-size: 14px;
