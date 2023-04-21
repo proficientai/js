@@ -1,5 +1,7 @@
 import type { Proficient } from '@proficient/client';
 
+import { ProficientTheme } from '../../theme';
+
 export type AgentState =
   | {
       status: 'nil';
@@ -78,4 +80,9 @@ export interface InteractionViewProps {
    * @defaultValue "Type something..."
    */
   inputPlaceholder?: string;
+
+  /**
+   * Proficient theme.
+   */
+  theme?: ProficientTheme;
 }

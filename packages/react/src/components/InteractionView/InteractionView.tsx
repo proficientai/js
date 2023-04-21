@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { InteractionTree } from '../../ds/InteractionTree';
 import { useApi } from '../../hooks';
 import { colors } from '../../styles';
+import { createTheme } from '../../theme';
 import { BoltIcon } from '../icons/BoltIcon';
 import { RetryIcon } from '../icons/RetryIcon';
 import { ChatSection } from './ChatSection';
@@ -52,6 +53,7 @@ export function InteractionView({
   autoRequestReply = true,
   sendOnEnter = true,
   inputPlaceholder = 'Type something...',
+  theme = createTheme(),
 }: InteractionViewProps) {
   const { getApi } = useApi({ apiKey, userExternalId, userHmac });
 
