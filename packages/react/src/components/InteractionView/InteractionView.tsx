@@ -50,6 +50,7 @@ export function InteractionView({
   agentId,
   userExternalId,
   userHmac,
+  layout = 'bubbles',
   autoRequestReply = true,
   sendOnEnter = true,
   inputPlaceholder = 'Type something...',
@@ -501,7 +502,7 @@ export function InteractionView({
                 `}>
                 <ChatSection
                   agentName={agent.name}
-                  layout="boxes"
+                  layout={layout}
                   messageGroups={messageGroups}
                   onClickPrevious={(depth, activeIndex) => {
                     setActiveIndex(interaction.id, depth, activeIndex - 1);

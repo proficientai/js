@@ -26,6 +26,7 @@ export default function AgentPage() {
   const agentId = router.query.agentId as string | undefined;
   const userId = USER_EXTERNAL_ID; // Retrieve dynamically
   const [isDarkTheme, setIsDarkTheme] = useState(true);
+  const [isBubblesLayout, setIsBubblesLayout] = useState(true);
 
   if (!process.env.NEXT_PUBLIC_PROFICIENT_KEY) {
     return <div>Missing Proficient API key</div>;
@@ -39,10 +40,18 @@ export default function AgentPage() {
     <div>
       <h1 style={{ textAlign: 'center' }}>Example Client Application</h1>
       <div style={{ marginBottom: 10 }}>
-        <input type="checkbox" checked={isDarkTheme} onChange={() => setIsDarkTheme((prev) => !prev)} />
-        <label>
-          <span>Dark</span>
-        </label>
+        <div>
+          <input type="checkbox" checked={isDarkTheme} onChange={() => setIsDarkTheme((prev) => !prev)} />
+          <label>
+            <span>Dark</span>
+          </label>
+        </div>
+        <div>
+          <input type="checkbox" checked={isBubblesLayout} onChange={() => setIsBubblesLayout((prev) => !prev)} />
+          <label>
+            <span>Bubbles</span>
+          </label>
+        </div>
       </div>
 
       <InteractionView
@@ -50,6 +59,7 @@ export default function AgentPage() {
         agentId={agentId}
         userExternalId={userId}
         userHmac={() => getHmac(userId)}
+        layout={isBubblesLayout ? 'bubbles' : 'boxes'}
         autoRequestReply={false}
         theme={isDarkTheme ? darkTheme : lightTheme}
       />

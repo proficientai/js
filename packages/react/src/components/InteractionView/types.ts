@@ -69,6 +69,10 @@ export interface InteractionViewProps {
   userExternalId: string;
   userHmac?: string | (() => Promise<string>);
   /**
+   * @defaultValue 'bubbles'
+   */
+  layout?: 'bubbles' | 'boxes';
+  /**
    * @defaultValue true
    */
   autoRequestReply?: boolean;
