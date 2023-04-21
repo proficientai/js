@@ -515,9 +515,10 @@ export function InteractionView({
                   <div
                     css={css`
                       position: absolute;
-                      bottom: 0;
+                      bottom: 20px;
                       left: 0;
                       right: 0;
+                      z-index: 2;
                       height: 50px;
                     `}>
                     <SecondaryButton
@@ -530,6 +531,7 @@ export function InteractionView({
                       style={{
                         marginLeft: 'auto',
                         marginRight: 'auto',
+                        boxShadow: `0 0 80px -12px ${theme.colors.shadow}`,
                       }}>
                       {generateButtonType === 'generate' ? <BoltIcon /> : <RetryIcon />}
                       <span

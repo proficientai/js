@@ -20,7 +20,7 @@ export function useStyles() {
     `;
 
     const inputCss = css`
-      background-color: transparent;
+      background-color: ${theme.colors.backgroundPrimary};
       padding-top: 8px;
       padding-bottom: 8px;
       padding-left: 12px;

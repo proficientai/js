@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { useTheme } from '../../../hooks';
-import { brighten, lighten } from '../../../styles';
+import { lighten } from '../../../styles';
 import { TertiaryButton } from '../../TertiaryButton';
 import { ChevronLeftIcon } from '../../icons/ChevronLeftIcon';
 import { ChevronRightIcon } from '../../icons/ChevronRightIcon';
@@ -31,7 +31,7 @@ export function ChatSection({
         flex-direction: column-reverse;
         padding-left: ${layout === 'bubbles' ? '24px' : undefined};
         padding-right: ${layout === 'bubbles' ? '24px' : undefined};
-        padding-bottom: 40px;
+        padding-bottom: 50px;
       `}
       inverse
       hasMore={!!hasMore}
@@ -116,7 +116,7 @@ export function ChatSection({
               padding-bottom: 24px;
               white-space: pre-wrap;
               &:hover {
-                background-color: ${brighten(theme.colors.backgroundPrimary, 1)};
+                background-color: ${theme.colors.hover};
               }
             `}>
             <div

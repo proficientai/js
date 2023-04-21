@@ -2,7 +2,6 @@
 import { css } from '@emotion/react';
 
 import { useTheme } from '../../hooks';
-import { lighten } from '../../styles';
 import type { SecondaryButtonProps } from './types';
 
 export function SecondaryButton({ children, disabled, onClick, style }: SecondaryButtonProps) {
@@ -27,7 +26,7 @@ export function SecondaryButton({ children, disabled, onClick, style }: Secondar
         border-radius: 4px;
 
         &:hover {
-          background-color: ${lighten(theme.colors.backgroundPrimary, 1)};
+          background-color: ${theme.colors.hover};
         }
       `}
       style={style}>

@@ -10,7 +10,7 @@ import type { InputSectionProps } from './types';
 
 export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEnter, textAreaRef }: InputSectionProps) {
   const theme = useTheme();
-  const { boxCss, inputCss } = useStyles();
+  const { inputCss } = useStyles();
 
   const handleSendClick = useCallback(async () => {
     if (document.activeElement === textAreaRef.current) {
@@ -27,7 +27,11 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
   `;
 
   const containerCss = css`
-    ${boxCss}
+    display: flex;
+    overflow: visible;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
     background-color: ${theme.colors.backgroundSecondary};
     border-top: 1px solid ${theme.colors.border};
     display: flex;
@@ -40,9 +44,12 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
       <div
         css={css`
           display: flex;
+          z-index: 1;
           flex-direction: column;
           border: 1px solid gray;
           border-radius: 12px;
+          margin-top: -20px;
+          box-shadow: 0 -10px 40px -12px ${theme.colors.shadow};
           overflow: hidden;
           border-color: ${theme.colors.border};
 
@@ -62,6 +69,7 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
         />
         <div
           css={css`
+            background-color: ${theme.colors.backgroundPrimary};
             display: flex;
             justify-content: end;
             padding-top: 8px;
