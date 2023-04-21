@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-import { useTheme } from '../../../context';
-import { boxCss, colors, primaryTextCss, secondaryTextCss } from '../../../styles';
+import { useStyles, useTheme } from '../../../hooks';
 import { InteractionIcon } from '../../icons/InteractionIcon';
 import { PlusIcon } from '../../icons/PlusIcon';
 import type { SidebarSectionProps } from './types';
@@ -16,11 +15,12 @@ export function SidebarSection({
   onClickNewInteraction,
 }: SidebarSectionProps) {
   const theme = useTheme();
+  const { boxCss, primaryTextCss, secondaryTextCss } = useStyles();
   return (
     <div
       css={css`
-        border-right: 1px solid ${colors.gray[700]};
-        background-color: ${theme.colors.background};
+        border-right: 1px solid ${theme.colors.border};
+        background-color: ${theme.colors.primaryBackground};
       `}>
       <div
         css={css`
@@ -53,10 +53,10 @@ export function SidebarSection({
             css={css`
               display: flex;
               width: 100%;
-              border: 1px solid ${colors.gray[700]};
+              border: 1px solid ${theme.colors.border};
               align-items: center;
-              color: ${colors.gray[100]};
-              background-color: ${colors.gray[800]};
+              color: ${theme.colors.primaryText};
+              background-color: ${theme.colors.primaryBackground};
               outline: none;
               cursor: pointer;
               padding-top: 6px;
@@ -69,7 +69,7 @@ export function SidebarSection({
               margin-bottom: 10px;
 
               &:hover {
-                background-color: ${colors.gray[700]};
+                background-color: ${theme.colors.primaryBackground};
               }
             `}>
             <PlusIcon />
@@ -90,7 +90,7 @@ export function SidebarSection({
               padding: 10px;
               margin-bottom: 10px;
               margin-top: 10px;
-              color: ${colors.gray[500]};
+              color: ${theme.colors.secondaryText};
               font-family: Inter, sans-serif;
               font-size: 14px;
             `}>
@@ -108,10 +108,10 @@ export function SidebarSection({
             css={css`
               display: flex;
               width: 100%;
-              border: 1px solid ${colors.gray[700]};
+              border: 1px solid ${theme.colors.border};
               align-items: center;
-              color: ${colors.gray[100]};
-              background-color: ${colors.gray[800]};
+              color: ${theme.colors.primaryText};
+              background-color: ${theme.colors.primaryBackground};
               outline: none;
               cursor: pointer;
               padding-top: 6px;
@@ -124,7 +124,7 @@ export function SidebarSection({
               margin-bottom: 10px;
 
               &:hover {
-                background-color: ${colors.gray[700]};
+                background-color: ${theme.colors.primaryBackground};
               }
             `}>
             <PlusIcon />
@@ -154,17 +154,17 @@ export function SidebarSection({
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                border-top: 1px solid ${colors.gray[700]};
+                border-top: 1px solid ${theme.colors.border};
                 padding-top: 12px;
                 padding-bottom: 12px;
                 padding-left: 12px;
                 padding-right: 12px;
                 cursor: pointer;
-                background-color: ${isSelectedInteraction(i) ? colors.gray[700] : 'transparent'};
-                color: ${colors.gray[100]};
+                background-color: ${isSelectedInteraction(i) ? theme.colors.primaryBackground : 'transparent'};
+                color: ${theme.colors.primaryText};
 
                 &:hover {
-                  background-color: ${colors.gray[700]};
+                  background-color: ${theme.colors.primaryBackground};
                 }
               `}
               onClick={() => onClickInteraction(i)}>
@@ -174,7 +174,7 @@ export function SidebarSection({
                   margin-left: 10px;
                   font-family: Inter, sans-serif;
                   font-size: 14px;
-                  color: ${i.name ? colors.gray[100] : colors.gray[500]};
+                  color: ${i.name ? theme.colors.primaryText : theme.colors.secondaryText};
                 `}>
                 {i.name || 'New interaction'}
               </span>

@@ -2,8 +2,8 @@
 import { css } from '@emotion/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-import { useTheme } from '../../../context';
-import { colors, darken, lighten } from '../../../styles';
+import { useTheme } from '../../../hooks';
+import { darken, lighten } from '../../../styles';
 import type { ChatSectionProps } from './types';
 
 export function ChatSection({
@@ -23,7 +23,7 @@ export function ChatSection({
       dataLength={messageGroups.length}
       next={next ?? (() => {})}
       css={css`
-        background-color: ${theme.colors.background};
+        background-color: ${theme.colors.primaryBackground};
         display: flex;
         flex-direction: column-reverse;
         padding-left: ${layout === 'bubbles' ? '24px' : undefined};
@@ -37,7 +37,7 @@ export function ChatSection({
         <div
           css={css`
             text-align: center;
-            color: ${colors.gray[500]};
+            color: ${theme.colors.secondaryText};
             font-size: 14px;
           `}>
           Loading...
@@ -50,7 +50,7 @@ export function ChatSection({
             padding: 10px;
             margin-bottom: 10px;
             margin-top: 10px;
-            color: ${colors.gray[500]};
+            color: ${theme.colors.secondaryText};
             font-family: Inter, sans-serif;
             font-size: 14px;
           `}>
@@ -68,7 +68,7 @@ export function ChatSection({
               <span
                 css={css`
                   text-align: center;
-                  color: ${colors.gray[500]};
+                  color: ${theme.colors.secondaryText};
                   font-family: Inter, sans-serif;
                   font-size: 13px;
                 `}>
@@ -93,9 +93,9 @@ export function ChatSection({
                 max-width: 60ch;
                 white-space: pre-wrap;
                 background-color: ${message.sentBy === 'agent'
-                  ? lighten(theme.colors.background, 3)
+                  ? lighten(theme.colors.primaryBackground, 3)
                   : theme.colors.primary};
-                color: ${colors.gray[100]};
+                color: ${theme.colors.primaryText};
                 font-family: Inter, sans-serif;
                 font-size: 14px;
               `}>
@@ -113,8 +113,8 @@ export function ChatSection({
               padding-bottom: 24px;
               white-space: pre-wrap;
               background-color: ${message.sentBy === 'agent'
-                ? theme.colors.background
-                : darken(theme.colors.background, 1)};
+                ? theme.colors.primaryBackground
+                : darken(theme.colors.primaryBackground, 1)};
             `}>
             <div
               key={id}
@@ -124,7 +124,7 @@ export function ChatSection({
               `}>
               <div
                 css={css`
-                  color: ${colors.gray[500]};
+                  color: ${theme.colors.secondaryText};
                   font-family: Inter, sans-serif;
                   font-size: 14px;
                   margin-right: 10px;
@@ -133,7 +133,7 @@ export function ChatSection({
               </div>
               <div
                 css={css`
-                  color: ${colors.gray[100]};
+                  color: ${theme.colors.primaryText};
                   font-family: Inter, sans-serif;
                   font-size: 14px;
                 `}>
@@ -144,7 +144,7 @@ export function ChatSection({
               <div
                 css={css`
                   display: flex;
-                  color: ${colors.gray[100]};
+                  color: ${theme.colors.primaryText};
                   font-family: Inter, sans-serif;
                   font-size: 14px;
                   margin-top: 12px;

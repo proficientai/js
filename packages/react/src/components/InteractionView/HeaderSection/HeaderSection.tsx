@@ -2,29 +2,14 @@
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 
-import { useTheme } from '../../../context';
-import { boxCss, colors, inputCss, secondaryButtonCss } from '../../../styles';
+import { useStyles, useTheme } from '../../../hooks';
 import { InteractionIcon } from '../../icons/InteractionIcon';
 import { TrashIcon } from '../../icons/TrashIcon';
 import type { HeaderSectionProps } from './types';
 
-const trashButtonCss = css`
-  ${secondaryButtonCss}
-  margin-left: auto;
-`;
-
-const titleInputCss = css`
-  ${inputCss}
-  margin-left: 8px;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  &:focus {
-    border-color: ${colors.gray[500]};
-  }
-`;
-
 export function HeaderSection({ onClickDelete, onTitleBlur, title: titleInitial }: HeaderSectionProps) {
   const theme = useTheme();
+  const { boxCss, inputCss, secondaryButtonCss } = useStyles();
   const [title, setTitle] = useState(titleInitial);
 
   useEffect(() => {
@@ -33,10 +18,25 @@ export function HeaderSection({ onClickDelete, onTitleBlur, title: titleInitial 
 
   const containerCss = css`
     ${boxCss}
-    background-color: ${theme.colors.background};
-    border-bottom: 1px solid ${colors.gray[700]};
+    background-color: ${theme.colors.primaryBackground};
+    border-bottom: 1px solid ${theme.colors.border};
     align-items: center;
-    color: ${colors.gray[100]};
+    color: ${theme.colors.primaryText};
+  `;
+
+  const titleInputCss = css`
+    ${inputCss}
+    margin-left: 8px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    &:focus {
+      border-color: ${theme.colors.border};
+    }
+  `;
+
+  const trashButtonCss = css`
+    ${secondaryButtonCss}
+    margin-left: auto;
   `;
 
   return (

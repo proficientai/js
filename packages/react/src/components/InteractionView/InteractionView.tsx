@@ -6,7 +6,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ProficientThemeContext, createTheme } from '../../context';
 import { InteractionTree } from '../../ds/InteractionTree';
 import { useApi } from '../../hooks';
-import { colors } from '../../styles';
 import { BoltIcon } from '../icons/BoltIcon';
 import { RetryIcon } from '../icons/RetryIcon';
 import { ChatSection } from './ChatSection';
@@ -529,10 +528,10 @@ export function InteractionView({
                       }
                       css={css`
                         display: flex;
-                        border: 1px solid ${colors.gray[700]};
+                        border: 1px solid ${theme.colors.border};
                         align-items: center;
-                        color: ${colors.gray[100]};
-                        background-color: ${colors.gray[800]};
+                        color: ${theme.colors.primaryText};
+                        background-color: ${theme.colors.primaryBackground};
                         outline: none;
                         cursor: pointer;
                         padding-top: 6px;
@@ -547,7 +546,7 @@ export function InteractionView({
                         margin-right: auto;
 
                         &:hover {
-                          background-color: ${colors.gray[700]};
+                          background-color: ${theme.colors.primaryBackground};
                         }
                       `}>
                       {generateButtonType === 'generate' ? <BoltIcon /> : <RetryIcon />}

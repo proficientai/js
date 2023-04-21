@@ -3,20 +3,14 @@ import { css } from '@emotion/react';
 import { useCallback } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
-import { useTheme } from '../../../context';
-import { useKeyboardEnterEvent } from '../../../hooks';
-import { boxCss, colors, darken, inputCss } from '../../../styles';
+import { useKeyboardEnterEvent, useStyles, useTheme } from '../../../hooks';
+import { darken } from '../../../styles';
 import { SendMessageIcon } from '../../icons/SendMessageIcon';
 import type { InputSectionProps } from './types';
 
-const textAreaCss = css`
-  ${inputCss}
-  resize: none;
-  border: none;
-`;
-
 export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEnter, textAreaRef }: InputSectionProps) {
   const theme = useTheme();
+  const { boxCss, inputCss } = useStyles();
 
   const handleSendClick = useCallback(async () => {
     if (document.activeElement === textAreaRef.current) {
@@ -26,13 +20,19 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
 
   useKeyboardEnterEvent(handleSendClick, !sendOnEnter);
 
+  const textAreaCss = css`
+    ${inputCss}
+    resize: none;
+    border: none;
+  `;
+
   const containerCss = css`
     ${boxCss}
-    background-color: ${darken(theme.colors.background, 2)};
-    border-top: 1px solid ${colors.gray[700]};
+    background-color: ${darken(theme.colors.primaryBackground, 2)};
+    border-top: 1px solid ${theme.colors.border};
     display: flex;
     flex-direction: column;
-    color: ${colors.gray[100]};
+    color: ${theme.colors.primaryText};
   `;
 
   return (
@@ -44,10 +44,10 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
           border: 1px solid gray;
           border-radius: 12px;
           overflow: hidden;
-          border-color: ${colors.gray[700]};
+          border-color: ${theme.colors.primaryBackground};
 
           &:focus-within {
-            border-color: ${colors.gray[500]};
+            border-color: ${theme.colors.border};
           }
         `}>
         <TextareaAutosize
@@ -79,7 +79,7 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
               display: flex;
               justify-content: center;
               align-items: center;
-              color: ${colors.gray[100]};
+              color: ${theme.colors.primaryText};
               background-color: ${theme.colors.primary};
               outline: none;
               border: none;
@@ -90,10 +90,10 @@ export function InputSection({ onClickSend, onInputChange, placeholder, sendOnEn
               padding-right: 8px;
               border-radius: 6px;
               &:hover {
-                background-color: ${colors.indigo[600]};
+                background-color: ${darken(theme.colors.primary, 1)};
               }
               &:active {
-                background-color: ${colors.indigo[700]};
+                background-color: ${darken(theme.colors.primary, 2)};
               }
             `}>
             <SendMessageIcon />
