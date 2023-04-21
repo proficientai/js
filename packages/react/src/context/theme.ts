@@ -72,7 +72,7 @@ export function createTheme(providedParams?: PartialDeep<CreateThemeParams>): Pr
   const textSecondaryColor = isDark ? darken(textPrimaryColor, 40) : lighten(textPrimaryColor, 40);
 
   const textTertiaryColor = isDark ? darken(textSecondaryColor, 30) : lighten(textSecondaryColor, 30);
-  const watermarkColor = isDark ? lighten(backgroundSecondaryColor, 10) : lighten(backgroundSecondaryColor, 30);
+  const watermarkColor = isDark ? lighten(backgroundSecondaryColor, 10) : darken(backgroundSecondaryColor, 10);
 
   return {
     colors: {
