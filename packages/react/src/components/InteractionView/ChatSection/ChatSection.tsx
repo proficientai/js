@@ -63,6 +63,8 @@ export function ChatSection({
         css={css`
           margin-top: 10px;
           margin-bottom: 6px;
+          padding-left: ${layout === 'boxes' ? '24px' : undefined};
+          padding-right: ${layout === 'boxes' ? '24px' : undefined};
         `}>
         {(() => {
           if (writingStatus === 'writing') {
