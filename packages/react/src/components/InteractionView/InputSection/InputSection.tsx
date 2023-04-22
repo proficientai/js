@@ -53,7 +53,7 @@ export function InputSection({
           display: flex;
           z-index: 1;
           flex-direction: column;
-          border: 1px solid gray;
+          border: 1px solid ${theme.colors.border};
           border-radius: 12px;
           margin-top: -20px;
           box-shadow: 0 -10px 40px -12px ${theme.colors.shadow};

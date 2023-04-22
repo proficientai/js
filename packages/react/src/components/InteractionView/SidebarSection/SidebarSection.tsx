@@ -19,11 +19,7 @@ export function SidebarSection({
   const theme = useTheme();
   const { boxCss, primaryTextCss, secondaryTextCss } = useStyles();
   return (
-    <div
-      css={css`
-        border-right: 1px solid ${theme.colors.border};
-        background-color: ${theme.colors.backgroundSecondary};
-      `}>
+    <div>
       <div
         css={css`
           ${boxCss}
@@ -41,9 +37,15 @@ export function SidebarSection({
       <div
         css={css`
           padding-left: 12px;
-          padding-right: 12px;
+          padding-right: 4px;
         `}>
-        <SecondaryButton onClick={onClickNewInteraction} style={{ marginTop: 10, marginBottom: 10 }}>
+        <SecondaryButton
+          onClick={onClickNewInteraction}
+          style={{
+            width: '100%',
+            marginTop: 10,
+            marginBottom: 10,
+          }}>
           <PlusIcon />
           <span
             css={css`
@@ -61,6 +63,7 @@ export function SidebarSection({
         css={css`
           display: flex;
           flex-direction: column;
+          padding-left: 8px;
         `}>
         {interactions.map((i) => {
           return (
@@ -70,7 +73,6 @@ export function SidebarSection({
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                border-top: 1px solid ${theme.colors.border};
                 padding-top: 12px;
                 padding-bottom: 12px;
                 padding-left: 12px;

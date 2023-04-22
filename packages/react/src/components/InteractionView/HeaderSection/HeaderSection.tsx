@@ -19,8 +19,7 @@ export function HeaderSection({ onClickDelete, onTitleBlur, title: titleInitial 
 
   const containerCss = css`
     ${boxCss}
-    background-color: ${theme.colors.backgroundPrimary};
-    border-bottom: 1px solid ${theme.colors.border};
+    width: 100%;
     align-items: center;
     color: ${theme.colors.textPrimary};
   `;

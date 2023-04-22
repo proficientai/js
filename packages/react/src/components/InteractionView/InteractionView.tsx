@@ -2,10 +2,12 @@
 import { Global, css } from '@emotion/react';
 import type { Proficient } from '@proficient/client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 import { ProficientThemeContext, createTheme } from '../../context';
 import { InteractionTree } from '../../ds/InteractionTree';
 import { useApi } from '../../hooks';
+import { Layout } from '../Layout';
 import { SecondaryButton } from '../SecondaryButton';
 import { BoltIcon } from '../icons/BoltIcon';
 import { RetryIcon } from '../icons/RetryIcon';
@@ -391,6 +393,10 @@ export function InteractionView({
     [getApi]
   );
 
+  const isMd = useMediaQuery({
+    query: `(min-width: 768px)`,
+  });
+
   if (agentState.status === 'nil' || agentState.status === 'loading') {
     // TODO: Update view
     return <div>Loading agent...</div>;
@@ -405,31 +411,53 @@ export function InteractionView({
 
   return (
     <ProficientThemeContext.Provider value={theme}>
-      <div
-        css={css`
-          display: flex;
-        `}>
-        <Global
-          styles={css`
-            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-          `}
-        />
+      <Global
+        styles={css`
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        `}
+      />
 
-        <SidebarSection
-          description={agent.description}
-          header={agent.name}
-          interactions={sortedInteractions}
-          isSelectedInteraction={(i) => i.id === interactionId}
-          onClickInteraction={(i) => {
-            selectInteraction(i.id);
-          }}
-          onClickNewInteraction={handleCreateInteraction}
-        />
-
-        {(() => {
+      <Layout
+        version={isMd ? 'lg' : 'sm'}
+        headerContent={
+          interactionState?.status === 'success' ? (
+            <HeaderSection
+              onClickDelete={() => handleDeleteInteraction(interactionState.interaction.id)}
+              onTitleBlur={async (text) => {
+                if (interactionState.interaction.name !== text) {
+                  await handleUpdateInteraction(text);
+                }
+              }}
+              title={interactionState.interaction.name}
+            />
+          ) : null
+        }
+        sidebarContent={
+          <SidebarSection
+            description={agent.description}
+            header={agent.name}
+            interactions={sortedInteractions}
+            isSelectedInteraction={(i) => i.id === interactionId}
+            onClickInteraction={(i) => {
+              selectInteraction(i.id);
+            }}
+            onClickNewInteraction={handleCreateInteraction}
+          />
+        }
+        sidebarInitialWidth={300}
+        sidebarMinWidth={200}
+        sidebarMaxWidth={400}
+        sidebarResizerWidth={8}
+        onSidebarResizeComplete={() => {}}>
+        {() => {
           if (!interactionState || !messagesState || !writingState) {
             // TODO: Update view
             return <div>No selected interaction...</div>;
+          }
+
+          if (messagesState.status === 'error') {
+            // TODO: Update view
+            return <div>Error loading messages: {messagesState.errorCode}</div>;
           }
 
           if (interactionState.status === 'error') {
@@ -440,11 +468,6 @@ export function InteractionView({
           if (interactionState.status === 'loading') {
             // TODO: Update view
             return <div>Loading interaction...</div>;
-          }
-
-          if (messagesState.status === 'error') {
-            // TODO: Update view
-            return <div>Error loading messages: {messagesState.errorCode}</div>;
           }
 
           const { interaction } = interactionState;
@@ -479,37 +502,11 @@ export function InteractionView({
           }
 
           return (
-            <div
-              css={css`
-                width: 100%;
-              `}>
-              <HeaderSection
-                onClickDelete={() => handleDeleteInteraction(interaction.id)}
-                onTitleBlur={async (text) => {
-                  if (interaction.name !== text) {
-                    await handleUpdateInteraction(text);
-                  }
-                }}
-                title={interaction.name}
-              />
-
+            <div>
               <div
                 css={css`
-                  width: 100%;
                   position: relative;
                 `}>
-                <ChatSection
-                  agentName={agent.name}
-                  layout={layout}
-                  messageGroups={messageGroups}
-                  onClickPrevious={(depth, activeIndex) => {
-                    setActiveIndex(interaction.id, depth, activeIndex - 1);
-                  }}
-                  onClickNext={(depth, activeIndex) => {
-                    setActiveIndex(interaction.id, depth, activeIndex + 1);
-                  }}
-                  writingStatus={writingStatus}
-                />
                 {generateButtonType && (
                   <div
                     css={css`
@@ -546,6 +543,19 @@ export function InteractionView({
                     </SecondaryButton>
                   </div>
                 )}
+
+                <ChatSection
+                  agentName={agent.name}
+                  layout={layout}
+                  messageGroups={messageGroups}
+                  onClickPrevious={(depth, activeIndex) => {
+                    setActiveIndex(interaction.id, depth, activeIndex - 1);
+                  }}
+                  onClickNext={(depth, activeIndex) => {
+                    setActiveIndex(interaction.id, depth, activeIndex + 1);
+                  }}
+                  writingStatus={writingStatus}
+                />
               </div>
 
               <InputSection
@@ -557,8 +567,8 @@ export function InteractionView({
               />
             </div>
           );
-        })()}
-      </div>
+        }}
+      </Layout>
     </ProficientThemeContext.Provider>
   );
 }
