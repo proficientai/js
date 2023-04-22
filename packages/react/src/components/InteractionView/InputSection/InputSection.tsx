@@ -36,11 +36,7 @@ export function InputSection({
 
   const containerCss = css`
     display: flex;
-    overflow: visible;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 20px;
-    background-color: ${theme.colors.backgroundSecondary};
+    position: relative;
     border-top: 1px solid ${theme.colors.border};
     display: flex;
     flex-direction: column;
@@ -53,13 +49,16 @@ export function InputSection({
       <div
         css={css`
           display: flex;
+          position: absolute;
+          left: 24px;
+          right: 24px;
+          bottom: 70px; // TODO: Figure out why we need this
           z-index: 1;
           flex-direction: column;
           border: 1px solid ${theme.colors.border};
           border-radius: 12px;
-          margin-top: -20px;
           box-shadow: 0 -10px 40px -12px ${theme.colors.shadow};
-          overflow: hidden;
+          overflow-y: scroll;
           border-color: ${theme.colors.border};
 
           &:focus-within {
@@ -70,7 +69,8 @@ export function InputSection({
           css={textAreaCss}
           ref={textAreaRef}
           placeholder={placeholder}
-          minRows={4}
+          minRows={3}
+          maxRows={10}
           onChange={(e) => {
             const text = e.target.value;
             onInputChange(text);

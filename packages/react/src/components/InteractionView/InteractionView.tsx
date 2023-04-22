@@ -28,7 +28,7 @@ import { useTextInputMap } from './useTextInputMap';
 
 const PROVISIONAL_MESSAGE_ID = '_msg_provisional';
 const HEADER_SECTION_HEIGHT = 54;
-const INPUT_SECTION_HEIGHT = 180;
+const INPUT_SECTION_HEIGHT = 160;
 
 export function InteractionView({
   apiKey,
@@ -493,7 +493,7 @@ export function InteractionView({
                 css={css`
                   position: relative;
                 `}>
-                {generateButtonType && (
+                {/* {generateButtonType && (
                   <div
                     css={css`
                       position: absolute;
@@ -528,7 +528,7 @@ export function InteractionView({
                       </span>
                     </SecondaryButton>
                   </div>
-                )}
+                )} */}
 
                 <ChatSection
                   height={height - HEADER_SECTION_HEIGHT - INPUT_SECTION_HEIGHT}
