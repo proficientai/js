@@ -464,7 +464,15 @@ export function InteractionView({
             sidebarResizerWidth={8}>
             {() => {
               if (!interactionState || !messagesState || !writingState) {
-                return <EmptyStateView text="No selected interaction" />;
+                return (
+                  <EmptyStateView
+                    text={
+                      sortedInteractions.length === 0
+                        ? 'You have no interactions with this agent.'
+                        : 'No selected interaction'
+                    }
+                  />
+                );
               }
               if (messagesState.status === 'error') {
                 return <EmptyStateView text="Error loading messages" />;
