@@ -12,6 +12,7 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
   const theme = useTheme();
   const {
     version,
+    height,
     children,
     headerContent = null,
     headerHeight = 54,
@@ -133,7 +134,6 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
           right: 0;
           bottom: 0;
           flex-grow: 1;
-          /* background-color: ${theme.colors.backgroundPrimary}; */
           cursor: ${!isResizingDisabled ? 'col-resize' : undefined};
         `}
         onMouseDown={(e) => {
@@ -200,7 +200,7 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
         display: flex;
         position: relative;
         overflow: hidden;
-        max-height: 100vh;
+        height: ${height}px;
         background-color: ${theme.colors.backgroundSecondary};
         pointer-events: ${isResizingSidebar ? 'none' : undefined};
       `}>

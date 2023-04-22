@@ -72,6 +72,13 @@ export interface InteractionViewProps {
    * @defaultValue 'natural'
    */
   layout?: 'natural' | 'tree';
+
+  /**
+   * Height in pixels. Must be greater than 300.
+   *
+   * @defaultValue 600
+   */
+  height?: number;
   /**
    * @defaultValue true
    */

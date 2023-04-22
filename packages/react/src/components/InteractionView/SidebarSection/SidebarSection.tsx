@@ -1,5 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import useSize from '@react-hook/size';
+import { useRef } from 'react';
 
 import { useStyles, useTheme } from '../../../hooks';
 import { SecondaryButton } from '../../SecondaryButton';
@@ -9,6 +11,7 @@ import { ProficientIcon } from '../../icons/ProficientIcon';
 import type { SidebarSectionProps } from './types';
 
 export function SidebarSection({
+  height,
   description,
   header,
   interactions,
@@ -18,52 +21,67 @@ export function SidebarSection({
 }: SidebarSectionProps) {
   const theme = useTheme();
   const { boxCss, primaryTextCss, secondaryTextCss } = useStyles();
+  const headerRef = useRef(null);
+  const footerRef = useRef(null);
+  const [, headerHeight] = useSize(headerRef);
+  const [, footerHeight] = useSize(footerRef);
   return (
     <div>
       <div
+        ref={headerRef}
         css={css`
-          ${boxCss}
-          flex-direction: column;
+          padding-bottom: 10px;
         `}>
-        <div css={primaryTextCss}>{header}</div>
         <div
           css={css`
-            margin-top: 6px;
-            ${secondaryTextCss}
+            ${boxCss}
+            flex-direction: column;
           `}>
-          {description}
-        </div>
-      </div>
-      <div
-        css={css`
-          padding-left: 12px;
-          padding-right: 4px;
-        `}>
-        <SecondaryButton
-          onClick={onClickNewInteraction}
-          style={{
-            width: '100%',
-            marginTop: 10,
-            marginBottom: 10,
-          }}>
-          <PlusIcon />
-          <span
+          <div css={primaryTextCss}>{header}</div>
+          <div
             css={css`
-              margin-left: 10px;
-              white-space: nowrap;
-              font-family: Inter, sans-serif;
-              font-size: 13px;
+              margin-top: 6px;
+              ${secondaryTextCss}
             `}>
-            Create new interaction
-          </span>
-        </SecondaryButton>
+            {description}
+          </div>
+        </div>
+
+        <div
+          css={css`
+            padding-left: 12px;
+            padding-right: 4px;
+          `}>
+          <SecondaryButton
+            onClick={onClickNewInteraction}
+            style={{
+              width: '100%',
+              marginTop: 10,
+            }}>
+            <PlusIcon />
+            <span
+              css={css`
+                margin-left: 10px;
+                white-space: nowrap;
+                font-family: Inter, sans-serif;
+                font-size: 13px;
+              `}>
+              Create new interaction
+            </span>
+          </SecondaryButton>
+        </div>
       </div>
 
       <div
         css={css`
           display: flex;
           flex-direction: column;
-          padding-left: 8px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          padding-left: 8px; // Should equal resizer width
+          height: ${height - headerHeight - footerHeight - 20}px; // 20 is for padding
+          overflow-y: scroll;
+          border-top: 1px solid ${theme.colors.border};
         `}>
         {interactions.map((i) => {
           return (
@@ -102,15 +120,21 @@ export function SidebarSection({
       </div>
 
       <a
+        ref={footerRef}
         css={css`
           ${boxCss}
+          padding-bottom: 20px;
           display: flex;
+          flex-direction: row;
           align-items: center;
           color: ${theme.colors.watermarkColor};
+          border-top: 1px solid ${theme.colors.border};
           text-decoration: none;
         `}
         href="https://proficientai.com">
-        <ProficientIcon />
+        <div>
+          <ProficientIcon />
+        </div>
 
         <div
           css={css`

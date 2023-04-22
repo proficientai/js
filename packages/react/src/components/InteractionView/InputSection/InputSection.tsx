@@ -9,6 +9,7 @@ import { SendMessageIcon } from '../../icons/SendMessageIcon';
 import type { InputSectionProps } from './types';
 
 export function InputSection({
+  height,
   onClickSend,
   sendDisabled,
   onInputChange,
@@ -44,6 +45,7 @@ export function InputSection({
     display: flex;
     flex-direction: column;
     color: ${theme.colors.textPrimary};
+    height: ${height}px;
   `;
 
   return (

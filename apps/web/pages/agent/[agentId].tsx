@@ -60,6 +60,7 @@ export default function AgentPage() {
         userExternalId={userId}
         userHmac={() => getHmac(userId)}
         layout={isNaturalLayout ? 'natural' : 'tree'}
+        height={500}
         autoRequestReply={false}
         theme={isDarkTheme ? darkTheme : lightTheme}
       />

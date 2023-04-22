@@ -2,6 +2,7 @@ import type { Proficient } from '@proficient/client';
 import type { MouseEventHandler } from 'react';
 
 export interface SidebarSectionProps {
+  height: number;
   description: string;
   header: string;
   interactions: Proficient.Interaction[];

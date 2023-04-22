@@ -9,6 +9,7 @@ import { ChevronRightIcon } from '../../icons/ChevronRightIcon';
 import type { ChatSectionProps } from './types';
 
 export function ChatSection({
+  height,
   agentName,
   hasMore,
   layout,
@@ -34,7 +35,7 @@ export function ChatSection({
       `}
       inverse
       hasMore={!!hasMore}
-      height={400} // TODO: Make dynamic
+      height={height}
       loader={
         <div
           css={css`

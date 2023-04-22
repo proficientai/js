@@ -23,29 +23,12 @@ import type {
   MessagesState,
   WritingState,
 } from './types';
+import { useActiveIndexes } from './useActiveIndexes';
 import { useTextInputMap } from './useTextInputMap';
 
 const PROVISIONAL_MESSAGE_ID = '_msg_provisional';
-
-function useActiveIndexes() {
-  const [mapsByInteractionId, setMapsByInteractionId] = useState<Record<string, Map<number, number>>>({});
-
-  function getActiveIndex(interactionId: string, depth: number) {
-    const map = mapsByInteractionId[interactionId];
-    return map?.get(depth) ?? 0;
-  }
-
-  function setActiveIndex(interactionId: string, depth: number, index: number) {
-    setMapsByInteractionId((prev) => {
-      const { [interactionId]: prevMap, ...rest } = prev;
-      const next = prevMap ? new Map(prevMap) : new Map();
-      next.set(depth, index);
-      return { ...rest, [interactionId]: next };
-    });
-  }
-
-  return { getActiveIndex, setActiveIndex };
-}
+const HEADER_SECTION_HEIGHT = 54;
+const INPUT_SECTION_HEIGHT = 180;
 
 export function InteractionView({
   apiKey,
@@ -53,6 +36,7 @@ export function InteractionView({
   userExternalId,
   userHmac,
   layout = 'natural',
+  height = 600,
   autoRequestReply = true,
   sendOnEnter = true,
   inputPlaceholder = 'Type something...',
@@ -419,6 +403,7 @@ export function InteractionView({
 
       <Layout
         version={isMd ? 'lg' : 'sm'}
+        height={height}
         headerContent={
           interactionState?.status === 'success' ? (
             <HeaderSection
@@ -432,8 +417,10 @@ export function InteractionView({
             />
           ) : null
         }
+        headerHeight={HEADER_SECTION_HEIGHT}
         sidebarContent={
           <SidebarSection
+            height={height}
             description={agent.description}
             header={agent.name}
             interactions={sortedInteractions}
@@ -447,8 +434,7 @@ export function InteractionView({
         sidebarInitialWidth={300}
         sidebarMinWidth={200}
         sidebarMaxWidth={400}
-        sidebarResizerWidth={8}
-        onSidebarResizeComplete={() => {}}>
+        sidebarResizerWidth={8}>
         {() => {
           if (!interactionState || !messagesState || !writingState) {
             // TODO: Update view
@@ -545,6 +531,7 @@ export function InteractionView({
                 )}
 
                 <ChatSection
+                  height={height - HEADER_SECTION_HEIGHT - INPUT_SECTION_HEIGHT}
                   agentName={agent.name}
                   layout={layout}
                   messageGroups={messageGroups}
@@ -559,6 +546,7 @@ export function InteractionView({
               </div>
 
               <InputSection
+                height={INPUT_SECTION_HEIGHT}
                 onClickSend={handleSendMessage}
                 onInputChange={(text) => setInteractionInput(interaction.id, text)}
                 placeholder={inputPlaceholder}

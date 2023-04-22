@@ -1,6 +1,7 @@
 import type { MessageGroupInfo } from '../types';
 
 export interface ChatSectionProps {
+  height: number;
   agentName: string;
   hasMore?: boolean;
   layout: 'natural' | 'tree';
