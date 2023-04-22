@@ -33,7 +33,7 @@ export interface CreateThemeParams {
 
 const defaultParams: CreateThemeParams = {
   colors: {
-    background: 'hsl(222, 9%, 13%)',
+    background: 'hsl(216, 13%, 15%)',
     primary: 'hsl(239, 84%, 64%)',
     text: 'hsl(222, 9%, 95%)',
   },

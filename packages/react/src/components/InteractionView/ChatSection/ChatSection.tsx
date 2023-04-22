@@ -107,8 +107,8 @@ export function ChatSection({
           <div
             key={id}
             css={css`
-              padding-left: 34px;
-              padding-right: 34px;
+              padding-left: 24px;
+              padding-right: 24px;
               padding-top: 24px;
               padding-bottom: 24px;
               white-space: pre-wrap;
@@ -127,9 +127,12 @@ export function ChatSection({
                   color: ${theme.colors.textSecondary};
                   font-family: Inter, sans-serif;
                   font-size: 14px;
+                  min-width: 60px;
+                  max-width: 60px;
                   margin-right: 10px;
+                  text-align: right;
                 `}>
-                {message.sentBy === 'agent' ? agentName : 'You'}
+                {message.sentBy === 'agent' ? agentName : 'Me'}
               </div>
               <div
                 css={css`
