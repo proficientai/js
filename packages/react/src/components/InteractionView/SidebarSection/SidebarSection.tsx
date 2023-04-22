@@ -132,7 +132,10 @@ export function SidebarSection({
           text-decoration: none;
         `}
         href="https://proficientai.com">
-        <div>
+        <div
+          css={css`
+            margin-top: 5px;
+          `}>
           <ProficientIcon />
         </div>
 
