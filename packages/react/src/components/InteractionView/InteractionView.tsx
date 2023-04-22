@@ -132,8 +132,12 @@ export function InteractionView({
       try {
         const agent = await api.agents.get(agentId);
         setAgentState({ status: 'success', agent });
-      } catch (e) {
-        setAgentState({ status: 'error', code: 'unknown' });
+      } catch (e: any) {
+        console.log('Error loading agent', e);
+        setAgentState({
+          status: 'error',
+          code: e?.statusCode === 401 ? 'invalid-auth' : e?.statusCode === 404 ? 'not-found' : 'unknown',
+        });
       }
     })();
   }, [agentId, getApi]);
@@ -407,7 +411,18 @@ export function InteractionView({
                 background-color: ${theme.colors.backgroundPrimary};
                 height: ${height}px;
               `}>
-              <EmptyStateView text={agentState.status === 'error' ? 'Agent not found' : 'Loading agent...'} />;
+              <EmptyStateView
+                text={
+                  agentState.status === 'error'
+                    ? agentState.code === 'invalid-auth'
+                      ? 'Cannot load agent details due to invalid credentials.'
+                      : agentState.code === 'not-found'
+                      ? `Cannot find an agent with the id '${agentId}'`
+                      : 'An unknown error occurred while loading agent details.'
+                    : 'Loading agent...'
+                }
+              />
+              ;
             </div>
           );
         }

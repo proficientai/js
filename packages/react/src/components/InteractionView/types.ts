@@ -15,7 +15,7 @@ export type AgentState =
     }
   | {
       status: 'error';
-      code: 'not-found' | 'unknown';
+      code: 'not-found' | 'invalid-auth' | 'unknown';
     };
 
 export type InteractionState =
