@@ -58,16 +58,25 @@ export function SidebarSection({
               width: '100%',
               marginTop: 10,
             }}>
-            <PlusIcon />
-            <span
+            <div
+              css={css`
+                display: flex;
+                align-items: center;
+              `}>
+              <PlusIcon />
+            </div>
+            <div
               css={css`
                 margin-left: 10px;
                 white-space: nowrap;
                 font-family: Inter, sans-serif;
                 font-size: 13px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
               `}>
               Create new interaction
-            </span>
+            </div>
           </SecondaryButton>
         </div>
       </div>
@@ -104,16 +113,25 @@ export function SidebarSection({
                 }
               `}
               onClick={() => onClickInteraction(i)}>
-              <InteractionIcon />
-              <span
+              <div
+                css={css`
+                  display: flex;
+                  align-items: center;
+                `}>
+                <InteractionIcon />
+              </div>
+              <div
                 css={css`
                   margin-left: 10px;
                   font-family: Inter, sans-serif;
                   font-size: 14px;
                   color: ${i.name ? theme.colors.textPrimary : theme.colors.textSecondary};
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
                 `}>
                 {i.name || 'New interaction'}
-              </span>
+              </div>
             </div>
           );
         })}
