@@ -6,7 +6,7 @@ import { useMediaQuery } from 'react-responsive';
 
 import { ProficientThemeContext, createTheme } from '../../context';
 import { InteractionTree } from '../../ds/InteractionTree';
-import { useApi } from '../../hooks';
+import { useApi, useTheme } from '../../hooks';
 import { Layout } from '../Layout';
 import { ChatSection } from './ChatSection';
 import { HeaderSection } from './HeaderSection';
@@ -26,6 +26,26 @@ import { useTextInputMap } from './useTextInputMap';
 const PROVISIONAL_MESSAGE_ID = '_msg_provisional';
 const HEADER_SECTION_HEIGHT = 54;
 const INPUT_SECTION_HEIGHT = 160;
+
+function EmptyStateView({ text }: { text: string }) {
+  const theme = useTheme();
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        font-family: Inter, sans-serif;
+        font-size: 14px;
+        color: ${theme.colors.textSecondary};
+      `}>
+      {text}
+    </div>
+  );
+}
 
 export function InteractionView({
   apiKey,
@@ -113,7 +133,6 @@ export function InteractionView({
         const agent = await api.agents.get(agentId);
         setAgentState({ status: 'success', agent });
       } catch (e) {
-        // TODO: Check error code
         setAgentState({ status: 'error', code: 'unknown' });
       }
     })();
@@ -145,16 +164,15 @@ export function InteractionView({
           return acc;
         }, {} as Record<string, WritingState>);
         setWritingStatesById(newWritingStatesById);
-      } catch (e) {
-        // TODO: Handle errors
-        alert('Error loading interactions!');
+      } catch (e: any) {
+        console.error('Cannot load interactions for agent', agentId);
+        console.log(e?.message);
       }
     })();
   }, [agentId, getApi]);
 
   const loadMessages = useCallback(
     async (interactionId: string) => {
-      console.log('Starting to load messages', Date.now());
       try {
         const api = await getApi();
         const { data: receivedMessages } = await api.messages.list({
@@ -171,9 +189,9 @@ export function InteractionView({
             },
           };
         });
-      } catch (e) {
-        // TODO: Handle errors
-        alert('Error loading messages!');
+      } catch (e: any) {
+        console.error('Error loading messages!');
+        console.log(e?.message);
       }
     },
     [getApi]
@@ -222,10 +240,7 @@ export function InteractionView({
     if (interactionId === null) return;
     const parentId = mostRecentMessage?.id;
     const content = getInteractionInput(interactionId);
-    if (!content) {
-      alert('No message');
-      return;
-    }
+    if (!content) return;
     setInteractionInput(interactionId, '');
     setTextAreaValue('');
     setMessagesStatesById((prev) => {
@@ -276,8 +291,8 @@ export function InteractionView({
         await handleRequestAnswer(interactionId, sent.id);
       }
     } catch (e: any) {
-      // TODO: Handle errors
-      alert(`Api Error: ${e?.response?.data?.message}`);
+      alert('Could not send the message due to an unknown error. Please try again later.');
+      console.log(`Api Error: ${e?.response?.data?.message}`);
     }
   }, [
     autoRequestReply,
@@ -315,9 +330,9 @@ export function InteractionView({
         },
       }));
       setInteractionId(newInteraction.id);
-    } catch (e) {
-      // TODO: Handle errors
-      console.error('Cannot create interaction', e);
+    } catch (e: any) {
+      alert('Could not create interaction. Please try again later.');
+      console.error('Cannot create interaction', e.message);
     }
   }, [agentId, getApi]);
 
@@ -336,9 +351,9 @@ export function InteractionView({
             interaction: updatedInteraction,
           },
         }));
-      } catch (e) {
-        // TODO: Handle errors
-        console.error('Cannot update interaction', e);
+      } catch (e: any) {
+        alert('Cannot update interaction. Please try again later.');
+        console.log('Cannot update interaction', e.message);
       }
     },
     [getApi, interactionId]
@@ -354,7 +369,6 @@ export function InteractionView({
       try {
         await api.interactions.delete(interactionId);
       } catch (e: any) {
-        // TODO: Handle errors
         alert(e?.response?.data?.message ?? 'Cannot delete interaction.');
         return;
       }
@@ -378,18 +392,6 @@ export function InteractionView({
     query: `(min-width: 768px)`,
   });
 
-  if (agentState.status === 'nil' || agentState.status === 'loading') {
-    // TODO: Update view
-    return <div>Loading agent...</div>;
-  }
-
-  if (agentState.status === 'error') {
-    // TODO: Update view
-    return <div>Error loading agent: {agentState.code}</div>;
-  }
-
-  const { agent } = agentState;
-
   return (
     <ProficientThemeContext.Provider value={theme}>
       <Global
@@ -397,133 +399,141 @@ export function InteractionView({
           @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
         `}
       />
-
-      <Layout
-        version={isMd ? 'lg' : 'sm'}
-        height={height}
-        headerContent={
-          interactionState?.status === 'success' ? (
-            <HeaderSection
-              onClickDelete={() => handleDeleteInteraction(interactionState.interaction.id)}
-              onTitleBlur={async (text) => {
-                if (interactionState.interaction.name !== text) {
-                  await handleUpdateInteraction(text);
-                }
-              }}
-              title={interactionState.interaction.name}
-            />
-          ) : null
-        }
-        headerHeight={HEADER_SECTION_HEIGHT}
-        sidebarContent={
-          <SidebarSection
-            height={height}
-            description={agent.description}
-            header={agent.name}
-            interactions={sortedInteractions}
-            isSelectedInteraction={(i) => i.id === interactionId}
-            onClickInteraction={(i) => {
-              selectInteraction(i.id);
-            }}
-            onClickNewInteraction={handleCreateInteraction}
-          />
-        }
-        sidebarInitialWidth={300}
-        sidebarMinWidth={200}
-        sidebarMaxWidth={400}
-        sidebarResizerWidth={8}>
-        {() => {
-          if (!interactionState || !messagesState || !writingState) {
-            // TODO: Update view
-            return <div>No selected interaction...</div>;
-          }
-
-          if (messagesState.status === 'error') {
-            // TODO: Update view
-            return <div>Error loading messages: {messagesState.errorCode}</div>;
-          }
-
-          if (interactionState.status === 'error') {
-            // TODO: Update view
-            return <div>Error loading interaction: {interactionState.errorCode}</div>;
-          }
-
-          if (interactionState.status === 'loading') {
-            // TODO: Update view
-            return <div>Loading interaction...</div>;
-          }
-
-          const { interaction } = interactionState;
-          const { status: writingStatus } = writingState;
-
-          let generateButtonType: null | 'generate' | 'regenerate' | 'retry' = null;
-
-          if (autoRequestReply) {
-            if (mostRecentMessage) {
-              if (mostRecentMessage.sentBy === 'agent') {
-                if (writingState.status !== 'writing') {
-                  generateButtonType = 'regenerate';
-                }
-              } else if (writingState.status === 'error') {
-                generateButtonType = 'retry';
-              }
-            }
-          } else {
-            if (mostRecentMessage) {
-              if (mostRecentMessage.sentBy === 'agent') {
-                if (writingState.status !== 'writing') {
-                  generateButtonType = 'regenerate';
-                }
-              } else {
-                if (writingState.status === 'error') {
-                  generateButtonType = 'retry';
-                } else if (writingState.status === 'nil') {
-                  generateButtonType = 'generate';
-                }
-              }
-            }
-          }
-
+      {(() => {
+        if (agentState?.status !== 'success') {
           return (
-            <div>
-              <div
-                css={css`
-                  position: relative;
-                `}>
-                <ChatSection
-                  height={height - HEADER_SECTION_HEIGHT - INPUT_SECTION_HEIGHT}
-                  agentName={agent.name}
-                  layout={layout}
-                  messageGroups={messageGroups}
-                  onClickPrevious={(depth, activeIndex) => {
-                    setActiveIndex(interaction.id, depth, activeIndex - 1);
-                  }}
-                  onClickNext={(depth, activeIndex) => {
-                    setActiveIndex(interaction.id, depth, activeIndex + 1);
-                  }}
-                  writingStatus={writingStatus}
-                />
-              </div>
-
-              <InputSection
-                generateButtonType={generateButtonType}
-                height={INPUT_SECTION_HEIGHT}
-                onClickGenerate={() =>
-                  handleRequestAnswer(
-                    interaction.id,
-                    generateButtonType === 'regenerate' ? mostRecentMessage?.parentId : mostRecentMessage?.id
-                  )
-                }
-                onClickSend={handleSendMessage}
-                onInputChange={(text) => setInteractionInput(interaction.id, text)}
-                placeholder={inputPlaceholder}
-                sendOnEnter={sendOnEnter}
-                textAreaRef={inputTextAreaRef}
-              />
+            <div
+              css={css`
+                background-color: ${theme.colors.backgroundPrimary};
+                height: ${height}px;
+              `}>
+              <EmptyStateView text={agentState.status === 'error' ? 'Agent not found' : 'Loading agent...'} />;
             </div>
           );
-        }}
-      </Layout>
+        }
+
+        return (
+          <Layout
+            version={isMd ? 'lg' : 'sm'}
+            height={height}
+            headerContent={
+              interactionState?.status === 'success' ? (
+                <HeaderSection
+                  onClickDelete={() => handleDeleteInteraction(interactionState.interaction.id)}
+                  onTitleBlur={async (text) => {
+                    if (interactionState.interaction.name !== text) {
+                      await handleUpdateInteraction(text);
+                    }
+                  }}
+                  title={interactionState.interaction.name}
+                />
+              ) : null
+            }
+            headerHeight={HEADER_SECTION_HEIGHT}
+            sidebarContent={
+              <SidebarSection
+                height={height}
+                description={agentState.agent.description}
+                header={agentState.agent.name}
+                interactions={sortedInteractions}
+                isSelectedInteraction={(i) => i.id === interactionId}
+                onClickInteraction={(i) => {
+                  selectInteraction(i.id);
+                }}
+                onClickNewInteraction={handleCreateInteraction}
+              />
+            }
+            sidebarInitialWidth={300}
+            sidebarMinWidth={200}
+            sidebarMaxWidth={400}
+            sidebarResizerWidth={8}>
+            {() => {
+              if (!interactionState || !messagesState || !writingState) {
+                return <EmptyStateView text="No selected interaction" />;
+              }
+              if (messagesState.status === 'error') {
+                return <EmptyStateView text="Error loading messages" />;
+              }
+              if (interactionState.status === 'error') {
+                return <EmptyStateView text="Error loading interaction" />;
+              }
+              if (interactionState.status === 'loading') {
+                return <EmptyStateView text="Loading interaction..." />;
+              }
+
+              const { interaction } = interactionState;
+              const { status: writingStatus } = writingState;
+
+              let generateButtonType: null | 'generate' | 'regenerate' | 'retry' = null;
+
+              if (autoRequestReply) {
+                if (mostRecentMessage) {
+                  if (mostRecentMessage.sentBy === 'agent') {
+                    if (writingState.status !== 'writing') {
+                      generateButtonType = 'regenerate';
+                    }
+                  } else if (writingState.status === 'error') {
+                    generateButtonType = 'retry';
+                  }
+                }
+              } else {
+                if (mostRecentMessage) {
+                  if (mostRecentMessage.sentBy === 'agent') {
+                    if (writingState.status !== 'writing') {
+                      generateButtonType = 'regenerate';
+                    }
+                  } else {
+                    if (writingState.status === 'error') {
+                      generateButtonType = 'retry';
+                    } else if (writingState.status === 'nil') {
+                      generateButtonType = 'generate';
+                    }
+                  }
+                }
+              }
+
+              return (
+                <div>
+                  <div
+                    css={css`
+                      position: relative;
+                    `}>
+                    <ChatSection
+                      height={height - HEADER_SECTION_HEIGHT - INPUT_SECTION_HEIGHT}
+                      agentName={agentState?.status === 'success' ? agentState.agent.name : '...'}
+                      layout={layout}
+                      messageGroups={messageGroups}
+                      onClickPrevious={(depth, activeIndex) => {
+                        setActiveIndex(interaction.id, depth, activeIndex - 1);
+                      }}
+                      onClickNext={(depth, activeIndex) => {
+                        setActiveIndex(interaction.id, depth, activeIndex + 1);
+                      }}
+                      writingStatus={writingStatus}
+                    />
+                  </div>
+
+                  <InputSection
+                    generateButtonType={generateButtonType}
+                    height={INPUT_SECTION_HEIGHT}
+                    onClickGenerate={() =>
+                      handleRequestAnswer(
+                        interaction.id,
+                        generateButtonType === 'regenerate' ? mostRecentMessage?.parentId : mostRecentMessage?.id
+                      )
+                    }
+                    onClickSend={handleSendMessage}
+                    onInputChange={(text) => setInteractionInput(interaction.id, text)}
+                    placeholder={inputPlaceholder}
+                    sendOnEnter={sendOnEnter}
+                    textAreaRef={inputTextAreaRef}
+                  />
+                </div>
+              );
+            }}
+          </Layout>
+        );
+      })()}
     </ProficientThemeContext.Provider>
   );
 }
