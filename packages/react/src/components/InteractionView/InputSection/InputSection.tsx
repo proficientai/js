@@ -5,11 +5,16 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import { useKeyboardEnterEvent, useStyles, useTheme } from '../../../hooks';
 import { PrimaryButton } from '../../PrimaryButton';
+import { SecondaryButton } from '../../SecondaryButton';
+import { BoltIcon } from '../../icons/BoltIcon';
+import { RetryIcon } from '../../icons/RetryIcon';
 import { SendMessageIcon } from '../../icons/SendMessageIcon';
 import type { InputSectionProps } from './types';
 
 export function InputSection({
+  generateButtonType,
   height,
+  onClickGenerate,
   onClickSend,
   sendDisabled,
   onInputChange,
@@ -48,51 +53,78 @@ export function InputSection({
     <div css={containerCss}>
       <div
         css={css`
-          display: flex;
           position: absolute;
           left: 24px;
           right: 24px;
           bottom: 70px; // TODO: Figure out why we need this
-          z-index: 1;
-          flex-direction: column;
-          border: 1px solid ${theme.colors.border};
-          border-radius: 12px;
-          box-shadow: 0 -10px 40px -12px ${theme.colors.shadow};
-          overflow-y: scroll;
-          border-color: ${theme.colors.border};
-
-          &:focus-within {
-            border-color: ${theme.colors.borderActive};
-          }
         `}>
-        <TextareaAutosize
-          css={textAreaCss}
-          ref={textAreaRef}
-          placeholder={placeholder}
-          minRows={3}
-          maxRows={10}
-          onChange={(e) => {
-            const text = e.target.value;
-            onInputChange(text);
-          }}
-        />
+        {generateButtonType && (
+          <SecondaryButton
+            onClick={onClickGenerate}
+            style={{
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              marginBottom: 10,
+              boxShadow: `0 0 80px -12px ${theme.colors.shadow}`,
+            }}>
+            {generateButtonType === 'generate' ? <BoltIcon /> : <RetryIcon />}
+            <span
+              css={css`
+                margin-left: 10px;
+              `}>
+              {generateButtonType === 'generate'
+                ? 'Generate answer'
+                : generateButtonType === 'regenerate'
+                ? 'Regenerate answer'
+                : 'Retry'}
+            </span>
+          </SecondaryButton>
+        )}
+
         <div
           css={css`
-            background-color: ${theme.colors.backgroundPrimary};
             display: flex;
-            justify-content: end;
-            padding-top: 8px;
-            padding-bottom: 8px;
-            padding-left: 12px;
-            padding-right: 12px;
-            cursor: text;
-          `}
-          onClick={() => {
-            textAreaRef.current?.focus();
-          }}>
-          <PrimaryButton onClick={onClickSend} disabled={sendDisabled}>
-            <SendMessageIcon />
-          </PrimaryButton>
+            z-index: 1;
+            flex-direction: column;
+            border: 1px solid ${theme.colors.border};
+            border-radius: 12px;
+            box-shadow: 0 -10px 40px -12px ${theme.colors.shadow};
+            border-color: ${theme.colors.border};
+            overflow: hidden;
+
+            &:focus-within {
+              border-color: ${theme.colors.borderActive};
+            }
+          `}>
+          <TextareaAutosize
+            css={textAreaCss}
+            ref={textAreaRef}
+            placeholder={placeholder}
+            minRows={3}
+            maxRows={10}
+            onChange={(e) => {
+              const text = e.target.value;
+              onInputChange(text);
+            }}
+          />
+          <div
+            css={css`
+              background-color: ${theme.colors.backgroundPrimary};
+              display: flex;
+              justify-content: end;
+              padding-top: 8px;
+              padding-bottom: 8px;
+              padding-left: 12px;
+              padding-right: 12px;
+              cursor: text;
+            `}
+            onClick={() => {
+              textAreaRef.current?.focus();
+            }}>
+            <PrimaryButton onClick={onClickSend} disabled={sendDisabled}>
+              <SendMessageIcon />
+            </PrimaryButton>
+          </div>
         </div>
       </div>
     </div>

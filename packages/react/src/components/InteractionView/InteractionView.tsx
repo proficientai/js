@@ -8,9 +8,6 @@ import { ProficientThemeContext, createTheme } from '../../context';
 import { InteractionTree } from '../../ds/InteractionTree';
 import { useApi } from '../../hooks';
 import { Layout } from '../Layout';
-import { SecondaryButton } from '../SecondaryButton';
-import { BoltIcon } from '../icons/BoltIcon';
-import { RetryIcon } from '../icons/RetryIcon';
 import { ChatSection } from './ChatSection';
 import { HeaderSection } from './HeaderSection';
 import { InputSection } from './InputSection';
@@ -493,43 +490,6 @@ export function InteractionView({
                 css={css`
                   position: relative;
                 `}>
-                {/* {generateButtonType && (
-                  <div
-                    css={css`
-                      position: absolute;
-                      bottom: 20px;
-                      left: 0;
-                      right: 0;
-                      z-index: 2;
-                      height: 50px;
-                    `}>
-                    <SecondaryButton
-                      onClick={() =>
-                        handleRequestAnswer(
-                          interaction.id,
-                          generateButtonType === 'regenerate' ? mostRecentMessage?.parentId : mostRecentMessage?.id
-                        )
-                      }
-                      style={{
-                        marginLeft: 'auto',
-                        marginRight: 'auto',
-                        boxShadow: `0 0 80px -12px ${theme.colors.shadow}`,
-                      }}>
-                      {generateButtonType === 'generate' ? <BoltIcon /> : <RetryIcon />}
-                      <span
-                        css={css`
-                          margin-left: 10px;
-                        `}>
-                        {generateButtonType === 'generate'
-                          ? 'Generate answer'
-                          : generateButtonType === 'regenerate'
-                          ? 'Regenerate answer'
-                          : 'Retry'}
-                      </span>
-                    </SecondaryButton>
-                  </div>
-                )} */}
-
                 <ChatSection
                   height={height - HEADER_SECTION_HEIGHT - INPUT_SECTION_HEIGHT}
                   agentName={agent.name}
@@ -546,7 +506,14 @@ export function InteractionView({
               </div>
 
               <InputSection
+                generateButtonType={generateButtonType}
                 height={INPUT_SECTION_HEIGHT}
+                onClickGenerate={() =>
+                  handleRequestAnswer(
+                    interaction.id,
+                    generateButtonType === 'regenerate' ? mostRecentMessage?.parentId : mostRecentMessage?.id
+                  )
+                }
                 onClickSend={handleSendMessage}
                 onInputChange={(text) => setInteractionInput(interaction.id, text)}
                 placeholder={inputPlaceholder}
