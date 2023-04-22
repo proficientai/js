@@ -28,8 +28,8 @@ export function ChatSection({
         background-color: ${theme.colors.backgroundPrimary};
         display: flex;
         flex-direction: column-reverse;
-        padding-left: ${layout === 'bubbles' ? '24px' : undefined};
-        padding-right: ${layout === 'bubbles' ? '24px' : undefined};
+        padding-left: ${layout === 'natural' ? '24px' : undefined};
+        padding-right: ${layout === 'natural' ? '24px' : undefined};
         padding-bottom: 50px;
       `}
       inverse
@@ -63,8 +63,8 @@ export function ChatSection({
         css={css`
           margin-top: 10px;
           margin-bottom: 6px;
-          padding-left: ${layout === 'boxes' ? '24px' : undefined};
-          padding-right: ${layout === 'boxes' ? '24px' : undefined};
+          padding-left: ${layout === 'tree' ? '24px' : undefined};
+          padding-right: ${layout === 'tree' ? '24px' : undefined};
         `}>
         {(() => {
           if (writingStatus === 'writing') {
@@ -84,7 +84,7 @@ export function ChatSection({
       </div>
       {messageGroups.map((messageGroup) => {
         const { id, current: message, size: groupSize, currentIndex } = messageGroup;
-        if (layout === 'bubbles') {
+        if (layout === 'natural') {
           return (
             <div
               key={id}

@@ -3,7 +3,7 @@ import type { MessageGroupInfo } from '../types';
 export interface ChatSectionProps {
   agentName: string;
   hasMore?: boolean;
-  layout: 'bubbles' | 'boxes';
+  layout: 'natural' | 'tree';
   messageGroups: MessageGroupInfo[];
   next?: () => Promise<void>;
   onClickNext?: (depth: number, currentIndex: number) => void | Promise<void>;

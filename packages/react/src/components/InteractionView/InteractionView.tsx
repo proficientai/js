@@ -50,7 +50,7 @@ export function InteractionView({
   agentId,
   userExternalId,
   userHmac,
-  layout = 'bubbles',
+  layout = 'natural',
   autoRequestReply = true,
   sendOnEnter = true,
   inputPlaceholder = 'Type something...',

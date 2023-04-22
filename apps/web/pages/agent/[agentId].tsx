@@ -26,7 +26,7 @@ export default function AgentPage() {
   const agentId = router.query.agentId as string | undefined;
   const userId = USER_EXTERNAL_ID; // Retrieve dynamically
   const [isDarkTheme, setIsDarkTheme] = useState(true);
-  const [isBubblesLayout, setIsBubblesLayout] = useState(true);
+  const [isNaturalLayout, setIsNaturalLayout] = useState(true);
 
   if (!process.env.NEXT_PUBLIC_PROFICIENT_KEY) {
     return <div>Missing Proficient API key</div>;
@@ -47,9 +47,9 @@ export default function AgentPage() {
           </label>
         </div>
         <div>
-          <input type="checkbox" checked={isBubblesLayout} onChange={() => setIsBubblesLayout((prev) => !prev)} />
+          <input type="checkbox" checked={isNaturalLayout} onChange={() => setIsNaturalLayout((prev) => !prev)} />
           <label>
-            <span>Bubbles</span>
+            <span>Natural</span>
           </label>
         </div>
       </div>
@@ -59,7 +59,7 @@ export default function AgentPage() {
         agentId={agentId}
         userExternalId={userId}
         userHmac={() => getHmac(userId)}
-        layout={isBubblesLayout ? 'bubbles' : 'boxes'}
+        layout={isNaturalLayout ? 'natural' : 'tree'}
         autoRequestReply={false}
         theme={isDarkTheme ? darkTheme : lightTheme}
       />
