@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-import { useTheme } from '../../../hooks';
+import { useStyles, useTheme } from '../../../hooks';
 import { TertiaryButton } from '../../TertiaryButton';
 import { ChevronLeftIcon } from '../../icons/ChevronLeftIcon';
 import { ChevronRightIcon } from '../../icons/ChevronRightIcon';
@@ -20,6 +20,7 @@ export function ChatSection({
   writingStatus,
 }: ChatSectionProps) {
   const theme = useTheme();
+  const { secondaryTextCss } = useStyles();
 
   return (
     <InfiniteScroll
@@ -85,24 +86,68 @@ export function ChatSection({
       </div>
       {messageGroups.map((messageGroup) => {
         const { id, current: message, size: groupSize, currentIndex } = messageGroup;
+
+        const chevronButtons = (
+          <div
+            css={css`
+              display: flex;
+              align-items: center;
+              color: ${theme.colors.textPrimary};
+              font-family: Inter, sans-serif;
+              font-size: 14px;
+              margin-top: ${layout === 'tree' ? '12px' : 0};
+            `}>
+            <TertiaryButton
+              onClick={() => onClickPrevious?.(message.depth, currentIndex)}
+              disabled={currentIndex === 0}
+              style={{
+                paddingLeft: 0,
+                paddingRight: 3,
+              }}>
+              <ChevronLeftIcon />
+            </TertiaryButton>
+            <span
+              css={css`
+                ${secondaryTextCss}
+                font-size: 13px;
+              `}>
+              {currentIndex + 1} / {groupSize}
+            </span>
+            <TertiaryButton
+              onClick={() => onClickNext?.(message.depth, currentIndex)}
+              disabled={currentIndex === groupSize - 1}
+              style={{
+                paddingLeft: 3,
+                paddingRight: 0,
+              }}>
+              <ChevronRightIcon />
+            </TertiaryButton>
+          </div>
+        );
+
         if (layout === 'natural') {
           return (
             <div
               key={id}
               css={css`
-                padding: 12px;
-                border-radius: 16px;
                 margin-bottom: 12px;
-                margin-left: ${message.sentBy === 'agent' ? 0 : 'auto'};
-                width: fit-content;
-                max-width: 60ch;
-                white-space: pre-wrap;
-                background-color: ${message.sentBy === 'agent' ? theme.colors.hoverActive : theme.colors.primary};
-                color: ${theme.colors.textPrimary};
-                font-family: Inter, sans-serif;
-                font-size: 14px;
               `}>
-              {message.content}
+              <div
+                css={css`
+                  padding: 12px;
+                  border-radius: 16px;
+                  margin-left: ${message.sentBy === 'agent' ? 0 : 'auto'};
+                  width: fit-content;
+                  max-width: 60ch;
+                  white-space: pre-wrap;
+                  background-color: ${message.sentBy === 'agent' ? theme.colors.hoverActive : theme.colors.primary};
+                  color: ${theme.colors.textPrimary};
+                  font-family: Inter, sans-serif;
+                  font-size: 14px;
+                `}>
+                {message.content}
+              </div>
+              {groupSize > 1 && chevronButtons}
             </div>
           );
         }
@@ -133,7 +178,8 @@ export function ChatSection({
                   min-width: 60px;
                   max-width: 60px;
                   margin-right: 10px;
-                  text-align: right;
+                  text-align: left;
+                  padding-left: 4px;
                 `}>
                 {message.sentBy === 'agent' ? agentName : 'Me'}
               </div>
@@ -146,35 +192,7 @@ export function ChatSection({
                 {message.content}
               </div>
             </div>
-            {groupSize > 1 && (
-              <div
-                css={css`
-                  display: flex;
-                  align-items: center;
-                  color: ${theme.colors.textPrimary};
-                  font-family: Inter, sans-serif;
-                  font-size: 14px;
-                  margin-top: 12px;
-                `}>
-                <TertiaryButton
-                  onClick={() => onClickPrevious?.(message.depth, currentIndex)}
-                  disabled={currentIndex === 0}>
-                  <ChevronLeftIcon />
-                </TertiaryButton>
-                <span
-                  css={css`
-                    margin-left: 6px;
-                    margin-right: 6px;
-                  `}>
-                  {currentIndex + 1} / {groupSize}
-                </span>
-                <TertiaryButton
-                  onClick={() => onClickNext?.(message.depth, currentIndex)}
-                  disabled={currentIndex === groupSize - 1}>
-                  <ChevronRightIcon />
-                </TertiaryButton>
-              </div>
-            )}
+            {groupSize > 1 && chevronButtons}
           </div>
         );
       })}
