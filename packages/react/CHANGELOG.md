@@ -1,5 +1,19 @@
 # @proficient/react
 
+## 0.12.0
+
+### Minor Changes
+
+- Add support for custom themes
+- Implement casual and formal layout types
+- Implement interaction tree structure
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @proficient/client@0.14.0
+
 ## 0.11.0
 
 ### Minor Changes

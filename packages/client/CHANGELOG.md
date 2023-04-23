@@ -1,5 +1,12 @@
 # @proficient/client
 
+## 0.14.0
+
+### Minor Changes
+
+- Remove messages reset endpoint
+- Implement interaction tree structure
+
 ## 0.13.0
 
 ### Minor Changes
