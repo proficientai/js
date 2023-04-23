@@ -515,6 +515,8 @@ export function InteractionView({
                 }
               }
 
+              const isAgentInactive = agentState.status === 'success' && !agentState.agent.active;
+
               return (
                 <div>
                   <div
@@ -523,7 +525,8 @@ export function InteractionView({
                     `}>
                     <ChatSection
                       height={height - HEADER_SECTION_HEIGHT - INPUT_SECTION_HEIGHT}
-                      agentName={agentState?.status === 'success' ? agentState.agent.name : '...'}
+                      agentName={agentState.status === 'success' ? agentState.agent.name : '...'}
+                      agentInactive={isAgentInactive}
                       layout={layout}
                       messageGroups={messageGroups}
                       onClickPrevious={(depth, activeIndex) => {
@@ -537,7 +540,7 @@ export function InteractionView({
                   </div>
 
                   <InputSection
-                    generateButtonType={generateButtonType}
+                    generateButtonType={isAgentInactive ? null : generateButtonType}
                     height={INPUT_SECTION_HEIGHT}
                     onClickGenerate={() =>
                       handleRequestAnswer(
@@ -546,7 +549,7 @@ export function InteractionView({
                       )
                     }
                     onClickSend={handleSendMessage}
-                    sendDisabled={writingState.status !== 'nil'}
+                    sendDisabled={writingState.status !== 'nil' || isAgentInactive}
                     onInputChange={(text) => setInteractionInput(interaction.id, text)}
                     placeholder={inputPlaceholder}
                     sendOnEnter={sendOnEnter}

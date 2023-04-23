@@ -11,6 +11,7 @@ import type { ChatSectionProps } from './types';
 export function ChatSection({
   height,
   agentName,
+  agentInactive,
   hasMore,
   layout,
   messageGroups,
@@ -69,6 +70,19 @@ export function ChatSection({
           padding-right: ${layout === 'formal' ? '24px' : undefined};
         `}>
         {(() => {
+          if (agentInactive) {
+            return (
+              <div
+                css={css`
+                  text-align: center;
+                  color: ${theme.colors.textSecondary};
+                  font-family: Inter, sans-serif;
+                  font-size: 14px;
+                `}>
+                {agentName || 'The agent'} is currently not active and cannot respond to messages.
+              </div>
+            );
+          }
           if (writingStatus === 'writing') {
             return (
               <span
@@ -76,7 +90,7 @@ export function ChatSection({
                   text-align: center;
                   color: ${theme.colors.textSecondary};
                   font-family: Inter, sans-serif;
-                  font-size: 13px;
+                  font-size: 14px;
                 `}>
                 {agentName} is writing...
               </span>
