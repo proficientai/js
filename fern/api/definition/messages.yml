@@ -60,25 +60,6 @@ service:
         - core.ConflictError
         - core.InternalError
 
-    reset:
-      audiences:
-        - client
-      path: /{message_id}
-      method: POST
-      docs: Resetting a `Message` does 2 things. First it deletes all the `Message`s in the `Interaction` that come after this `Message` (i.e. whose `index` is greater). Then, it updates the content of the `Message`, if you've provided it in the request body.
-      display-name: Reset a message
-      path-parameters:
-        message_id: message.MessageId
-      request:
-        name: ResetMessageRequest
-        body: message.MessageResetParams
-      response: message.Message
-      errors:
-        - core.ForbiddenError
-        - core.ResourceNotFoundError
-        - core.ConflictError
-        - core.InternalError
-
     ask:
       audiences:
         - client

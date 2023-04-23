@@ -42,7 +42,7 @@ class Messages {
         this.options = options;
     }
     /**
-     * Returns a list of all messages in the specified interaction. The messages are returned sorted by creation date, with the most recently created messages appearing first.
+     * Returns a list of all messages in the specified interaction.
      * @throws {Proficient.ForbiddenError}
      * @throws {Proficient.ResourceNotFoundError}
      * @throws {Proficient.InternalError}
@@ -202,80 +202,6 @@ class Messages {
             },
             contentType: "application/json",
             body: await serializers.MessageCreateParams.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
-        });
-        if (_response.ok) {
-            return await serializers.Message.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
-            });
-        }
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 403:
-                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                case 404:
-                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                case 409:
-                    throw new __1.Proficient.ConflictError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                case 500:
-                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                default:
-                    throw new errors.ProficientError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                    });
-            }
-        }
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.ProficientError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                });
-            case "timeout":
-                throw new errors.ProficientTimeoutError();
-            case "unknown":
-                throw new errors.ProficientError({
-                    message: _response.error.errorMessage,
-                });
-        }
-    }
-    /**
-     * Resetting a `Message` does 2 things. First it deletes all the `Message`s in the `Interaction` that come after this `Message` (i.e. whose `index` is greater). Then, it updates the content of the `Message`, if you've provided it in the request body.
-     * @throws {Proficient.ForbiddenError}
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.ConflictError}
-     * @throws {Proficient.InternalError}
-     */
-    async reset(messageId, request) {
-        const _response = await core.fetcher({
-            url: (0, url_join_1.default)(this.options.environment, `/messages/${await serializers.MessageId.jsonOrThrow(messageId)}`),
-            method: "POST",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "X-PROFICIENT-API-KEY": await core.Supplier.get(this.options.xProficientApiKey),
-                "X-PROFICIENT-USER-EXTERNAL-ID": await core.Supplier.get(this.options.xProficientUserExternalId),
-                "X-PROFICIENT-USER-HMAC": await core.Supplier.get(this.options.xProficientUserHmac),
-            },
-            contentType: "application/json",
-            body: await serializers.MessageResetParams.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
         });
         if (_response.ok) {
             return await serializers.Message.parseOrThrow(_response.body, {

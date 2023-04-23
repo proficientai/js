@@ -52,12 +52,6 @@ types:
       parent_id: optional<string>
     docs: The data with which a message is created.
 
-  MessageResetParams:
-    properties:
-      interaction_id: interaction.InteractionId
-      content: optional<MessageContent>
-    docs: The data with which a message is reset.
-
   MessageAskParams:
     properties:
       interaction_id: interaction.InteractionId

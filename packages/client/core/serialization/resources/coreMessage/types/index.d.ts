@@ -4,6 +4,5 @@ export * from "./MessageContent";
 export * from "./MessageDepth";
 export * from "./MessageParentId";
 export * from "./MessageCreateParams";
-export * from "./MessageResetParams";
 export * from "./MessageAskParams";
 export * from "./Message";

@@ -20,6 +20,5 @@ __exportStar(require("./MessageContent"), exports);
 __exportStar(require("./MessageDepth"), exports);
 __exportStar(require("./MessageParentId"), exports);
 __exportStar(require("./MessageCreateParams"), exports);
-__exportStar(require("./MessageResetParams"), exports);
 __exportStar(require("./MessageAskParams"), exports);
 __exportStar(require("./Message"), exports);
