@@ -30,8 +30,8 @@ export function ChatSection({
         background-color: ${theme.colors.backgroundPrimary};
         display: flex;
         flex-direction: column-reverse;
-        padding-left: ${layout === 'natural' ? '24px' : undefined};
-        padding-right: ${layout === 'natural' ? '24px' : undefined};
+        padding-left: ${layout === 'casual' ? '24px' : undefined};
+        padding-right: ${layout === 'casual' ? '24px' : undefined};
         padding-bottom: 50px;
       `}
       inverse
@@ -65,8 +65,8 @@ export function ChatSection({
         css={css`
           margin-top: 10px;
           margin-bottom: 6px;
-          padding-left: ${layout === 'tree' ? '24px' : undefined};
-          padding-right: ${layout === 'tree' ? '24px' : undefined};
+          padding-left: ${layout === 'formal' ? '24px' : undefined};
+          padding-right: ${layout === 'formal' ? '24px' : undefined};
         `}>
         {(() => {
           if (writingStatus === 'writing') {
@@ -95,7 +95,7 @@ export function ChatSection({
               color: ${theme.colors.textPrimary};
               font-family: Inter, sans-serif;
               font-size: 14px;
-              margin-top: ${layout === 'tree' ? '12px' : 0};
+              margin-top: ${layout === 'formal' ? '12px' : 0};
             `}>
             <TertiaryButton
               onClick={() => onClickPrevious?.(message.depth, currentIndex)}
@@ -125,7 +125,7 @@ export function ChatSection({
           </div>
         );
 
-        if (layout === 'natural') {
+        if (layout === 'casual') {
           return (
             <div
               key={id}

@@ -26,7 +26,7 @@ export default function AgentPage() {
   const agentId = router.query.agentId as string | undefined;
   const userId = USER_EXTERNAL_ID; // Retrieve dynamically
   const [isDarkTheme, setIsDarkTheme] = useState(true);
-  const [isNaturalLayout, setIsNaturalLayout] = useState(true);
+  const [isCasualLayout, setIsCasualLayout] = useState(true);
 
   if (!process.env.NEXT_PUBLIC_PROFICIENT_KEY) {
     return <div>Missing Proficient API key</div>;
@@ -47,7 +47,7 @@ export default function AgentPage() {
           </label>
         </div>
         <div>
-          <input type="checkbox" checked={isNaturalLayout} onChange={() => setIsNaturalLayout((prev) => !prev)} />
+          <input type="checkbox" checked={isCasualLayout} onChange={() => setIsCasualLayout((prev) => !prev)} />
           <label>
             <span>Natural</span>
           </label>
@@ -59,7 +59,7 @@ export default function AgentPage() {
         agentId={agentId}
         userExternalId={userId}
         userHmac={() => getHmac(userId)}
-        layout={isNaturalLayout ? 'natural' : 'tree'}
+        layout={isCasualLayout ? 'casual' : 'formal'}
         height={600}
         autoRequestReply={false}
         theme={isDarkTheme ? darkTheme : lightTheme}

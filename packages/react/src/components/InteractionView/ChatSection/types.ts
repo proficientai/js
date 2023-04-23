@@ -4,7 +4,7 @@ export interface ChatSectionProps {
   height: number;
   agentName: string;
   hasMore?: boolean;
-  layout: 'natural' | 'tree';
+  layout: 'casual' | 'formal';
   messageGroups: MessageGroupInfo[];
   next?: () => Promise<void>;
   onClickNext?: (depth: number, currentIndex: number) => void | Promise<void>;

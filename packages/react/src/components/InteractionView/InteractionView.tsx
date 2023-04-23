@@ -52,7 +52,7 @@ export function InteractionView({
   agentId,
   userExternalId,
   userHmac,
-  layout = 'natural',
+  layout = 'casual',
   height = 600,
   autoRequestReply = true,
   sendOnEnter = true,

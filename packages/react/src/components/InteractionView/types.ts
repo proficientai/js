@@ -69,9 +69,9 @@ export interface InteractionViewProps {
   userExternalId: string;
   userHmac?: string | (() => Promise<string>);
   /**
-   * @defaultValue 'natural'
+   * @defaultValue 'casual'
    */
-  layout?: 'natural' | 'tree';
+  layout?: 'casual' | 'formal';
 
   /**
    * Height in pixels. Must be greater than 300.
