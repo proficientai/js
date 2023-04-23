@@ -30,11 +30,11 @@ export function PrimaryButton({ children, disabled, onClick, style }: PrimaryBut
           background-color: ${theme.colors.primaryLighter};
         }
 
-        &:hover {
+        &:hover:enabled {
           background-color: ${theme.colors.primaryDarker};
         }
 
-        &:active {
+        &:active:enabled {
           background-color: ${theme.colors.primaryDarkest};
         }
       `}

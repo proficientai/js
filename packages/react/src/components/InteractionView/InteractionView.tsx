@@ -546,6 +546,7 @@ export function InteractionView({
                       )
                     }
                     onClickSend={handleSendMessage}
+                    sendDisabled={writingState.status !== 'nil'}
                     onInputChange={(text) => setInteractionInput(interaction.id, text)}
                     placeholder={inputPlaceholder}
                     sendOnEnter={sendOnEnter}

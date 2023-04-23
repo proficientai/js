@@ -62,7 +62,7 @@ export function createTheme(providedParams?: PartialDeep<CreateThemeParams>): Pr
   const hoverActiveColor = isDark ? lighten(hoverColor, 2) : darken(hoverColor, 3);
 
   const primaryColor = params.colors.primary;
-  const primaryLighterColor = lighten(params.colors.primary, 5);
+  const primaryLighterColor = lighten(params.colors.primary, 10);
   const primaryDarkerColor = darken(primaryColor, 3);
   const primaryDarkestColor = darken(primaryDarkerColor, 3);
 
