@@ -47,18 +47,66 @@ function EmptyStateView({ text }: { text: string }) {
   );
 }
 
-export function InteractionView({
+function validateProps({
   apiKey,
   agentId,
   userExternalId,
   userHmac,
-  layout = 'casual',
-  height = 600,
-  autoRequestReply = true,
-  sendOnEnter = true,
-  inputPlaceholder = 'Type something...',
-  theme = createTheme(),
+  layout,
+  height,
+  autoRequestReply,
+  sendOnEnter,
+  inputPlaceholder,
+  theme,
 }: InteractionViewProps) {
+  if (typeof apiKey !== 'string') {
+    throw new Error(`The 'apiKey' prop must be a string.`);
+  }
+  if (typeof agentId !== 'string') {
+    throw new Error(`The 'agentId' prop must be a string.`);
+  }
+  if (typeof userExternalId !== 'string') {
+    throw new Error(`The 'userExternalId' prop must be a string.`);
+  }
+  if (userHmac !== undefined && typeof userHmac !== 'string' && typeof userHmac !== 'function') {
+    throw new Error(`The 'userHmac' prop must be a string or a function that returns a Promise resolving to a string.`);
+  }
+  if (layout !== undefined && layout !== 'casual' && layout !== 'formal') {
+    throw new Error(`The 'layout' prop must be one of 'casual' and 'formal'.`);
+  }
+  if (height !== undefined && (typeof height !== 'number' || height < 300)) {
+    throw new Error(`The 'height' prop must be a number greater than or equal to 300.`);
+  }
+  if (autoRequestReply !== undefined && typeof autoRequestReply !== 'boolean') {
+    throw new Error(`The 'autoRequestReply' prop must be a boolean.`);
+  }
+  if (sendOnEnter !== undefined && typeof sendOnEnter !== 'boolean') {
+    throw new Error(`The 'sendOnEnter' prop must be a boolean.`);
+  }
+  if (inputPlaceholder !== undefined && typeof inputPlaceholder !== 'string') {
+    throw new Error(`The 'inputPlaceholder' prop must be a string.`);
+  }
+  if (theme !== undefined && typeof theme !== 'object') {
+    throw new Error(`The 'theme' prop must be an object.`);
+  }
+}
+
+export function InteractionView(props: InteractionViewProps) {
+  const {
+    apiKey,
+    agentId,
+    userExternalId,
+    userHmac,
+    layout = 'casual',
+    height = 600,
+    autoRequestReply = true,
+    sendOnEnter = true,
+    inputPlaceholder = 'Type something...',
+    theme = createTheme(),
+  } = props;
+
+  validateProps(props);
+
   const { getApi } = useApi({ apiKey, userExternalId, userHmac });
 
   const [agentState, setAgentState] = useState<AgentState>({ status: 'nil' });

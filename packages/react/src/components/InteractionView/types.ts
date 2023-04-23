@@ -74,7 +74,7 @@ export interface InteractionViewProps {
   layout?: 'casual' | 'formal';
 
   /**
-   * Height in pixels. Must be greater than 300.
+   * Height in pixels. Must be greater than or equal to 300.
    *
    * @defaultValue 600
    */
