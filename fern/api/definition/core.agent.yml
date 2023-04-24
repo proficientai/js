@@ -108,4 +108,4 @@ types:
           name: $AgentName.Example0
           created_at: $core.CreatedAt.Example0
           updated_at: $core.UpdatedAt.Example0
-    docs: <p>An _agent_ is an AI entity that exists to serve your organization. Agents are intelligent, configurable and context-aware and can interact with your users via a messaging system enabled by the Proficient API.</p>
+    docs: <p>An _agent_ is an AI entity that exists to serve your project's users. Agents are intelligent, configurable and context-aware and can interact with your users via a messaging system enabled by the Proficient API.</p>

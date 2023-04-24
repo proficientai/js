@@ -3,7 +3,7 @@
  */
 import { Proficient } from "../../../..";
 /**
- * <p>An _agent_ is an AI entity that exists to serve your organization. Agents are intelligent, configurable and context-aware and can interact with your users via a messaging system enabled by the Proficient API.</p>
+ * <p>An _agent_ is an AI entity that exists to serve your project's users. Agents are intelligent, configurable and context-aware and can interact with your users via a messaging system enabled by the Proficient API.</p>
  *
  * @example
  *     {

@@ -6,9 +6,9 @@ paths:
   /agents:
     get:
       description: >-
-        Returns a list of agents that belong to the current organization. The
-        agents are returned sorted by creation date, with the most recently
-        created agents appearing first.
+        Returns a list of agents that belong to the current project. The agents
+        are returned sorted by creation date, with the most recently created
+        agents appearing first.
       operationId: agents_list
       tags:
         - Agents
@@ -502,7 +502,7 @@ components:
     Agent:
       type: object
       description: >-
-        <p>An _agent_ is an AI entity that exists to serve your organization.
+        <p>An _agent_ is an AI entity that exists to serve your project's users.
         Agents are intelligent, configurable and context-aware and can interact
         with your users via a messaging system enabled by the Proficient
         API.</p>
