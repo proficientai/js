@@ -496,8 +496,8 @@ export function InteractionView(props: InteractionViewProps) {
             sidebarContent={
               <SidebarSection
                 height={height}
-                description={agentState.agent.description}
-                header={agentState.agent.name}
+                description={agentState.agent.displayDescription}
+                header={agentState.agent.displayName}
                 interactions={sortedInteractions}
                 isSelectedInteraction={(i) => i.id === interactionId}
                 onClickInteraction={(i) => {
@@ -573,7 +573,7 @@ export function InteractionView(props: InteractionViewProps) {
                     `}>
                     <ChatSection
                       height={height - HEADER_SECTION_HEIGHT - INPUT_SECTION_HEIGHT}
-                      agentName={agentState.status === 'success' ? agentState.agent.name : '...'}
+                      agentName={agentState.status === 'success' ? agentState.agent.displayName : '...'}
                       agentInactive={isAgentInactive}
                       layout={layout}
                       messageGroups={messageGroups}

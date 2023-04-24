@@ -58,7 +58,7 @@ export default function ExampleClient() {
                 padding: 10,
                 backgroundColor: 'lightgray',
               }}>
-              <span>{agent.name}</span>
+              <span>{agent.displayName}</span>
               <span>{agent.id}</span>
             </div>
           </Link>
