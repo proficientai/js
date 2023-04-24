@@ -1,5 +1,11 @@
 # @proficient/admin
 
+## 0.4.0
+
+### Minor Changes
+
+- Add `display_name` and `display_description` to Agent
+
 ## 0.3.0
 
 ### Minor Changes

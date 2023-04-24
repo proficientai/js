@@ -1,5 +1,17 @@
 # @proficient/react
 
+## 0.13.0
+
+### Minor Changes
+
+- Validate props at runtime
+- Show when the agent is inactive and disable interactions accordingly
+
+### Patch Changes
+
+- Updated dependencies
+  - @proficient/client@0.15.0
+
 ## 0.12.0
 
 ### Minor Changes
