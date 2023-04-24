@@ -11,9 +11,9 @@
   ],
   "scripts": {
     "build": "npm run compile && npm run bundle",
-    "bundle": "tsup src/index.ts --format cjs --dts",
+    "bundle": "rm -rf dist && tsup",
     "compile": "tsc --noEmit",
-    "dev": "tsup src/index.ts --format cjs --dts --watch",
+    "dev": "tsup --watch",
     "lint": "TIMING=1 eslint \"**/*.ts*\""
   },
   "dependencies": {
