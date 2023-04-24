@@ -461,10 +461,10 @@ components:
       properties:
         description:
           $ref: '#/components/schemas/AgentDescription'
-        display_name:
-          $ref: '#/components/schemas/AgentDisplayName'
         display_description:
           $ref: '#/components/schemas/AgentDisplayDescription'
+        display_name:
+          $ref: '#/components/schemas/AgentDisplayName'
         greeting_message:
           $ref: '#/components/schemas/GreetingMessage'
         initial_turn:
@@ -481,10 +481,14 @@ components:
       type: object
       description: The data with which an agent is updated.
       properties:
-        name:
-          $ref: '#/components/schemas/AgentName'
         description:
           $ref: '#/components/schemas/AgentDescription'
+        display_description:
+          $ref: '#/components/schemas/AgentDisplayDescription'
+        display_name:
+          $ref: '#/components/schemas/AgentDisplayName'
+        name:
+          $ref: '#/components/schemas/AgentName'
     Agent:
       type: object
       description: >-

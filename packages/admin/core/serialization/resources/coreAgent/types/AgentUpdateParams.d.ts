@@ -7,7 +7,9 @@ import * as core from "../../../../core";
 export declare const AgentUpdateParams: core.serialization.ObjectSchema<serializers.AgentUpdateParams.Raw, Proficient.AgentUpdateParams>;
 export declare namespace AgentUpdateParams {
     interface Raw {
-        name?: serializers.AgentName.Raw | null;
         description?: serializers.AgentDescription.Raw | null;
+        display_description?: serializers.AgentDisplayDescription.Raw | null;
+        display_name?: serializers.AgentDisplayName.Raw | null;
+        name?: serializers.AgentName.Raw | null;
     }
 }

@@ -6,6 +6,8 @@ import { Proficient } from "../../../..";
  * The data with which an agent is updated.
  */
 export interface AgentUpdateParams {
-    name?: Proficient.AgentName;
     description?: Proficient.AgentDescription;
+    displayDescription?: Proficient.AgentDisplayDescription;
+    displayName?: Proficient.AgentDisplayName;
+    name?: Proficient.AgentName;
 }

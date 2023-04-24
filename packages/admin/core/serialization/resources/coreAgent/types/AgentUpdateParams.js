@@ -29,6 +29,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AgentUpdateParams = void 0;
 const core = __importStar(require("../../../../core"));
 exports.AgentUpdateParams = core.serialization.object({
-    name: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentName).optional(),
     description: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentDescription).optional(),
+    displayDescription: core.serialization.property("display_description", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentDisplayDescription).optional()),
+    displayName: core.serialization.property("display_name", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentDisplayName).optional()),
+    name: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentName).optional(),
 });

@@ -64,8 +64,8 @@ types:
       - admin
     properties:
       description: optional<AgentDescription>
-      display_name: optional<AgentDisplayName>
       display_description: optional<AgentDisplayDescription>
+      display_name: optional<AgentDisplayName>
       greeting_message: optional<agent_config.GreetingMessage>
       initial_turn: optional<agent_config.InitialTurn>
       name: optional<AgentName>
@@ -77,8 +77,10 @@ types:
     audiences:
       - admin
     properties:
-      name: optional<AgentName>
       description: optional<AgentDescription>
+      display_description: optional<AgentDisplayDescription>
+      display_name: optional<AgentDisplayName>
+      name: optional<AgentName>
     docs: The data with which an agent is updated.
 
   # Resource
