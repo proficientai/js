@@ -8,6 +8,8 @@ export declare const AgentCreateParams: core.serialization.ObjectSchema<serializ
 export declare namespace AgentCreateParams {
     interface Raw {
         description?: serializers.AgentDescription.Raw | null;
+        display_name?: serializers.AgentDisplayName.Raw | null;
+        display_description?: serializers.AgentDisplayDescription.Raw | null;
         greeting_message?: serializers.GreetingMessage.Raw | null;
         initial_turn?: serializers.InitialTurn.Raw | null;
         name?: serializers.AgentName.Raw | null;

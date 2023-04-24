@@ -32,8 +32,10 @@ exports.Agent = core.serialization.object({
     id: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentId),
     object: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentObjectType),
     active: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentActiveStatus),
-    name: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentName),
     description: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentDescription),
+    displayDescription: core.serialization.property("display_description", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentDisplayDescription)),
+    displayName: core.serialization.property("display_name", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentDisplayName)),
+    name: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentName),
     createdAt: core.serialization.property("created_at", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).CreatedAt)),
     updatedAt: core.serialization.property("updated_at", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).UpdatedAt)),
 });

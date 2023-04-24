@@ -29,19 +29,33 @@ types:
       - name: Example0
         value: true
 
-  AgentName:
+  AgentDescription:
     type: string
-    docs: The name of the agent
+    docs: The description of the agent, intended for developers' reference.
+    examples:
+      - name: Example0
+        value: Job application assistant
+
+  AgentDisplayDescription:
+    type: string
+    docs: The agent's public-facing description, meant to be visible to your users.
+    examples:
+      - name: Example0
+        value: An AI assistant that helps job seekers with their job applications.
+
+  AgentDisplayName:
+    type: string
+    docs: The agent's display name, intended to serve as the public-facing name visible to your users.
     examples:
       - name: Example0
         value: Taya
 
-  AgentDescription:
+  AgentName:
     type: string
-    docs: The description of the agent
+    docs: The name of the agent, designed to be visible to developers for internal reference purposes.
     examples:
       - name: Example0
-        value: An AI assistant that helps job seekers with their job applications.
+        value: Taya
 
   # Request/Response Interfaces
 
@@ -50,6 +64,8 @@ types:
       - admin
     properties:
       description: optional<AgentDescription>
+      display_name: optional<AgentDisplayName>
+      display_description: optional<AgentDisplayDescription>
       greeting_message: optional<agent_config.GreetingMessage>
       initial_turn: optional<agent_config.InitialTurn>
       name: optional<AgentName>
@@ -72,8 +88,10 @@ types:
       id: AgentId
       object: AgentObjectType
       active: AgentActiveStatus
-      name: AgentName
       description: AgentDescription
+      display_description: AgentDisplayDescription
+      display_name: AgentDisplayName
+      name: AgentName
       created_at: core.CreatedAt
       updated_at: core.UpdatedAt
     examples:
@@ -82,8 +100,10 @@ types:
           id: $AgentId.Example0
           object: $AgentObjectType.Example0
           active: $AgentActiveStatus.Example0
-          name: $AgentName.Example0
           description: $AgentDescription.Example0
+          display_description: $AgentDisplayDescription.Example0
+          display_name: $AgentDisplayName.Example0
+          name: $AgentName.Example0
           created_at: $core.CreatedAt.Example0
           updated_at: $core.UpdatedAt.Example0
     docs: <p>An _agent_ is an AI entity that exists to serve your organization. Agents are intelligent, configurable and context-aware and can interact with your users via a messaging system enabled by the Proficient API.</p>

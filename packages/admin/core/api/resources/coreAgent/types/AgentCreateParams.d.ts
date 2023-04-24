@@ -7,6 +7,8 @@ import { Proficient } from "../../../..";
  */
 export interface AgentCreateParams {
     description?: Proficient.AgentDescription;
+    displayName?: Proficient.AgentDisplayName;
+    displayDescription?: Proficient.AgentDisplayDescription;
     greetingMessage?: Proficient.GreetingMessage;
     initialTurn?: Proficient.InitialTurn;
     name?: Proficient.AgentName;

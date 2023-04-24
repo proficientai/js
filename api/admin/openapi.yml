@@ -437,18 +437,34 @@ components:
       description: >-
         Whether the agent is currently active. If not, users will not be able to
         interact with the agent.
-    AgentName:
-      type: string
-      description: The name of the agent
     AgentDescription:
       type: string
-      description: The description of the agent
+      description: The description of the agent, intended for developers' reference.
+    AgentDisplayDescription:
+      type: string
+      description: >-
+        The agent's public-facing description, meant to be visible to your
+        users.
+    AgentDisplayName:
+      type: string
+      description: >-
+        The agent's display name, intended to serve as the public-facing name
+        visible to your users.
+    AgentName:
+      type: string
+      description: >-
+        The name of the agent, designed to be visible to developers for internal
+        reference purposes.
     AgentCreateParams:
       type: object
       description: The data with which an agent is created.
       properties:
         description:
           $ref: '#/components/schemas/AgentDescription'
+        display_name:
+          $ref: '#/components/schemas/AgentDisplayName'
+        display_description:
+          $ref: '#/components/schemas/AgentDisplayDescription'
         greeting_message:
           $ref: '#/components/schemas/GreetingMessage'
         initial_turn:
@@ -483,10 +499,14 @@ components:
           $ref: '#/components/schemas/AgentObjectType'
         active:
           $ref: '#/components/schemas/AgentActiveStatus'
-        name:
-          $ref: '#/components/schemas/AgentName'
         description:
           $ref: '#/components/schemas/AgentDescription'
+        display_description:
+          $ref: '#/components/schemas/AgentDisplayDescription'
+        display_name:
+          $ref: '#/components/schemas/AgentDisplayName'
+        name:
+          $ref: '#/components/schemas/AgentName'
         created_at:
           $ref: '#/components/schemas/CreatedAt'
         updated_at:
@@ -495,8 +515,10 @@ components:
         - id
         - object
         - active
-        - name
         - description
+        - display_description
+        - display_name
+        - name
         - created_at
         - updated_at
     InteractionParticipant:

@@ -30,6 +30,8 @@ exports.AgentCreateParams = void 0;
 const core = __importStar(require("../../../../core"));
 exports.AgentCreateParams = core.serialization.object({
     description: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentDescription).optional(),
+    displayName: core.serialization.property("display_name", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentDisplayName).optional()),
+    displayDescription: core.serialization.property("display_description", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentDisplayDescription).optional()),
     greetingMessage: core.serialization.property("greeting_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).GreetingMessage).optional()),
     initialTurn: core.serialization.property("initial_turn", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InitialTurn).optional()),
     name: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentName).optional(),

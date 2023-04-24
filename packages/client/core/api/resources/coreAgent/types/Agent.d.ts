@@ -10,8 +10,10 @@ import { Proficient } from "../../../..";
  *         id: "ag_Lad8YCGGiDLiqIZPWRXmc2ix",
  *         object: Proficient.AgentObjectType.Agent,
  *         active: true,
+ *         description: "Job application assistant",
+ *         displayDescription: "An AI assistant that helps job seekers with their job applications.",
+ *         displayName: "Taya",
  *         name: "Taya",
- *         description: "An AI assistant that helps job seekers with their job applications.",
  *         createdAt: 1671631795145,
  *         updatedAt: 1671631799692
  *     }
@@ -20,8 +22,10 @@ export interface Agent {
     id: Proficient.AgentId;
     object: Proficient.AgentObjectType;
     active: Proficient.AgentActiveStatus;
-    name: Proficient.AgentName;
     description: Proficient.AgentDescription;
+    displayDescription: Proficient.AgentDisplayDescription;
+    displayName: Proficient.AgentDisplayName;
+    name: Proficient.AgentName;
     createdAt: Proficient.CreatedAt;
     updatedAt: Proficient.UpdatedAt;
 }

@@ -10,8 +10,10 @@ export declare namespace Agent {
         id: serializers.AgentId.Raw;
         object: serializers.AgentObjectType.Raw;
         active: serializers.AgentActiveStatus.Raw;
-        name: serializers.AgentName.Raw;
         description: serializers.AgentDescription.Raw;
+        display_description: serializers.AgentDisplayDescription.Raw;
+        display_name: serializers.AgentDisplayName.Raw;
+        name: serializers.AgentName.Raw;
         created_at: serializers.CreatedAt.Raw;
         updated_at: serializers.UpdatedAt.Raw;
     }
