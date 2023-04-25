@@ -1,1 +1,4 @@
 .next/
+packages/admin/core
+packages/client/core
+dist/
