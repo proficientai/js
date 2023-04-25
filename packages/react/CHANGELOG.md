@@ -1,5 +1,18 @@
 # @proficient/react
 
+## 0.14.0
+
+### Minor Changes
+
+- c4451ba: Automatically select first interaction when necessary
+- b73dca2: Show agent `display_name` and `display_description` only
+
+### Patch Changes
+
+- Updated dependencies [b45b4bd]
+- Updated dependencies [90c6eaa]
+  - @proficient/client@0.16.0
+
 ## 0.13.0
 
 ### Minor Changes

@@ -1,5 +1,12 @@
 # @proficient/admin
 
+## 0.5.0
+
+### Minor Changes
+
+- b45b4bd: Renamed Organization to Project
+- 90c6eaa: Added user endpoints
+
 ## 0.4.0
 
 ### Minor Changes
