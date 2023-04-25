@@ -257,6 +257,13 @@ export function InteractionView(props: InteractionViewProps) {
     }
   }, [loadMessages, interactionId]);
 
+  useEffect(() => {
+    const [firstInteraction] = sortedInteractions;
+    if (interactionState === null && firstInteraction) {
+      selectInteraction(firstInteraction.id);
+    }
+  }, [interactionState, sortedInteractions, selectInteraction]);
+
   const handleRequestAnswer = useCallback(
     async (interactionId: string, toMessageId?: string) => {
       if (interactionId === null) return;
@@ -381,12 +388,12 @@ export function InteractionView(props: InteractionViewProps) {
           status: 'nil',
         },
       }));
-      setInteractionId(newInteraction.id);
+      selectInteraction(newInteraction.id);
     } catch (e: any) {
       alert('Could not create interaction. Please try again later.');
       console.error('Cannot create interaction', e.message);
     }
-  }, [agentId, getApi]);
+  }, [agentId, getApi, selectInteraction]);
 
   const handleUpdateInteraction = useCallback(
     async (name: string) => {
@@ -436,8 +443,9 @@ export function InteractionView(props: InteractionViewProps) {
         const { [interactionId]: _, ...next } = prev;
         return next;
       });
+      setInteractionInput(interactionId, '');
     },
-    [getApi]
+    [getApi, setInteractionInput]
   );
 
   const isMd = useMediaQuery({
