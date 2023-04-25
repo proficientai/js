@@ -7,6 +7,7 @@ exports.ProficientClient = void 0;
 const Client_1 = require("./api/resources/agents/client/Client");
 const Client_2 = require("./api/resources/interactions/client/Client");
 const Client_3 = require("./api/resources/messages/client/Client");
+const Client_4 = require("./api/resources/users/client/Client");
 class ProficientClient {
     options;
     constructor(options) {
@@ -23,6 +24,10 @@ class ProficientClient {
     _messages;
     get messages() {
         return (this._messages ??= new Client_3.Messages(this.options));
+    }
+    _users;
+    get users() {
+        return (this._users ??= new Client_4.Users(this.options));
     }
 }
 exports.ProficientClient = ProficientClient;

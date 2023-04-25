@@ -10,9 +10,9 @@ import { Proficient } from "../../../..";
  *         object: Proficient.AgentConfigObjectType.AgentConfig,
  *         agentId: "ag_Lad8YCGGiDLiqIZPWRXmc2ix",
  *         provider: Proficient.Provider.OpenaiGpt4,
- *         systemMessage: "You are a helpful AI assistant developed by Acme, Inc. and your job is to help its users with a wide range of tasks.",
+ *         systemMessage: "Your name is {{agent.display_name}}. You are an AI assistant developed by Acme Inc. and your job is to help their user {{user.first_name}} with a wide range of tasks.",
  *         initialTurn: Proficient.InteractionParticipant.User,
- *         greetingMessage: "Hello, how may I help you today?"
+ *         greetingMessage: "Hello {{user.first_name}}. How may I help you today?"
  *     }
  */
 export interface AgentConfig {

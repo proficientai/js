@@ -457,6 +457,96 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/MessageAskParams'
+  /users/{user_id}:
+    get:
+      description: Retrieves the user with the given ID.
+      operationId: users_get
+      tags:
+        - Users
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Retrieve a user
+    post:
+      description: >-
+        Updates the properties of the specified user. Only the provided
+        properties will be updated. Any properties not provided will be left
+        unchanged.
+      operationId: users_update
+      tags:
+        - Users
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/UserId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '503':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      summary: Update a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateParams'
 components:
   schemas:
     AgentsList:
@@ -701,6 +791,61 @@ components:
         - depth
         - interaction_id
         - sent_by
+    UserId:
+      type: string
+      description: The unique identifier of the user
+    UserObjectType:
+      type: string
+      enum:
+        - user
+      description: The type of the `User` object
+    UserExternalId:
+      type: string
+      description: >-
+        A string that uniquely identifies the user within your project. Ensure
+        that this is the ID that you use to identify the user in your system
+        e.g. database ID, Firebase Auth ID etc. Failing to do so may cause
+        unexpected bugs and errors in your application.
+    UserFirstName:
+      type: string
+      description: The first name of the user.
+    UserLastName:
+      type: string
+      description: The last name of the user.
+    UserUpdateParams:
+      type: object
+      description: The data with which a user is updated.
+      properties:
+        first_name:
+          $ref: '#/components/schemas/UserFirstName'
+        last_name:
+          $ref: '#/components/schemas/UserLastName'
+    User:
+      type: object
+      description: <p>Represents a user of your project.</p>
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+        object:
+          $ref: '#/components/schemas/UserObjectType'
+        created_at:
+          $ref: '#/components/schemas/CreatedAt'
+        external_id:
+          $ref: '#/components/schemas/UserExternalId'
+        first_name:
+          $ref: '#/components/schemas/UserFirstName'
+        last_name:
+          $ref: '#/components/schemas/UserLastName'
+        updated_at:
+          $ref: '#/components/schemas/UpdatedAt'
+      required:
+        - id
+        - object
+        - created_at
+        - external_id
+        - first_name
+        - last_name
+        - updated_at
     ApiErrorCode:
       type: string
       enum:

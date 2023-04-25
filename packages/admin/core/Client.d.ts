@@ -4,6 +4,7 @@
 import * as environments from "./environments";
 import * as core from "./core";
 import { Agents } from "./api/resources/agents/client/Client";
+import { Users } from "./api/resources/users/client/Client";
 export declare namespace ProficientClient {
     interface Options {
         environment: environments.ProficientEnvironment | string;
@@ -18,4 +19,6 @@ export declare class ProficientClient {
     constructor(options: ProficientClient.Options);
     private _agents;
     get agents(): Agents;
+    private _users;
+    get users(): Users;
 }

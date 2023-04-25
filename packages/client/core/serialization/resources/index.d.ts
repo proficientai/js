@@ -6,6 +6,8 @@ export * as coreInteraction from "./coreInteraction";
 export * from "./coreInteraction/types";
 export * as coreMessage from "./coreMessage";
 export * from "./coreMessage/types";
+export * as coreUser from "./coreUser";
+export * from "./coreUser/types";
 export * as core from "./core";
 export * from "./core/types";
 export * as interactions from "./interactions";

@@ -5,6 +5,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProficientClient = void 0;
 const Client_1 = require("./api/resources/agents/client/Client");
+const Client_2 = require("./api/resources/users/client/Client");
 class ProficientClient {
     options;
     constructor(options) {
@@ -13,6 +14,10 @@ class ProficientClient {
     _agents;
     get agents() {
         return (this._agents ??= new Client_1.Agents(this.options));
+    }
+    _users;
+    get users() {
+        return (this._users ??= new Client_2.Users(this.options));
     }
 }
 exports.ProficientClient = ProficientClient;
