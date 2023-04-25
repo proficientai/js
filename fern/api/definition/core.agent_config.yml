@@ -35,10 +35,10 @@ types:
     audiences:
       - admin
     type: string
-    docs: The message used you provide to the agent.
+    docs: <p>The system prompt that will be injected at the beginning of each interaction. This property supports <a href="https://handlebarsjs.com/guide/#what-is-handlebars">Handlebars</a> template format where you have access to the <code>user</code> and <code>agent</code> parameters. You can use these parameters to provide rich context to the agent and steer it in a specific direction.</p>
     examples:
       - name: Example0
-        value: You are a helpful AI assistant developed by Acme, Inc. and your job is to help its users with a wide range of tasks.
+        value: Your name is {{agent.display_name}}. You are an AI assistant developed by Acme Inc. and your job is to help their user {{user.first_name}} with a wide range of tasks.
 
   InitialTurn:
     audiences:
@@ -53,10 +53,10 @@ types:
     audiences:
       - admin
     type: string
-    docs: The message sent by the agent at the beginning of each interaction.
+    docs: <p>The message sent by the agent to initiate an interaction. This property supports <a href="https://handlebarsjs.com/guide/#what-is-handlebars">Handlebars</a> template format where you have access to the <code>user</code> and <code>agent</code> parameters. You can use these parameters to add context and personalize the message.</p>
     examples:
       - name: Example0
-        value: Hello, how may I help you today?
+        value: Hello {{user.first_name}}. How may I help you today?
 
   # Request/Response Interfaces
 
