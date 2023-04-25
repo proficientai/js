@@ -1,0 +1,86 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fern-api/fern/main/fern.schema.json
+
+imports:
+  core: core.yml
+
+types:
+  # Properties
+
+  UserId:
+    type: string
+    docs: The unique identifier of the user
+    examples:
+      - name: Example0
+        value: u_1eRoyubdUqWifFiTREaLcvh6
+
+  UserObjectType:
+    enum:
+      - user
+    docs: The type of the `User` object
+    examples:
+      - name: Example0
+        value: user
+
+  UserExternalId:
+    type: string
+    docs: A string that uniquely identifies the user within your project. Ensure that this is the ID that you use to identify the user in your system e.g. database ID, Firebase Auth ID etc. Failing to do so may cause unexpected bugs and errors in your application.
+    examples:
+      - name: Example0
+        value: gtLIK8ELsHTr0Fajg28Ud9eFpJJ3
+
+  UserFirstName:
+    type: string
+    docs: The first name of the user.
+    examples:
+      - name: Example0
+        value: John
+
+  UserLastName:
+    type: string
+    docs: The last name of the user.
+    examples:
+      - name: Example0
+        value: Appleseed
+
+  # Request/Response Interfaces
+
+  UserCreateParams:
+    audiences:
+      - admin
+    properties:
+      external_id: UserExternalId
+      first_name: optional<UserFirstName>
+      last_name: optional<UserLastName>
+    docs: The data with which a user is created.
+
+  UserUpdateParams:
+    audiences:
+      - admin
+      - client
+    properties:
+      first_name: optional<UserFirstName>
+      last_name: optional<UserLastName>
+    docs: The data with which a user is updated.
+
+  # Resource
+
+  User:
+    properties:
+      id: UserId
+      object: UserObjectType
+      created_at: core.CreatedAt
+      external_id: UserExternalId
+      first_name: UserFirstName
+      last_name: UserLastName
+      updated_at: core.UpdatedAt
+    examples:
+      - name: Example0
+        value:
+          id: $UserId.Example0
+          object: $UserObjectType.Example0
+          created_at: $core.CreatedAt.Example0
+          external_id: $UserExternalId.Example0
+          first_name: $UserFirstName.Example0
+          last_name: $UserLastName.Example0
+          updated_at: $core.UpdatedAt.Example0
+    docs: <p>Represents a user of your project.</p>
