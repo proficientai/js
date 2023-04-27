@@ -9,9 +9,10 @@ export declare namespace AgentConfig {
     interface Raw {
         object: serializers.AgentConfigObjectType.Raw;
         agent_id: serializers.AgentId.Raw;
+        greeting_message: serializers.GreetingMessage.Raw;
+        initial_turn: serializers.InitialTurn.Raw;
+        openai: serializers.OpenAiConfig.Raw;
         provider: serializers.Provider.Raw;
         system_message: serializers.SystemMessage.Raw;
-        initial_turn: serializers.InitialTurn.Raw;
-        greeting_message: serializers.GreetingMessage.Raw;
     }
 }

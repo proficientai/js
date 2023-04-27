@@ -26,11 +26,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AgentConfigUpdateParams = void 0;
+exports.OpenAiConfigTopP = void 0;
 const core = __importStar(require("../../../../core"));
-exports.AgentConfigUpdateParams = core.serialization.object({
-    greetingMessage: core.serialization.property("greeting_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).GreetingMessage).optional()),
-    initialTurn: core.serialization.property("initial_turn", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InitialTurn).optional()),
-    openai: core.serialization.lazyObject(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).OpenAiConfig).optional(),
-    systemMessage: core.serialization.property("system_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).SystemMessage).optional()),
-});
+exports.OpenAiConfigTopP = core.serialization.number();

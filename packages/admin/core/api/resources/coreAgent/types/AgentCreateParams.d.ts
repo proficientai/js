@@ -12,6 +12,7 @@ export interface AgentCreateParams {
     greetingMessage?: Proficient.GreetingMessage;
     initialTurn?: Proficient.InitialTurn;
     name?: Proficient.AgentName;
+    openai?: Proficient.OpenAiConfig;
     provider: Proficient.Provider;
     systemMessage?: Proficient.SystemMessage;
 }

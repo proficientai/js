@@ -26,11 +26,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AgentConfigUpdateParams = void 0;
+exports.OpenAiConfig = void 0;
 const core = __importStar(require("../../../../core"));
-exports.AgentConfigUpdateParams = core.serialization.object({
-    greetingMessage: core.serialization.property("greeting_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).GreetingMessage).optional()),
-    initialTurn: core.serialization.property("initial_turn", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InitialTurn).optional()),
-    openai: core.serialization.lazyObject(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).OpenAiConfig).optional(),
-    systemMessage: core.serialization.property("system_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).SystemMessage).optional()),
+exports.OpenAiConfig = core.serialization.object({
+    frequencyPenalty: core.serialization.property("frequency_penalty", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).OpenAiConfigFrequencyPenalty).optional()),
+    presencePenalty: core.serialization.property("presence_penalty", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).OpenAiConfigPresencePenalty).optional()),
+    temperature: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).OpenAiConfigTemperature).optional(),
+    topP: core.serialization.property("top_p", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).OpenAiConfigTopP).optional()),
 });

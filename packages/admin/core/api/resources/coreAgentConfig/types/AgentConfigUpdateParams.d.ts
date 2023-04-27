@@ -6,7 +6,8 @@ import { Proficient } from "../../../..";
  * The data with which an `AgentConfig` is updated.
  */
 export interface AgentConfigUpdateParams {
-    systemMessage?: Proficient.SystemMessage;
-    initialTurn?: Proficient.InitialTurn;
     greetingMessage?: Proficient.GreetingMessage;
+    initialTurn?: Proficient.InitialTurn;
+    openai?: Proficient.OpenAiConfig;
+    systemMessage?: Proficient.SystemMessage;
 }

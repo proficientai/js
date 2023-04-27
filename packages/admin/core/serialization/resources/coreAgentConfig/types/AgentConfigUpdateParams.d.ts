@@ -7,8 +7,9 @@ import * as core from "../../../../core";
 export declare const AgentConfigUpdateParams: core.serialization.ObjectSchema<serializers.AgentConfigUpdateParams.Raw, Proficient.AgentConfigUpdateParams>;
 export declare namespace AgentConfigUpdateParams {
     interface Raw {
-        system_message?: serializers.SystemMessage.Raw | null;
-        initial_turn?: serializers.InitialTurn.Raw | null;
         greeting_message?: serializers.GreetingMessage.Raw | null;
+        initial_turn?: serializers.InitialTurn.Raw | null;
+        openai?: serializers.OpenAiConfig.Raw | null;
+        system_message?: serializers.SystemMessage.Raw | null;
     }
 }
