@@ -1,5 +1,11 @@
 # @proficient/admin
 
+## 0.6.0
+
+### Minor Changes
+
+- 25d6358: Added openai config
+
 ## 0.5.0
 
 ### Minor Changes
