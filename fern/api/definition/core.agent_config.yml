@@ -56,7 +56,7 @@ types:
     audiences:
       - admin
     type: double
-    docs: <p>Can take values between 0 and 2, with positive values penalizing the model for generating new tokens that have already appeared frequently in the generated text so far. This reduces the likelihood of the model repeating the same line or phrase verbatim. In essence, a higher positive value for <code>frequency_penalty</code> encourages the model to use less frequently used tokens in the generated text. See original <a href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-frequency_penalty">definition</a>.</p>
+    docs: <p>Can take values between -2.0 and 2.0, with positive values penalizing the model for generating new tokens that have already appeared frequently in the generated text so far. This reduces the likelihood of the model repeating the same line or phrase verbatim. In essence, a higher positive value for <code>frequency_penalty</code> encourages the model to use less frequently used tokens in the generated text. See original <a href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-frequency_penalty">definition</a>.</p>
     examples:
       - name: Example0
         value: 1.2
@@ -65,7 +65,7 @@ types:
     audiences:
       - admin
     type: double
-    docs: <p>Can take values between 0 and 2, with positive values penalizing the model for generating new tokens that have already appeared in the generated text. This encourages the model to generate text about new topics and increases the likelihood of generating more diverse content. In essence, a higher positive value for <code>presence_penalty</code> will lead to more avoidance of repeating previously used tokens in the generated text. See original <a href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-presence_penalty">definition</a>.</p>
+    docs: <p>Can take values between -2.0 and 2.0, with positive values penalizing the model for generating new tokens that have already appeared in the generated text. This encourages the model to generate text about new topics and increases the likelihood of generating more diverse content. In essence, a higher positive value for <code>presence_penalty</code> will lead to more avoidance of repeating previously used tokens in the generated text. See original <a href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-presence_penalty">definition</a>.</p>
     examples:
       - name: Example0
         value: 0.7
@@ -74,7 +74,7 @@ types:
     audiences:
       - admin
     type: double
-    docs: <p>Determines the level of randomness in the generated output. Can take values between 0 and 2, with higher values like 0.8 resulting in more randomness, and lower values like 0.2 making the output more predictable. See original <a href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-temperature">definition</a>.</p>
+    docs: <p>Determines the level of randomness in the generated output. Can take values between 0 and 2.0, with higher values like 0.8 resulting in more randomness, and lower values like 0.2 making the output more predictable. See original <a href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-temperature">definition</a>.</p>
     examples:
       - name: Example0
         value: 0.9
