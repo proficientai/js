@@ -1,6 +1,6 @@
 {
   "name": "@proficient/admin",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "license": "MIT",
   "main": "./dist/index.js",
   "source": "./dist/index.js",

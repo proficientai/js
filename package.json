@@ -14,7 +14,7 @@
     "build:react": "turbo run build --filter=react",
     "changeset": "changeset",
     "changeset:release": "npm run build-packages && changeset publish && git push origin --tags",
-    "changeset:version": "changeset version",
+    "changeset:version": "changeset version && npm install",
     "compile:web": "turbo run compile --filter=web",
     "dev": "turbo run dev --parallel",
     "dev:web": "turbo run dev --filter=web --filter=@proficient/react",

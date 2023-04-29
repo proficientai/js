@@ -1,5 +1,11 @@
 # @proficient/admin
 
+## 0.8.0
+
+### Minor Changes
+
+- 06bd987: Renamed Provider to Model
+
 ## 0.7.0
 
 ### Minor Changes

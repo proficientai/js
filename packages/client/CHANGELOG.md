@@ -1,5 +1,11 @@
 # @proficient/client
 
+## 0.18.0
+
+### Minor Changes
+
+- 06bd987: Renamed Provider to Model
+
 ## 0.17.0
 
 ### Minor Changes

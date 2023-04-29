@@ -1,5 +1,16 @@
 # @proficient/react
 
+## 0.15.0
+
+### Minor Changes
+
+- 06bd987: Renamed Provider to Model
+
+### Patch Changes
+
+- Updated dependencies [06bd987]
+  - @proficient/client@0.18.0
+
 ## 0.14.1
 
 ### Patch Changes
