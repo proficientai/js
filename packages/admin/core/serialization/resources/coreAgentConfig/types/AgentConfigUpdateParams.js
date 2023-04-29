@@ -31,7 +31,7 @@ const core = __importStar(require("../../../../core"));
 exports.AgentConfigUpdateParams = core.serialization.object({
     greetingMessage: core.serialization.property("greeting_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).GreetingMessage).optional()),
     initialTurn: core.serialization.property("initial_turn", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InitialTurn).optional()),
+    model: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).Model).optional(),
     openai: core.serialization.lazyObject(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).OpenAiConfig).optional(),
-    provider: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).Provider).optional(),
     systemMessage: core.serialization.property("system_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).SystemMessage).optional()),
 });

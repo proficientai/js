@@ -11,8 +11,8 @@ export declare namespace AgentConfig {
         agent_id: serializers.AgentId.Raw;
         greeting_message: serializers.GreetingMessage.Raw;
         initial_turn: serializers.InitialTurn.Raw;
+        model: serializers.Model.Raw;
         openai: serializers.OpenAiConfig.Raw;
-        provider: serializers.Provider.Raw;
         system_message: serializers.SystemMessage.Raw;
     }
 }

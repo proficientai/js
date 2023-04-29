@@ -4,7 +4,7 @@
 import * as serializers from "../../..";
 import { Proficient } from "../../../..";
 import * as core from "../../../../core";
-export declare const Provider: core.serialization.Schema<serializers.Provider.Raw, Proficient.Provider>;
-export declare namespace Provider {
+export declare const Model: core.serialization.Schema<serializers.Model.Raw, Proficient.Model>;
+export declare namespace Model {
     type Raw = "openai.gpt-4" | "openai.gpt-3.5-turbo";
 }

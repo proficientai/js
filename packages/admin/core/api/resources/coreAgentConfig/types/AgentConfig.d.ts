@@ -11,12 +11,12 @@ import { Proficient } from "../../../..";
  *         agentId: "ag_Lad8YCGGiDLiqIZPWRXmc2ix",
  *         greetingMessage: "Hello {{user.first_name}}. How may I help you today?",
  *         initialTurn: Proficient.InteractionParticipant.User,
+ *         model: Proficient.Model.OpenaiGpt4,
  *         openai: {
  *             frequencyPenalty: 1.2,
  *             presencePenalty: 0.7,
  *             temperature: 0.9
  *         },
- *         provider: Proficient.Provider.OpenaiGpt4,
  *         systemMessage: "Your name is {{agent.display_name}}. You are an AI assistant developed by Acme Inc. and your job is to help their user {{user.first_name}} with a wide range of tasks."
  *     }
  */
@@ -25,7 +25,7 @@ export interface AgentConfig {
     agentId: Proficient.AgentId;
     greetingMessage: Proficient.GreetingMessage;
     initialTurn: Proficient.InitialTurn;
+    model: Proficient.Model;
     openai: Proficient.OpenAiConfig;
-    provider: Proficient.Provider;
     systemMessage: Proficient.SystemMessage;
 }

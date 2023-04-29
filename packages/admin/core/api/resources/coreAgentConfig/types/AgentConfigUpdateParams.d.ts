@@ -8,7 +8,7 @@ import { Proficient } from "../../../..";
 export interface AgentConfigUpdateParams {
     greetingMessage?: Proficient.GreetingMessage;
     initialTurn?: Proficient.InitialTurn;
+    model?: Proficient.Model;
     openai?: Proficient.OpenAiConfig;
-    provider?: Proficient.Provider;
     systemMessage?: Proficient.SystemMessage;
 }

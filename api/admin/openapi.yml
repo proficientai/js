@@ -575,6 +575,12 @@ components:
       description: >-
         Indicates who sends the first message in each interaction. Defaults to
         `"user"`.
+    Model:
+      type: string
+      enum:
+        - openai.gpt-4
+        - openai.gpt-3.5-turbo
+      description: The underlying model that powers the agent.
     OpenAiConfig:
       type: object
       description: >-
@@ -634,14 +640,6 @@ components:
         account. In essence, <code>top_p</code> determines the size of the set
         of tokens to choose from, based on their probabilities. See original <a
         href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-top_p">definition</a>.</p>
-    Provider:
-      type: string
-      enum:
-        - openai.gpt-4
-        - openai.gpt-3.5-turbo
-      description: >-
-        The provider of the agent. A provider is the underlying model that
-        powers the agent.
     SystemMessage:
       type: string
       description: >-
@@ -659,10 +657,10 @@ components:
           $ref: '#/components/schemas/GreetingMessage'
         initial_turn:
           $ref: '#/components/schemas/InitialTurn'
+        model:
+          $ref: '#/components/schemas/Model'
         openai:
           $ref: '#/components/schemas/OpenAiConfig'
-        provider:
-          $ref: '#/components/schemas/Provider'
         system_message:
           $ref: '#/components/schemas/SystemMessage'
     AgentConfig:
@@ -679,10 +677,10 @@ components:
           $ref: '#/components/schemas/GreetingMessage'
         initial_turn:
           $ref: '#/components/schemas/InitialTurn'
+        model:
+          $ref: '#/components/schemas/Model'
         openai:
           $ref: '#/components/schemas/OpenAiConfig'
-        provider:
-          $ref: '#/components/schemas/Provider'
         system_message:
           $ref: '#/components/schemas/SystemMessage'
       required:
@@ -690,8 +688,8 @@ components:
         - agent_id
         - greeting_message
         - initial_turn
+        - model
         - openai
-        - provider
         - system_message
     AgentId:
       type: string
@@ -738,16 +736,16 @@ components:
           $ref: '#/components/schemas/GreetingMessage'
         initial_turn:
           $ref: '#/components/schemas/InitialTurn'
+        model:
+          $ref: '#/components/schemas/Model'
         name:
           $ref: '#/components/schemas/AgentName'
         openai:
           $ref: '#/components/schemas/OpenAiConfig'
-        provider:
-          $ref: '#/components/schemas/Provider'
         system_message:
           $ref: '#/components/schemas/SystemMessage'
       required:
-        - provider
+        - model
     AgentUpdateParams:
       type: object
       description: The data with which an agent is updated.

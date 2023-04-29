@@ -12,9 +12,9 @@ export declare namespace AgentCreateParams {
         display_name?: serializers.AgentDisplayName.Raw | null;
         greeting_message?: serializers.GreetingMessage.Raw | null;
         initial_turn?: serializers.InitialTurn.Raw | null;
+        model: serializers.Model.Raw;
         name?: serializers.AgentName.Raw | null;
         openai?: serializers.OpenAiConfig.Raw | null;
-        provider: serializers.Provider.Raw;
         system_message?: serializers.SystemMessage.Raw | null;
     }
 }

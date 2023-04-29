@@ -36,6 +36,19 @@ types:
       - name: Example0
         value: user
 
+  Model:
+    audiences:
+      - admin
+    enum:
+      - name: openai_gpt_4
+        value: openai.gpt-4
+      - name: openai_gpt_3_5_turbo
+        value: openai.gpt-3.5-turbo
+    docs: The underlying model that powers the agent.
+    examples:
+      - name: Example0
+        value: openai.gpt-4
+
   OpenAIConfig:
     audiences:
       - admin
@@ -88,19 +101,6 @@ types:
       - name: Example0
         value: 0.1
 
-  Provider:
-    audiences:
-      - admin
-    enum:
-      - name: openai_gpt_4
-        value: openai.gpt-4
-      - name: openai_gpt_3_5_turbo
-        value: openai.gpt-3.5-turbo
-    docs: The provider of the agent. A provider is the underlying model that powers the agent.
-    examples:
-      - name: Example0
-        value: openai.gpt-4
-
   SystemMessage:
     audiences:
       - admin
@@ -118,8 +118,8 @@ types:
     properties:
       greeting_message: optional<GreetingMessage>
       initial_turn: optional<InitialTurn>
+      model: optional<Model>
       openai: optional<OpenAIConfig>
-      provider: optional<Provider>
       system_message: optional<SystemMessage>
     docs: The data with which an `AgentConfig` is updated.
 
@@ -133,8 +133,8 @@ types:
       agent_id: agent.AgentId
       greeting_message: GreetingMessage
       initial_turn: InitialTurn
+      model: Model
       openai: OpenAIConfig
-      provider: Provider
       system_message: SystemMessage
     examples:
       - name: Example0
@@ -143,7 +143,7 @@ types:
           agent_id: $agent.AgentId.Example0
           greeting_message: $GreetingMessage.Example0
           initial_turn: $InitialTurn.Example0
+          model: $Model.Example0
           openai: $OpenAIConfig.Example0
-          provider: $Provider.Example0
           system_message: $SystemMessage.Example0
     docs: Represents the current configuration of the agent. This is an admin-level resource that is not exposed to the users.

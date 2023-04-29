@@ -26,6 +26,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Provider = void 0;
+exports.Model = void 0;
 const core = __importStar(require("../../../../core"));
-exports.Provider = core.serialization.enum_(["openai.gpt-4", "openai.gpt-3.5-turbo"]);
+exports.Model = core.serialization.enum_([
+    "openai.gpt-4",
+    "openai.gpt-3.5-turbo",
+]);

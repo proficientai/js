@@ -33,7 +33,7 @@ exports.AgentConfig = core.serialization.object({
     agentId: core.serialization.property("agent_id", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentId)),
     greetingMessage: core.serialization.property("greeting_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).GreetingMessage)),
     initialTurn: core.serialization.property("initial_turn", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InitialTurn)),
+    model: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).Model),
     openai: core.serialization.lazyObject(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).OpenAiConfig),
-    provider: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).Provider),
     systemMessage: core.serialization.property("system_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).SystemMessage)),
 });
