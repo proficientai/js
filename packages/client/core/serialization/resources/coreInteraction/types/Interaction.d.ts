@@ -15,6 +15,6 @@ export declare namespace Interaction {
         name: serializers.InteractionName.Raw;
         total_message_count: serializers.InteractionTotalMessageCount.Raw;
         updated_at: serializers.UpdatedAt.Raw;
-        user_id: string;
+        user_id: serializers.UserId.Raw;
     }
 }

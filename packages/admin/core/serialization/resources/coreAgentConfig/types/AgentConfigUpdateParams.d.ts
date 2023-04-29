@@ -10,6 +10,7 @@ export declare namespace AgentConfigUpdateParams {
         greeting_message?: serializers.GreetingMessage.Raw | null;
         initial_turn?: serializers.InitialTurn.Raw | null;
         openai?: serializers.OpenAiConfig.Raw | null;
+        provider?: serializers.Provider.Raw | null;
         system_message?: serializers.SystemMessage.Raw | null;
     }
 }

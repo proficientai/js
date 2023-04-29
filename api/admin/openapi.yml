@@ -593,20 +593,20 @@ components:
       type: number
       format: double
       description: >-
-        <p>Can take values between 0 and 2, with positive values penalizing the
-        model for generating new tokens that have already appeared frequently in
-        the generated text so far. This reduces the likelihood of the model
-        repeating the same line or phrase verbatim. In essence, a higher
-        positive value for <code>frequency_penalty</code> encourages the model
-        to use less frequently used tokens in the generated text. See original
-        <a
+        <p>Can take values between -2.0 and 2.0, with positive values penalizing
+        the model for generating new tokens that have already appeared
+        frequently in the generated text so far. This reduces the likelihood of
+        the model repeating the same line or phrase verbatim. In essence, a
+        higher positive value for <code>frequency_penalty</code> encourages the
+        model to use less frequently used tokens in the generated text. See
+        original <a
         href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-frequency_penalty">definition</a>.</p>
     OpenAiConfigPresencePenalty:
       type: number
       format: double
       description: >-
-        <p>Can take values between 0 and 2, with positive values penalizing the
-        model for generating new tokens that have already appeared in the
+        <p>Can take values between -2.0 and 2.0, with positive values penalizing
+        the model for generating new tokens that have already appeared in the
         generated text. This encourages the model to generate text about new
         topics and increases the likelihood of generating more diverse content.
         In essence, a higher positive value for <code>presence_penalty</code>
@@ -618,7 +618,7 @@ components:
       format: double
       description: >-
         <p>Determines the level of randomness in the generated output. Can take
-        values between 0 and 2, with higher values like 0.8 resulting in more
+        values between 0 and 2.0, with higher values like 0.8 resulting in more
         randomness, and lower values like 0.2 making the output more
         predictable. See original <a
         href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-temperature">definition</a>.</p>
@@ -626,14 +626,13 @@ components:
       type: number
       format: double
       description: >-
-        <p>An alternative to the <code>temperature</code> option. It uses a
-        method called nucleus sampling, which involves considering only the
-        tokens with the highest probability mass. It specifies the proportion of
-        the probability mass to consider, with a value of 0.1 indicating that
-        only the tokens comprising the top 10% probability mass will be taken
-        into account. In essence, <code>top_p</code> determines the size of the
-        set of tokens to choose from, based on their probabilities. See original
-        <a
+        <p>An alternative to the <code>temperature</code> option. Uses a method
+        called nucleus sampling, which involves considering only the tokens with
+        the highest probability mass. It specifies the proportion of the
+        probability mass to consider, with a value of 0.1 indicating that only
+        the tokens comprising the top 10% probability mass will be taken into
+        account. In essence, <code>top_p</code> determines the size of the set
+        of tokens to choose from, based on their probabilities. See original <a
         href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-top_p">definition</a>.</p>
     Provider:
       type: string
@@ -662,6 +661,8 @@ components:
           $ref: '#/components/schemas/InitialTurn'
         openai:
           $ref: '#/components/schemas/OpenAiConfig'
+        provider:
+          $ref: '#/components/schemas/Provider'
         system_message:
           $ref: '#/components/schemas/SystemMessage'
     AgentConfig:

@@ -37,5 +37,5 @@ exports.Interaction = core.serialization.object({
     name: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InteractionName),
     totalMessageCount: core.serialization.property("total_message_count", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InteractionTotalMessageCount)),
     updatedAt: core.serialization.property("updated_at", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).UpdatedAt)),
-    userId: core.serialization.property("user_id", core.serialization.string()),
+    userId: core.serialization.property("user_id", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).UserId)),
 });

@@ -9,5 +9,6 @@ export interface AgentConfigUpdateParams {
     greetingMessage?: Proficient.GreetingMessage;
     initialTurn?: Proficient.InitialTurn;
     openai?: Proficient.OpenAiConfig;
+    provider?: Proficient.Provider;
     systemMessage?: Proficient.SystemMessage;
 }

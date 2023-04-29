@@ -15,7 +15,7 @@ import { Proficient } from "../../../..";
  *         name: "interaction",
  *         totalMessageCount: 23,
  *         updatedAt: 1671631799692,
- *         userId: "string"
+ *         userId: "u_1eRoyubdUqWifFiTREaLcvh6"
  *     }
  */
 export interface Interaction {
@@ -27,6 +27,5 @@ export interface Interaction {
     name: Proficient.InteractionName;
     totalMessageCount: Proficient.InteractionTotalMessageCount;
     updatedAt: Proficient.UpdatedAt;
-    /** The unique identifier of the user */
-    userId: string;
+    userId: Proficient.UserId;
 }

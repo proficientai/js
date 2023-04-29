@@ -704,9 +704,7 @@ components:
         updated_at:
           $ref: '#/components/schemas/UpdatedAt'
         user_id:
-          type: string
-          description: The unique identifier of the user
-          example: string
+          $ref: '#/components/schemas/UserId'
       required:
         - id
         - object
