@@ -119,6 +119,7 @@ types:
       greeting_message: optional<GreetingMessage>
       initial_turn: optional<InitialTurn>
       openai: optional<OpenAIConfig>
+      provider: optional<Provider>
       system_message: optional<SystemMessage>
     docs: The data with which an `AgentConfig` is updated.
 
