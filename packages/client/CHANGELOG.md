@@ -1,5 +1,11 @@
 # @proficient/client
 
+## 0.17.0
+
+### Minor Changes
+
+- 358ec8f: Fix incorrect range descriptions
+
 ## 0.16.0
 
 ### Minor Changes

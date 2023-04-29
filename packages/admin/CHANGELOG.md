@@ -1,5 +1,12 @@
 # @proficient/admin
 
+## 0.7.0
+
+### Minor Changes
+
+- 358ec8f: Fix incorrect range descriptions
+- 358ec8f: Add provider to agent config update params
+
 ## 0.6.0
 
 ### Minor Changes
