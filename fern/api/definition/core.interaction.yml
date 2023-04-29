@@ -4,6 +4,7 @@ imports:
   core: core.yml
   agent: core.agent.yml
   message: core.message.yml
+  user: core.user.yml
 
 types:
   # Properties
@@ -83,9 +84,7 @@ types:
       name: InteractionName
       total_message_count: InteractionTotalMessageCount
       updated_at: core.UpdatedAt
-      user_id: # TODO: Replace with core.user.User
-        type: string
-        docs: The unique identifier of the user
+      user_id: user.UserId
     examples:
       - name: Example0
         value:
@@ -97,5 +96,5 @@ types:
           name: $InteractionName.Example0
           total_message_count: $InteractionTotalMessageCount.Example0
           updated_at: $core.UpdatedAt.Example0
-          user_id: string # TODO: Replace with $UserId.Example0
+          user_id: $user.UserId.Example0
     docs: <p>Users communicate with agents via <i>interactions</i>. You can think of each interaction as a conversation between an agent and user.</p>
