@@ -524,7 +524,7 @@ export function InteractionView(props: InteractionViewProps) {
                   <EmptyStateView
                     text={
                       sortedInteractions.length === 0
-                        ? 'You have no interactions with this agent.'
+                        ? `You have no interactions with ${agentState.agent.displayName}.`
                         : 'No selected interaction'
                     }
                   />
