@@ -14,7 +14,7 @@ export declare namespace Users {
     }
 }
 export declare class Users {
-    private readonly options;
+    protected readonly options: Users.Options;
     constructor(options: Users.Options);
     /**
      * Retrieves the user with the given ID.
@@ -31,5 +31,5 @@ export declare class Users {
      * @throws {Proficient.ServiceUnavailableError}
      */
     update(userId: Proficient.UserId, request: Proficient.UserUpdateParams): Promise<Proficient.User>;
-    private _getAuthorizationHeader;
+    protected _getAuthorizationHeader(): Promise<string | undefined>;
 }

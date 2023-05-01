@@ -17,14 +17,14 @@ export declare namespace ProficientClient {
     }
 }
 export declare class ProficientClient {
-    private readonly options;
+    protected readonly options: ProficientClient.Options;
     constructor(options: ProficientClient.Options);
-    private _agents;
+    protected _agents: Agents | undefined;
     get agents(): Agents;
-    private _interactions;
+    protected _interactions: Interactions | undefined;
     get interactions(): Interactions;
-    private _messages;
+    protected _messages: Messages | undefined;
     get messages(): Messages;
-    private _users;
+    protected _users: Users | undefined;
     get users(): Users;
 }

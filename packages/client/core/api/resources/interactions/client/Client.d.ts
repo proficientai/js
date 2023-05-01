@@ -14,7 +14,7 @@ export declare namespace Interactions {
     }
 }
 export declare class Interactions {
-    private readonly options;
+    protected readonly options: Interactions.Options;
     constructor(options: Interactions.Options);
     /**
      * Returns a list of interactions associated with the user. The interactions are returned sorted by creation date, with the most recently created interactions appearing first.
@@ -52,5 +52,5 @@ export declare class Interactions {
      * @throws {Proficient.ServiceUnavailableError}
      */
     delete(interactionId: Proficient.InteractionId): Promise<Proficient.Interaction>;
-    private _getAuthorizationHeader;
+    protected _getAuthorizationHeader(): Promise<string | undefined>;
 }

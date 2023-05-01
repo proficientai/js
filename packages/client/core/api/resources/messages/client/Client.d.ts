@@ -14,7 +14,7 @@ export declare namespace Messages {
     }
 }
 export declare class Messages {
-    private readonly options;
+    protected readonly options: Messages.Options;
     constructor(options: Messages.Options);
     /**
      * Returns a list of all messages in the specified interaction.
@@ -46,5 +46,5 @@ export declare class Messages {
      * @throws {Proficient.InternalError}
      */
     ask(messageId: Proficient.MessageId, request: Proficient.MessageAskParams): Promise<Proficient.Message>;
-    private _getAuthorizationHeader;
+    protected _getAuthorizationHeader(): Promise<string | undefined>;
 }

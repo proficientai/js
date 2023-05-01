@@ -15,10 +15,10 @@ export declare namespace ProficientClient {
     }
 }
 export declare class ProficientClient {
-    private readonly options;
+    protected readonly options: ProficientClient.Options;
     constructor(options: ProficientClient.Options);
-    private _agents;
+    protected _agents: Agents | undefined;
     get agents(): Agents;
-    private _users;
+    protected _users: Users | undefined;
     get users(): Users;
 }

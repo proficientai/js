@@ -16,12 +16,13 @@ groups:
       - admin
     generators:
       - name: fernapi/fern-typescript-sdk
-        version: 0.5.7
+        version: 0.5.17
         output:
           location: local-file-system
           path: ../../packages/admin/core
         config:
           namespaceExport: Proficient
+          timeoutInSeconds: infinity
       - name: fernapi/fern-openapi
         version: 0.0.22
         output:
@@ -38,12 +39,13 @@ groups:
       - client
     generators:
       - name: fernapi/fern-typescript-sdk
-        version: 0.5.7
+        version: 0.5.17
         output:
           location: local-file-system
           path: ../../packages/client/core
         config:
           namespaceExport: Proficient
+          timeoutInSeconds: infinity
       - name: fernapi/fern-openapi
         version: 0.0.22
         output:

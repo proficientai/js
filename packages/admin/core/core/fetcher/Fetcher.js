@@ -7,7 +7,7 @@ exports.fetcher = void 0;
 const axios_1 = __importDefault(require("axios"));
 const fetcher = async (args) => {
     const headers = {};
-    if (args.contentType != null) {
+    if (args.body !== undefined && args.contentType != null) {
         headers["Content-Type"] = args.contentType;
     }
     if (args.headers != null) {
@@ -26,11 +26,12 @@ const fetcher = async (args) => {
             data: args.body,
             validateStatus: () => true,
             transformResponse: (response) => response,
-            timeout: args.timeoutMs ?? 60_000,
+            timeout: args.timeoutMs,
             transitional: {
                 clarifyTimeoutError: true,
             },
             withCredentials: args.withCredentials,
+            adapter: args.adapter,
         });
         let body;
         if (response.data != null && response.data.length > 0) {
