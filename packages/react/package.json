@@ -42,7 +42,7 @@
     "tsconfig": "*",
     "tsup": "^6.7.0",
     "type-fest": "^3.8.0",
-    "typescript": "5.0.3"
+    "typescript": "5.0.4"
   },
   "peerDependencies": {
     "react": ">= 16.8.0"
