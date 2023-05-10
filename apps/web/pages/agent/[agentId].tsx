@@ -61,7 +61,6 @@ export default function AgentPage() {
         userHmac={() => getHmac(userId)}
         layout={isCasualLayout ? 'casual' : 'formal'}
         height={600}
-        autoRequestReply={false}
         theme={isDarkTheme ? darkTheme : lightTheme}
       />
     </div>
