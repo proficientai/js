@@ -1,5 +1,11 @@
 # @proficient/client
 
+## 0.19.0
+
+### Minor Changes
+
+- 9e0ae10: Fixed 60s timeout issue
+
 ## 0.18.0
 
 ### Minor Changes

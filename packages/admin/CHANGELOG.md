@@ -1,5 +1,11 @@
 # @proficient/admin
 
+## 0.9.0
+
+### Minor Changes
+
+- 276326d: Add support for Anthropic models
+
 ## 0.8.0
 
 ### Minor Changes

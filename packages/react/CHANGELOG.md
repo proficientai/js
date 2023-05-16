@@ -1,5 +1,16 @@
 # @proficient/react
 
+## 0.16.0
+
+### Minor Changes
+
+- 9e0ae10: Fixed 60s timeout issue
+
+### Patch Changes
+
+- Updated dependencies [9e0ae10]
+  - @proficient/client@0.19.0
+
 ## 0.15.0
 
 ### Minor Changes
