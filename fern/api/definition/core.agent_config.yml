@@ -8,6 +8,47 @@ imports:
 types:
   # Properties
 
+  AnthropicConfig:
+    audiences:
+      - admin
+    properties:
+      temperature: optional<AnthropicConfigTemperature>
+      top_k: optional<AnthropicConfigTopK>
+      top_p: optional<AnthropicConfigTopP>
+    docs: The configuration that is applied to Anthropic models.
+    examples:
+      - name: Example0
+        value:
+          temperature: $AnthropicConfigTemperature.Example0
+          top_k: $AnthropicConfigTopK.Example0
+
+  AnthropicConfigTemperature:
+    audiences:
+      - admin
+    type: double
+    docs: <p>Determines the level of randomness in the generated output. Can take values between 0 and 1.0, with higher values like 0.8 resulting in more randomness, and lower values like 0.2 making the output more predictable. See original <a href="https://console.anthropic.com/docs/api/reference">definition</a>.</p>
+    examples:
+      - name: Example0
+        value: 0.8
+
+  AnthropicConfigTopK:
+    audiences:
+      - admin
+    type: integer
+    docs: <p>Only sample from the top K options for each subsequent token. Used to remove "long tail" low probability responses. Defaults to -1, which disables it. See original <a href="https://console.anthropic.com/docs/api/reference">definition</a>. See <a href="https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277">technical details</a>.</p>
+    examples:
+      - name: Example0
+        value: 10
+
+  AnthropicConfigTopP:
+    audiences:
+      - admin
+    type: double
+    docs: <p>An alternative to the <code>temperature</code> option. Uses a method called nucleus sampling, which involves considering only the tokens with the highest probability mass. It specifies the proportion of the probability mass to consider, with a value of 0.1 indicating that only the tokens comprising the top 10% probability mass will be taken into account. In essence, <code>top_p</code> determines the size of the set of tokens to choose from, based on their probabilities. Defaults to -1, which disables it. See original <a href="https://console.anthropic.com/docs/api/reference">definition</a>.</p>
+    examples:
+      - name: Example0
+        value: 0.1
+
   AgentConfigObjectType:
     audiences:
       - admin
@@ -40,6 +81,14 @@ types:
     audiences:
       - admin
     enum:
+      - name: anthropic_claude_v1
+        value: anthropic.claude-v1
+      - name: anthropic_claude_v1_100k
+        value: anthropic.claude-v1-100k
+      - name: anthropic_claude_instant_v1
+        value: anthropic.claude-instant-v1
+      - name: anthropic_claude_instant_v1_100k
+        value: anthropic.claude-instant-v1-100k
       - name: openai_gpt_4
         value: openai.gpt-4
       - name: openai_gpt_3_5_turbo
@@ -57,7 +106,7 @@ types:
       presence_penalty: optional<OpenAIConfigPresencePenalty>
       temperature: optional<OpenAIConfigTemperature>
       top_p: optional<OpenAIConfigTopP>
-    docs: Indicates who sends the first message in each interaction. Defaults to `"user"`.
+    docs: The configuration that is applied to OpenAI models.
     examples:
       - name: Example0
         value:
@@ -116,6 +165,7 @@ types:
     audiences:
       - admin
     properties:
+      anthropic: optional<AnthropicConfig>
       greeting_message: optional<GreetingMessage>
       initial_turn: optional<InitialTurn>
       model: optional<Model>
@@ -130,6 +180,7 @@ types:
       - admin
     properties:
       object: AgentConfigObjectType
+      anthropic: AnthropicConfig
       agent_id: agent.AgentId
       greeting_message: GreetingMessage
       initial_turn: InitialTurn
@@ -140,6 +191,7 @@ types:
       - name: Example0
         value:
           object: $AgentConfigObjectType.Example0
+          anthropic: $AnthropicConfig.Example0
           agent_id: $agent.AgentId.Example0
           greeting_message: $GreetingMessage.Example0
           initial_turn: $InitialTurn.Example0
