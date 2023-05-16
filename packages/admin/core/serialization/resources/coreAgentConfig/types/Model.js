@@ -29,6 +29,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Model = void 0;
 const core = __importStar(require("../../../../core"));
 exports.Model = core.serialization.enum_([
+    "anthropic.claude-v1",
+    "anthropic.claude-v1-100k",
+    "anthropic.claude-instant-v1",
+    "anthropic.claude-instant-v1-100k",
     "openai.gpt-4",
     "openai.gpt-3.5-turbo",
 ]);

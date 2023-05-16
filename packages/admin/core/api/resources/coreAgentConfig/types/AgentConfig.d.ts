@@ -8,6 +8,10 @@ import { Proficient } from "../../../..";
  * @example
  *     {
  *         object: Proficient.AgentConfigObjectType.AgentConfig,
+ *         anthropic: {
+ *             temperature: 0.8,
+ *             topK: 10
+ *         },
  *         agentId: "ag_Lad8YCGGiDLiqIZPWRXmc2ix",
  *         greetingMessage: "Hello {{user.first_name}}. How may I help you today?",
  *         initialTurn: Proficient.InteractionParticipant.User,
@@ -22,6 +26,7 @@ import { Proficient } from "../../../..";
  */
 export interface AgentConfig {
     object: Proficient.AgentConfigObjectType;
+    anthropic: Proficient.AnthropicConfig;
     agentId: Proficient.AgentId;
     greetingMessage: Proficient.GreetingMessage;
     initialTurn: Proficient.InitialTurn;

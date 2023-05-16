@@ -26,13 +26,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AgentConfigUpdateParams = void 0;
+exports.AnthropicConfigTemperature = void 0;
 const core = __importStar(require("../../../../core"));
-exports.AgentConfigUpdateParams = core.serialization.object({
-    anthropic: core.serialization.lazyObject(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AnthropicConfig).optional(),
-    greetingMessage: core.serialization.property("greeting_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).GreetingMessage).optional()),
-    initialTurn: core.serialization.property("initial_turn", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InitialTurn).optional()),
-    model: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).Model).optional(),
-    openai: core.serialization.lazyObject(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).OpenAiConfig).optional(),
-    systemMessage: core.serialization.property("system_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).SystemMessage).optional()),
-});
+exports.AnthropicConfigTemperature = core.serialization.number();

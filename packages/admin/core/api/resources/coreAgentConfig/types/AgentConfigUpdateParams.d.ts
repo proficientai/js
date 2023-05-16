@@ -6,6 +6,7 @@ import { Proficient } from "../../../..";
  * The data with which an `AgentConfig` is updated.
  */
 export interface AgentConfigUpdateParams {
+    anthropic?: Proficient.AnthropicConfig;
     greetingMessage?: Proficient.GreetingMessage;
     initialTurn?: Proficient.InitialTurn;
     model?: Proficient.Model;

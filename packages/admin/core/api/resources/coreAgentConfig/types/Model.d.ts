@@ -7,8 +7,12 @@
  * @example
  *     Proficient.Model.OpenaiGpt4
  */
-export declare type Model = "openai.gpt-4" | "openai.gpt-3.5-turbo";
+export declare type Model = "anthropic.claude-v1" | "anthropic.claude-v1-100k" | "anthropic.claude-instant-v1" | "anthropic.claude-instant-v1-100k" | "openai.gpt-4" | "openai.gpt-3.5-turbo";
 export declare const Model: {
+    readonly AnthropicClaudeV1: "anthropic.claude-v1";
+    readonly AnthropicClaudeV1100K: "anthropic.claude-v1-100k";
+    readonly AnthropicClaudeInstantV1: "anthropic.claude-instant-v1";
+    readonly AnthropicClaudeInstantV1100K: "anthropic.claude-instant-v1-100k";
     readonly OpenaiGpt4: "openai.gpt-4";
     readonly OpenaiGpt35Turbo: "openai.gpt-3.5-turbo";
 };

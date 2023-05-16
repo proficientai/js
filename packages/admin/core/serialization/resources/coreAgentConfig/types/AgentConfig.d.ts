@@ -8,6 +8,7 @@ export declare const AgentConfig: core.serialization.ObjectSchema<serializers.Ag
 export declare namespace AgentConfig {
     interface Raw {
         object: serializers.AgentConfigObjectType.Raw;
+        anthropic: serializers.AnthropicConfig.Raw;
         agent_id: serializers.AgentId.Raw;
         greeting_message: serializers.GreetingMessage.Raw;
         initial_turn: serializers.InitialTurn.Raw;

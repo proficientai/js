@@ -30,6 +30,7 @@ exports.AgentConfig = void 0;
 const core = __importStar(require("../../../../core"));
 exports.AgentConfig = core.serialization.object({
     object: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentConfigObjectType),
+    anthropic: core.serialization.lazyObject(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AnthropicConfig),
     agentId: core.serialization.property("agent_id", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).AgentId)),
     greetingMessage: core.serialization.property("greeting_message", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).GreetingMessage)),
     initialTurn: core.serialization.property("initial_turn", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).InitialTurn)),

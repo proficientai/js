@@ -556,6 +556,48 @@ components:
             $ref: '#/components/schemas/Agent'
       required:
         - data
+    AnthropicConfig:
+      type: object
+      description: The configuration that is applied to Anthropic models.
+      properties:
+        temperature:
+          $ref: '#/components/schemas/AnthropicConfigTemperature'
+        top_k:
+          $ref: '#/components/schemas/AnthropicConfigTopK'
+        top_p:
+          $ref: '#/components/schemas/AnthropicConfigTopP'
+    AnthropicConfigTemperature:
+      type: number
+      format: double
+      description: >-
+        <p>Determines the level of randomness in the generated output. Can take
+        values between 0 and 1.0, with higher values like 0.8 resulting in more
+        randomness, and lower values like 0.2 making the output more
+        predictable. See original <a
+        href="https://console.anthropic.com/docs/api/reference">definition</a>.</p>
+    AnthropicConfigTopK:
+      type: integer
+      description: >-
+        <p>Only sample from the top K options for each subsequent token. Used to
+        remove "long tail" low probability responses. Defaults to -1, which
+        disables it. See original <a
+        href="https://console.anthropic.com/docs/api/reference">definition</a>.
+        See <a
+        href="https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277">technical
+        details</a>.</p>
+    AnthropicConfigTopP:
+      type: number
+      format: double
+      description: >-
+        <p>An alternative to the <code>temperature</code> option. Uses a method
+        called nucleus sampling, which involves considering only the tokens with
+        the highest probability mass. It specifies the proportion of the
+        probability mass to consider, with a value of 0.1 indicating that only
+        the tokens comprising the top 10% probability mass will be taken into
+        account. In essence, <code>top_p</code> determines the size of the set
+        of tokens to choose from, based on their probabilities. Defaults to -1,
+        which disables it. See original <a
+        href="https://console.anthropic.com/docs/api/reference">definition</a>.</p>
     AgentConfigObjectType:
       type: string
       enum:
@@ -578,14 +620,16 @@ components:
     Model:
       type: string
       enum:
+        - anthropic.claude-v1
+        - anthropic.claude-v1-100k
+        - anthropic.claude-instant-v1
+        - anthropic.claude-instant-v1-100k
         - openai.gpt-4
         - openai.gpt-3.5-turbo
       description: The underlying model that powers the agent.
     OpenAiConfig:
       type: object
-      description: >-
-        Indicates who sends the first message in each interaction. Defaults to
-        `"user"`.
+      description: The configuration that is applied to OpenAI models.
       properties:
         frequency_penalty:
           $ref: '#/components/schemas/OpenAiConfigFrequencyPenalty'
@@ -653,6 +697,8 @@ components:
       type: object
       description: The data with which an `AgentConfig` is updated.
       properties:
+        anthropic:
+          $ref: '#/components/schemas/AnthropicConfig'
         greeting_message:
           $ref: '#/components/schemas/GreetingMessage'
         initial_turn:
@@ -671,6 +717,8 @@ components:
       properties:
         object:
           $ref: '#/components/schemas/AgentConfigObjectType'
+        anthropic:
+          $ref: '#/components/schemas/AnthropicConfig'
         agent_id:
           $ref: '#/components/schemas/AgentId'
         greeting_message:
@@ -685,6 +733,7 @@ components:
           $ref: '#/components/schemas/SystemMessage'
       required:
         - object
+        - anthropic
         - agent_id
         - greeting_message
         - initial_turn

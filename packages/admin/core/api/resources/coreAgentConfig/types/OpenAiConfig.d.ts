@@ -3,7 +3,7 @@
  */
 import { Proficient } from "../../../..";
 /**
- * Indicates who sends the first message in each interaction. Defaults to `"user"`.
+ * The configuration that is applied to OpenAI models.
  *
  * @example
  *     {
