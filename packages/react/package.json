@@ -14,7 +14,7 @@
     "bundle": "rm -rf dist && tsup",
     "compile": "tsc --noEmit",
     "dev": "tsup --watch",
-    "lint": "TIMING=1 eslint \"**/*.ts*\""
+    "lint": "TIMING=1 eslint \"src/**/*.ts*\""
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
