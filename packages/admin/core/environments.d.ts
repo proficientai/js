@@ -9,7 +9,7 @@ export declare const ProficientEnvironment: {
     /**
      * The staging environment
      */
-    readonly Staging: "https://staging.proficientai.com";
+    readonly Staging: "https://main-64bxvpctea-uc.a.run.app";
     /**
      * The local environment
      */

@@ -25,7 +25,7 @@ export default function ExampleClient() {
     if (userHmac !== null && apiKey) {
       (async () => {
         const proficient = createProficientClient({
-          environment: ProficientEnvironment.Development,
+          environment: ProficientEnvironment.Staging,
           apiKey,
           userExternalId: USER_EXTERNAL_ID,
           userHmac,
