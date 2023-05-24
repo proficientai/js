@@ -977,7 +977,7 @@ components:
 servers:
   - url: https://api.proficientai.com
     description: Production (The production environment)
-  - url: https://staging.proficientai.com
+  - url: https://main-64bxvpctea-uc.a.run.app
     description: Staging (The staging environment)
   - url: http://localhost:8080
     description: Development (The local environment)
