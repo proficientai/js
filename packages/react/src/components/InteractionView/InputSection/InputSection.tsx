@@ -73,9 +73,9 @@ export function InputSection({
                 margin-left: 10px;
               `}>
               {generateButtonType === 'generate'
-                ? 'Generate answer'
+                ? 'Ask for a reply'
                 : generateButtonType === 'regenerate'
-                ? 'Regenerate answer'
+                ? 'Ask again'
                 : 'Retry'}
             </span>
           </SecondaryButton>
