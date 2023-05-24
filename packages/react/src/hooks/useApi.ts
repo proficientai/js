@@ -16,7 +16,7 @@ export function useApi(params: Params) {
       cachedHmacRef.current = typeof userHmac === 'function' ? await userHmac() : userHmac;
     }
     return createProficientClient({
-      environment: ProficientEnvironment.Development,
+      environment: ProficientEnvironment.Staging,
       apiKey,
       userExternalId,
       userHmac: cachedHmacRef.current,
