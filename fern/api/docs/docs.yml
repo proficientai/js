@@ -10,5 +10,5 @@ navigation:
     audiences:
       - admin
 
-
+logo: ./logo.png
 colors: {}
