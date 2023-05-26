@@ -12,7 +12,7 @@ exports.ProficientEnvironment = {
     /**
      * The staging environment
      */
-    Staging: "https://staging.proficientai.com",
+    Staging: "https://main-64bxvpctea-uc.a.run.app",
     /**
      * The local environment
      */
