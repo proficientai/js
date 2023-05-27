@@ -1,0 +1,14 @@
+navigation:
+  - section: Getting Started
+    contents:
+      - page: My page
+        path: ./page.md
+  - api: Client API
+    audiences:
+      - client
+  - api: Admin API
+    audiences:
+      - admin
+
+logo: ./logo.png
+colors: {}
