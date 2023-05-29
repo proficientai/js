@@ -11,4 +11,5 @@ navigation:
       - admin
 
 logo: ./logo.png
-colors: {}
+colors:
+  accentPrimary: "#656aea"
