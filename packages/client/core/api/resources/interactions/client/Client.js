@@ -73,14 +73,14 @@ class Interactions {
                 method: "GET",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
-                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.xProficientApiKey)) != null
-                        ? yield core.Supplier.get(this.options.xProficientApiKey)
+                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.apiKey)) != null
+                        ? yield core.Supplier.get(this.options.apiKey)
                         : undefined,
-                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.xProficientUserExternalId)) != null
-                        ? yield core.Supplier.get(this.options.xProficientUserExternalId)
+                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.userExternalId)) != null
+                        ? yield core.Supplier.get(this.options.userExternalId)
                         : undefined,
-                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.xProficientUserHmac)) != null
-                        ? yield core.Supplier.get(this.options.xProficientUserHmac)
+                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.userHmac)) != null
+                        ? yield core.Supplier.get(this.options.userHmac)
                         : undefined,
                     "X-Fern-Language": "JavaScript",
                 },
@@ -153,14 +153,14 @@ class Interactions {
                 method: "GET",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
-                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.xProficientApiKey)) != null
-                        ? yield core.Supplier.get(this.options.xProficientApiKey)
+                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.apiKey)) != null
+                        ? yield core.Supplier.get(this.options.apiKey)
                         : undefined,
-                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.xProficientUserExternalId)) != null
-                        ? yield core.Supplier.get(this.options.xProficientUserExternalId)
+                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.userExternalId)) != null
+                        ? yield core.Supplier.get(this.options.userExternalId)
                         : undefined,
-                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.xProficientUserHmac)) != null
-                        ? yield core.Supplier.get(this.options.xProficientUserHmac)
+                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.userHmac)) != null
+                        ? yield core.Supplier.get(this.options.userHmac)
                         : undefined,
                     "X-Fern-Language": "JavaScript",
                 },
@@ -232,14 +232,14 @@ class Interactions {
                 method: "POST",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
-                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.xProficientApiKey)) != null
-                        ? yield core.Supplier.get(this.options.xProficientApiKey)
+                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.apiKey)) != null
+                        ? yield core.Supplier.get(this.options.apiKey)
                         : undefined,
-                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.xProficientUserExternalId)) != null
-                        ? yield core.Supplier.get(this.options.xProficientUserExternalId)
+                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.userExternalId)) != null
+                        ? yield core.Supplier.get(this.options.userExternalId)
                         : undefined,
-                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.xProficientUserHmac)) != null
-                        ? yield core.Supplier.get(this.options.xProficientUserHmac)
+                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.userHmac)) != null
+                        ? yield core.Supplier.get(this.options.userHmac)
                         : undefined,
                     "X-Fern-Language": "JavaScript",
                 },
@@ -312,14 +312,14 @@ class Interactions {
                 method: "POST",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
-                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.xProficientApiKey)) != null
-                        ? yield core.Supplier.get(this.options.xProficientApiKey)
+                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.apiKey)) != null
+                        ? yield core.Supplier.get(this.options.apiKey)
                         : undefined,
-                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.xProficientUserExternalId)) != null
-                        ? yield core.Supplier.get(this.options.xProficientUserExternalId)
+                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.userExternalId)) != null
+                        ? yield core.Supplier.get(this.options.userExternalId)
                         : undefined,
-                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.xProficientUserHmac)) != null
-                        ? yield core.Supplier.get(this.options.xProficientUserHmac)
+                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.userHmac)) != null
+                        ? yield core.Supplier.get(this.options.userHmac)
                         : undefined,
                     "X-Fern-Language": "JavaScript",
                 },
@@ -393,14 +393,14 @@ class Interactions {
                 method: "DELETE",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
-                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.xProficientApiKey)) != null
-                        ? yield core.Supplier.get(this.options.xProficientApiKey)
+                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.apiKey)) != null
+                        ? yield core.Supplier.get(this.options.apiKey)
                         : undefined,
-                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.xProficientUserExternalId)) != null
-                        ? yield core.Supplier.get(this.options.xProficientUserExternalId)
+                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.userExternalId)) != null
+                        ? yield core.Supplier.get(this.options.userExternalId)
                         : undefined,
-                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.xProficientUserHmac)) != null
-                        ? yield core.Supplier.get(this.options.xProficientUserHmac)
+                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.userHmac)) != null
+                        ? yield core.Supplier.get(this.options.userHmac)
                         : undefined,
                     "X-Fern-Language": "JavaScript",
                 },

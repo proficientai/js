@@ -27,9 +27,15 @@ environments:
 default-environment: null
 
 headers:
-  X-PROFICIENT-API-KEY: optional<string>
-  X-PROFICIENT-USER-EXTERNAL-ID: optional<string>
-  X-PROFICIENT-USER-HMAC: optional<string>
+  X-PROFICIENT-API-KEY:
+    name: apiKey
+    type: optional<string>
+  X-PROFICIENT-USER-EXTERNAL-ID:
+    name: userExternalId
+    type: optional<string>
+  X-PROFICIENT-USER-HMAC:
+    name: userHmac
+    type: optional<string>
 
 error-discrimination:
   strategy: status-code

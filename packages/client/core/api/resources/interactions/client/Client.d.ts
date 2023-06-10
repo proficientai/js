@@ -8,9 +8,9 @@ export declare namespace Interactions {
     interface Options {
         environment: core.Supplier<environments.ProficientEnvironment | string>;
         secretKey?: core.Supplier<string | undefined>;
-        xProficientApiKey?: core.Supplier<string | undefined>;
-        xProficientUserExternalId?: core.Supplier<string | undefined>;
-        xProficientUserHmac?: core.Supplier<string | undefined>;
+        apiKey?: core.Supplier<string | undefined>;
+        userExternalId?: core.Supplier<string | undefined>;
+        userHmac?: core.Supplier<string | undefined>;
     }
 }
 export declare class Interactions {

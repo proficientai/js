@@ -10,8 +10,8 @@ export interface ProficientClientConfig {
 export function createProficientClient(config: ProficientClientConfig) {
   return new _ProficientClient({
     environment: config.environment,
-    xProficientApiKey: config.apiKey,
-    xProficientUserExternalId: config.userExternalId,
-    xProficientUserHmac: config.userHmac,
+    apiKey: config.apiKey,
+    userExternalId: config.userExternalId,
+    userHmac: config.userHmac,
   });
 }
