@@ -25,15 +25,24 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const core = __importStar(require("../../../../core"));
 exports.User = core.serialization.object({
-    id: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).UserId),
-    object: core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).UserObjectType),
-    createdAt: core.serialization.property("created_at", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).CreatedAt)),
-    externalId: core.serialization.property("external_id", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).UserExternalId)),
-    firstName: core.serialization.property("first_name", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).UserFirstName)),
-    lastName: core.serialization.property("last_name", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).UserLastName)),
-    updatedAt: core.serialization.property("updated_at", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).UpdatedAt)),
+    id: core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UserId; })),
+    object: core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UserObjectType; })),
+    createdAt: core.serialization.property("created_at", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).CreatedAt; }))),
+    externalId: core.serialization.property("external_id", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UserExternalId; }))),
+    firstName: core.serialization.property("first_name", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UserFirstName; }))),
+    lastName: core.serialization.property("last_name", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UserLastName; }))),
+    updatedAt: core.serialization.property("updated_at", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UpdatedAt; }))),
 });

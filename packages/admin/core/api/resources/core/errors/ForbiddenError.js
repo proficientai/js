@@ -31,7 +31,6 @@ const errors = __importStar(require("../../../../errors"));
 class ForbiddenError extends errors.ProficientError {
     constructor(body) {
         super({
-            message: "ForbiddenError",
             statusCode: 403,
             body: body,
         });

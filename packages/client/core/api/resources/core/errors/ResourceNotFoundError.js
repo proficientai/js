@@ -31,7 +31,6 @@ const errors = __importStar(require("../../../../errors"));
 class ResourceNotFoundError extends errors.ProficientError {
     constructor(body) {
         super({
-            message: "ResourceNotFoundError",
             statusCode: 404,
             body: body,
         });

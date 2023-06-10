@@ -31,7 +31,6 @@ const errors = __importStar(require("../../../../errors"));
 class InvalidRequestError extends errors.ProficientError {
     constructor(body) {
         super({
-            message: "InvalidRequestError",
             statusCode: 400,
             body: body,
         });

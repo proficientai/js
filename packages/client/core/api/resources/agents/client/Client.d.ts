@@ -3,10 +3,10 @@
  */
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { Proficient } from "../../../..";
+import * as Proficient from "../../..";
 export declare namespace Agents {
     interface Options {
-        environment: environments.ProficientEnvironment | string;
+        environment: core.Supplier<environments.ProficientEnvironment | string>;
         authorization?: core.Supplier<string | undefined>;
         xProficientApiKey?: core.Supplier<string | undefined>;
         xProficientUserExternalId?: core.Supplier<string | undefined>;
@@ -18,13 +18,13 @@ export declare class Agents {
     constructor(options: Agents.Options);
     /**
      * Returns a list of agents that belong to the current project. The agents are returned sorted by creation date, with the most recently created agents appearing first.
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.InternalError}
      */
     list(): Promise<Proficient.AgentsList>;
     /**
      * Retrieves the agent with the given ID.
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
      */
     get(agentId: Proficient.AgentId): Promise<Proficient.Agent>;
     protected _getAuthorizationHeader(): Promise<string | undefined>;

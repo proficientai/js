@@ -548,6 +548,7 @@ paths:
 components:
   schemas:
     AgentsList:
+      title: AgentsList
       type: object
       properties:
         data:
@@ -557,16 +558,21 @@ components:
       required:
         - data
     AnthropicConfig:
+      title: AnthropicConfig
       type: object
       description: The configuration that is applied to Anthropic models.
       properties:
         temperature:
           $ref: '#/components/schemas/AnthropicConfigTemperature'
+          nullable: true
         top_k:
           $ref: '#/components/schemas/AnthropicConfigTopK'
+          nullable: true
         top_p:
           $ref: '#/components/schemas/AnthropicConfigTopP'
+          nullable: true
     AnthropicConfigTemperature:
+      title: AnthropicConfigTemperature
       type: number
       format: double
       description: >-
@@ -576,6 +582,7 @@ components:
         predictable. See original <a
         href="https://console.anthropic.com/docs/api/reference">definition</a>.</p>
     AnthropicConfigTopK:
+      title: AnthropicConfigTopK
       type: integer
       description: >-
         <p>Only sample from the top K options for each subsequent token. Used to
@@ -586,6 +593,7 @@ components:
         href="https://towardsdatascience.com/how-to-sample-from-language-models-682bceb97277">technical
         details</a>.</p>
     AnthropicConfigTopP:
+      title: AnthropicConfigTopP
       type: number
       format: double
       description: >-
@@ -599,11 +607,13 @@ components:
         which disables it. See original <a
         href="https://console.anthropic.com/docs/api/reference">definition</a>.</p>
     AgentConfigObjectType:
+      title: AgentConfigObjectType
       type: string
       enum:
         - agent_config
       description: The type of the `AgentConfig` object
     GreetingMessage:
+      title: GreetingMessage
       type: string
       description: >-
         <p>The message sent by the agent to initiate an interaction. This
@@ -613,11 +623,13 @@ components:
         <code>agent</code> parameters. You can use these parameters to add
         context and personalize the message.</p>
     InitialTurn:
+      title: InitialTurn
       $ref: '#/components/schemas/InteractionParticipant'
       description: >-
         Indicates who sends the first message in each interaction. Defaults to
         `"user"`.
     Model:
+      title: Model
       type: string
       enum:
         - anthropic.claude-v1
@@ -627,19 +639,25 @@ components:
         - openai.gpt-4
         - openai.gpt-3.5-turbo
       description: The underlying model that powers the agent.
-    OpenAiConfig:
+    OpenAIConfig:
+      title: OpenAIConfig
       type: object
       description: The configuration that is applied to OpenAI models.
       properties:
         frequency_penalty:
-          $ref: '#/components/schemas/OpenAiConfigFrequencyPenalty'
+          $ref: '#/components/schemas/OpenAIConfigFrequencyPenalty'
+          nullable: true
         presence_penalty:
-          $ref: '#/components/schemas/OpenAiConfigPresencePenalty'
+          $ref: '#/components/schemas/OpenAIConfigPresencePenalty'
+          nullable: true
         temperature:
-          $ref: '#/components/schemas/OpenAiConfigTemperature'
+          $ref: '#/components/schemas/OpenAIConfigTemperature'
+          nullable: true
         top_p:
-          $ref: '#/components/schemas/OpenAiConfigTopP'
-    OpenAiConfigFrequencyPenalty:
+          $ref: '#/components/schemas/OpenAIConfigTopP'
+          nullable: true
+    OpenAIConfigFrequencyPenalty:
+      title: OpenAIConfigFrequencyPenalty
       type: number
       format: double
       description: >-
@@ -651,7 +669,8 @@ components:
         model to use less frequently used tokens in the generated text. See
         original <a
         href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-frequency_penalty">definition</a>.</p>
-    OpenAiConfigPresencePenalty:
+    OpenAIConfigPresencePenalty:
+      title: OpenAIConfigPresencePenalty
       type: number
       format: double
       description: >-
@@ -663,7 +682,8 @@ components:
         will lead to more avoidance of repeating previously used tokens in the
         generated text. See original <a
         href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-presence_penalty">definition</a>.</p>
-    OpenAiConfigTemperature:
+    OpenAIConfigTemperature:
+      title: OpenAIConfigTemperature
       type: number
       format: double
       description: >-
@@ -672,7 +692,8 @@ components:
         randomness, and lower values like 0.2 making the output more
         predictable. See original <a
         href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-temperature">definition</a>.</p>
-    OpenAiConfigTopP:
+    OpenAIConfigTopP:
+      title: OpenAIConfigTopP
       type: number
       format: double
       description: >-
@@ -685,6 +706,7 @@ components:
         of tokens to choose from, based on their probabilities. See original <a
         href="https://platform.openai.com/docs/api-reference/completions/create#completions/create-top_p">definition</a>.</p>
     SystemMessage:
+      title: SystemMessage
       type: string
       description: >-
         <p>The system prompt that will be injected at the beginning of each
@@ -694,22 +716,30 @@ components:
         <code>agent</code> parameters. You can use these parameters to provide
         rich context to the agent and steer it in a specific direction.</p>
     AgentConfigUpdateParams:
+      title: AgentConfigUpdateParams
       type: object
       description: The data with which an `AgentConfig` is updated.
       properties:
         anthropic:
           $ref: '#/components/schemas/AnthropicConfig'
+          nullable: true
         greeting_message:
           $ref: '#/components/schemas/GreetingMessage'
+          nullable: true
         initial_turn:
           $ref: '#/components/schemas/InitialTurn'
+          nullable: true
         model:
           $ref: '#/components/schemas/Model'
+          nullable: true
         openai:
-          $ref: '#/components/schemas/OpenAiConfig'
+          $ref: '#/components/schemas/OpenAIConfig'
+          nullable: true
         system_message:
           $ref: '#/components/schemas/SystemMessage'
+          nullable: true
     AgentConfig:
+      title: AgentConfig
       type: object
       description: >-
         Represents the current configuration of the agent. This is an
@@ -728,7 +758,7 @@ components:
         model:
           $ref: '#/components/schemas/Model'
         openai:
-          $ref: '#/components/schemas/OpenAiConfig'
+          $ref: '#/components/schemas/OpenAIConfig'
         system_message:
           $ref: '#/components/schemas/SystemMessage'
       required:
@@ -741,73 +771,95 @@ components:
         - openai
         - system_message
     AgentId:
+      title: AgentId
       type: string
       description: The unique identifier of the agent
     AgentObjectType:
+      title: AgentObjectType
       type: string
       enum:
         - agent
       description: The type of the `Agent` object
     AgentActiveStatus:
+      title: AgentActiveStatus
       type: boolean
       description: >-
         Whether the agent is currently active. If not, users will not be able to
         interact with the agent.
     AgentDescription:
+      title: AgentDescription
       type: string
       description: The description of the agent, intended for developers' reference.
     AgentDisplayDescription:
+      title: AgentDisplayDescription
       type: string
       description: >-
         The agent's public-facing description, meant to be visible to your
         users.
     AgentDisplayName:
+      title: AgentDisplayName
       type: string
       description: >-
         The agent's display name, intended to serve as the public-facing name
         visible to your users.
     AgentName:
+      title: AgentName
       type: string
       description: >-
         The name of the agent, designed to be visible to developers for internal
         reference purposes.
     AgentCreateParams:
+      title: AgentCreateParams
       type: object
       description: The data with which an agent is created.
       properties:
         description:
           $ref: '#/components/schemas/AgentDescription'
+          nullable: true
         display_description:
           $ref: '#/components/schemas/AgentDisplayDescription'
+          nullable: true
         display_name:
           $ref: '#/components/schemas/AgentDisplayName'
+          nullable: true
         greeting_message:
           $ref: '#/components/schemas/GreetingMessage'
+          nullable: true
         initial_turn:
           $ref: '#/components/schemas/InitialTurn'
+          nullable: true
         model:
           $ref: '#/components/schemas/Model'
         name:
           $ref: '#/components/schemas/AgentName'
+          nullable: true
         openai:
-          $ref: '#/components/schemas/OpenAiConfig'
+          $ref: '#/components/schemas/OpenAIConfig'
+          nullable: true
         system_message:
           $ref: '#/components/schemas/SystemMessage'
+          nullable: true
       required:
         - model
     AgentUpdateParams:
+      title: AgentUpdateParams
       type: object
       description: The data with which an agent is updated.
       properties:
         description:
           $ref: '#/components/schemas/AgentDescription'
+          nullable: true
         display_description:
           $ref: '#/components/schemas/AgentDisplayDescription'
+          nullable: true
         display_name:
           $ref: '#/components/schemas/AgentDisplayName'
+          nullable: true
         name:
           $ref: '#/components/schemas/AgentName'
+          nullable: true
     Agent:
+      title: Agent
       type: object
       description: >-
         <p>An _agent_ is an AI entity that exists to serve your project's users.
@@ -844,6 +896,7 @@ components:
         - created_at
         - updated_at
     InteractionParticipant:
+      title: InteractionParticipant
       type: string
       enum:
         - user
@@ -854,14 +907,17 @@ components:
         `sent_by` property of a `Message` object must be an
         `InteractionParticipant`.
     UserId:
+      title: UserId
       type: string
       description: The unique identifier of the user
     UserObjectType:
+      title: UserObjectType
       type: string
       enum:
         - user
       description: The type of the `User` object
     UserExternalId:
+      title: UserExternalId
       type: string
       description: >-
         A string that uniquely identifies the user within your project. Ensure
@@ -869,12 +925,15 @@ components:
         e.g. database ID, Firebase Auth ID etc. Failing to do so may cause
         unexpected bugs and errors in your application.
     UserFirstName:
+      title: UserFirstName
       type: string
       description: The first name of the user.
     UserLastName:
+      title: UserLastName
       type: string
       description: The last name of the user.
     UserCreateParams:
+      title: UserCreateParams
       type: object
       description: The data with which a user is created.
       properties:
@@ -882,19 +941,25 @@ components:
           $ref: '#/components/schemas/UserExternalId'
         first_name:
           $ref: '#/components/schemas/UserFirstName'
+          nullable: true
         last_name:
           $ref: '#/components/schemas/UserLastName'
+          nullable: true
       required:
         - external_id
     UserUpdateParams:
+      title: UserUpdateParams
       type: object
       description: The data with which a user is updated.
       properties:
         first_name:
           $ref: '#/components/schemas/UserFirstName'
+          nullable: true
         last_name:
           $ref: '#/components/schemas/UserLastName'
+          nullable: true
     User:
+      title: User
       type: object
       description: <p>Represents a user of your project.</p>
       properties:
@@ -921,6 +986,7 @@ components:
         - last_name
         - updated_at
     ApiErrorCode:
+      title: ApiErrorCode
       type: string
       enum:
         - invalid_request
@@ -931,6 +997,7 @@ components:
         - unavailable
         - unknown
     ApiErrorBody:
+      title: ApiErrorBody
       type: object
       properties:
         code:
@@ -941,6 +1008,7 @@ components:
         - code
         - message
     ApiError:
+      title: ApiError
       type: object
       description: >-
         Represents the general interface of an API error. The body of every
@@ -951,16 +1019,19 @@ components:
       required:
         - error
     CreatedAt:
+      title: CreatedAt
       type: integer
       description: >-
         The time at which the object was created, measured in milliseconds since
         the Unix epoch
     UpdatedAt:
+      title: UpdatedAt
       type: integer
       description: >-
         The time at which the object was last updated, measured in milliseconds
         since the Unix epoch
     UsersList:
+      title: UsersList
       type: object
       properties:
         data:

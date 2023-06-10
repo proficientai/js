@@ -25,10 +25,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InteractionsList = void 0;
 const core = __importStar(require("../../../../core"));
 exports.InteractionsList = core.serialization.object({
-    data: core.serialization.list(core.serialization.lazyObject(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).Interaction)),
-    hasMore: core.serialization.property("has_more", core.serialization.lazy(async () => (await Promise.resolve().then(() => __importStar(require("../../..")))).PaginationHasMore)),
+    data: core.serialization.list(core.serialization.lazyObject(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).Interaction; }))),
+    hasMore: core.serialization.property("has_more", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).PaginationHasMore; }))),
 });

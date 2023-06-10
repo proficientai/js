@@ -31,7 +31,6 @@ const errors = __importStar(require("../../../../errors"));
 class ConflictError extends errors.ProficientError {
     constructor(body) {
         super({
-            message: "ConflictError",
             statusCode: 409,
             body: body,
         });

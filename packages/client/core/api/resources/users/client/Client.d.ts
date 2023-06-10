@@ -3,10 +3,10 @@
  */
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { Proficient } from "../../../..";
+import * as Proficient from "../../..";
 export declare namespace Users {
     interface Options {
-        environment: environments.ProficientEnvironment | string;
+        environment: core.Supplier<environments.ProficientEnvironment | string>;
         authorization?: core.Supplier<string | undefined>;
         xProficientApiKey?: core.Supplier<string | undefined>;
         xProficientUserExternalId?: core.Supplier<string | undefined>;
@@ -18,17 +18,17 @@ export declare class Users {
     constructor(options: Users.Options);
     /**
      * Retrieves the user with the given ID.
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
      */
     get(userId: Proficient.UserId): Promise<Proficient.User>;
     /**
      * Updates the properties of the specified user. Only the provided properties will be updated. Any properties not provided will be left unchanged.
-     * @throws {Proficient.InvalidRequestError}
-     * @throws {Proficient.ForbiddenError}
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
-     * @throws {Proficient.ServiceUnavailableError}
+     * @throws {@link Proficient.InvalidRequestError}
+     * @throws {@link Proficient.ForbiddenError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
+     * @throws {@link Proficient.ServiceUnavailableError}
      */
     update(userId: Proficient.UserId, request: Proficient.UserUpdateParams): Promise<Proficient.User>;
     protected _getAuthorizationHeader(): Promise<string | undefined>;

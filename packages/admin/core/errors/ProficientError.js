@@ -5,10 +5,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProficientError = void 0;
 class ProficientError extends Error {
-    statusCode;
-    body;
     constructor({ message, statusCode, body }) {
-        super(message);
+        super(buildMessage({ message, statusCode, body }));
         Object.setPrototypeOf(this, ProficientError.prototype);
         if (statusCode != null) {
             this.statusCode = statusCode;
@@ -19,3 +17,16 @@ class ProficientError extends Error {
     }
 }
 exports.ProficientError = ProficientError;
+function buildMessage({ message, statusCode, body, }) {
+    let lines = [];
+    if (message != null) {
+        lines.push(message);
+    }
+    if (statusCode != null) {
+        lines.push(`Status code: ${statusCode.toString()}`);
+    }
+    if (body != null) {
+        lines.push(`Body: ${JSON.stringify(body, undefined, 2)}`);
+    }
+    return lines.join("\n");
+}

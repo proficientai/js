@@ -9,25 +9,24 @@ const Client_2 = require("./api/resources/interactions/client/Client");
 const Client_3 = require("./api/resources/messages/client/Client");
 const Client_4 = require("./api/resources/users/client/Client");
 class ProficientClient {
-    options;
     constructor(options) {
         this.options = options;
     }
-    _agents;
     get agents() {
-        return (this._agents ??= new Client_1.Agents(this.options));
+        var _a;
+        return ((_a = this._agents) !== null && _a !== void 0 ? _a : (this._agents = new Client_1.Agents(this.options)));
     }
-    _interactions;
     get interactions() {
-        return (this._interactions ??= new Client_2.Interactions(this.options));
+        var _a;
+        return ((_a = this._interactions) !== null && _a !== void 0 ? _a : (this._interactions = new Client_2.Interactions(this.options)));
     }
-    _messages;
     get messages() {
-        return (this._messages ??= new Client_3.Messages(this.options));
+        var _a;
+        return ((_a = this._messages) !== null && _a !== void 0 ? _a : (this._messages = new Client_3.Messages(this.options)));
     }
-    _users;
     get users() {
-        return (this._users ??= new Client_4.Users(this.options));
+        var _a;
+        return ((_a = this._users) !== null && _a !== void 0 ? _a : (this._users = new Client_4.Users(this.options)));
     }
 }
 exports.ProficientClient = ProficientClient;

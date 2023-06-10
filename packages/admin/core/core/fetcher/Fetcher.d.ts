@@ -1,7 +1,7 @@
-import URLSearchParams from "@ungap/url-search-params";
-import { AxiosAdapter } from "axios";
+import { default as URLSearchParams } from "@ungap/url-search-params";
+import { AxiosAdapter, AxiosProgressEvent } from "axios";
 import { APIResponse } from "./APIResponse";
-export declare type FetchFunction = (args: Fetcher.Args) => Promise<APIResponse<unknown, Fetcher.Error>>;
+export declare type FetchFunction = <R = unknown>(args: Fetcher.Args) => Promise<APIResponse<R, Fetcher.Error>>;
 export declare namespace Fetcher {
     interface Args {
         url: string;
@@ -12,7 +12,9 @@ export declare namespace Fetcher {
         body?: unknown;
         timeoutMs?: number;
         withCredentials?: boolean;
+        responseType?: "json" | "blob";
         adapter?: AxiosAdapter;
+        onUploadProgress?: (event: AxiosProgressEvent) => void;
     }
     type Error = FailedStatusCodeError | NonJsonError | TimeoutError | UnknownError;
     interface FailedStatusCodeError {

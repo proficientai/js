@@ -3,10 +3,10 @@
  */
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { Proficient } from "../../../..";
+import * as Proficient from "../../..";
 export declare namespace Messages {
     interface Options {
-        environment: environments.ProficientEnvironment | string;
+        environment: core.Supplier<environments.ProficientEnvironment | string>;
         authorization?: core.Supplier<string | undefined>;
         xProficientApiKey?: core.Supplier<string | undefined>;
         xProficientUserExternalId?: core.Supplier<string | undefined>;
@@ -18,32 +18,32 @@ export declare class Messages {
     constructor(options: Messages.Options);
     /**
      * Returns a list of all messages in the specified interaction.
-     * @throws {Proficient.ForbiddenError}
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.ForbiddenError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
      */
     list(request: Proficient.ListMessagesRequest): Promise<Proficient.MessagesList>;
     /**
      * Retrieves the message with the given ID.
-     * @throws {Proficient.ForbiddenError}
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.ForbiddenError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
      */
     get(messageId: Proficient.MessageId): Promise<Proficient.Message>;
     /**
      * Creates a new `Message` in a given `Interaction`
-     * @throws {Proficient.ForbiddenError}
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.ConflictError}
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.ForbiddenError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.ConflictError}
+     * @throws {@link Proficient.InternalError}
      */
     create(request: Proficient.MessageCreateParams): Promise<Proficient.Message>;
     /**
      * Requests a reply from the `Agent` to a given `Message`.
-     * @throws {Proficient.ForbiddenError}
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.ConflictError}
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.ForbiddenError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.ConflictError}
+     * @throws {@link Proficient.InternalError}
      */
     ask(messageId: Proficient.MessageId, request: Proficient.MessageAskParams): Promise<Proficient.Message>;
     protected _getAuthorizationHeader(): Promise<string | undefined>;

@@ -31,7 +31,6 @@ const errors = __importStar(require("../../../../errors"));
 class InternalError extends errors.ProficientError {
     constructor(body) {
         super({
-            message: "InternalError",
             statusCode: 500,
             body: body,
         });

@@ -7,17 +7,16 @@ exports.ProficientClient = void 0;
 const Client_1 = require("./api/resources/agents/client/Client");
 const Client_2 = require("./api/resources/users/client/Client");
 class ProficientClient {
-    options;
     constructor(options) {
         this.options = options;
     }
-    _agents;
     get agents() {
-        return (this._agents ??= new Client_1.Agents(this.options));
+        var _a;
+        return ((_a = this._agents) !== null && _a !== void 0 ? _a : (this._agents = new Client_1.Agents(this.options)));
     }
-    _users;
     get users() {
-        return (this._users ??= new Client_2.Users(this.options));
+        var _a;
+        return ((_a = this._users) !== null && _a !== void 0 ? _a : (this._users = new Client_2.Users(this.options)));
     }
 }
 exports.ProficientClient = ProficientClient;

@@ -25,318 +25,382 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Messages = void 0;
 const core = __importStar(require("../../../../core"));
-const __1 = require("../../../..");
+const Proficient = __importStar(require("../../.."));
 const url_search_params_1 = __importDefault(require("@ungap/url-search-params"));
 const url_join_1 = __importDefault(require("url-join"));
 const serializers = __importStar(require("../../../../serialization"));
 const errors = __importStar(require("../../../../errors"));
 class Messages {
-    options;
     constructor(options) {
         this.options = options;
     }
     /**
      * Returns a list of all messages in the specified interaction.
-     * @throws {Proficient.ForbiddenError}
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.ForbiddenError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
      */
-    async list(request) {
-        const { interactionId, limit, startingAfter } = request;
-        const _queryParams = new url_search_params_1.default();
-        _queryParams.append("interaction_id", interactionId);
-        if (limit != null) {
-            _queryParams.append("limit", limit);
-        }
-        if (startingAfter != null) {
-            _queryParams.append("starting_after", startingAfter);
-        }
-        const _response = await core.fetcher({
-            url: (0, url_join_1.default)(this.options.environment, "/messages"),
-            method: "GET",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "X-PROFICIENT-API-KEY": await core.Supplier.get(this.options.xProficientApiKey),
-                "X-PROFICIENT-USER-EXTERNAL-ID": await core.Supplier.get(this.options.xProficientUserExternalId),
-                "X-PROFICIENT-USER-HMAC": await core.Supplier.get(this.options.xProficientUserHmac),
-            },
-            contentType: "application/json",
-            queryParameters: _queryParams,
-        });
-        if (_response.ok) {
-            return await serializers.MessagesList.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
+    list(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { interactionId, limit, startingAfter } = request;
+            const _queryParams = new url_search_params_1.default();
+            _queryParams.append("interaction_id", interactionId);
+            if (limit != null) {
+                _queryParams.append("limit", limit);
+            }
+            if (startingAfter != null) {
+                _queryParams.append("starting_after", startingAfter);
+            }
+            const _response = yield core.fetcher({
+                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), "/messages"),
+                method: "GET",
+                headers: {
+                    Authorization: yield this._getAuthorizationHeader(),
+                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.xProficientApiKey)) != null
+                        ? yield core.Supplier.get(this.options.xProficientApiKey)
+                        : undefined,
+                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.xProficientUserExternalId)) != null
+                        ? yield core.Supplier.get(this.options.xProficientUserExternalId)
+                        : undefined,
+                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.xProficientUserHmac)) != null
+                        ? yield core.Supplier.get(this.options.xProficientUserHmac)
+                        : undefined,
+                    "X-Fern-Language": "JavaScript",
+                },
+                contentType: "application/json",
+                queryParameters: _queryParams,
             });
-        }
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 403:
-                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                case 404:
-                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                case 500:
-                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                default:
+            if (_response.ok) {
+                return yield serializers.MessagesList.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                });
+            }
+            if (_response.error.reason === "status-code") {
+                switch (_response.error.statusCode) {
+                    case 403:
+                        throw new Proficient.ForbiddenError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    case 404:
+                        throw new Proficient.ResourceNotFoundError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    case 500:
+                        throw new Proficient.InternalError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    default:
+                        throw new errors.ProficientError({
+                            statusCode: _response.error.statusCode,
+                            body: _response.error.body,
+                        });
+                }
+            }
+            switch (_response.error.reason) {
+                case "non-json":
                     throw new errors.ProficientError({
                         statusCode: _response.error.statusCode,
-                        body: _response.error.body,
+                        body: _response.error.rawBody,
+                    });
+                case "timeout":
+                    throw new errors.ProficientTimeoutError();
+                case "unknown":
+                    throw new errors.ProficientError({
+                        message: _response.error.errorMessage,
                     });
             }
-        }
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.ProficientError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                });
-            case "timeout":
-                throw new errors.ProficientTimeoutError();
-            case "unknown":
-                throw new errors.ProficientError({
-                    message: _response.error.errorMessage,
-                });
-        }
+        });
     }
     /**
      * Retrieves the message with the given ID.
-     * @throws {Proficient.ForbiddenError}
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.ForbiddenError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
      */
-    async get(messageId) {
-        const _response = await core.fetcher({
-            url: (0, url_join_1.default)(this.options.environment, `/messages/${await serializers.MessageId.jsonOrThrow(messageId)}`),
-            method: "GET",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "X-PROFICIENT-API-KEY": await core.Supplier.get(this.options.xProficientApiKey),
-                "X-PROFICIENT-USER-EXTERNAL-ID": await core.Supplier.get(this.options.xProficientUserExternalId),
-                "X-PROFICIENT-USER-HMAC": await core.Supplier.get(this.options.xProficientUserHmac),
-            },
-            contentType: "application/json",
-        });
-        if (_response.ok) {
-            return await serializers.Message.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
+    get(messageId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const _response = yield core.fetcher({
+                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/messages/${yield serializers.MessageId.jsonOrThrow(messageId)}`),
+                method: "GET",
+                headers: {
+                    Authorization: yield this._getAuthorizationHeader(),
+                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.xProficientApiKey)) != null
+                        ? yield core.Supplier.get(this.options.xProficientApiKey)
+                        : undefined,
+                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.xProficientUserExternalId)) != null
+                        ? yield core.Supplier.get(this.options.xProficientUserExternalId)
+                        : undefined,
+                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.xProficientUserHmac)) != null
+                        ? yield core.Supplier.get(this.options.xProficientUserHmac)
+                        : undefined,
+                    "X-Fern-Language": "JavaScript",
+                },
+                contentType: "application/json",
             });
-        }
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 403:
-                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                case 404:
-                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                case 500:
-                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                default:
+            if (_response.ok) {
+                return yield serializers.Message.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                });
+            }
+            if (_response.error.reason === "status-code") {
+                switch (_response.error.statusCode) {
+                    case 403:
+                        throw new Proficient.ForbiddenError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    case 404:
+                        throw new Proficient.ResourceNotFoundError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    case 500:
+                        throw new Proficient.InternalError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    default:
+                        throw new errors.ProficientError({
+                            statusCode: _response.error.statusCode,
+                            body: _response.error.body,
+                        });
+                }
+            }
+            switch (_response.error.reason) {
+                case "non-json":
                     throw new errors.ProficientError({
                         statusCode: _response.error.statusCode,
-                        body: _response.error.body,
+                        body: _response.error.rawBody,
+                    });
+                case "timeout":
+                    throw new errors.ProficientTimeoutError();
+                case "unknown":
+                    throw new errors.ProficientError({
+                        message: _response.error.errorMessage,
                     });
             }
-        }
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.ProficientError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                });
-            case "timeout":
-                throw new errors.ProficientTimeoutError();
-            case "unknown":
-                throw new errors.ProficientError({
-                    message: _response.error.errorMessage,
-                });
-        }
+        });
     }
     /**
      * Creates a new `Message` in a given `Interaction`
-     * @throws {Proficient.ForbiddenError}
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.ConflictError}
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.ForbiddenError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.ConflictError}
+     * @throws {@link Proficient.InternalError}
      */
-    async create(request) {
-        const _response = await core.fetcher({
-            url: (0, url_join_1.default)(this.options.environment, "/messages"),
-            method: "POST",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "X-PROFICIENT-API-KEY": await core.Supplier.get(this.options.xProficientApiKey),
-                "X-PROFICIENT-USER-EXTERNAL-ID": await core.Supplier.get(this.options.xProficientUserExternalId),
-                "X-PROFICIENT-USER-HMAC": await core.Supplier.get(this.options.xProficientUserHmac),
-            },
-            contentType: "application/json",
-            body: await serializers.MessageCreateParams.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
-        });
-        if (_response.ok) {
-            return await serializers.Message.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
+    create(request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const _response = yield core.fetcher({
+                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), "/messages"),
+                method: "POST",
+                headers: {
+                    Authorization: yield this._getAuthorizationHeader(),
+                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.xProficientApiKey)) != null
+                        ? yield core.Supplier.get(this.options.xProficientApiKey)
+                        : undefined,
+                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.xProficientUserExternalId)) != null
+                        ? yield core.Supplier.get(this.options.xProficientUserExternalId)
+                        : undefined,
+                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.xProficientUserHmac)) != null
+                        ? yield core.Supplier.get(this.options.xProficientUserHmac)
+                        : undefined,
+                    "X-Fern-Language": "JavaScript",
+                },
+                contentType: "application/json",
+                body: yield serializers.MessageCreateParams.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             });
-        }
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 403:
-                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                case 404:
-                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                case 409:
-                    throw new __1.Proficient.ConflictError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                case 500:
-                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                default:
+            if (_response.ok) {
+                return yield serializers.Message.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                });
+            }
+            if (_response.error.reason === "status-code") {
+                switch (_response.error.statusCode) {
+                    case 403:
+                        throw new Proficient.ForbiddenError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    case 404:
+                        throw new Proficient.ResourceNotFoundError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    case 409:
+                        throw new Proficient.ConflictError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    case 500:
+                        throw new Proficient.InternalError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    default:
+                        throw new errors.ProficientError({
+                            statusCode: _response.error.statusCode,
+                            body: _response.error.body,
+                        });
+                }
+            }
+            switch (_response.error.reason) {
+                case "non-json":
                     throw new errors.ProficientError({
                         statusCode: _response.error.statusCode,
-                        body: _response.error.body,
+                        body: _response.error.rawBody,
+                    });
+                case "timeout":
+                    throw new errors.ProficientTimeoutError();
+                case "unknown":
+                    throw new errors.ProficientError({
+                        message: _response.error.errorMessage,
                     });
             }
-        }
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.ProficientError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                });
-            case "timeout":
-                throw new errors.ProficientTimeoutError();
-            case "unknown":
-                throw new errors.ProficientError({
-                    message: _response.error.errorMessage,
-                });
-        }
+        });
     }
     /**
      * Requests a reply from the `Agent` to a given `Message`.
-     * @throws {Proficient.ForbiddenError}
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.ConflictError}
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.ForbiddenError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.ConflictError}
+     * @throws {@link Proficient.InternalError}
      */
-    async ask(messageId, request) {
-        const _response = await core.fetcher({
-            url: (0, url_join_1.default)(this.options.environment, `/messages/${await serializers.MessageId.jsonOrThrow(messageId)}/ask`),
-            method: "POST",
-            headers: {
-                Authorization: await this._getAuthorizationHeader(),
-                "X-PROFICIENT-API-KEY": await core.Supplier.get(this.options.xProficientApiKey),
-                "X-PROFICIENT-USER-EXTERNAL-ID": await core.Supplier.get(this.options.xProficientUserExternalId),
-                "X-PROFICIENT-USER-HMAC": await core.Supplier.get(this.options.xProficientUserHmac),
-            },
-            contentType: "application/json",
-            body: await serializers.MessageAskParams.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
-        });
-        if (_response.ok) {
-            return await serializers.Message.parseOrThrow(_response.body, {
-                unrecognizedObjectKeys: "passthrough",
-                allowUnrecognizedUnionMembers: true,
-                allowUnrecognizedEnumValues: true,
+    ask(messageId, request) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const _response = yield core.fetcher({
+                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/messages/${yield serializers.MessageId.jsonOrThrow(messageId)}/ask`),
+                method: "POST",
+                headers: {
+                    Authorization: yield this._getAuthorizationHeader(),
+                    "X-PROFICIENT-API-KEY": (yield core.Supplier.get(this.options.xProficientApiKey)) != null
+                        ? yield core.Supplier.get(this.options.xProficientApiKey)
+                        : undefined,
+                    "X-PROFICIENT-USER-EXTERNAL-ID": (yield core.Supplier.get(this.options.xProficientUserExternalId)) != null
+                        ? yield core.Supplier.get(this.options.xProficientUserExternalId)
+                        : undefined,
+                    "X-PROFICIENT-USER-HMAC": (yield core.Supplier.get(this.options.xProficientUserHmac)) != null
+                        ? yield core.Supplier.get(this.options.xProficientUserHmac)
+                        : undefined,
+                    "X-Fern-Language": "JavaScript",
+                },
+                contentType: "application/json",
+                body: yield serializers.MessageAskParams.jsonOrThrow(request, { unrecognizedObjectKeys: "strip" }),
             });
-        }
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 403:
-                    throw new __1.Proficient.ForbiddenError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                case 404:
-                    throw new __1.Proficient.ResourceNotFoundError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                case 409:
-                    throw new __1.Proficient.ConflictError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                case 500:
-                    throw new __1.Proficient.InternalError(await serializers.ApiError.parseOrThrow(_response.error.body, {
-                        unrecognizedObjectKeys: "passthrough",
-                        allowUnrecognizedUnionMembers: true,
-                        allowUnrecognizedEnumValues: true,
-                    }));
-                default:
+            if (_response.ok) {
+                return yield serializers.Message.parseOrThrow(_response.body, {
+                    unrecognizedObjectKeys: "passthrough",
+                    allowUnrecognizedUnionMembers: true,
+                    allowUnrecognizedEnumValues: true,
+                    breadcrumbsPrefix: ["response"],
+                });
+            }
+            if (_response.error.reason === "status-code") {
+                switch (_response.error.statusCode) {
+                    case 403:
+                        throw new Proficient.ForbiddenError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    case 404:
+                        throw new Proficient.ResourceNotFoundError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    case 409:
+                        throw new Proficient.ConflictError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    case 500:
+                        throw new Proficient.InternalError(yield serializers.ApiError.parseOrThrow(_response.error.body, {
+                            unrecognizedObjectKeys: "passthrough",
+                            allowUnrecognizedUnionMembers: true,
+                            allowUnrecognizedEnumValues: true,
+                            breadcrumbsPrefix: ["response"],
+                        }));
+                    default:
+                        throw new errors.ProficientError({
+                            statusCode: _response.error.statusCode,
+                            body: _response.error.body,
+                        });
+                }
+            }
+            switch (_response.error.reason) {
+                case "non-json":
                     throw new errors.ProficientError({
                         statusCode: _response.error.statusCode,
-                        body: _response.error.body,
+                        body: _response.error.rawBody,
+                    });
+                case "timeout":
+                    throw new errors.ProficientTimeoutError();
+                case "unknown":
+                    throw new errors.ProficientError({
+                        message: _response.error.errorMessage,
                     });
             }
-        }
-        switch (_response.error.reason) {
-            case "non-json":
-                throw new errors.ProficientError({
-                    statusCode: _response.error.statusCode,
-                    body: _response.error.rawBody,
-                });
-            case "timeout":
-                throw new errors.ProficientTimeoutError();
-            case "unknown":
-                throw new errors.ProficientError({
-                    message: _response.error.errorMessage,
-                });
-        }
+        });
     }
-    async _getAuthorizationHeader() {
-        const value = await core.Supplier.get(this.options.authorization);
-        if (value != null) {
-            return value;
-        }
-        return undefined;
+    _getAuthorizationHeader() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const value = yield core.Supplier.get(this.options.authorization);
+            if (value != null) {
+                return value;
+            }
+            return undefined;
+        });
     }
 }
 exports.Messages = Messages;

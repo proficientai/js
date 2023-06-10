@@ -3,10 +3,10 @@
  */
 import * as environments from "../../../../environments";
 import * as core from "../../../../core";
-import { Proficient } from "../../../..";
+import * as Proficient from "../../..";
 export declare namespace Agents {
     interface Options {
-        environment: environments.ProficientEnvironment | string;
+        environment: core.Supplier<environments.ProficientEnvironment | string>;
         authorization?: core.Supplier<string | undefined>;
         xProficientApiKey?: core.Supplier<string | undefined>;
         xProficientUserExternalId?: core.Supplier<string | undefined>;
@@ -18,63 +18,63 @@ export declare class Agents {
     constructor(options: Agents.Options);
     /**
      * Returns a list of agents that belong to the current project. The agents are returned sorted by creation date, with the most recently created agents appearing first.
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.InternalError}
      */
     list(): Promise<Proficient.AgentsList>;
     /**
      * Retrieves the agent with the given ID.
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
      */
     get(agentId: Proficient.AgentId): Promise<Proficient.Agent>;
     /**
      * Creates a new agent with the given properties.
-     * @throws {Proficient.InvalidRequestError}
-     * @throws {Proficient.ForbiddenError}
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.InvalidRequestError}
+     * @throws {@link Proficient.ForbiddenError}
+     * @throws {@link Proficient.InternalError}
      */
     create(request: Proficient.AgentCreateParams): Promise<Proficient.Agent>;
     /**
      * Updates the properties of the specified agent. Only the provided properties will be updated. Any properties not provided will be left unchanged.
-     * @throws {Proficient.InvalidRequestError}
-     * @throws {Proficient.ForbiddenError}
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
-     * @throws {Proficient.ServiceUnavailableError}
+     * @throws {@link Proficient.InvalidRequestError}
+     * @throws {@link Proficient.ForbiddenError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
+     * @throws {@link Proficient.ServiceUnavailableError}
      */
     update(agentId: Proficient.AgentId, request: Proficient.AgentUpdateParams): Promise<Proficient.Agent>;
     /**
      * Retrieves the current configuration of the specified agent.
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
      */
     getConfig(agentId: Proficient.AgentId): Promise<Proficient.AgentConfig>;
     /**
      * Updates the configuration of the specified agent. Only the provided properties will be updated. Any properties not provided will be left unchanged.
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
-     * @throws {Proficient.ServiceUnavailableError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
+     * @throws {@link Proficient.ServiceUnavailableError}
      */
     updateConfig(agentId: Proficient.AgentId, request: Proficient.AgentConfigUpdateParams): Promise<Proficient.AgentConfig>;
     /**
      * Activates the specified agent. New message or interaction requests sent to this agent will not be blocked while the agent is active. This request does not fail if the agent is already active.
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
-     * @throws {Proficient.ServiceUnavailableError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
+     * @throws {@link Proficient.ServiceUnavailableError}
      */
     activate(agentId: Proficient.AgentId): Promise<Proficient.Agent>;
     /**
      * Deactivates the specified agent. Any new message or interaction requests sent to this agent will be blocked while the agent is disabled. This request does not fail if the agent is already deactivated.
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
-     * @throws {Proficient.ServiceUnavailableError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
+     * @throws {@link Proficient.ServiceUnavailableError}
      */
     deactivate(agentId: Proficient.AgentId): Promise<Proficient.Agent>;
     /**
      * Permanently deletes the specified agent and all the interactions associated with it. This cannot be undone.
-     * @throws {Proficient.ResourceNotFoundError}
-     * @throws {Proficient.InternalError}
-     * @throws {Proficient.ServiceUnavailableError}
+     * @throws {@link Proficient.ResourceNotFoundError}
+     * @throws {@link Proficient.InternalError}
+     * @throws {@link Proficient.ServiceUnavailableError}
      */
     delete(agentId: Proficient.AgentId): Promise<Proficient.Agent>;
     protected _getAuthorizationHeader(): Promise<string | undefined>;

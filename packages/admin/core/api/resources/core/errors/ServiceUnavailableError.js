@@ -31,7 +31,6 @@ const errors = __importStar(require("../../../../errors"));
 class ServiceUnavailableError extends errors.ProficientError {
     constructor(body) {
         super({
-            message: "ServiceUnavailableError",
             statusCode: 503,
             body: body,
         });
