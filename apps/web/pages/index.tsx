@@ -1,4 +1,4 @@
-import { type Proficient, ProficientEnvironment, createProficientClient } from '@proficient/client';
+import { type Proficient, createProficientClient } from '@proficient/client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -25,7 +25,6 @@ export default function ExampleClient() {
     if (userHmac !== null && apiKey) {
       (async () => {
         const proficient = createProficientClient({
-          environment: ProficientEnvironment.Staging,
           apiKey,
           userExternalId: USER_EXTERNAL_ID,
           userHmac,

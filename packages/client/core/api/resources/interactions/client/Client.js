@@ -42,6 +42,7 @@ exports.Interactions = void 0;
 const core = __importStar(require("../../../../core"));
 const Proficient = __importStar(require("../../.."));
 const url_search_params_1 = __importDefault(require("@ungap/url-search-params"));
+const environments = __importStar(require("../../../../environments"));
 const url_join_1 = __importDefault(require("url-join"));
 const serializers = __importStar(require("../../../../serialization"));
 const errors = __importStar(require("../../../../errors"));
@@ -69,7 +70,7 @@ class Interactions {
                 _queryParams.append("starting_after", startingAfter);
             }
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), "/interactions"),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, "/interactions"),
                 method: "GET",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -149,7 +150,7 @@ class Interactions {
     get(interactionId) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/interactions/${yield serializers.InteractionId.jsonOrThrow(interactionId)}`),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, `/interactions/${yield serializers.InteractionId.jsonOrThrow(interactionId)}`),
                 method: "GET",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -228,7 +229,7 @@ class Interactions {
     create(request) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), "/interactions"),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, "/interactions"),
                 method: "POST",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -308,7 +309,7 @@ class Interactions {
     update(interactionId, request) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/interactions/${yield serializers.InteractionId.jsonOrThrow(interactionId)}`),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, `/interactions/${yield serializers.InteractionId.jsonOrThrow(interactionId)}`),
                 method: "POST",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -389,7 +390,7 @@ class Interactions {
     delete(interactionId) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/interactions/${yield serializers.InteractionId.jsonOrThrow(interactionId)}`),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, `/interactions/${yield serializers.InteractionId.jsonOrThrow(interactionId)}`),
                 method: "DELETE",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),

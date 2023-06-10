@@ -24,7 +24,7 @@ environments:
     docs: The local environment
     url: http://localhost:8080
 
-default-environment: null
+default-environment: Production
 
 headers:
   X-PROFICIENT-API-KEY:

@@ -41,6 +41,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Agents = void 0;
 const core = __importStar(require("../../../../core"));
 const Proficient = __importStar(require("../../.."));
+const environments = __importStar(require("../../../../environments"));
 const url_join_1 = __importDefault(require("url-join"));
 const serializers = __importStar(require("../../../../serialization"));
 const errors = __importStar(require("../../../../errors"));
@@ -55,7 +56,7 @@ class Agents {
     list() {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), "/agents"),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, "/agents"),
                 method: "GET",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -119,7 +120,7 @@ class Agents {
     get(agentId) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}`),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}`),
                 method: "GET",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -191,7 +192,7 @@ class Agents {
     create(request) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), "/agents"),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, "/agents"),
                 method: "POST",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -273,7 +274,7 @@ class Agents {
     update(agentId, request) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}`),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}`),
                 method: "POST",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -366,7 +367,7 @@ class Agents {
     getConfig(agentId) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}/config`),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}/config`),
                 method: "GET",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -438,7 +439,7 @@ class Agents {
     updateConfig(agentId, request) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}/config`),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}/config`),
                 method: "POST",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -518,7 +519,7 @@ class Agents {
     activate(agentId) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}/activate`),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}/activate`),
                 method: "POST",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -597,7 +598,7 @@ class Agents {
     deactivate(agentId) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}/deactivate`),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}/deactivate`),
                 method: "POST",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -676,7 +677,7 @@ class Agents {
     delete(agentId) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}`),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}`),
                 method: "DELETE",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),

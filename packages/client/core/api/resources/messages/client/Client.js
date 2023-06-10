@@ -42,6 +42,7 @@ exports.Messages = void 0;
 const core = __importStar(require("../../../../core"));
 const Proficient = __importStar(require("../../.."));
 const url_search_params_1 = __importDefault(require("@ungap/url-search-params"));
+const environments = __importStar(require("../../../../environments"));
 const url_join_1 = __importDefault(require("url-join"));
 const serializers = __importStar(require("../../../../serialization"));
 const errors = __importStar(require("../../../../errors"));
@@ -67,7 +68,7 @@ class Messages {
                 _queryParams.append("starting_after", startingAfter);
             }
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), "/messages"),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, "/messages"),
                 method: "GET",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -147,7 +148,7 @@ class Messages {
     get(messageId) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/messages/${yield serializers.MessageId.jsonOrThrow(messageId)}`),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, `/messages/${yield serializers.MessageId.jsonOrThrow(messageId)}`),
                 method: "GET",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -227,7 +228,7 @@ class Messages {
     create(request) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), "/messages"),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, "/messages"),
                 method: "POST",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -315,7 +316,7 @@ class Messages {
     ask(messageId, request) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/messages/${yield serializers.MessageId.jsonOrThrow(messageId)}/ask`),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, `/messages/${yield serializers.MessageId.jsonOrThrow(messageId)}/ask`),
                 method: "POST",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),

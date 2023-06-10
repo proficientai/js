@@ -41,6 +41,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Agents = void 0;
 const core = __importStar(require("../../../../core"));
 const Proficient = __importStar(require("../../.."));
+const environments = __importStar(require("../../../../environments"));
 const url_join_1 = __importDefault(require("url-join"));
 const serializers = __importStar(require("../../../../serialization"));
 const errors = __importStar(require("../../../../errors"));
@@ -55,7 +56,7 @@ class Agents {
     list() {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), "/agents"),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, "/agents"),
                 method: "GET",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
@@ -119,7 +120,7 @@ class Agents {
     get(agentId) {
         return __awaiter(this, void 0, void 0, function* () {
             const _response = yield core.fetcher({
-                url: (0, url_join_1.default)(yield core.Supplier.get(this.options.environment), `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}`),
+                url: (0, url_join_1.default)(environments.ProficientEnvironment.Production, `/agents/${yield serializers.AgentId.jsonOrThrow(agentId)}`),
                 method: "GET",
                 headers: {
                     Authorization: yield this._getAuthorizationHeader(),
