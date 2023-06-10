@@ -395,9 +395,9 @@ class Messages {
     }
     _getAuthorizationHeader() {
         return __awaiter(this, void 0, void 0, function* () {
-            const value = yield core.Supplier.get(this.options.authorization);
+            const value = yield core.Supplier.get(this.options.secretKey);
             if (value != null) {
-                return value;
+                return `Bearer ${value}`;
             }
             return undefined;
         });

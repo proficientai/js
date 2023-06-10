@@ -8,6 +8,6 @@ export interface ProficientClientConfig {
 export function createProficientClient(config: ProficientClientConfig) {
   return new _ProficientClient({
     environment: config.environment,
-    authorization: `Bearer ${config.secretKey}`,
+    secretKey: config.secretKey,
   });
 }

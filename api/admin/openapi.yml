@@ -1041,7 +1041,7 @@ components:
       required:
         - data
   securitySchemes:
-    AuthorizationAuth:
+    SecretKeyAuth:
       type: apiKey
       in: header
       name: Authorization

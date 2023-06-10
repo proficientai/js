@@ -980,7 +980,7 @@ components:
         - data
         - has_more
   securitySchemes:
-    AuthorizationAuth:
+    SecretKeyAuth:
       type: apiKey
       in: header
       name: Authorization

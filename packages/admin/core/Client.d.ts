@@ -8,7 +8,7 @@ import { Users } from "./api/resources/users/client/Client";
 export declare namespace ProficientClient {
     interface Options {
         environment: core.Supplier<environments.ProficientEnvironment | string>;
-        authorization?: core.Supplier<string | undefined>;
+        secretKey?: core.Supplier<string | undefined>;
         xProficientApiKey?: core.Supplier<string | undefined>;
         xProficientUserExternalId?: core.Supplier<string | undefined>;
         xProficientUserHmac?: core.Supplier<string | undefined>;

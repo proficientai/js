@@ -10,6 +10,8 @@ auth-schemes:
   Authorization:
     header: Authorization
     type: optional<string>
+    prefix: Bearer
+    name: secretKey
 
 environments:
   Production:
