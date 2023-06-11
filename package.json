@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "build-packages": "turbo run build --filter=admin --filter=client --filter=react",
+    "build-packages": "turbo run build --filter=admin --filter=admin-internal --filter=client --filter=client-internal --filter=react",
     "build:admin": "turbo run build --filter=admin",
     "build:client": "turbo run build --filter=client",
     "build:react": "turbo run build --filter=react",

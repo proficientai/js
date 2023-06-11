@@ -24,6 +24,15 @@ groups:
           namespaceExport: Proficient
           timeoutInSeconds: infinity
           requireDefaultEnvironment: true
+      - name: fernapi/fern-typescript-node-sdk
+        version: 0.7.0
+        output:
+          location: local-file-system
+          path: ../../packages/admin-internal/core
+        config:
+          namespaceExport: Proficient
+          timeoutInSeconds: infinity
+          requireDefaultEnvironment: false
       - name: fernapi/fern-openapi
         version: 0.0.27
         output:
@@ -48,6 +57,15 @@ groups:
           namespaceExport: Proficient
           timeoutInSeconds: infinity
           requireDefaultEnvironment: true
+      - name: fernapi/fern-typescript-browser-sdk
+        version: 0.7.0
+        output:
+          location: local-file-system
+          path: ../../packages/client-internal/core
+        config:
+          namespaceExport: Proficient
+          timeoutInSeconds: infinity
+          requireDefaultEnvironment: false
       - name: fernapi/fern-openapi
         version: 0.0.27
         output:
