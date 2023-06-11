@@ -1,5 +1,16 @@
 # @proficient/react
 
+## 0.18.0
+
+### Minor Changes
+
+- 8543222: Switched to @proficient/client-internal
+
+### Patch Changes
+
+- Updated dependencies [a365d6b]
+  - @proficient/client-internal@0.21.0
+
 ## 0.17.0
 
 ### Minor Changes

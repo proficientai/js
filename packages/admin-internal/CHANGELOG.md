@@ -1,5 +1,11 @@
 # @proficient/admin-internal
 
+## 0.11.0
+
+### Minor Changes
+
+- 2b16a68: Removed irrelevant fields from constructor options
+
 ## 0.10.0
 
 ### Minor Changes

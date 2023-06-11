@@ -1,5 +1,11 @@
 # @proficient/client
 
+## 0.21.0
+
+### Minor Changes
+
+- a365d6b: Removed `secretKey` from client api sdk options
+
 ## 0.20.0
 
 ### Minor Changes
