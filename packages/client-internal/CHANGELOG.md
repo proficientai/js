@@ -1,4 +1,4 @@
-# @proficient/client
+# @proficient/client-internal
 
 ## 0.19.0
 
