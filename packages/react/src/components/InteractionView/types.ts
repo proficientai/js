@@ -1,4 +1,4 @@
-import type { Proficient } from '@proficient/client';
+import type { Proficient } from '@proficient/client-internal';
 
 import type { ProficientTheme } from '../../context';
 

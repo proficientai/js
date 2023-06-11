@@ -1,4 +1,4 @@
-import type { Proficient } from '@proficient/client';
+import type { Proficient } from '@proficient/client-internal';
 
 class TreeNode {
   private readonly _children: TreeNode[];
