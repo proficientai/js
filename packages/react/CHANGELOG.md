@@ -1,5 +1,16 @@
 # @proficient/react
 
+## 0.17.0
+
+### Minor Changes
+
+- 591ae4b: Improved generate button text
+
+### Patch Changes
+
+- Updated dependencies [3441e45]
+  - @proficient/client@0.20.0
+
 ## 0.16.0
 
 ### Minor Changes

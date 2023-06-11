@@ -1,5 +1,11 @@
 # @proficient/client
 
+## 0.20.0
+
+### Minor Changes
+
+- 3441e45: Improved constructor options interface
+
 ## 0.19.0
 
 ### Minor Changes

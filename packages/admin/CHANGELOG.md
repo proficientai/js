@@ -1,5 +1,11 @@
 # @proficient/admin
 
+## 0.10.0
+
+### Minor Changes
+
+- 3441e45: Improved constructor options interface
+
 ## 0.9.0
 
 ### Minor Changes
