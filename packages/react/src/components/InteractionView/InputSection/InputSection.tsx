@@ -54,7 +54,10 @@ export function InputSection({
     display: flex;
     flex-direction: column;
     color: ${theme.colors.textPrimary};
-    padding: 12px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 16px;
+    padding-bottom: 16px;
   `;
 
   return (
@@ -87,7 +90,7 @@ export function InputSection({
         />
         <div
           css={css`
-            border-top: 1px solid ${theme.colors.border};
+            background-color: ${theme.colors.backgroundPrimary};
             display: flex;
             justify-content: end;
             padding-top: 8px;
