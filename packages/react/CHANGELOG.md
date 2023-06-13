@@ -1,5 +1,12 @@
 # @proficient/react
 
+## 0.19.0
+
+### Minor Changes
+
+- ec48358: Updated props to take chat section height and header section height instead of component height
+- ec48358: Major UI changes around input section
+
 ## 0.18.0
 
 ### Minor Changes
