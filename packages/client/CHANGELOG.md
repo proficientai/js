@@ -1,5 +1,12 @@
 # @proficient/client
 
+## 0.22.0
+
+### Minor Changes
+
+- 38a4c70: Added `live_mode` property to User
+- dcb41bb: Added `live_mode` query param to list users endpoint
+
 ## 0.21.0
 
 ### Minor Changes

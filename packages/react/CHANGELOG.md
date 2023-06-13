@@ -1,5 +1,13 @@
 # @proficient/react
 
+## 0.19.1
+
+### Patch Changes
+
+- Updated dependencies [38a4c70]
+- Updated dependencies [dcb41bb]
+  - @proficient/client-internal@0.22.0
+
 ## 0.19.0
 
 ### Minor Changes
