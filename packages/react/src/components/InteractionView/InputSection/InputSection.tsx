@@ -50,13 +50,12 @@ export function InputSection({
   const containerCss = css`
     display: flex;
     position: relative;
-    border-top: 1px solid ${theme.colors.border};
+    background-color: ${theme.colors.backgroundPrimary};
     display: flex;
     flex-direction: column;
     color: ${theme.colors.textPrimary};
     padding-left: 24px;
     padding-right: 24px;
-    padding-top: 16px;
     padding-bottom: 16px;
   `;
 
