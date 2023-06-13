@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useCallback } from 'react';
+import useSize from '@react-hook/size';
+import { useCallback, useEffect, useRef } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { useKeyboardEnterEvent, useStyles, useTheme } from '../../../hooks';
@@ -12,9 +13,8 @@ import { SendMessageIcon } from '../../icons/SendMessageIcon';
 import type { InputSectionProps } from './types';
 
 export function InputSection({
-  height,
   askButtonType,
-  askButtonSpacing,
+  onChangeHeight,
   onClickAsk,
   onClickSend,
   sendDisabled,
@@ -34,6 +34,13 @@ export function InputSection({
 
   useKeyboardEnterEvent(handleSendClick, !sendOnEnter);
 
+  const containerRef = useRef(null);
+  const [, containerHeight] = useSize(containerRef);
+
+  useEffect(() => {
+    onChangeHeight?.(containerHeight);
+  }, [onChangeHeight, containerHeight]);
+
   const textAreaCss = css`
     ${inputCss}
     resize: none;
@@ -47,86 +54,76 @@ export function InputSection({
     display: flex;
     flex-direction: column;
     color: ${theme.colors.textPrimary};
-    height: ${height}px;
+    padding: 12px;
   `;
 
   return (
-    <div css={containerCss}>
+    <div ref={containerRef} css={containerCss}>
       <div
         css={css`
-          position: absolute;
-          left: 24px;
-          right: 24px;
-          top: ${-askButtonSpacing}px;
-        `}>
-        <SecondaryButton
-          onClick={onClickAsk}
-          style={{
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            marginBottom: 10,
-            boxShadow: `0 0 80px -12px ${theme.colors.shadow}`,
-            visibility: askButtonType === null ? 'hidden' : 'visible',
-          }}>
-          {askButtonType === 'ask' ? <BoltIcon /> : <RetryIcon />}
-          <span
-            css={css`
-              margin-left: 10px;
-              white-space: nowrap;
-              font-family: Inter, sans-serif;
-              font-size: 13px;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            `}>
-            {askButtonType === 'ask' ? 'Ask for a reply' : askButtonType === 'ask-again' ? 'Ask again' : 'Retry'}
-          </span>
-        </SecondaryButton>
+          display: flex;
+          z-index: 1;
+          flex-direction: column;
+          border: 1px solid ${theme.colors.border};
+          border-radius: 12px;
+          box-shadow: 0 -10px 40px -12px ${theme.colors.shadow};
+          border-color: ${theme.colors.border};
+          overflow: hidden;
 
+          &:focus-within {
+            border-color: ${theme.colors.borderActive};
+          }
+        `}>
+        <TextareaAutosize
+          css={textAreaCss}
+          ref={textAreaRef}
+          placeholder={placeholder}
+          minRows={4}
+          maxRows={4}
+          onChange={(e) => {
+            const text = e.target.value;
+            onInputChange(text);
+          }}
+        />
         <div
           css={css`
+            border-top: 1px solid ${theme.colors.border};
             display: flex;
-            z-index: 1;
-            flex-direction: column;
-            border: 1px solid ${theme.colors.border};
-            border-radius: 12px;
-            box-shadow: 0 -10px 40px -12px ${theme.colors.shadow};
-            border-color: ${theme.colors.border};
-            overflow: hidden;
-
-            &:focus-within {
-              border-color: ${theme.colors.borderActive};
-            }
-          `}>
-          <TextareaAutosize
-            css={textAreaCss}
-            ref={textAreaRef}
-            placeholder={placeholder}
-            minRows={3}
-            maxRows={10}
-            onChange={(e) => {
-              const text = e.target.value;
-              onInputChange(text);
-            }}
-          />
-          <div
-            css={css`
-              background-color: ${theme.colors.backgroundPrimary};
-              display: flex;
-              justify-content: end;
-              padding-top: 8px;
-              padding-bottom: 8px;
-              padding-left: 12px;
-              padding-right: 12px;
-              cursor: text;
-            `}
-            onClick={() => {
-              textAreaRef.current?.focus();
+            justify-content: end;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            padding-left: 12px;
+            padding-right: 12px;
+            cursor: text;
+          `}
+          onClick={() => {
+            textAreaRef.current?.focus();
+          }}>
+          <SecondaryButton
+            onClick={onClickAsk}
+            style={{
+              marginRight: 12,
+              boxShadow: `0 0 80px -12px ${theme.colors.shadow}`,
+              visibility: askButtonType === null ? 'hidden' : 'visible',
             }}>
-            <PrimaryButton onClick={onClickSend} disabled={sendDisabled}>
-              <SendMessageIcon />
-            </PrimaryButton>
-          </div>
+            {askButtonType === 'ask' ? <BoltIcon /> : <RetryIcon />}
+            <span
+              css={css`
+                margin-left: 10px;
+                white-space: nowrap;
+                font-family: Inter, sans-serif;
+                font-size: 13px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              `}>
+              {askButtonType === 'ask' ? 'Ask for a reply' : askButtonType === 'ask-again' ? 'Ask again' : 'Retry'}
+            </span>
+          </SecondaryButton>
+
+          <PrimaryButton onClick={onClickSend} disabled={sendDisabled}>
+            <SendMessageIcon />
+          </PrimaryButton>
         </div>
       </div>
     </div>

@@ -205,9 +205,9 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
         <div
           css={css`
             position: absolute;
+            z-index: 2;
             top: 0;
             left: 0;
-            z-index: 10;
             height: 100%;
             transition-duration: 300ms;
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -227,10 +227,6 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
         onClick={isSmallVersion ? () => setShowSidebar(false) : undefined}>
         <div
           css={css`
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
-            flex-grow: 1;
             pointer-events: ${isSmallVersion && showSidebar ? 'none' : undefined};
           `}>
           {headerContainer}

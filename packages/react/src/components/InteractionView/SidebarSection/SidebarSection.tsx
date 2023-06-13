@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useRef } from 'react';
 
 import { useStyles, useTheme } from '../../../hooks';
 import { SecondaryButton } from '../../SecondaryButton';
@@ -20,12 +19,9 @@ export function SidebarSection({
 }: SidebarSectionProps) {
   const theme = useTheme();
   const { boxCss, primaryTextCss, secondaryTextCss } = useStyles();
-  const headerRef = useRef(null);
-  const footerRef = useRef(null);
   return (
     <div style={{ height, display: 'flex', flexDirection: 'column' }}>
       <div
-        ref={headerRef}
         css={css`
           padding-bottom: 10px;
         `}>
@@ -128,6 +124,7 @@ export function SidebarSection({
                     margin-left: 10px;
                     font-family: Inter, sans-serif;
                     font-size: 14px;
+                    line-height: 24px;
                     color: ${i.name ? theme.colors.textPrimary : theme.colors.textSecondary};
                     white-space: nowrap;
                     overflow: hidden;
@@ -141,7 +138,6 @@ export function SidebarSection({
         </div>
 
         <a
-          ref={footerRef}
           css={css`
             ${boxCss}
             padding-bottom: 20px;

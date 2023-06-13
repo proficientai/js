@@ -24,8 +24,6 @@ import { useActiveIndexes } from './useActiveIndexes';
 import { useTextInputMap } from './useTextInputMap';
 
 const PROVISIONAL_MESSAGE_ID = '_msg_provisional';
-const INPUT_SECTION_HEIGHT = 100;
-const ASK_BUTTON_SPACING = 80;
 
 function EmptyStateView({ text }: { text: string }) {
   const theme = useTheme();
@@ -114,6 +112,7 @@ export function InteractionView(props: InteractionViewProps) {
 
   const { getApi } = useApi({ apiKey, userExternalId, userHmac });
 
+  const [inputSectionHeight, setInputSectionHeight] = useState(0);
   const [agentState, setAgentState] = useState<AgentState>({ status: 'nil' });
   const [interactionStatesById, setInteractionStatesById] = useState<Record<string, InteractionState>>({});
   const [messagesStatesById, setMessagesStatesById] = useState<Record<string, MessagesState>>({});
@@ -458,7 +457,7 @@ export function InteractionView(props: InteractionViewProps) {
   });
 
   // TODO: The 2 here is due to border widths of the inner elements. Make it dynamic so we don't have to hardcode it.
-  const componentHeight = headerSectionHeight + chatSectionHeight + ASK_BUTTON_SPACING + INPUT_SECTION_HEIGHT + 2;
+  const componentHeight = headerSectionHeight + chatSectionHeight + inputSectionHeight + 2;
 
   return (
     <ProficientThemeContext.Provider value={theme}>
@@ -584,7 +583,6 @@ export function InteractionView(props: InteractionViewProps) {
                 <>
                   <ChatSection
                     height={chatSectionHeight}
-                    paddingBottom={ASK_BUTTON_SPACING}
                     agentName={agentState.status === 'success' ? agentState.agent.displayName : '...'}
                     agentInactive={isAgentInactive}
                     layout={layout}
@@ -599,9 +597,7 @@ export function InteractionView(props: InteractionViewProps) {
                   />
 
                   <InputSection
-                    height={INPUT_SECTION_HEIGHT}
                     askButtonType={isAgentInactive ? null : askButtonType}
-                    askButtonSpacing={ASK_BUTTON_SPACING}
                     onClickAsk={() =>
                       handleRequestAnswer(
                         interaction.id,
@@ -609,6 +605,7 @@ export function InteractionView(props: InteractionViewProps) {
                       )
                     }
                     onClickSend={handleSendMessage}
+                    onChangeHeight={setInputSectionHeight}
                     sendDisabled={writingState.status !== 'nil' || isAgentInactive}
                     onInputChange={(text) => setInteractionInput(interaction.id, text)}
                     placeholder={inputPlaceholder}

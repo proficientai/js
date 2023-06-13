@@ -10,7 +10,6 @@ import type { ChatSectionProps } from './types';
 
 export function ChatSection({
   height,
-  paddingBottom,
   agentName,
   agentInactive,
   hasMore,
@@ -34,7 +33,6 @@ export function ChatSection({
         flex-direction: column-reverse;
         padding-left: ${layout === 'casual' ? '24px' : undefined};
         padding-right: ${layout === 'casual' ? '24px' : undefined};
-        padding-bottom: ${paddingBottom}px;
       `}
       inverse
       hasMore={!!hasMore}

@@ -28,6 +28,7 @@ export function useStyles() {
       color: ${theme.colors.textPrimary};
       font-family: Inter, sans-serif;
       font-size: 14px;
+      line-height: 24px;
       outline: 2px solid transparent;
       outline-offset: 2px;
 
