@@ -42,6 +42,13 @@ types:
       - name: Example0
         value: Appleseed
 
+  UserLiveMode:
+    type: boolean
+    docs: Whether the user exists in live mode. This will be `false` if the user is a test user.
+    examples:
+      - name: Example0
+        value: false
+
   # Request/Response Interfaces
 
   UserCreateParams:
@@ -51,6 +58,7 @@ types:
       external_id: UserExternalId
       first_name: optional<UserFirstName>
       last_name: optional<UserLastName>
+      live_mode: optional<UserLiveMode>
     docs: The data with which a user is created.
 
   UserUpdateParams:
@@ -72,6 +80,7 @@ types:
       external_id: UserExternalId
       first_name: UserFirstName
       last_name: UserLastName
+      live_mode: UserLiveMode
       updated_at: core.UpdatedAt
     examples:
       - name: Example0
@@ -82,5 +91,6 @@ types:
           external_id: $UserExternalId.Example0
           first_name: $UserFirstName.Example0
           last_name: $UserLastName.Example0
+          live_mode: $UserLiveMode.Example0
           updated_at: $core.UpdatedAt.Example0
     docs: <p>Represents a user of your project.</p>
