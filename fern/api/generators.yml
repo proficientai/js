@@ -79,5 +79,5 @@ groups:
           workspace-id: ${POSTMAN_WORKSPACE_ID}
   docs:
     docs:
-      domain: proficientai
+      domain: proficientai.docs.buildwithfern.com
     generators: []
