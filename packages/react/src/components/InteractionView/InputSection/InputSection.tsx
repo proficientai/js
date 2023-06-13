@@ -71,6 +71,12 @@ export function InputSection({
             <span
               css={css`
                 margin-left: 10px;
+                white-space: nowrap;
+                font-family: Inter, sans-serif;
+                font-size: 13px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
               `}>
               {generateButtonType === 'generate'
                 ? 'Ask for a reply'
