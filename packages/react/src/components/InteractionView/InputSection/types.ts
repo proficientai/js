@@ -1,5 +1,6 @@
 export interface InputSectionProps {
   generateButtonType: 'generate' | 'retry' | 'regenerate' | null;
+  askButtonSpacing: number;
   height: number;
   onClickGenerate: () => Promise<void>;
   onClickSend: () => Promise<void>;

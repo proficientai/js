@@ -12,8 +12,9 @@ import { SendMessageIcon } from '../../icons/SendMessageIcon';
 import type { InputSectionProps } from './types';
 
 export function InputSection({
-  generateButtonType,
   height,
+  generateButtonType,
+  askButtonSpacing,
   onClickGenerate,
   onClickSend,
   sendDisabled,
@@ -56,7 +57,7 @@ export function InputSection({
           position: absolute;
           left: 24px;
           right: 24px;
-          bottom: 70px; // TODO: Figure out why we need this
+          top: ${-askButtonSpacing}px;
         `}>
         {generateButtonType && (
           <SecondaryButton

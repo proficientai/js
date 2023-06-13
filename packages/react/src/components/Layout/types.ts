@@ -17,8 +17,6 @@ export interface LayoutProps {
    */
   version: LayoutVersion;
 
-  height: number;
-
   /**
    * Layout children
    */

@@ -74,11 +74,19 @@ export interface InteractionViewProps {
   layout?: 'casual' | 'formal';
 
   /**
-   * Height in pixels. Must be greater than or equal to 300.
+   * Chat section height in pixels. Must be greater than or equal to 240.
    *
-   * @defaultValue 600
+   * @defaultValue 320
    */
-  height?: number;
+  chatSectionHeight?: number;
+
+  /**
+   * Header section height in pixels. Must be greater than or equal to 54.
+   *
+   * @defaultValue 54
+   */
+  headerSectionHeight?: number;
+
   /**
    * @defaultValue true
    */

@@ -12,7 +12,6 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
   const theme = useTheme();
   const {
     version,
-    height,
     children,
     headerContent = null,
     headerHeight = 54,
@@ -99,7 +98,6 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
         css={css`
           display: flex;
           flex-direction: column;
-          height: 100vh;
         `}
         style={{
           width: isSmallVersion ? sidebarSmallVersionWidth : sidebarWidth,
@@ -200,7 +198,6 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
         display: flex;
         position: relative;
         overflow: hidden;
-        height: ${height}px;
         background-color: ${theme.colors.backgroundSecondary};
         pointer-events: ${isResizingSidebar ? 'none' : undefined};
       `}>
@@ -226,7 +223,6 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
           display: flex;
           flex-direction: column;
           width: 100%;
-          height: ${isSmallVersion ? '100vh' : undefined};
         `}
         onClick={isSmallVersion ? () => setShowSidebar(false) : undefined}>
         <div

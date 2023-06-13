@@ -24,8 +24,8 @@ import { useActiveIndexes } from './useActiveIndexes';
 import { useTextInputMap } from './useTextInputMap';
 
 const PROVISIONAL_MESSAGE_ID = '_msg_provisional';
-const HEADER_SECTION_HEIGHT = 54;
-const INPUT_SECTION_HEIGHT = 160;
+const INPUT_SECTION_HEIGHT = 100;
+const ASK_BUTTON_SPACING = 80;
 
 function EmptyStateView({ text }: { text: string }) {
   const theme = useTheme();
@@ -53,7 +53,8 @@ function validateProps({
   userExternalId,
   userHmac,
   layout,
-  height,
+  chatSectionHeight,
+  headerSectionHeight,
   autoRequestReply,
   sendOnEnter,
   inputPlaceholder,
@@ -74,8 +75,11 @@ function validateProps({
   if (layout !== undefined && layout !== 'casual' && layout !== 'formal') {
     throw new Error(`The 'layout' prop must be one of 'casual' and 'formal'.`);
   }
-  if (height !== undefined && (typeof height !== 'number' || height < 300)) {
-    throw new Error(`The 'height' prop must be a number greater than or equal to 300.`);
+  if (chatSectionHeight !== undefined && (typeof chatSectionHeight !== 'number' || chatSectionHeight < 240)) {
+    throw new Error(`The 'chatSectionHeight' prop must be a number greater than or equal to 240.`);
+  }
+  if (headerSectionHeight !== undefined && (typeof headerSectionHeight !== 'number' || headerSectionHeight < 54)) {
+    throw new Error(`The 'headerSectionHeight' prop must be a number greater than or equal to 54.`);
   }
   if (autoRequestReply !== undefined && typeof autoRequestReply !== 'boolean') {
     throw new Error(`The 'autoRequestReply' prop must be a boolean.`);
@@ -98,7 +102,8 @@ export function InteractionView(props: InteractionViewProps) {
     userExternalId,
     userHmac,
     layout = 'casual',
-    height = 600,
+    chatSectionHeight = 320,
+    headerSectionHeight = 54,
     autoRequestReply = true,
     sendOnEnter = true,
     inputPlaceholder = 'Type something...',
@@ -452,6 +457,9 @@ export function InteractionView(props: InteractionViewProps) {
     query: `(min-width: 768px)`,
   });
 
+  // TODO: The 2 here is due to border widths of the inner elements. Make it dynamic so we don't have to hardcode it.
+  const componentHeight = headerSectionHeight + chatSectionHeight + ASK_BUTTON_SPACING + INPUT_SECTION_HEIGHT + 2;
+
   return (
     <ProficientThemeContext.Provider value={theme}>
       <Global
@@ -465,7 +473,7 @@ export function InteractionView(props: InteractionViewProps) {
             <div
               css={css`
                 background-color: ${theme.colors.backgroundPrimary};
-                height: ${height}px;
+                height: ${componentHeight}px;
               `}>
               <EmptyStateView
                 text={
@@ -486,7 +494,6 @@ export function InteractionView(props: InteractionViewProps) {
         return (
           <Layout
             version={isMd ? 'lg' : 'sm'}
-            height={height}
             headerContent={
               interactionState?.status === 'success' ? (
                 <HeaderSection
@@ -500,10 +507,10 @@ export function InteractionView(props: InteractionViewProps) {
                 />
               ) : null
             }
-            headerHeight={HEADER_SECTION_HEIGHT}
+            headerHeight={headerSectionHeight}
             sidebarContent={
               <SidebarSection
-                height={height}
+                height={componentHeight}
                 description={agentState.agent.displayDescription}
                 header={agentState.agent.displayName}
                 interactions={sortedInteractions}
@@ -574,30 +581,27 @@ export function InteractionView(props: InteractionViewProps) {
               const isAgentInactive = agentState.status === 'success' && !agentState.agent.active;
 
               return (
-                <div>
-                  <div
-                    css={css`
-                      position: relative;
-                    `}>
-                    <ChatSection
-                      height={height - HEADER_SECTION_HEIGHT - INPUT_SECTION_HEIGHT}
-                      agentName={agentState.status === 'success' ? agentState.agent.displayName : '...'}
-                      agentInactive={isAgentInactive}
-                      layout={layout}
-                      messageGroups={messageGroups}
-                      onClickPrevious={(depth, activeIndex) => {
-                        setActiveIndex(interaction.id, depth, activeIndex - 1);
-                      }}
-                      onClickNext={(depth, activeIndex) => {
-                        setActiveIndex(interaction.id, depth, activeIndex + 1);
-                      }}
-                      writingStatus={writingStatus}
-                    />
-                  </div>
+                <>
+                  <ChatSection
+                    height={chatSectionHeight}
+                    paddingBottom={ASK_BUTTON_SPACING}
+                    agentName={agentState.status === 'success' ? agentState.agent.displayName : '...'}
+                    agentInactive={isAgentInactive}
+                    layout={layout}
+                    messageGroups={messageGroups}
+                    onClickPrevious={(depth, activeIndex) => {
+                      setActiveIndex(interaction.id, depth, activeIndex - 1);
+                    }}
+                    onClickNext={(depth, activeIndex) => {
+                      setActiveIndex(interaction.id, depth, activeIndex + 1);
+                    }}
+                    writingStatus={writingStatus}
+                  />
 
                   <InputSection
-                    generateButtonType={isAgentInactive ? null : generateButtonType}
                     height={INPUT_SECTION_HEIGHT}
+                    generateButtonType={isAgentInactive ? null : generateButtonType}
+                    askButtonSpacing={ASK_BUTTON_SPACING}
                     onClickGenerate={() =>
                       handleRequestAnswer(
                         interaction.id,
@@ -611,7 +615,7 @@ export function InteractionView(props: InteractionViewProps) {
                     sendOnEnter={sendOnEnter}
                     textAreaRef={inputTextAreaRef}
                   />
-                </div>
+                </>
               );
             }}
           </Layout>
