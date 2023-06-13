@@ -13,9 +13,9 @@ import type { InputSectionProps } from './types';
 
 export function InputSection({
   height,
-  generateButtonType,
+  askButtonType,
   askButtonSpacing,
-  onClickGenerate,
+  onClickAsk,
   onClickSend,
   sendDisabled,
   onInputChange,
@@ -59,16 +59,16 @@ export function InputSection({
           right: 24px;
           top: ${-askButtonSpacing}px;
         `}>
-        {generateButtonType && (
+        {askButtonType && (
           <SecondaryButton
-            onClick={onClickGenerate}
+            onClick={onClickAsk}
             style={{
               marginLeft: 'auto',
               marginRight: 'auto',
               marginBottom: 10,
               boxShadow: `0 0 80px -12px ${theme.colors.shadow}`,
             }}>
-            {generateButtonType === 'generate' ? <BoltIcon /> : <RetryIcon />}
+            {askButtonType === 'ask' ? <BoltIcon /> : <RetryIcon />}
             <span
               css={css`
                 margin-left: 10px;
@@ -79,11 +79,7 @@ export function InputSection({
                 overflow: hidden;
                 text-overflow: ellipsis;
               `}>
-              {generateButtonType === 'generate'
-                ? 'Ask for a reply'
-                : generateButtonType === 'regenerate'
-                ? 'Ask again'
-                : 'Retry'}
+              {askButtonType === 'ask' ? 'Ask for a reply' : askButtonType === 'ask-again' ? 'Ask again' : 'Retry'}
             </span>
           </SecondaryButton>
         )}

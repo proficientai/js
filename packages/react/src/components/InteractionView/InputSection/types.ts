@@ -1,8 +1,8 @@
 export interface InputSectionProps {
-  generateButtonType: 'generate' | 'retry' | 'regenerate' | null;
+  askButtonType: 'ask' | 'ask-again' | 'retry' | null;
   askButtonSpacing: number;
   height: number;
-  onClickGenerate: () => Promise<void>;
+  onClickAsk: () => Promise<void>;
   onClickSend: () => Promise<void>;
   sendDisabled?: boolean;
   onInputChange: (text: string) => void;

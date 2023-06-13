@@ -550,29 +550,29 @@ export function InteractionView(props: InteractionViewProps) {
               const { interaction } = interactionState;
               const { status: writingStatus } = writingState;
 
-              let generateButtonType: null | 'generate' | 'regenerate' | 'retry' = null;
+              let askButtonType: null | 'ask' | 'ask-again' | 'retry' = null;
 
               if (autoRequestReply) {
                 if (mostRecentMessage) {
                   if (mostRecentMessage.sentBy === 'agent') {
                     if (writingState.status !== 'writing') {
-                      generateButtonType = 'regenerate';
+                      askButtonType = 'ask-again';
                     }
                   } else if (writingState.status === 'error') {
-                    generateButtonType = 'retry';
+                    askButtonType = 'retry';
                   }
                 }
               } else {
                 if (mostRecentMessage) {
                   if (mostRecentMessage.sentBy === 'agent') {
                     if (writingState.status !== 'writing') {
-                      generateButtonType = 'regenerate';
+                      askButtonType = 'ask-again';
                     }
                   } else {
                     if (writingState.status === 'error') {
-                      generateButtonType = 'retry';
+                      askButtonType = 'retry';
                     } else if (writingState.status === 'nil') {
-                      generateButtonType = 'generate';
+                      askButtonType = 'ask';
                     }
                   }
                 }
@@ -600,12 +600,12 @@ export function InteractionView(props: InteractionViewProps) {
 
                   <InputSection
                     height={INPUT_SECTION_HEIGHT}
-                    generateButtonType={isAgentInactive ? null : generateButtonType}
+                    askButtonType={isAgentInactive ? null : askButtonType}
                     askButtonSpacing={ASK_BUTTON_SPACING}
-                    onClickGenerate={() =>
+                    onClickAsk={() =>
                       handleRequestAnswer(
                         interaction.id,
-                        generateButtonType === 'regenerate' ? mostRecentMessage?.parentId : mostRecentMessage?.id
+                        askButtonType === 'ask-again' ? mostRecentMessage?.parentId : mostRecentMessage?.id
                       )
                     }
                     onClickSend={handleSendMessage}
