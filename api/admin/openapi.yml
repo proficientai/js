@@ -363,7 +363,14 @@ paths:
       operationId: users_list
       tags:
         - Users
-      parameters: []
+      parameters:
+        - name: live_mode
+          in: query
+          description: If set to `false`, only test users will be returned.
+          required: false
+          schema:
+            $ref: '#/components/schemas/UserLiveMode'
+            nullable: true
       responses:
         '200':
           description: ''

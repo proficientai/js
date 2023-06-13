@@ -42,6 +42,7 @@ exports.Users = void 0;
 const environments = __importStar(require("../../../../environments"));
 const core = __importStar(require("../../../../core"));
 const Proficient = __importStar(require("../../.."));
+const url_search_params_1 = __importDefault(require("@ungap/url-search-params"));
 const url_join_1 = __importDefault(require("url-join"));
 const serializers = __importStar(require("../../../../serialization"));
 const errors = __importStar(require("../../../../errors"));
@@ -53,9 +54,14 @@ class Users {
      * Returns a list of users that belong to the current project. The users are returned sorted by creation date, with the most recently created users appearing first.
      * @throws {@link Proficient.InternalError}
      */
-    list() {
+    list(request = {}) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
+            const { liveMode } = request;
+            const _queryParams = new url_search_params_1.default();
+            if (liveMode != null) {
+                _queryParams.append("live_mode", liveMode.toString());
+            }
             const _response = yield core.fetcher({
                 url: (0, url_join_1.default)((_a = (yield core.Supplier.get(this.options.environment))) !== null && _a !== void 0 ? _a : environments.ProficientEnvironment.Production, "/users"),
                 method: "GET",
@@ -73,6 +79,7 @@ class Users {
                     "X-Fern-Language": "JavaScript",
                 },
                 contentType: "application/json",
+                queryParameters: _queryParams,
             });
             if (_response.ok) {
                 return yield serializers.UsersList.parseOrThrow(_response.body, {

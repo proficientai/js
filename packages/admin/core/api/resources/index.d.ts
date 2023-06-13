@@ -13,3 +13,4 @@ export * from "./core/types";
 export * as users from "./users";
 export * from "./users/types";
 export * from "./core/errors";
+export * from "./users/client/requests";

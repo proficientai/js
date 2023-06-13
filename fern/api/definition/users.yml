@@ -15,6 +15,12 @@ service:
       method: GET
       docs: Returns a list of users that belong to the current project. The users are returned sorted by creation date, with the most recently created users appearing first.
       display-name: List all users
+      request:
+        name: ListUsersRequest
+        query-parameters:
+          live_mode:
+            type: optional<user.UserLiveMode>
+            docs: If set to `false`, only test users will be returned.
       response: UsersList
       errors:
         - core.InternalError

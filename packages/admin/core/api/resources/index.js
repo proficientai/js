@@ -42,3 +42,4 @@ __exportStar(require("./core/types"), exports);
 exports.users = __importStar(require("./users"));
 __exportStar(require("./users/types"), exports);
 __exportStar(require("./core/errors"), exports);
+__exportStar(require("./users/client/requests"), exports);

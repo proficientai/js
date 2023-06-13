@@ -20,7 +20,7 @@ export declare class Users {
      * Returns a list of users that belong to the current project. The users are returned sorted by creation date, with the most recently created users appearing first.
      * @throws {@link Proficient.InternalError}
      */
-    list(): Promise<Proficient.UsersList>;
+    list(request?: Proficient.ListUsersRequest): Promise<Proficient.UsersList>;
     /**
      * Retrieves the user with the given ID.
      * @throws {@link Proficient.ResourceNotFoundError}
