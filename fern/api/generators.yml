@@ -80,4 +80,10 @@ groups:
   docs:
     docs:
       domain: proficientai.docs.buildwithfern.com
+      custom-domains:
+        - https://docs.proficientai.com/
+    generators: []
+  staging-docs:
+    docs:
+      domain: proficientai-staging.docs.buildwithfern.com
     generators: []
