@@ -59,30 +59,29 @@ export function InputSection({
           right: 24px;
           top: ${-askButtonSpacing}px;
         `}>
-        {askButtonType && (
-          <SecondaryButton
-            onClick={onClickAsk}
-            style={{
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              marginBottom: 10,
-              boxShadow: `0 0 80px -12px ${theme.colors.shadow}`,
-            }}>
-            {askButtonType === 'ask' ? <BoltIcon /> : <RetryIcon />}
-            <span
-              css={css`
-                margin-left: 10px;
-                white-space: nowrap;
-                font-family: Inter, sans-serif;
-                font-size: 13px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-              `}>
-              {askButtonType === 'ask' ? 'Ask for a reply' : askButtonType === 'ask-again' ? 'Ask again' : 'Retry'}
-            </span>
-          </SecondaryButton>
-        )}
+        <SecondaryButton
+          onClick={onClickAsk}
+          style={{
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginBottom: 10,
+            boxShadow: `0 0 80px -12px ${theme.colors.shadow}`,
+            visibility: askButtonType === null ? 'hidden' : 'visible',
+          }}>
+          {askButtonType === 'ask' ? <BoltIcon /> : <RetryIcon />}
+          <span
+            css={css`
+              margin-left: 10px;
+              white-space: nowrap;
+              font-family: Inter, sans-serif;
+              font-size: 13px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            `}>
+            {askButtonType === 'ask' ? 'Ask for a reply' : askButtonType === 'ask-again' ? 'Ask again' : 'Retry'}
+          </span>
+        </SecondaryButton>
 
         <div
           css={css`
