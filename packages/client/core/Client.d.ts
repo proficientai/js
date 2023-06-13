@@ -8,6 +8,7 @@ import { Messages } from "./api/resources/messages/client/Client";
 import { Users } from "./api/resources/users/client/Client";
 export declare namespace ProficientClient {
     interface Options {
+        secretKey?: core.Supplier<string | undefined>;
         apiKey?: core.Supplier<string | undefined>;
         userExternalId?: core.Supplier<string | undefined>;
         userHmac?: core.Supplier<string | undefined>;

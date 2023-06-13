@@ -41,4 +41,5 @@ exports.UserCreateParams = core.serialization.object({
     externalId: core.serialization.property("external_id", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UserExternalId; }))),
     firstName: core.serialization.property("first_name", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UserFirstName; })).optional()),
     lastName: core.serialization.property("last_name", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UserLastName; })).optional()),
+    liveMode: core.serialization.property("live_mode", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UserLiveMode; })).optional()),
 });

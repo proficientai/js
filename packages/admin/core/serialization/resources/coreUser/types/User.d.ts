@@ -13,6 +13,7 @@ export declare namespace User {
         external_id: serializers.UserExternalId.Raw;
         first_name: serializers.UserFirstName.Raw;
         last_name: serializers.UserLastName.Raw;
+        live_mode: serializers.UserLiveMode.Raw;
         updated_at: serializers.UpdatedAt.Raw;
     }
 }

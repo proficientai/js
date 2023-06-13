@@ -9,4 +9,5 @@ export interface UserCreateParams {
     externalId: Proficient.UserExternalId;
     firstName?: Proficient.UserFirstName;
     lastName?: Proficient.UserLastName;
+    liveMode?: Proficient.UserLiveMode;
 }

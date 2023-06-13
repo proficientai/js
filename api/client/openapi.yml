@@ -847,6 +847,12 @@ components:
       title: UserLastName
       type: string
       description: The last name of the user.
+    UserLiveMode:
+      title: UserLiveMode
+      type: boolean
+      description: >-
+        Whether the user exists in live mode. This will be `false` if the user
+        is a test user.
     UserUpdateParams:
       title: UserUpdateParams
       type: object
@@ -875,6 +881,8 @@ components:
           $ref: '#/components/schemas/UserFirstName'
         last_name:
           $ref: '#/components/schemas/UserLastName'
+        live_mode:
+          $ref: '#/components/schemas/UserLiveMode'
         updated_at:
           $ref: '#/components/schemas/UpdatedAt'
       required:
@@ -884,6 +892,7 @@ components:
         - external_id
         - first_name
         - last_name
+        - live_mode
         - updated_at
     ApiErrorCode:
       title: ApiErrorCode

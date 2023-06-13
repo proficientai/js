@@ -19,5 +19,6 @@ __exportStar(require("./UserObjectType"), exports);
 __exportStar(require("./UserExternalId"), exports);
 __exportStar(require("./UserFirstName"), exports);
 __exportStar(require("./UserLastName"), exports);
+__exportStar(require("./UserLiveMode"), exports);
 __exportStar(require("./UserUpdateParams"), exports);
 __exportStar(require("./User"), exports);

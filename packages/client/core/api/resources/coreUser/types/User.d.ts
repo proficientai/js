@@ -13,6 +13,7 @@ import * as Proficient from "../../..";
  *         externalId: "gtLIK8ELsHTr0Fajg28Ud9eFpJJ3",
  *         firstName: "John",
  *         lastName: "Appleseed",
+ *         liveMode: false,
  *         updatedAt: 1671631799692
  *     }
  */
@@ -23,5 +24,6 @@ export interface User {
     externalId: Proficient.UserExternalId;
     firstName: Proficient.UserFirstName;
     lastName: Proficient.UserLastName;
+    liveMode: Proficient.UserLiveMode;
     updatedAt: Proficient.UpdatedAt;
 }

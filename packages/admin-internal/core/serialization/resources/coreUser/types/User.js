@@ -44,5 +44,6 @@ exports.User = core.serialization.object({
     externalId: core.serialization.property("external_id", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UserExternalId; }))),
     firstName: core.serialization.property("first_name", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UserFirstName; }))),
     lastName: core.serialization.property("last_name", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UserLastName; }))),
+    liveMode: core.serialization.property("live_mode", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UserLiveMode; }))),
     updatedAt: core.serialization.property("updated_at", core.serialization.lazy(() => __awaiter(void 0, void 0, void 0, function* () { return (yield Promise.resolve().then(() => __importStar(require("../../..")))).UpdatedAt; }))),
 });

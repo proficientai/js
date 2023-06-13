@@ -10,5 +10,6 @@ export declare namespace UserCreateParams {
         external_id: serializers.UserExternalId.Raw;
         first_name?: serializers.UserFirstName.Raw | null;
         last_name?: serializers.UserLastName.Raw | null;
+        live_mode?: serializers.UserLiveMode.Raw | null;
     }
 }
