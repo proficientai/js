@@ -77,13 +77,13 @@ groups:
           location: postman
           api-key: ${POSTMAN_API_KEY}
           workspace-id: ${POSTMAN_WORKSPACE_ID}
-  docs:
+  docs-prod:
     docs:
       domain: proficientai.docs.buildwithfern.com
       custom-domains:
         - https://docs.proficientai.com/
     generators: []
-  staging-docs:
+  docs-staging:
     docs:
       domain: proficientai-staging.docs.buildwithfern.com
     generators: []

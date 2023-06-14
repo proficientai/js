@@ -60,7 +60,7 @@ class Users {
             const { liveMode } = request;
             const _queryParams = new url_search_params_1.default();
             if (liveMode != null) {
-                _queryParams.append("live_mode", liveMode.toString());
+                _queryParams.append("live_mode", liveMode);
             }
             const _response = yield core.fetcher({
                 url: (0, url_join_1.default)((_a = (yield core.Supplier.get(this.options.environment))) !== null && _a !== void 0 ? _a : environments.ProficientEnvironment.Production, "/users"),

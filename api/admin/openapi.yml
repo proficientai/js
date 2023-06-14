@@ -366,10 +366,10 @@ paths:
       parameters:
         - name: live_mode
           in: query
-          description: If set to `false`, only test users will be returned.
+          description: If set to `"false"`, only test users will be returned.
           required: false
           schema:
-            $ref: '#/components/schemas/UserLiveMode'
+            type: string
             nullable: true
       responses:
         '200':

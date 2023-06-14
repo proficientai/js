@@ -19,8 +19,8 @@ service:
         name: ListUsersRequest
         query-parameters:
           live_mode:
-            type: optional<user.UserLiveMode>
-            docs: If set to `false`, only test users will be returned.
+            type: optional<string>
+            docs: If set to `"false"`, only test users will be returned.
       response: UsersList
       errors:
         - core.InternalError
