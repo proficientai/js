@@ -1,5 +1,11 @@
 # @proficient/admin-internal
 
+## 0.13.0
+
+### Minor Changes
+
+- b9b3b22: Changed `live_mode` type to optional string
+
 ## 0.12.0
 
 ### Minor Changes
