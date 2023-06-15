@@ -1,12 +1,18 @@
 navigation:
   - section: Getting Started
     contents:
-      - page: My page
-        path: ./page.md
-  - api: Client API
+      - page: Introduction
+        path: ./sections/getting-started/intro.md
+      - page: Quickstart
+        path: ./sections/getting-started/quickstart.md
+  - section: Advanced
+    contents:
+      - page: HMAC Authentication
+        path: ./sections/advanced/hmac.md
+  - api: Client API Reference
     audiences:
       - client
-  - api: Admin API
+  - api: Admin API Reference
     audiences:
       - admin
 title: API Documentation | Proficient AI
@@ -15,6 +21,6 @@ colors:
 logo: ./logo.png
 favicon: ./favicon.ico
 navbar-links:
-  - text: Github
+  - text: GitHub
     url: https://github.com/proficientai/js
     style: primary
