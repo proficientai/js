@@ -14,3 +14,7 @@ colors:
   accentPrimary: '#6467f2'
 logo: ./logo.png
 favicon: ./favicon.ico
+navbar-links:
+  - text: Github
+    url: https://github.com/proficientai/js
+    style: primary
