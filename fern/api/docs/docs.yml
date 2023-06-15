@@ -9,6 +9,8 @@ navigation:
   - api: Admin API
     audiences:
       - admin
-
+title: API Documentation | Proficient AI
+colors:
+  accentPrimary: '#6467f2'
 logo: ./logo.png
-colors: {}
+favicon: ./favicon.ico
