@@ -30,17 +30,17 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Respon
     });
     return;
   }
-  const { userId } = req.body;
-  if (typeof userId !== 'string') {
+  const { userExternalId } = req.body;
+  if (typeof userExternalId !== 'string') {
     res.status(400).json({
       success: false,
       error: {
         code: 'bad-request',
-        message: `Must provide a valid user ID. Received ${userId}`,
+        message: `Must provide a valid user external ID. Received ${userExternalId}`,
       },
     });
     return;
   }
-  const hmac = createHmac('sha256', HMAC_SECRET).update(userId).digest('base64');
+  const hmac = createHmac('sha256', HMAC_SECRET).update(userExternalId).digest('base64');
   res.status(200).json({ success: true, data: { hmac } });
 }

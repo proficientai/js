@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 });
 
 export async function getHmac(userExternalId: string) {
-  const { data: resBody } = await axiosInstance.post<ResponseBody>('/hmac', { userId: userExternalId });
+  const { data: resBody } = await axiosInstance.post<ResponseBody>('/hmac', { userExternalId });
   if (!resBody.success) throw new Error(resBody.error.message);
   return resBody.data.hmac;
 }
