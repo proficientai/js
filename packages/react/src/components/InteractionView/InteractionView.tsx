@@ -557,7 +557,7 @@ export function InteractionView(props: InteractionViewProps) {
                     if (writingState.status !== 'writing') {
                       askButtonType = 'ask-again';
                     }
-                  } else if (writingState.status === 'error') {
+                  } else if (writingState.status === 'error' || writingState.status === 'nil') {
                     askButtonType = 'retry';
                   }
                 }
