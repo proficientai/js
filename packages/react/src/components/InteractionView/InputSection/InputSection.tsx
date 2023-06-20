@@ -119,7 +119,7 @@ export function InputSection({
                 overflow: hidden;
                 text-overflow: ellipsis;
               `}>
-              {askButtonType === 'ask' ? 'Ask for a reply' : askButtonType === 'ask-again' ? 'Ask again' : 'Retry'}
+              {askButtonType === 'ask' ? 'Ask' : askButtonType === 'ask-again' ? 'Ask again' : 'Retry'}
             </span>
           </SecondaryButton>
 
