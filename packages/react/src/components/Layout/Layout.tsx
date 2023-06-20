@@ -180,6 +180,7 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
         min-height: 0;
         flex-grow: 1;
         overflow: hidden;
+        height: 100%;
       `}>
       {typeof children === 'function'
         ? children({
@@ -228,6 +229,7 @@ export const Layout: FC<LayoutProps> = (props: LayoutProps) => {
         <div
           css={css`
             pointer-events: ${isSmallVersion && showSidebar ? 'none' : undefined};
+            height: 100%;
           `}>
           {headerContainer}
           {childrenContainer}
