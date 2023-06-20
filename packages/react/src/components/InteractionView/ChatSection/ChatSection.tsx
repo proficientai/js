@@ -64,7 +64,7 @@ export function ChatSection({
       <div
         css={css`
           margin-top: 10px;
-          margin-bottom: 6px;
+          margin-bottom: ${agentInactive || writingStatus === 'writing' ? '32px' : '6px'};
           padding-left: ${layout === 'formal' ? '24px' : undefined};
           padding-right: ${layout === 'formal' ? '24px' : undefined};
         `}>
