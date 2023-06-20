@@ -15,8 +15,8 @@ const lightTheme = createTheme({
 
 const darkTheme = createTheme({
   colors: {
-    // background: '#1d1822',
-    // primary: '#9c0588',
+    // background: '#221e2b',
+    // primary: '#6467F2',
     // text: '#fff',
   },
 });
