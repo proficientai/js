@@ -554,7 +554,7 @@ export function InteractionView(props: InteractionViewProps) {
               if (autoAsk) {
                 if (mostRecentMessage) {
                   if (mostRecentMessage.sentBy === 'agent') {
-                    if (writingState.status !== 'writing') {
+                    if (writingState.status !== 'writing' && mostRecentMessage.depth > 0) {
                       askButtonType = 'ask-again';
                     }
                   } else if (writingState.status === 'error' || writingState.status === 'nil') {
@@ -564,7 +564,7 @@ export function InteractionView(props: InteractionViewProps) {
               } else {
                 if (mostRecentMessage) {
                   if (mostRecentMessage.sentBy === 'agent') {
-                    if (writingState.status !== 'writing') {
+                    if (writingState.status !== 'writing' && mostRecentMessage.depth > 0) {
                       askButtonType = 'ask-again';
                     }
                   } else {
