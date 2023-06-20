@@ -90,7 +90,7 @@ export interface InteractionViewProps {
   /**
    * @defaultValue true
    */
-  autoRequestReply?: boolean;
+  autoAsk?: boolean;
   /**
    * @defaultValue true
    */

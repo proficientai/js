@@ -53,7 +53,7 @@ function validateProps({
   layout,
   chatSectionHeight,
   headerSectionHeight,
-  autoRequestReply,
+  autoAsk,
   sendOnEnter,
   inputPlaceholder,
   theme,
@@ -79,8 +79,8 @@ function validateProps({
   if (headerSectionHeight !== undefined && (typeof headerSectionHeight !== 'number' || headerSectionHeight < 54)) {
     throw new Error(`The 'headerSectionHeight' prop must be a number greater than or equal to 54.`);
   }
-  if (autoRequestReply !== undefined && typeof autoRequestReply !== 'boolean') {
-    throw new Error(`The 'autoRequestReply' prop must be a boolean.`);
+  if (autoAsk !== undefined && typeof autoAsk !== 'boolean') {
+    throw new Error(`The 'autoAsk' prop must be a boolean.`);
   }
   if (sendOnEnter !== undefined && typeof sendOnEnter !== 'boolean') {
     throw new Error(`The 'sendOnEnter' prop must be a boolean.`);
@@ -102,7 +102,7 @@ export function InteractionView(props: InteractionViewProps) {
     layout = 'casual',
     chatSectionHeight = 320,
     headerSectionHeight = 54,
-    autoRequestReply = true,
+    autoAsk = true,
     sendOnEnter = true,
     inputPlaceholder = 'Type something...',
     theme = createTheme(),
@@ -350,7 +350,7 @@ export function InteractionView(props: InteractionViewProps) {
         };
       });
 
-      if (autoRequestReply) {
+      if (autoAsk) {
         await handleRequestAnswer(interactionId, sent.id);
       }
     } catch (e: any) {
@@ -358,7 +358,7 @@ export function InteractionView(props: InteractionViewProps) {
       console.log(`Api Error: ${e?.response?.data?.message}`);
     }
   }, [
-    autoRequestReply,
+    autoAsk,
     getApi,
     getInteractionInput,
     handleRequestAnswer,
@@ -551,7 +551,7 @@ export function InteractionView(props: InteractionViewProps) {
 
               let askButtonType: null | 'ask' | 'ask-again' | 'retry' = null;
 
-              if (autoRequestReply) {
+              if (autoAsk) {
                 if (mostRecentMessage) {
                   if (mostRecentMessage.sentBy === 'agent') {
                     if (writingState.status !== 'writing') {
