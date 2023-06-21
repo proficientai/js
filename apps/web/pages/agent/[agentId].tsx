@@ -1,3 +1,4 @@
+import { ProficientEnvironment } from '@proficient/client';
 import { InteractionView, createTheme } from '@proficient/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -61,6 +62,7 @@ export default function AgentPage() {
         userHmac={() => getHmac(userId)}
         layout={isCasualLayout ? 'casual' : 'formal'}
         theme={isDarkTheme ? darkTheme : lightTheme}
+        clientApiEnvironment={ProficientEnvironment.Staging}
       />
     </div>
   );

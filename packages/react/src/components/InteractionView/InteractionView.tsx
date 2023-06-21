@@ -107,11 +107,12 @@ export function InteractionView(props: InteractionViewProps) {
     sendOnEnter = true,
     inputPlaceholder = 'Type something...',
     theme = createTheme(),
+    clientApiEnvironment,
   } = props;
 
   validateProps(props);
 
-  const { getApi } = useApi({ apiKey, userExternalId, userHmac });
+  const { getApi } = useApi({ apiKey, userExternalId, userHmac, environment: clientApiEnvironment });
 
   const [inputSectionHeight, setInputSectionHeight] = useState(0);
   const [agentState, setAgentState] = useState<AgentState>({ status: 'nil' });

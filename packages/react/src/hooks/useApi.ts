@@ -5,10 +5,11 @@ type Params = {
   apiKey: string;
   userExternalId: string;
   userHmac?: string | (() => Promise<string>);
+  environment?: string;
 };
 
 export function useApi(params: Params) {
-  const { apiKey, userExternalId, userHmac } = params;
+  const { apiKey, userExternalId, userHmac, environment = ProficientEnvironment.Production } = params;
   const cachedHmacRef = useRef<undefined | string>(undefined);
 
   const getApi = useCallback(async () => {
@@ -16,12 +17,12 @@ export function useApi(params: Params) {
       cachedHmacRef.current = typeof userHmac === 'function' ? await userHmac() : userHmac;
     }
     return new ProficientClient({
-      environment: ProficientEnvironment.Staging, // TODO: Make dynamic
+      environment,
       apiKey,
       userExternalId,
       userHmac: cachedHmacRef.current,
     });
-  }, [apiKey, userExternalId, userHmac]);
+  }, [apiKey, userExternalId, userHmac, environment]);
 
   return { getApi };
 }

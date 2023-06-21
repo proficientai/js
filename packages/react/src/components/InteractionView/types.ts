@@ -104,4 +104,12 @@ export interface InteractionViewProps {
    * Proficient theme.
    */
   theme?: ProficientTheme;
+
+  /**
+   * The environment (base URL) for the Client API. For internal use at Proficient AI. Do
+   * not use this in your application or you will get authentication errors.
+   *
+   * @internal
+   */
+  clientApiEnvironment?: string;
 }
