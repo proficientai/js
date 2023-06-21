@@ -13,6 +13,7 @@ import { SendMessageIcon } from '../../icons/SendMessageIcon';
 import type { InputSectionProps } from './types';
 
 export function InputSection({
+  agentInactive,
   askButtonType,
   onChangeHeight,
   onClickAsk,
@@ -27,10 +28,10 @@ export function InputSection({
   const { inputCss } = useStyles();
 
   const handleSendClick = useCallback(async () => {
-    if (document.activeElement === textAreaRef.current) {
+    if (document.activeElement === textAreaRef.current && !agentInactive) {
       await onClickSend();
     }
-  }, [textAreaRef, onClickSend]);
+  }, [agentInactive, textAreaRef, onClickSend]);
 
   useKeyboardEnterEvent(handleSendClick, !sendOnEnter);
 

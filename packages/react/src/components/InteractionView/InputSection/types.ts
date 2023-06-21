@@ -1,4 +1,5 @@
 export interface InputSectionProps {
+  agentInactive: boolean;
   askButtonType: 'ask' | 'ask-again' | 'retry' | null;
   onClickAsk: () => Promise<void>;
   onClickSend: () => Promise<void>;

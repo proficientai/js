@@ -599,6 +599,7 @@ export function InteractionView(props: InteractionViewProps) {
                   />
 
                   <InputSection
+                    agentInactive={isAgentInactive}
                     askButtonType={isAgentInactive ? null : askButtonType}
                     onClickAsk={() =>
                       handleRequestAnswer(
