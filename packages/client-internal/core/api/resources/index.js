@@ -26,9 +26,11 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.users = exports.messages = exports.interactions = exports.core = exports.coreUser = exports.coreMessage = exports.coreInteraction = exports.coreAgent = exports.agents = void 0;
+exports.users = exports.messages = exports.interactions = exports.core = exports.coreUser = exports.coreMessage = exports.coreInteraction = exports.coreAgent = exports.coreAgentConfig = exports.agents = void 0;
 exports.agents = __importStar(require("./agents"));
 __exportStar(require("./agents/types"), exports);
+exports.coreAgentConfig = __importStar(require("./coreAgentConfig"));
+__exportStar(require("./coreAgentConfig/types"), exports);
 exports.coreAgent = __importStar(require("./coreAgent"));
 __exportStar(require("./coreAgent/types"), exports);
 exports.coreInteraction = __importStar(require("./coreInteraction"));

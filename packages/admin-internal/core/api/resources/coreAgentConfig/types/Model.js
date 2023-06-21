@@ -11,4 +11,5 @@ exports.Model = {
     AnthropicClaudeInstantV1100K: "anthropic.claude-instant-v1-100k",
     OpenaiGpt4: "openai.gpt-4",
     OpenaiGpt35Turbo: "openai.gpt-3.5-turbo",
+    OpenaiGpt35Turbo16K: "openai.gpt-3.5-turbo-16k",
 };

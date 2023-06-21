@@ -6,5 +6,5 @@ import * as Proficient from "../../../../api";
 import * as core from "../../../../core";
 export declare const Model: core.serialization.Schema<serializers.Model.Raw, Proficient.Model>;
 export declare namespace Model {
-    type Raw = "anthropic.claude-v1" | "anthropic.claude-v1-100k" | "anthropic.claude-instant-v1" | "anthropic.claude-instant-v1-100k" | "openai.gpt-4" | "openai.gpt-3.5-turbo";
+    type Raw = "anthropic.claude-v1" | "anthropic.claude-v1-100k" | "anthropic.claude-instant-v1" | "anthropic.claude-instant-v1-100k" | "openai.gpt-4" | "openai.gpt-3.5-turbo" | "openai.gpt-3.5-turbo-16k";
 }

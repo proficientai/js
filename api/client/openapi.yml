@@ -560,6 +560,12 @@ components:
             $ref: '#/components/schemas/Agent'
       required:
         - data
+    InitialTurn:
+      title: InitialTurn
+      $ref: '#/components/schemas/InteractionParticipant'
+      description: >-
+        Indicates who sends the first message in each interaction. Defaults to
+        `"user"`.
     AgentId:
       title: AgentId
       type: string
@@ -718,6 +724,8 @@ components:
           $ref: '#/components/schemas/InteractionArchived'
         created_at:
           $ref: '#/components/schemas/CreatedAt'
+        initial_turn:
+          $ref: '#/components/schemas/InitialTurn'
         name:
           $ref: '#/components/schemas/InteractionName'
         total_message_count:
@@ -732,6 +740,7 @@ components:
         - agent_id
         - archived
         - created_at
+        - initial_turn
         - name
         - total_message_count
         - updated_at

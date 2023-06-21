@@ -35,4 +35,5 @@ exports.Model = core.serialization.enum_([
     "anthropic.claude-instant-v1-100k",
     "openai.gpt-4",
     "openai.gpt-3.5-turbo",
+    "openai.gpt-3.5-turbo-16k",
 ]);

@@ -12,6 +12,7 @@ export declare namespace Interaction {
         agent_id: serializers.AgentId.Raw;
         archived: serializers.InteractionArchived.Raw;
         created_at: serializers.CreatedAt.Raw;
+        initial_turn: serializers.InitialTurn.Raw;
         name: serializers.InteractionName.Raw;
         total_message_count: serializers.InteractionTotalMessageCount.Raw;
         updated_at: serializers.UpdatedAt.Raw;

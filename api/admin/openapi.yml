@@ -645,6 +645,7 @@ components:
         - anthropic.claude-instant-v1-100k
         - openai.gpt-4
         - openai.gpt-3.5-turbo
+        - openai.gpt-3.5-turbo-16k
       description: The underlying model that powers the agent.
     OpenAIConfig:
       title: OpenAIConfig

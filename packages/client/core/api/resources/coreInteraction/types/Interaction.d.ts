@@ -12,6 +12,7 @@ import * as Proficient from "../../..";
  *         agentId: "ag_Lad8YCGGiDLiqIZPWRXmc2ix",
  *         archived: false,
  *         createdAt: 1671631795145,
+ *         initialTurn: Proficient.InteractionParticipant.User,
  *         name: "interaction",
  *         totalMessageCount: 23,
  *         updatedAt: 1671631799692,
@@ -24,6 +25,7 @@ export interface Interaction {
     agentId: Proficient.AgentId;
     archived: Proficient.InteractionArchived;
     createdAt: Proficient.CreatedAt;
+    initialTurn: Proficient.InitialTurn;
     name: Proficient.InteractionName;
     totalMessageCount: Proficient.InteractionTotalMessageCount;
     updatedAt: Proficient.UpdatedAt;
