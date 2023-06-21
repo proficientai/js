@@ -1,5 +1,11 @@
 # @proficient/client
 
+## 0.23.0
+
+### Minor Changes
+
+- 2e21d00: Added `initial_turn` to Interaction
+
 ## 0.22.0
 
 ### Minor Changes

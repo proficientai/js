@@ -1,5 +1,17 @@
 # @proficient/react
 
+## 0.21.0
+
+### Minor Changes
+
+- ae1502a: Removed 3 unused dependencies
+- 2e21d00: Added `initial_turn` to Interaction
+
+### Patch Changes
+
+- Updated dependencies [2e21d00]
+  - @proficient/client-internal@0.23.0
+
 ## 0.20.0
 
 ### Minor Changes

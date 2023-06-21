@@ -1,5 +1,12 @@
 # @proficient/admin-internal
 
+## 0.14.0
+
+### Minor Changes
+
+- 2e21d00: Added openai.gpt-3.5-turbo-16k model
+- 2e21d00: Added `initial_turn` to Interaction
+
 ## 0.13.0
 
 ### Minor Changes
