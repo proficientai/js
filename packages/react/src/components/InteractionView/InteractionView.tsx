@@ -584,6 +584,7 @@ export function InteractionView(props: InteractionViewProps) {
               return (
                 <>
                   <ChatSection
+                    loading={messagesState.status === 'loading'}
                     height={chatSectionHeight}
                     agentName={agentState.status === 'success' ? agentState.agent.displayName : '...'}
                     agentInactive={isAgentInactive}

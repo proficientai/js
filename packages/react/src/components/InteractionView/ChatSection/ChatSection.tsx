@@ -9,6 +9,7 @@ import { ChevronRightIcon } from '../../icons/ChevronRightIcon';
 import type { ChatSectionProps } from './types';
 
 export function ChatSection({
+  loading,
   height,
   agentName,
   agentInactive,
@@ -41,6 +42,7 @@ export function ChatSection({
         <div
           css={css`
             text-align: center;
+            font-family: Inter, sans-serif;
             color: ${theme.colors.textSecondary};
             font-size: 14px;
           `}>
@@ -61,10 +63,23 @@ export function ChatSection({
           This marks the beginning of the interaction.
         </div>
       }>
+      {loading && (
+        <div
+          css={css`
+            text-align: center;
+            margin-bottom: 24px;
+            color: ${theme.colors.textSecondary};
+            font-family: Inter, sans-serif;
+            font-size: 14px;
+          `}>
+          Loading messages...
+        </div>
+      )}
+
       <div
         css={css`
           margin-top: 10px;
-          margin-bottom: ${agentInactive || writingStatus === 'writing' ? '32px' : '6px'};
+          margin-bottom: ${agentInactive || writingStatus === 'writing' ? '24px' : '6px'};
           padding-left: ${layout === 'formal' ? '24px' : undefined};
           padding-right: ${layout === 'formal' ? '24px' : undefined};
         `}>
@@ -84,19 +99,19 @@ export function ChatSection({
           }
           if (writingStatus === 'writing') {
             return (
-              <span
+              <div
                 css={css`
-                  text-align: center;
                   color: ${theme.colors.textSecondary};
                   font-family: Inter, sans-serif;
                   font-size: 14px;
                 `}>
                 {agentName || 'Agent'} is writing...
-              </span>
+              </div>
             );
           }
         })()}
       </div>
+
       {messageGroups.map((messageGroup) => {
         const { id, current: message, size: groupSize, currentIndex } = messageGroup;
 
