@@ -25,7 +25,7 @@ import { useTextInputMap } from './useTextInputMap';
 
 const PROVISIONAL_MESSAGE_ID = '_msg_provisional';
 
-function EmptyStateView({ text }: { text: string }) {
+function EmptyStateView({ text, minHeight }: { text: string; minHeight?: number }) {
   const theme = useTheme();
   return (
     <div
@@ -36,6 +36,7 @@ function EmptyStateView({ text }: { text: string }) {
         align-items: center;
         width: 100%;
         height: 100%;
+        min-height: ${minHeight}px;
         font-family: Inter, sans-serif;
         font-size: 14px;
         color: ${theme.colors.textSecondary};
@@ -533,6 +534,7 @@ export function InteractionView(props: InteractionViewProps) {
                         ? `You have no interactions with ${agentState.agent.displayName}.`
                         : 'No selected interaction'
                     }
+                    minHeight={chatSectionHeight}
                   />
                 );
               }
