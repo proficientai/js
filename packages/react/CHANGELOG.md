@@ -1,5 +1,16 @@
 # @proficient/react
 
+## 0.20.0
+
+### Minor Changes
+
+- 335f5dd: Fixed a bug where "Ask again" button appeared when initial message is sent by the agent
+- dff484c: Renamed autoRequestReply to autoAsk
+- 7a37aa6: Various design fixes and improvements
+- dff484c: Fixed retry button not appearing bug
+- 7a37aa6: Disabled send by Enter when agent is inactive
+- 335f5dd: Renamed "Ask for a reply" to "Ask"
+
 ## 0.19.1
 
 ### Patch Changes
