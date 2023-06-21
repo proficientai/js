@@ -1,5 +1,11 @@
 # @proficient/react
 
+## 0.22.0
+
+### Minor Changes
+
+- 23c177b: Added `clientApiEnvironment` prop
+
 ## 0.21.0
 
 ### Minor Changes
