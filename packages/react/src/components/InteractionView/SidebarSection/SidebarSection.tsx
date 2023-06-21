@@ -18,7 +18,7 @@ export function SidebarSection({
   onClickNewInteraction,
 }: SidebarSectionProps) {
   const theme = useTheme();
-  const { boxCss, primaryTextCss, secondaryTextCss } = useStyles();
+  const { boxCss, primaryTextCss, secondaryTextCss, tertiaryTextCss } = useStyles();
   return (
     <div style={{ height, display: 'flex', flexDirection: 'column' }}>
       <div
@@ -30,13 +30,13 @@ export function SidebarSection({
             ${boxCss}
             flex-direction: column;
           `}>
-          <div css={primaryTextCss}>{header}</div>
+          <div css={header ? primaryTextCss : tertiaryTextCss}>{header || 'Unnamed agent'}</div>
           <div
             css={css`
               margin-top: 6px;
-              ${secondaryTextCss}
+              ${description ? secondaryTextCss : tertiaryTextCss}
             `}>
-            {description}
+            {description || 'No description'}
           </div>
         </div>
 

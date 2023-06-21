@@ -19,6 +19,12 @@ export function useStyles() {
       color: ${theme.colors.textSecondary};
     `;
 
+    const tertiaryTextCss = css`
+      font-family: Inter, sans-serif;
+      font-size: 14px;
+      color: ${theme.colors.textTertiary};
+    `;
+
     const inputCss = css`
       background-color: ${theme.colors.backgroundPrimary};
       padding-top: 8px;
@@ -45,6 +51,6 @@ export function useStyles() {
       padding-bottom: 12px;
     `;
 
-    return { primaryTextCss, secondaryTextCss, inputCss, boxCss };
+    return { primaryTextCss, secondaryTextCss, tertiaryTextCss, inputCss, boxCss };
   }, [theme]);
 }

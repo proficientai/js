@@ -531,7 +531,7 @@ export function InteractionView(props: InteractionViewProps) {
                   <EmptyStateView
                     text={
                       sortedInteractions.length === 0
-                        ? `You have no interactions with ${agentState.agent.displayName}.`
+                        ? `You have no interactions with ${agentState.agent.displayName || 'the agent'}.`
                         : 'No selected interaction'
                     }
                     minHeight={chatSectionHeight}

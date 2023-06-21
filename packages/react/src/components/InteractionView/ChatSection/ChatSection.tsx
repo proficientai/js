@@ -91,7 +91,7 @@ export function ChatSection({
                   font-family: Inter, sans-serif;
                   font-size: 14px;
                 `}>
-                {agentName} is writing...
+                {agentName || 'Agent'} is writing...
               </span>
             );
           }
