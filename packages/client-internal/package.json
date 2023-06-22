@@ -1,6 +1,6 @@
 {
   "name": "@proficient/client-internal",
-  "version": "0.23.0",
+  "version": "0.24.0",
   "license": "UNLICENSED",
   "main": "./core/index.js",
   "source": "./core/index.js",

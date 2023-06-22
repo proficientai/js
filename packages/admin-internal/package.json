@@ -1,6 +1,6 @@
 {
   "name": "@proficient/admin-internal",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "license": "UNLICENSED",
   "main": "./core/index.js",
   "source": "./core/index.js",

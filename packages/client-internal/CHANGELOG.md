@@ -1,5 +1,11 @@
 # @proficient/client-internal
 
+## 0.24.0
+
+### Minor Changes
+
+- 82c5c4b: Added license
+
 ## 0.23.0
 
 ### Minor Changes

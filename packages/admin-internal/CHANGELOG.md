@@ -1,5 +1,11 @@
 # @proficient/admin-internal
 
+## 0.15.0
+
+### Minor Changes
+
+- 82c5c4b: Added license
+
 ## 0.14.0
 
 ### Minor Changes
