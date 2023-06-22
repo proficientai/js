@@ -1,7 +1,7 @@
 {
   "name": "@proficient/admin",
   "version": "0.14.0",
-  "license": "MIT",
+  "license": "AGPL-3.0-only",
   "main": "./core/index.js",
   "source": "./core/index.js",
   "types": "./core/index.d.ts",

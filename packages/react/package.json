@@ -1,7 +1,7 @@
 {
   "name": "@proficient/react",
   "version": "0.22.0",
-  "license": "MIT",
+  "license": "AGPL-3.0-only",
   "main": "./dist/index.js",
   "source": "./src/index.ts",
   "types": "./dist/index.d.ts",

@@ -41,7 +41,7 @@ View the full documentation (docs) [here](https://docs.proficientai.com).
 
 # Community
 
-Join our Discord server [here](https://discord.gg/DVbwTM8erb)
+Join our Discord server [here](https://discord.gg/DVbwTM8erb).
 
 # License
 
