@@ -1,14 +1,28 @@
 navigation:
-  - section: Getting Started
+  - section: Welcome
     contents:
       - page: Introduction
-        path: ./sections/getting-started/intro.md
-      - page: Quickstart
-        path: ./sections/getting-started/quickstart.md
-  - section: Advanced
+        path: ./intro.md
+      - page: Why Proficient AI?
+        path: ./why-proficient.md
+      - page: Concepts
+        path: ./concepts.md
+  - section: Getting Started
     contents:
-      - page: HMAC Authentication
-        path: ./sections/advanced/hmac.md
+      - page: Installation
+        path: ./installation.md
+      - page: Creating my first agent
+        path: ./create-agent.md
+  - section: SDKs
+    contents:
+      - page: Overview
+        path: ./overview.md
+      - page: React SDK
+        path: ./react.md
+      - page: JavaScript Client SDK
+        path: ./js-client.md
+      - page: Node.js Admin SDK
+        path: ./node-admin.md
   - api: Client API Reference
     audiences:
       - client
